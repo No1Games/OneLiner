@@ -34,6 +34,39 @@ public class GameSetupMenu : MonoBehaviour
 
     public void NextLevel()
     {
+        int i = 1;
+        foreach (GameObject playerObject in playersFields)
+        {
+            if (playerObject.activeSelf)
+            {
+                TMP_InputField inputField = playerObject.GetComponentInChildren<TMP_InputField>();
+
+                if (inputField != null && !string.IsNullOrEmpty(inputField.text))
+                {
+                    
+                    string playerName = inputField.text;
+
+                    Debug.Log(playerName);
+                    IngameData.Instance.players.Add(new PlayerScript(playerName, PlayerRole.NotSetYet,i));
+                    i++;
+
+
+                }
+                else
+                {
+                    Debug.LogWarning("Input Field not found in " + playerObject.name);
+                    IngameData.Instance.players.Clear();
+
+                    break;
+                }
+
+
+            }
+            
+            
+        }
+
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     public void Update()

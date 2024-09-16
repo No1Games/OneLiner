@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class LineDrawing : MonoBehaviour
+public class DrawingScript : MonoBehaviour
 {
     public GameObject linePrefab;
     private GameObject currentLine;
@@ -10,6 +11,12 @@ public class LineDrawing : MonoBehaviour
     private bool isFirstPointSet = false;
     private bool isSecondPointSet = false;
     private bool firstLineDone = false;
+    private bool drawingAllowed = false;
+    public bool DrawingAllowed
+    {        
+        set { drawingAllowed = value; } 
+    }
+    public event Action OnDrawingComplete;
 
     private List<GameObject> lines = new List<GameObject>();
     [SerializeField] private float minDistance = 0.1f; // Відстань для перевірки, чи точка близька до лінії
@@ -26,9 +33,14 @@ public class LineDrawing : MonoBehaviour
 
     private void GenerateLine()
     {
+       
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = -1f; // Установка Z координати для лінії (ближче до камери, ніж фон)
 
+        if (drawingAllowed)
+        {
+
+        
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -93,10 +105,25 @@ public class LineDrawing : MonoBehaviour
                     firstLineDone = true;
                 }
                 lines.Add(currentLine);
+                OnDrawingComplete?.Invoke();
 
-            }
+                }
+                
             isFirstPointSet = false;
             isSecondPointSet = false;
+                
+
+            }
+        }
+    }
+
+    public void RemoveLastLine()
+    {
+        Destroy(lines[lines.Count - 1]);
+        lines.RemoveAt(lines.Count - 1);
+        if(lines.Count == 0)
+        {
+            firstLineDone = false;
 
         }
     }

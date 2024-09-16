@@ -20,7 +20,7 @@ public class PlayerScript
 
 public enum PlayerRole
 {
-    Zagadue, 
-    Vidgadue,
+    Leader, 
+    Player,
     NotSetYet
 }
