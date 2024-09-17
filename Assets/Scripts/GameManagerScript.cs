@@ -12,11 +12,14 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private DrawingScript drawing;
     [SerializeField] private GameObject startPanel;
     [SerializeField] private GameObject endPanel;
+    [SerializeField] private GameObject wordPanel;
+    [SerializeField] private GameObject leaderPanel;
+    [SerializeField] private GameObject ingamePanel;
     [SerializeField] private TMP_Text playerNameOnTop;
     [SerializeField] private TMP_Text playerName;
 
 
-    private int currentPlayer = 0;
+    private int currentPlayerIndex = 0;
 
 
     private void Awake()
@@ -75,26 +78,23 @@ public class GameManagerScript : MonoBehaviour
 
         
     }
-    //не факт що треба
-    void QueueStepping()
-    {
-        int playersTurn = 0;
-        PlayerScript currentPlayer = players.Find(p => p.playerID == playersTurn);
-    }
+    
 
     void OpenPlayerScreen()
     {
-        playerNameOnTop.text = turnsQueue[currentPlayer].name;
-        playerName.text = turnsQueue[currentPlayer].name;
+        playerNameOnTop.text = turnsQueue[currentPlayerIndex].name;
+        playerName.text = turnsQueue[currentPlayerIndex].name;
 
         startPanel.SetActive(true);
         endPanel.SetActive(false);
+        ingamePanel.SetActive(false);
 
     }
 
     public void StartTurn ()
     {
         startPanel.SetActive(false);
+        ingamePanel.SetActive(true);
         drawing.DrawingAllowed = true;
     }
 
@@ -114,17 +114,41 @@ public class GameManagerScript : MonoBehaviour
     public void EndTurn()
     {
         
-        if (currentPlayer+1 < turnsQueue.Count)
+        if (currentPlayerIndex+1 < turnsQueue.Count)
         {
-            currentPlayer++;
+            currentPlayerIndex++;
         }
         else
         {
-            currentPlayer = 0;
+            currentPlayerIndex = 0;
         }
         OpenPlayerScreen();
 
 
+    }
+
+    public void OpenWordsMenu()
+    {
+        ingamePanel.SetActive(false);
+        drawing.DrawingAllowed = false;
+        if (turnsQueue[currentPlayerIndex].role == PlayerRole.Leader)
+        {
+            leaderPanel.SetActive(true);
+        }
+        else
+        {
+            wordPanel.SetActive(true);                   
+
+        }
+        
+    }
+
+    public void CloseWordsMenu()
+    {
+        wordPanel.SetActive(false);
+        leaderPanel.SetActive(false);
+        ingamePanel.SetActive(true);
+        drawing.DrawingAllowed = true;
     }
 
 }
