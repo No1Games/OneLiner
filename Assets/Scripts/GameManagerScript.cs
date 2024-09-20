@@ -17,6 +17,7 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private GameObject ingamePanel;
     [SerializeField] private TMP_Text playerNameOnTop;
     [SerializeField] private TMP_Text playerName;
+    [SerializeField] private WordManager wordManager;
 
 
     private int currentPlayerIndex = 0;
@@ -26,6 +27,7 @@ public class GameManagerScript : MonoBehaviour
     {
 
         drawing.OnDrawingComplete += CallCheckUpMenu;
+        wordManager.gameEnded += OpenEndGameMenu;
         AssignRoles();
         GenerateTurnQueue();
         OpenPlayerScreen();
@@ -101,12 +103,14 @@ public class GameManagerScript : MonoBehaviour
     void CallCheckUpMenu()
     {
         endPanel.SetActive(true);
+        ingamePanel.SetActive(false);
         drawing.DrawingAllowed = false;
     }
     
     public void RestartTurn()
     {
         endPanel.SetActive(false);
+        ingamePanel.SetActive(true);
         drawing.RemoveLastLine();
         drawing.DrawingAllowed = true;
     }
@@ -149,6 +153,19 @@ public class GameManagerScript : MonoBehaviour
         leaderPanel.SetActive(false);
         ingamePanel.SetActive(true);
         drawing.DrawingAllowed = true;
+    }
+
+    private void OpenEndGameMenu(bool isWin)
+    {
+        if (isWin)
+        {
+
+        }
+        else
+        {
+            
+        }
+
     }
 
 }

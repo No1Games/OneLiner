@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,6 +18,9 @@ public class WordManager : MonoBehaviour
 
     private string leaderWord;
     [SerializeField] TMP_Text wordForLeader;
+
+    public event Action<bool> gameEnded;
+    
 
     private void Awake()
     {
@@ -68,11 +72,11 @@ public class WordManager : MonoBehaviour
     {
         if( buttonText == leaderWord)
         {
-            Debug.Log("Congrats");
+            gameEnded.Invoke(true);
         }
         else
         {
-            Debug.Log("Try more loser");
+            gameEnded.Invoke(false);
         }
     }
 

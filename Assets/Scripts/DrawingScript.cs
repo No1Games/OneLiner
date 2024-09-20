@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DrawingScript : MonoBehaviour
 {
@@ -16,6 +18,7 @@ public class DrawingScript : MonoBehaviour
     {        
         set { drawingAllowed = value; } 
     }
+    [SerializeField] private LayerMask drawingLayer;
     public event Action OnDrawingComplete;
 
     private List<GameObject> lines = new List<GameObject>();
@@ -30,14 +33,38 @@ public class DrawingScript : MonoBehaviour
     {
         GenerateLine();
     }
+    // ѕерев≥р€Їмо, чи курсор знаходитьс€ над UI елементом, €кий Ї кнопкою
+    bool IsPointerOverButton()
+    {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            // ќтримуЇмо об'Їкт, на €кий наведений курсор
+            PointerEventData pointerData = new PointerEventData(EventSystem.current)
+            {
+                position = Input.mousePosition
+            };
 
+            List<RaycastResult> raycastResults = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerData, raycastResults);
+
+            // ѕерев≥р€Їмо, чи Ї серед результат≥в кнопка
+            foreach (RaycastResult result in raycastResults)
+            {
+                if (result.gameObject.GetComponent<Button>() != null)
+                {
+                    return true; // якщо Ї кнопка, курсор над нею
+                }
+            }
+        }
+        return false; // якщо немаЇ кнопки, можна малювати
+    }
     private void GenerateLine()
     {
        
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = -1f; // ”становка Z координати дл€ л≥н≥њ (ближче до камери, н≥ж фон)
 
-        if (drawingAllowed)
+        if (drawingAllowed && !IsPointerOverButton())
         {
 
         
