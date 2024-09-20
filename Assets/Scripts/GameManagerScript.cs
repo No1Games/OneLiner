@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 public class GameManagerScript : MonoBehaviour
 {
     private List<PlayerScript> players;
     public List<PlayerScript> turnsQueue;
-    [SerializeField] private DrawingScript drawing;
+    [SerializeField] private DrawingManager drawing;
     [SerializeField] private GameObject startPanel;
     [SerializeField] private GameObject endPanel;
     [SerializeField] private GameObject wordPanel;
@@ -18,6 +19,13 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private TMP_Text playerNameOnTop;
     [SerializeField] private TMP_Text playerName;
     [SerializeField] private WordManager wordManager;
+    
+    [SerializeField] private GameObject endgamePanel;
+    [SerializeField] private TMP_Text endgameText;
+    private int lives = 2;
+    [SerializeField] private GameObject[] livesImage;
+    
+
 
 
     private int currentPlayerIndex = 0;
@@ -157,14 +165,50 @@ public class GameManagerScript : MonoBehaviour
 
     private void OpenEndGameMenu(bool isWin)
     {
+
+        string winingText = "Вітаю з перемогою";
+        string losingText = "Нажаль, цього разу ви програли";
+        wordPanel.SetActive(false);
+
         if (isWin)
         {
+            
+            endgameText.text = winingText;
+            endgamePanel.SetActive(true);
 
         }
         else
         {
+
+            
+            
+            if(lives > 0)
+            {
+                lives--;
+                livesImage[lives].SetActive(false);
+                
+                EndTurn();
+
+            }
+            else
+            {
+                endgameText.text = losingText;
+                endgamePanel.SetActive(true);
+            }
             
         }
+
+    }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void PlayAgain()
+    {
+        Scene currentScene = SceneManager.GetActiveScene(); 
+        SceneManager.LoadScene(currentScene.buildIndex);
 
     }
 

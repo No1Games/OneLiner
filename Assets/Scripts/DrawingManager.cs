@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DrawingScript : MonoBehaviour
+public class DrawingManager : MonoBehaviour
 {
     public GameObject linePrefab;
     private GameObject currentLine;
@@ -18,7 +18,7 @@ public class DrawingScript : MonoBehaviour
     {        
         set { drawingAllowed = value; } 
     }
-    [SerializeField] private LayerMask drawingLayer;
+    
     public event Action OnDrawingComplete;
 
     private List<GameObject> lines = new List<GameObject>();
