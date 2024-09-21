@@ -34,7 +34,12 @@ public class GameSetupMenu : MonoBehaviour
 
     public void NextLevel()
     {
+        bool allFieldsFilled = true; // ‘лаг дл€ перев≥рки, чи вс≥ пол€ заповнен≥
         int i = 1;
+
+        // ќчищенн€ попереднього списку гравц≥в
+        IngameData.Instance.players.Clear();
+
         foreach (GameObject playerObject in playersFields)
         {
             if (playerObject.activeSelf)
@@ -43,31 +48,30 @@ public class GameSetupMenu : MonoBehaviour
 
                 if (inputField != null && !string.IsNullOrEmpty(inputField.text))
                 {
-                    
                     string playerName = inputField.text;
-
                     Debug.Log(playerName);
-                    IngameData.Instance.players.Add(new PlayerScript(playerName, PlayerRole.NotSetYet,i));
+                    IngameData.Instance.players.Add(new PlayerScript(playerName, PlayerRole.NotSetYet, i));
                     i++;
-
-
                 }
                 else
                 {
-                    Debug.LogWarning("Input Field not found in " + playerObject.name);
-                    IngameData.Instance.players.Clear();
-
+                    // якщо хоча б одне поле не заповнене, виводимо попередженн€ ≥ встановлюЇмо флаг
+                    Debug.LogWarning("≤м'€ гравц€ не введене дл€ " + playerObject.name);
+                    allFieldsFilled = false;
                     break;
                 }
-
-
             }
-            
-            
         }
 
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        // якщо вс≥ пол€ введен≥, завантажуЇмо наступну сцену
+        if (allFieldsFilled && playerAmount > 1)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else
+        {
+            Debug.LogWarning("Ќе вс≥ пол€ введен≥. ѕерех≥д на наступну сцену заблоковано.");
+        }
     }
     public void Update()
     {

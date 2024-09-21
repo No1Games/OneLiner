@@ -2,83 +2,47 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class WordManager : MonoBehaviour
 {
-    [SerializeField] private GameObject wordScreen;
-    [SerializeField] private GameObject wordButtonPrefab;
+    //Додати тут дікшенарі Вордлістов чи просто тримати тут перелік цих вордлістов в залежності від мови скланості чи теми.
     [SerializeField] private WordList wordList;
+
     [SerializeField] private int wordAmount;
-    private List<GameObject> wordsButtons = new();
-    private List<string> wordsForRound = new();
 
     System.Random rand = new System.Random();
 
-    private string leaderWord;
-    [SerializeField] TMP_Text wordForLeader;
-
-    public event Action<bool> gameEnded;
-    
-
-    private void Awake()
-    {
-        FormWordListForRound();
-        GenerateWordsForRound();
-        leaderWord = GetRandomWord(wordsForRound);
-        wordForLeader.text = leaderWord;
-
-
-    }
-    void GenerateWordsForRound()
-    {
-        
-        for (int i = 0; i < wordAmount; i++)
-        {
-
-            GameObject newButton = Instantiate(wordButtonPrefab, wordScreen.transform);
-            newButton.GetComponentInChildren<TMP_Text>().text = wordsForRound[i];
-            wordsButtons.Add(newButton);
-
-            Button button = newButton.GetComponentInChildren<Button>();
-            button.onClick.AddListener(() => CheckTheWord(newButton.GetComponentInChildren<TMP_Text>().text));
-        }
-
-    }   
     string GetRandomWord(List<string> wordsToChoose)
     {
-        
+
         int wordIndex = rand.Next(0, wordsToChoose.Count);
         return wordsToChoose[wordIndex];
     }
 
-    void FormWordListForRound()
+    public List<string> FormWordListForRound() //Переробити так щоб він приймав WordList і обирав там потрібний список в залежності від  умов теми та мови
     {
+        List<string> words = new List<string>();
         for (int i = 0; i < wordAmount; i++)
         {
-             string tempWord = GetRandomWord(wordList.words);
-             while (wordsForRound.Contains(tempWord))
-                {
-                    tempWord = GetRandomWord(wordList.words);
-                }
+            string tempWord = GetRandomWord(wordList.words);
+            while (words.Contains(tempWord))
+            {
+                tempWord = GetRandomWord(wordList.words);
+            }
 
-             wordsForRound.Add(tempWord);
-            
+            words.Add(tempWord);
+
         }
+        return new List<string>(words);
+
     }
 
-    void CheckTheWord(string buttonText)
+    public string GetLeaderWord(List<string> words)
     {
-        if( buttonText == leaderWord)
-        {
-            gameEnded.Invoke(true);
-        }
-        else
-        {
-            gameEnded.Invoke(false);
-        }
+        return GetRandomWord(words);
     }
-
 
 }
