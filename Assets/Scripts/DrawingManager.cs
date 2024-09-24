@@ -22,6 +22,7 @@ public class DrawingManager : MonoBehaviour
     public event Action OnDrawingComplete;
 
     private List<GameObject> lines = new List<GameObject>();
+    public int drawenLines;
     [SerializeField] private float minDistance = 0.1f; // Відстань для перевірки, чи точка близька до лінії
     [SerializeField] private float minLength = 2f; // Відстань для перевірки, чи достатньо довга лінія
     [SerializeField] private float secondPointAngle = 10f; // кут для перевірки чи не йде друга точка вздовж лінії з якої почалась
@@ -32,6 +33,8 @@ public class DrawingManager : MonoBehaviour
     void Update()
     {
         GenerateLine();
+        drawenLines = lines.Count;
+
     }
     // Перевіряємо, чи курсор знаходиться над UI елементом, який є кнопкою
     bool IsPointerOverButton()

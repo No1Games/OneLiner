@@ -2,11 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
+
 
 public class UIManager : MonoBehaviour
 {
@@ -19,18 +18,24 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject endgamePanel;
 
     [Header("Texts")]
+    [SerializeField] private TMP_Text drawenLines;
     [SerializeField] private TMP_Text playerNameOnGameScreen;
     [SerializeField] private TMP_Text playerNameOnPlayerScreen;
     [SerializeField] private TMP_Text leaderWord;
     [SerializeField] private TMP_Text endgameText;
+    [SerializeField] private TMP_Text finaleScoreText;
 
 
 
     [Header("Other")]
-    private int lives = 2;
+    public int lives = 2;
     [SerializeField] private GameObject[] livesImage;
     [SerializeField] private DrawingManager drawing;
     public PlayerScript playerToTrack;
+
+    private List<Rank> ranks;
+    [SerializeField] private Image rankImage;
+
 
 
 
@@ -38,8 +43,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject wordButtonPrefab;
     private List<GameObject> wordsButtons = new();
 
-    
+
     public event Action actionConfirmed;
+    public event Func<int> gameEnded;
+
 
 
 
@@ -49,6 +56,15 @@ public class UIManager : MonoBehaviour
         OpenPlayerScreen();
 
     }
+    private void Update()
+    {
+        drawenLines.text = drawing.drawenLines.ToString();
+    }
+    public void RanksSet(List<Rank> ranks)
+    {
+        this.ranks = ranks;
+    }
+
 
 
 
@@ -150,7 +166,9 @@ public class UIManager : MonoBehaviour
         {
 
             endgameText.text = winingText;
+
             endgamePanel.SetActive(true);
+            StartCoroutine(StartScoring(gameEnded.Invoke()));
 
         }
         else
@@ -170,6 +188,7 @@ public class UIManager : MonoBehaviour
             {
                 endgameText.text = losingText;
                 endgamePanel.SetActive(true);
+
             }
 
         }
@@ -186,6 +205,39 @@ public class UIManager : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.buildIndex);
 
+    }
+
+
+    private IEnumerator StartScoring(int finaleScore)
+    {
+        int scoreNow = 0;
+        int rankIndex = 0;
+        Rank currentRank = ranks[0];  // Початковий ранг
+        rankImage.gameObject.SetActive(true);  // Відображаємо зображення рангу
+        rankImage.sprite = currentRank.rankImage;  // Встановлюємо початковий спрайт
+
+        while (scoreNow < finaleScore)
+        {
+            scoreNow += 10;  // Збільшуємо очки поступово
+
+            // Оновлюємо текст без окремого методу
+            finaleScoreText.text = scoreNow.ToString();  // Оновлюємо текст з очками
+
+            // Перевіряємо, чи досягнуто порогове значення для наступного рангу
+            if (rankIndex < ranks.Count - 1 && scoreNow >= ranks[rankIndex + 1].threshold)
+            {
+                rankIndex++;  // Змінюємо індекс рангу
+                currentRank = ranks[rankIndex];  // Оновлюємо поточний ранг
+                rankImage.sprite = currentRank.rankImage;  // Міняємо зображення рангу
+                yield return new WaitForSeconds(0.1f);  // Затримка для візуалізації зміни рангу
+            }
+
+            yield return null;  // Перерва на один кадр перед продовженням
+        }
+
+        // Активуємо кнопки "перезапуск" та "повернутись до меню"
+        //replayButton.SetActive(true);
+        //menuButton.SetActive(true);
     }
 
 }
