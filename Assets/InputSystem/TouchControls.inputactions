@@ -2,32 +2,14 @@
     "name": "TouchControls",
     "maps": [
         {
-            "name": "Touch",
+            "name": "Drawing",
             "id": "329dc8d5-f979-4dfd-82ee-739a01533768",
             "actions": [
                 {
-                    "name": "TouchAll",
-                    "type": "PassThrough",
-                    "id": "c1361c5e-b17b-415e-ae5c-351fc03e29f9",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TouchPress",
+                    "name": "Tuch",
                     "type": "Button",
-                    "id": "947ace2f-5a83-450b-9fe9-34835f7adad6",
+                    "id": "344c57cb-974d-40a4-a468-2a98b7db8f50",
                     "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TuchPosition",
-                    "type": "PassThrough",
-                    "id": "0291f082-01e6-4386-a3ab-1e0e93609579",
-                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -36,34 +18,12 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "528edf83-e0b5-49d2-a527-e19567b98cfd",
-                    "path": "<Touchscreen>/primaryTouch",
+                    "id": "b79e6005-b772-4b03-b4ea-c16f40807dd1",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TouchAll",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e0173e14-289c-42c6-9222-626c8a03c84d",
-                    "path": "<Touchscreen>/primaryTouch/press",
-                    "interactions": "Press(behavior=2)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TouchPress",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e11b526d-d32f-484d-8fee-cf37e322adbf",
-                    "path": "<Touchscreen>/primaryTouch/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TuchPosition",
+                    "action": "Tuch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

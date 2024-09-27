@@ -29,13 +29,19 @@ public class DrawingManager : MonoBehaviour
 
     private GameObject lineToTrack;
 
+    
 
+
+    
     void Update()
     {
         GenerateLine();
         drawenLines = lines.Count;
 
     }
+
+    
+
     // Перевіряємо, чи курсор знаходиться над UI елементом, який є кнопкою
     bool IsPointerOverButton()
     {
@@ -63,12 +69,31 @@ public class DrawingManager : MonoBehaviour
     }
     private void GenerateLine()
     {
+        // Отримуємо позицію миші або дотику
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = -1f;
 
+        bool touchBegan = false;
+        bool touchMoved = false;
+        bool touchEnded = false;
+
+        // Перевірка на дотик
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            mousePos = Camera.main.ScreenToWorldPoint(touch.position);
+            mousePos.z = -1f;
+
+            touchBegan = touch.phase == TouchPhase.Began;
+            touchMoved = touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary;
+            touchEnded = touch.phase == TouchPhase.Ended;
+        }
+
+        // Малювання дозволено та вказівник не знаходиться над кнопкою
         if (drawingAllowed && !IsPointerOverButton())
         {
-            if (Input.GetMouseButtonDown(0))
+            // Початок малювання: або натискання миші, або початок дотику
+            if (Input.GetMouseButtonDown(0) || touchBegan)
             {
                 if (FirstPointDistanceCheck(mousePos))
                 {
@@ -91,24 +116,28 @@ public class DrawingManager : MonoBehaviour
                 }
             }
 
-            if (isDrawing) // Перевірка на активне малювання
+            // Малювання активне
+            if (isDrawing)
             {
-                if (Input.GetMouseButton(0))
+                // Перевірка на рух миші або дотик
+                if (Input.GetMouseButton(0) || touchMoved)
                 {
                     if (Vector3.Distance(lineRenderer.GetPosition(0), mousePos) < minLength || !SecondPointDistanceCheck())
-            {
+                    {
                         lineRenderer.startColor = Color.red;
                         lineRenderer.endColor = Color.red;
                     }
-            else
+                    else
                     {
                         lineRenderer.startColor = Color.black;
                         lineRenderer.endColor = Color.black;
                     }
+
                     lineRenderer.SetPosition(1, mousePos);
                 }
 
-                if (Input.GetMouseButtonUp(0))
+                // Завершення малювання: або відпускання миші, або завершення дотику
+                if (Input.GetMouseButtonUp(0) || touchEnded)
                 {
                     isDrawing = false; // Завершити малювання
                     if (Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < minLength || !SecondPointDistanceCheck())
@@ -129,6 +158,7 @@ public class DrawingManager : MonoBehaviour
             }
         }
     }
+
 
     public void RemoveLastLine()
     {
