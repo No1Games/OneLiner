@@ -10,8 +10,8 @@ public class DrawingManager : MonoBehaviour
     public GameObject linePrefab;
     private GameObject currentLine;
     private LineRenderer lineRenderer;
-    private bool isFirstPointSet = false;
-    private bool isSecondPointSet = false;
+    
+    private bool isDrawing = false;
     private bool firstLineDone = false;
     private bool drawingAllowed = false;
     public bool DrawingAllowed
@@ -63,86 +63,69 @@ public class DrawingManager : MonoBehaviour
     }
     private void GenerateLine()
     {
-
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = -1f; // Установка Z координати для лінії (ближче до камери, ніж фон)
+        mousePos.z = -1f;
 
         if (drawingAllowed && !IsPointerOverButton())
         {
-
-
-
             if (Input.GetMouseButtonDown(0))
             {
-                if (!isFirstPointSet)
+                if (FirstPointDistanceCheck(mousePos))
                 {
-                    if (FirstPointDistanceCheck(mousePos))
+                    currentLine = Instantiate(linePrefab);
+                    lineRenderer = currentLine.GetComponent<LineRenderer>();
+
+                    if (lineRenderer == null)
                     {
-                        // Створення нової лінії
-                        currentLine = Instantiate(linePrefab);
-                        lineRenderer = currentLine.GetComponent<LineRenderer>();
+                        Debug.LogError("LineRenderer component not found on linePrefab!");
+                        return;
+                    }
 
-                        // Ініціалізація першої точки
-                        lineRenderer.SetPosition(0, mousePos);
-                        lineRenderer.SetPosition(1, mousePos);
+                    lineRenderer.SetPosition(0, mousePos);
+                    lineRenderer.SetPosition(1, mousePos);
+                    isDrawing = true; // Малювання активне
+                }
+                else
+                {
+                    Camera.main.GetComponent<CameraControl>().ShackCamera();
+                }
+            }
 
-                        isFirstPointSet = true;
+            if (isDrawing) // Перевірка на активне малювання
+            {
+                if (Input.GetMouseButton(0))
+                {
+                    if (Vector3.Distance(lineRenderer.GetPosition(0), mousePos) < minLength || !SecondPointDistanceCheck())
+            {
+                        lineRenderer.startColor = Color.red;
+                        lineRenderer.endColor = Color.red;
+                    }
+            else
+                    {
+                        lineRenderer.startColor = Color.black;
+                        lineRenderer.endColor = Color.black;
+                    }
+                    lineRenderer.SetPosition(1, mousePos);
+                }
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    isDrawing = false; // Завершити малювання
+                    if (Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < minLength || !SecondPointDistanceCheck())
+                    {
+                        Camera.main.GetComponent<CameraControl>().ShackCamera();
+                        Destroy(currentLine);
                     }
                     else
                     {
-                        Camera.main.GetComponent<CameraControl>().ShackCamera();
+                        lines.Add(currentLine);
+                        if (!firstLineDone)
+                        {
+                            firstLineDone = true;
+                        }
+                        OnDrawingComplete?.Invoke();
                     }
-
                 }
-                else if (isFirstPointSet && !isSecondPointSet)
-                {
-                    // Ініціалізація другої точки
-                    lineRenderer.SetPosition(1, mousePos);
-                    isSecondPointSet = true;
-                }
-            }
-
-            if (Input.GetMouseButton(0) && isFirstPointSet && isSecondPointSet)
-            {
-                // Оновлення другої точки поки кнопка натиснута
-                if (Vector3.Distance(lineRenderer.GetPosition(0), mousePos) < minLength || !SecondPointDistanceCheck())
-                {
-                    lineRenderer.startColor = Color.red;
-                    lineRenderer.endColor = Color.red;
-                }
-                else
-                {
-                    lineRenderer.startColor = Color.black;
-                    lineRenderer.endColor = Color.black;
-                }
-                lineRenderer.SetPosition(1, mousePos);
-            }
-
-            if (Input.GetMouseButtonUp(0) && isFirstPointSet && isSecondPointSet)
-            {
-                // Завершення малювання після відпускання кнопки миші
-
-                if (Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < minLength || !SecondPointDistanceCheck())
-                {
-                    Camera.main.GetComponent<CameraControl>().ShackCamera();
-                    Destroy(currentLine);
-                }
-                else
-                {
-
-                    if (!firstLineDone)
-                    {
-                        firstLineDone = true;
-                    }
-                    lines.Add(currentLine);
-                    OnDrawingComplete?.Invoke();
-
-                }
-
-                isFirstPointSet = false;
-                isSecondPointSet = false;
-
-
             }
         }
     }
