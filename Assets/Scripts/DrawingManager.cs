@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class DrawingManager : MonoBehaviour
@@ -10,7 +10,6 @@ public class DrawingManager : MonoBehaviour
     public GameObject linePrefab;
     private GameObject currentLine;
     private LineRenderer lineRenderer;
-
     
     private bool isDrawing = false;
     private bool firstLineDone = false;
@@ -22,78 +21,55 @@ public class DrawingManager : MonoBehaviour
 
     public event Action OnDrawingComplete;
 
-
-    private bool firstLineDone = false;
     private List<GameObject> lines = new List<GameObject>();
-
-
-    [SerializeField] private float minDistance = 0.1f; // Г‚ВіГ¤Г±ГІГ Г­Гј Г¤Г«Гї ГЇГҐГ°ГҐГўВіГ°ГЄГЁ, Г·ГЁ ГІГ®Г·ГЄГ  ГЎГ«ГЁГ§ГјГЄГ  Г¤Г® Г«ВіГ­ВіВї
-    [SerializeField] private float minLength = 2f; // Г‚ВіГ¤Г±ГІГ Г­Гј Г¤Г«Гї ГЇГҐГ°ГҐГўВіГ°ГЄГЁ, Г·ГЁ Г¤Г®Г±ГІГ ГІГ­ГјГ® Г¤Г®ГўГЈГ  Г«ВіГ­ВіГї
-    [SerializeField] private float secondPointAngle = 10f; // ГЉГіГІ Г¤Г«Гї ГЇГҐГ°ГҐГўВіГ°ГЄГЁ Г·ГЁ Г­ГҐ Г©Г¤ГҐ Г¤Г°ГіГЈГ  ГІГ®Г·ГЄГ  ГўГ§Г¤Г®ГўГ¦ Г«ВіГ­ВіВї Г§ ГїГЄГ®Вї ГЇГ®Г·Г Г«Г Г±Гј
+    public int drawenLines;
+    [SerializeField] private float minDistance = 0.1f; // Відстань для перевірки, чи точка близька до лінії
+    [SerializeField] private float minLength = 2f; // Відстань для перевірки, чи достатньо довга лінія
+    [SerializeField] private float secondPointAngle = 10f; // кут для перевірки чи не йде друга точка вздовж лінії з якої почалась
 
     private GameObject lineToTrack;
 
-
     
-
 
 
     
     void Update()
     {
-
         GenerateLine();
+        drawenLines = lines.Count;
 
     }
 
+    
 
-   
+    // Перевіряємо, чи курсор знаходиться над UI елементом, який є кнопкою
     bool IsPointerOverButton()
     {
-        return EventSystem.current.IsPointerOverGameObject();
-    }
-
-    private void StartDrawing()
-    {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(touchController.Touch.TuchPosition.ReadValue<Vector2>());
-        if (!IsPointerOverButton() && FirstPointPositionCheck(mousePos))
+        if (EventSystem.current.IsPointerOverGameObject())
         {
-            // Г‘ГІГўГ®Г°ГҐГ­Г­Гї Г­Г®ГўГ®Вї Г«ВіГ­ВіВї
-            currentLine = Instantiate(linePrefab);
-            lineRenderer = currentLine.GetComponent<LineRenderer>();
-
-            // ВІГ­ВіГ¶ВіГ Г«ВіГ§Г Г¶ВіГї ГЇГҐГ°ГёГ®Вї ГІГ®Г·ГЄГЁ
-            lineRenderer.positionCount = 2; // Г‚Г±ГІГ Г­Г®ГўГ«ГѕВєГ¬Г® ГЄВіГ«ГјГЄВіГ±ГІГј ГІГ®Г·Г®ГЄ
-            lineRenderer.SetPosition(0, mousePos);
-            lineRenderer.SetPosition(1, mousePos);
-            firstLineDone = true; // ГЏГҐГ°ГёГі Г«ВіГ­ВіГѕ Г§Г ГЄВіГ­Г·ГҐГ­Г®
-        }
-    }
-
-    private void SecondPointUpdate()
-    {
-        if (lineRenderer != null)
-        {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(touchController.Touch.TuchPosition.ReadValue<Vector2>());
-            lineRenderer.SetPosition(1, mousePos);
-
-            // Г‡Г¬ВіГ­Г  ГЄГ®Г«ГјГ®Г°Гі Г«ВіГ­ВіВї Гў Г§Г Г«ГҐГ¦Г­Г®Г±ГІВі ГўВіГ¤ Г¤Г®ГўГ¦ГЁГ­ГЁ
-            if (Vector3.Distance(lineRenderer.GetPosition(0), mousePos) < minLength || !SecondPointDistanceCheck())
+            // Отримуємо об'єкт, на який наведений курсор
+            PointerEventData pointerData = new PointerEventData(EventSystem.current)
             {
-                lineRenderer.startColor = Color.red;
-                lineRenderer.endColor = Color.red;
-            }
-            else
+                position = Input.mousePosition
+            };
+
+            List<RaycastResult> raycastResults = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerData, raycastResults);
+
+            // Перевіряємо, чи є серед результатів кнопка
+            foreach (RaycastResult result in raycastResults)
             {
-                lineRenderer.startColor = Color.black;
-                lineRenderer.endColor = Color.black;
+                if (result.gameObject.GetComponent<Button>() != null)
+                {
+                    return true; // Якщо є кнопка, курсор над нею
+                }
             }
         }
+        return false; // Якщо немає кнопки, можна малювати
     }
-
     private void GenerateLine()
     {
-        // ГЋГІГ°ГЁГ¬ГіВєГ¬Г® ГЇГ®Г§ГЁГ¶ВіГѕ Г¬ГЁГёВі Г ГЎГ® Г¤Г®ГІГЁГЄГі
+        // Отримуємо позицію миші або дотику
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = -1f;
 
@@ -101,7 +77,7 @@ public class DrawingManager : MonoBehaviour
         bool touchMoved = false;
         bool touchEnded = false;
 
-        // ГЏГҐГ°ГҐГўВіГ°ГЄГ  Г­Г  Г¤Г®ГІГЁГЄ
+        // Перевірка на дотик
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -113,10 +89,10 @@ public class DrawingManager : MonoBehaviour
             touchEnded = touch.phase == TouchPhase.Ended;
         }
 
-        // ГЊГ Г«ГѕГўГ Г­Г­Гї Г¤Г®Г§ГўГ®Г«ГҐГ­Г® ГІГ  ГўГЄГ Г§ВіГўГ­ГЁГЄ Г­ГҐ Г§Г­Г ГµГ®Г¤ГЁГІГјГ±Гї Г­Г Г¤ ГЄГ­Г®ГЇГЄГ®Гѕ
+        // Малювання дозволено та вказівник не знаходиться над кнопкою
         if (drawingAllowed && !IsPointerOverButton())
         {
-            // ГЏГ®Г·Г ГІГ®ГЄ Г¬Г Г«ГѕГўГ Г­Г­Гї: Г ГЎГ® Г­Г ГІГЁГ±ГЄГ Г­Г­Гї Г¬ГЁГёВі, Г ГЎГ® ГЇГ®Г·Г ГІГ®ГЄ Г¤Г®ГІГЁГЄГі
+            // Початок малювання: або натискання миші, або початок дотику
             if (Input.GetMouseButtonDown(0) || touchBegan)
             {
                 if (FirstPointDistanceCheck(mousePos))
@@ -132,7 +108,7 @@ public class DrawingManager : MonoBehaviour
 
                     lineRenderer.SetPosition(0, mousePos);
                     lineRenderer.SetPosition(1, mousePos);
-                    isDrawing = true; // ГЊГ Г«ГѕГўГ Г­Г­Гї Г ГЄГІГЁГўГ­ГҐ
+                    isDrawing = true; // Малювання активне
                 }
                 else
                 {
@@ -140,10 +116,10 @@ public class DrawingManager : MonoBehaviour
                 }
             }
 
-            // ГЊГ Г«ГѕГўГ Г­Г­Гї Г ГЄГІГЁГўГ­ГҐ
+            // Малювання активне
             if (isDrawing)
             {
-                // ГЏГҐГ°ГҐГўВіГ°ГЄГ  Г­Г  Г°ГіГµ Г¬ГЁГёВі Г ГЎГ® Г¤Г®ГІГЁГЄ
+                // Перевірка на рух миші або дотик
                 if (Input.GetMouseButton(0) || touchMoved)
                 {
                     if (Vector3.Distance(lineRenderer.GetPosition(0), mousePos) < minLength || !SecondPointDistanceCheck())
@@ -160,10 +136,10 @@ public class DrawingManager : MonoBehaviour
                     lineRenderer.SetPosition(1, mousePos);
                 }
 
-                // Г‡Г ГўГҐГ°ГёГҐГ­Г­Гї Г¬Г Г«ГѕГўГ Г­Г­Гї: Г ГЎГ® ГўВіГ¤ГЇГіГ±ГЄГ Г­Г­Гї Г¬ГЁГёВі, Г ГЎГ® Г§Г ГўГҐГ°ГёГҐГ­Г­Гї Г¤Г®ГІГЁГЄГі
+                // Завершення малювання: або відпускання миші, або завершення дотику
                 if (Input.GetMouseButtonUp(0) || touchEnded)
                 {
-                    isDrawing = false; // Г‡Г ГўГҐГ°ГёГЁГІГЁ Г¬Г Г«ГѕГўГ Г­Г­Гї
+                    isDrawing = false; // Завершити малювання
                     if (Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < minLength || !SecondPointDistanceCheck())
                     {
                         Camera.main.GetComponent<CameraControl>().ShackCamera();
@@ -179,7 +155,6 @@ public class DrawingManager : MonoBehaviour
                         OnDrawingComplete?.Invoke();
                     }
                 }
-
             }
         }
     }
@@ -187,54 +162,80 @@ public class DrawingManager : MonoBehaviour
 
     public void RemoveLastLine()
     {
-        if (lines.Count > 0)
+        Destroy(lines[lines.Count - 1]);
+        lines.RemoveAt(lines.Count - 1);
+        if (lines.Count == 0)
         {
-            Destroy(lines[lines.Count - 1]);
-            lines.RemoveAt(lines.Count - 1);
+            firstLineDone = false;
+
         }
     }
 
-    private bool FirstPointPositionCheck(Vector3 point)
+    private bool FirstPointDistanceCheck(Vector3 point)
     {
-        if (!firstLineDone) return true;
-
-        foreach (GameObject lineObj in lines)
+        if (!firstLineDone)
         {
-            LineRenderer lineRenderer = lineObj.GetComponent<LineRenderer>();
-            if (lineRenderer != null && lineRenderer.positionCount == 2)
+            return true; // Якщо ще немає ліній, завжди дозволяємо почати нову
+        }
+        else
+        {
+            foreach (GameObject lineObj in lines)
             {
-                Vector3 start = lineRenderer.GetPosition(0);
-                Vector3 end = lineRenderer.GetPosition(1);
-                if (DistancePointToLineSegment(point, start, end) < minDistance)
+                LineRenderer lineRenderer = lineObj.GetComponent<LineRenderer>();
+                if (lineRenderer != null && lineRenderer.positionCount == 2)
                 {
-                    lineToTrack = lineObj;
-                    return true;
+                    Vector3 start = lineRenderer.GetPosition(0);
+                    Vector3 end = lineRenderer.GetPosition(1);
+                    if (DistancePointToLineSegment(point, start, end) < minDistance)
+                    {
+                        lineToTrack = lineObj;
+                        return true; // Якщо точка близька до існуючої лінії, дозволяємо малювати нову лінію
+                    }
                 }
             }
         }
-        return false;
+        return false; // Якщо точка не близька до жодної лінії, не дозволяємо почати нову лінію
     }
+
 
     private bool SecondPointDistanceCheck()
     {
-        if (!firstLineDone) return true;
+        if (!firstLineDone)
+        {
+            return true; // Якщо ще немає ліній, завжди дозволяємо почати нову
+        }
+        else
+        {
 
-        LineRenderer oldLine = lineToTrack.GetComponent<LineRenderer>();
-        LineRenderer newLine = lineRenderer;
+            LineRenderer oldLine = lineToTrack.GetComponent<LineRenderer>();
+            LineRenderer newLine = currentLine.GetComponent<LineRenderer>();
 
-        Vector3 vectorToStartOldLine = oldLine.GetPosition(0) - newLine.GetPosition(0);
-        Vector3 vectorToEndOldLine = oldLine.GetPosition(1) - newLine.GetPosition(0);
-        Vector3 newLineVector = newLine.GetPosition(1) - newLine.GetPosition(0);
+            // Створюємо вектори
+            Vector3 vectorToStartOldLine = oldLine.GetPosition(0) - newLine.GetPosition(0);
+            Vector3 vectorToEndOldLine = oldLine.GetPosition(1) - newLine.GetPosition(0);
+            Vector3 newLineVector = newLine.GetPosition(1) - newLine.GetPosition(0);
 
-        float angleToStart = Vector3.Angle(newLineVector, vectorToStartOldLine);
-        float angleToEnd = Vector3.Angle(newLineVector, vectorToEndOldLine);
+            // Обчислюємо кути
+            float angleToStart = Vector3.Angle(newLineVector, vectorToStartOldLine);
+            float angleToEnd = Vector3.Angle(newLineVector, vectorToEndOldLine);
 
-        return angleToEnd > secondPointAngle && angleToStart > secondPointAngle;
+
+
+            if (angleToEnd > secondPointAngle && angleToStart > secondPointAngle)
+            {
+
+                return true; // Якщо точка близька до початкової лінії, не дозволяємо малювати нову лінію
+            }
+
+
+        }
+        return false; // Якщо точка не близька до початкової лінії, дозволяємо почати нову лінію
     }
 
-    // Г‚ВіГ¤Г±ГІГ Г­Гј ГўВіГ¤ ГІГ®Г·ГЄГЁ Г¤Г® ГўВіГ¤Г°ВіГ§ГЄГ 
+    // Відстань від точки до відрізка
     float DistancePointToLineSegment(Vector3 point, Vector3 lineStart, Vector3 lineEnd)
     {
+
         Vector3 lineDir = lineEnd - lineStart;
         Vector3 pointToStart = point - lineStart;
         float lineLengthSquared = lineDir.sqrMagnitude;
