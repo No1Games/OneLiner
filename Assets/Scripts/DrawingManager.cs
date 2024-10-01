@@ -11,50 +11,43 @@ public class DrawingManager : MonoBehaviour
     private GameObject currentLine;
     private LineRenderer lineRenderer;
 
+    
+    private bool isDrawing = false;
+    private bool firstLineDone = false;
+    private bool drawingAllowed = false;
+    public bool DrawingAllowed
+    {
+        set { drawingAllowed = value; }
+    }
+
+    public event Action OnDrawingComplete;
+
+
     private bool firstLineDone = false;
     private List<GameObject> lines = new List<GameObject>();
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of aa20503 (Score and some game ending)
-    [SerializeField] private float minDistance = 0.1f; // Відстань для перевірки, чи точка близька до лінії
-    [SerializeField] private float minLength = 2f; // Відстань для перевірки, чи достатньо довга лінія
-    [SerializeField] private float secondPointAngle = 10f; // Кут для перевірки чи не йде друга точка вздовж лінії з якої почалась
+
+    [SerializeField] private float minDistance = 0.1f; // Г‚ВіГ¤Г±ГІГ Г­Гј Г¤Г«Гї ГЇГҐГ°ГҐГўВіГ°ГЄГЁ, Г·ГЁ ГІГ®Г·ГЄГ  ГЎГ«ГЁГ§ГјГЄГ  Г¤Г® Г«ВіГ­ВіВї
+    [SerializeField] private float minLength = 2f; // Г‚ВіГ¤Г±ГІГ Г­Гј Г¤Г«Гї ГЇГҐГ°ГҐГўВіГ°ГЄГЁ, Г·ГЁ Г¤Г®Г±ГІГ ГІГ­ГјГ® Г¤Г®ГўГЈГ  Г«ВіГ­ВіГї
+    [SerializeField] private float secondPointAngle = 10f; // ГЉГіГІ Г¤Г«Гї ГЇГҐГ°ГҐГўВіГ°ГЄГЁ Г·ГЁ Г­ГҐ Г©Г¤ГҐ Г¤Г°ГіГЈГ  ГІГ®Г·ГЄГ  ГўГ§Г¤Г®ГўГ¦ Г«ВіГ­ВіВї Г§ ГїГЄГ®Вї ГЇГ®Г·Г Г«Г Г±Гј
 
     private GameObject lineToTrack;
 
-    #region Input
-    TouchControls touchController;
-    #endregion
 
-    private void Awake()
-    {
-        touchController = new TouchControls();
-        touchController.Touch.Tuch.started += ctx => StartDrawing();
-        touchController.Touch.Tuch.performed += ctx => SecondPointUpdate();
-        touchController.Touch.Tuch.canceled += ctx => FinishDrawing();
-    }
+    
 
-    private void OnEnable()
-    {
-        touchController.Enable();
-    }
 
-    private void OnDisable()
-    {
-        touchController.Disable();
-    }
 
+    
     void Update()
     {
-<<<<<<< HEAD
-        // Можна використовувати для інших потреб, якщо буде потрібно
-=======
+
         GenerateLine();
->>>>>>> parent of aa20503 (Score and some game ending)
+
     }
 
-    // Перевіряємо, чи курсор знаходиться над UI елементом, який є кнопкою
+
+   
     bool IsPointerOverButton()
     {
         return EventSystem.current.IsPointerOverGameObject();
@@ -65,15 +58,15 @@ public class DrawingManager : MonoBehaviour
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(touchController.Touch.TuchPosition.ReadValue<Vector2>());
         if (!IsPointerOverButton() && FirstPointPositionCheck(mousePos))
         {
-            // Створення нової лінії
+            // Г‘ГІГўГ®Г°ГҐГ­Г­Гї Г­Г®ГўГ®Вї Г«ВіГ­ВіВї
             currentLine = Instantiate(linePrefab);
             lineRenderer = currentLine.GetComponent<LineRenderer>();
 
-            // Ініціалізація першої точки
-            lineRenderer.positionCount = 2; // Встановлюємо кількість точок
+            // ВІГ­ВіГ¶ВіГ Г«ВіГ§Г Г¶ВіГї ГЇГҐГ°ГёГ®Вї ГІГ®Г·ГЄГЁ
+            lineRenderer.positionCount = 2; // Г‚Г±ГІГ Г­Г®ГўГ«ГѕВєГ¬Г® ГЄВіГ«ГјГЄВіГ±ГІГј ГІГ®Г·Г®ГЄ
             lineRenderer.SetPosition(0, mousePos);
             lineRenderer.SetPosition(1, mousePos);
-            firstLineDone = true; // Першу лінію закінчено
+            firstLineDone = true; // ГЏГҐГ°ГёГі Г«ВіГ­ВіГѕ Г§Г ГЄВіГ­Г·ГҐГ­Г®
         }
     }
 
@@ -84,7 +77,7 @@ public class DrawingManager : MonoBehaviour
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(touchController.Touch.TuchPosition.ReadValue<Vector2>());
             lineRenderer.SetPosition(1, mousePos);
 
-            // Зміна кольору лінії в залежності від довжини
+            // Г‡Г¬ВіГ­Г  ГЄГ®Г«ГјГ®Г°Гі Г«ВіГ­ВіВї Гў Г§Г Г«ГҐГ¦Г­Г®Г±ГІВі ГўВіГ¤ Г¤Г®ГўГ¦ГЁГ­ГЁ
             if (Vector3.Distance(lineRenderer.GetPosition(0), mousePos) < minLength || !SecondPointDistanceCheck())
             {
                 lineRenderer.startColor = Color.red;
@@ -98,24 +91,99 @@ public class DrawingManager : MonoBehaviour
         }
     }
 
-    private void FinishDrawing()
+    private void GenerateLine()
     {
-        if (lineRenderer != null)
-        {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(touchController.Touch.TuchPosition.ReadValue<Vector2>());
-            lineRenderer.SetPosition(1, mousePos);
+        // ГЋГІГ°ГЁГ¬ГіВєГ¬Г® ГЇГ®Г§ГЁГ¶ВіГѕ Г¬ГЁГёВі Г ГЎГ® Г¤Г®ГІГЁГЄГі
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = -1f;
 
-            if (Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < minLength || !SecondPointDistanceCheck())
+        bool touchBegan = false;
+        bool touchMoved = false;
+        bool touchEnded = false;
+
+        // ГЏГҐГ°ГҐГўВіГ°ГЄГ  Г­Г  Г¤Г®ГІГЁГЄ
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            mousePos = Camera.main.ScreenToWorldPoint(touch.position);
+            mousePos.z = -1f;
+
+            touchBegan = touch.phase == TouchPhase.Began;
+            touchMoved = touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary;
+            touchEnded = touch.phase == TouchPhase.Ended;
+        }
+
+        // ГЊГ Г«ГѕГўГ Г­Г­Гї Г¤Г®Г§ГўГ®Г«ГҐГ­Г® ГІГ  ГўГЄГ Г§ВіГўГ­ГЁГЄ Г­ГҐ Г§Г­Г ГµГ®Г¤ГЁГІГјГ±Гї Г­Г Г¤ ГЄГ­Г®ГЇГЄГ®Гѕ
+        if (drawingAllowed && !IsPointerOverButton())
+        {
+            // ГЏГ®Г·Г ГІГ®ГЄ Г¬Г Г«ГѕГўГ Г­Г­Гї: Г ГЎГ® Г­Г ГІГЁГ±ГЄГ Г­Г­Гї Г¬ГЁГёВі, Г ГЎГ® ГЇГ®Г·Г ГІГ®ГЄ Г¤Г®ГІГЁГЄГі
+            if (Input.GetMouseButtonDown(0) || touchBegan)
             {
-                Destroy(currentLine);
+                if (FirstPointDistanceCheck(mousePos))
+                {
+                    currentLine = Instantiate(linePrefab);
+                    lineRenderer = currentLine.GetComponent<LineRenderer>();
+
+                    if (lineRenderer == null)
+                    {
+                        Debug.LogError("LineRenderer component not found on linePrefab!");
+                        return;
+                    }
+
+                    lineRenderer.SetPosition(0, mousePos);
+                    lineRenderer.SetPosition(1, mousePos);
+                    isDrawing = true; // ГЊГ Г«ГѕГўГ Г­Г­Гї Г ГЄГІГЁГўГ­ГҐ
+                }
+                else
+                {
+                    Camera.main.GetComponent<CameraControl>().ShackCamera();
+                }
             }
-            else
+
+            // ГЊГ Г«ГѕГўГ Г­Г­Гї Г ГЄГІГЁГўГ­ГҐ
+            if (isDrawing)
             {
-                lines.Add(currentLine);
-                currentLine = null; // Скидаємо наявну лінію
+                // ГЏГҐГ°ГҐГўВіГ°ГЄГ  Г­Г  Г°ГіГµ Г¬ГЁГёВі Г ГЎГ® Г¤Г®ГІГЁГЄ
+                if (Input.GetMouseButton(0) || touchMoved)
+                {
+                    if (Vector3.Distance(lineRenderer.GetPosition(0), mousePos) < minLength || !SecondPointDistanceCheck())
+                    {
+                        lineRenderer.startColor = Color.red;
+                        lineRenderer.endColor = Color.red;
+                    }
+                    else
+                    {
+                        lineRenderer.startColor = Color.black;
+                        lineRenderer.endColor = Color.black;
+                    }
+
+                    lineRenderer.SetPosition(1, mousePos);
+                }
+
+                // Г‡Г ГўГҐГ°ГёГҐГ­Г­Гї Г¬Г Г«ГѕГўГ Г­Г­Гї: Г ГЎГ® ГўВіГ¤ГЇГіГ±ГЄГ Г­Г­Гї Г¬ГЁГёВі, Г ГЎГ® Г§Г ГўГҐГ°ГёГҐГ­Г­Гї Г¤Г®ГІГЁГЄГі
+                if (Input.GetMouseButtonUp(0) || touchEnded)
+                {
+                    isDrawing = false; // Г‡Г ГўГҐГ°ГёГЁГІГЁ Г¬Г Г«ГѕГўГ Г­Г­Гї
+                    if (Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < minLength || !SecondPointDistanceCheck())
+                    {
+                        Camera.main.GetComponent<CameraControl>().ShackCamera();
+                        Destroy(currentLine);
+                    }
+                    else
+                    {
+                        lines.Add(currentLine);
+                        if (!firstLineDone)
+                        {
+                            firstLineDone = true;
+                        }
+                        OnDrawingComplete?.Invoke();
+                    }
+                }
+
             }
         }
     }
+
 
     public void RemoveLastLine()
     {
@@ -164,7 +232,7 @@ public class DrawingManager : MonoBehaviour
         return angleToEnd > secondPointAngle && angleToStart > secondPointAngle;
     }
 
-    // Відстань від точки до відрізка
+    // Г‚ВіГ¤Г±ГІГ Г­Гј ГўВіГ¤ ГІГ®Г·ГЄГЁ Г¤Г® ГўВіГ¤Г°ВіГ§ГЄГ 
     float DistancePointToLineSegment(Vector3 point, Vector3 lineStart, Vector3 lineEnd)
     {
         Vector3 lineDir = lineEnd - lineStart;

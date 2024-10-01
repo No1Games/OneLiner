@@ -24,70 +24,33 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
     ""name"": ""TouchControls"",
     ""maps"": [
         {
-            ""name"": ""Touch"",
+            ""name"": ""Drawing"",
             ""id"": ""329dc8d5-f979-4dfd-82ee-739a01533768"",
             ""actions"": [
                 {
                     ""name"": ""Tuch"",
                     ""type"": ""Button"",
-                    ""id"": ""28666458-e45a-436c-a5d5-665ac60b7b4f"",
+
+                    ""id"": ""344c57cb-974d-40a4-a468-2a98b7db8f50"",
+
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""TuchPosition"",
-                    ""type"": ""Value"",
-                    ""id"": ""69da1a9a-24ea-46a2-9701-89948ff997c7"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
+
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""041c1a0b-d32a-4440-b346-320aeca161a6"",
+
+                    ""id"": ""b79e6005-b772-4b03-b4ea-c16f40807dd1"",
                     ""path"": ""<Mouse>/leftButton"",
+
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Tuch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""394be6a1-7eda-4348-abc9-a3762a0b4de8"",
-                    ""path"": ""<Touchscreen>/primaryTouch/press"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Tuch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3a36c155-141a-4ba0-85cf-51a1315ddd7c"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TuchPosition"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2f1bda8f-a846-40c6-b78b-cb144af2c06f"",
-                    ""path"": ""<Touchscreen>/primaryTouch/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TuchPosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -96,10 +59,11 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // Touch
-        m_Touch = asset.FindActionMap("Touch", throwIfNotFound: true);
-        m_Touch_Tuch = m_Touch.FindAction("Tuch", throwIfNotFound: true);
-        m_Touch_TuchPosition = m_Touch.FindAction("TuchPosition", throwIfNotFound: true);
+
+        // Drawing
+        m_Drawing = asset.FindActionMap("Drawing", throwIfNotFound: true);
+        m_Drawing_Tuch = m_Drawing.FindAction("Tuch", throwIfNotFound: true);
+
     }
 
     public void Dispose()
@@ -158,62 +122,59 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Touch
-    private readonly InputActionMap m_Touch;
-    private List<ITouchActions> m_TouchActionsCallbackInterfaces = new List<ITouchActions>();
-    private readonly InputAction m_Touch_Tuch;
-    private readonly InputAction m_Touch_TuchPosition;
-    public struct TouchActions
+
+    // Drawing
+    private readonly InputActionMap m_Drawing;
+    private List<IDrawingActions> m_DrawingActionsCallbackInterfaces = new List<IDrawingActions>();
+    private readonly InputAction m_Drawing_Tuch;
+    public struct DrawingActions
     {
         private @TouchControls m_Wrapper;
-        public TouchActions(@TouchControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Tuch => m_Wrapper.m_Touch_Tuch;
-        public InputAction @TuchPosition => m_Wrapper.m_Touch_TuchPosition;
-        public InputActionMap Get() { return m_Wrapper.m_Touch; }
+        public DrawingActions(@TouchControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Tuch => m_Wrapper.m_Drawing_Tuch;
+        public InputActionMap Get() { return m_Wrapper.m_Drawing; }
+
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(TouchActions set) { return set.Get(); }
-        public void AddCallbacks(ITouchActions instance)
+        public static implicit operator InputActionMap(DrawingActions set) { return set.Get(); }
+        public void AddCallbacks(IDrawingActions instance)
         {
-            if (instance == null || m_Wrapper.m_TouchActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_TouchActionsCallbackInterfaces.Add(instance);
+
+            if (instance == null || m_Wrapper.m_DrawingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_DrawingActionsCallbackInterfaces.Add(instance);
             @Tuch.started += instance.OnTuch;
             @Tuch.performed += instance.OnTuch;
             @Tuch.canceled += instance.OnTuch;
-            @TuchPosition.started += instance.OnTuchPosition;
-            @TuchPosition.performed += instance.OnTuchPosition;
-            @TuchPosition.canceled += instance.OnTuchPosition;
+
         }
 
-        private void UnregisterCallbacks(ITouchActions instance)
+        private void UnregisterCallbacks(IDrawingActions instance)
         {
             @Tuch.started -= instance.OnTuch;
             @Tuch.performed -= instance.OnTuch;
             @Tuch.canceled -= instance.OnTuch;
-            @TuchPosition.started -= instance.OnTuchPosition;
-            @TuchPosition.performed -= instance.OnTuchPosition;
-            @TuchPosition.canceled -= instance.OnTuchPosition;
+
         }
 
-        public void RemoveCallbacks(ITouchActions instance)
+        public void RemoveCallbacks(IDrawingActions instance)
         {
-            if (m_Wrapper.m_TouchActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_DrawingActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(ITouchActions instance)
+        public void SetCallbacks(IDrawingActions instance)
         {
-            foreach (var item in m_Wrapper.m_TouchActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_DrawingActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_TouchActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_DrawingActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public TouchActions @Touch => new TouchActions(this);
-    public interface ITouchActions
+    public DrawingActions @Drawing => new DrawingActions(this);
+    public interface IDrawingActions
     {
         void OnTuch(InputAction.CallbackContext context);
-        void OnTuchPosition(InputAction.CallbackContext context);
+
     }
 }
