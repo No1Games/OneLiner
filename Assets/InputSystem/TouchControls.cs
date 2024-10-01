@@ -30,18 +30,23 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Tuch"",
                     ""type"": ""Button"",
+
                     ""id"": ""344c57cb-974d-40a4-a468-2a98b7db8f50"",
+
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
+
                     ""id"": ""b79e6005-b772-4b03-b4ea-c16f40807dd1"",
                     ""path"": ""<Mouse>/leftButton"",
+
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -54,9 +59,11 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
+
         // Drawing
         m_Drawing = asset.FindActionMap("Drawing", throwIfNotFound: true);
         m_Drawing_Tuch = m_Drawing.FindAction("Tuch", throwIfNotFound: true);
+
     }
 
     public void Dispose()
@@ -115,6 +122,7 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
+
     // Drawing
     private readonly InputActionMap m_Drawing;
     private List<IDrawingActions> m_DrawingActionsCallbackInterfaces = new List<IDrawingActions>();
@@ -125,17 +133,20 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
         public DrawingActions(@TouchControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Tuch => m_Wrapper.m_Drawing_Tuch;
         public InputActionMap Get() { return m_Wrapper.m_Drawing; }
+
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(DrawingActions set) { return set.Get(); }
         public void AddCallbacks(IDrawingActions instance)
         {
+
             if (instance == null || m_Wrapper.m_DrawingActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_DrawingActionsCallbackInterfaces.Add(instance);
             @Tuch.started += instance.OnTuch;
             @Tuch.performed += instance.OnTuch;
             @Tuch.canceled += instance.OnTuch;
+
         }
 
         private void UnregisterCallbacks(IDrawingActions instance)
@@ -143,6 +154,7 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
             @Tuch.started -= instance.OnTuch;
             @Tuch.performed -= instance.OnTuch;
             @Tuch.canceled -= instance.OnTuch;
+
         }
 
         public void RemoveCallbacks(IDrawingActions instance)
@@ -163,5 +175,6 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
     public interface IDrawingActions
     {
         void OnTuch(InputAction.CallbackContext context);
+
     }
 }

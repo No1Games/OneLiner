@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
-
 
 public class UIManager : MonoBehaviour
 {
@@ -18,24 +19,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject endgamePanel;
 
     [Header("Texts")]
-    [SerializeField] private TMP_Text drawenLines;
     [SerializeField] private TMP_Text playerNameOnGameScreen;
     [SerializeField] private TMP_Text playerNameOnPlayerScreen;
     [SerializeField] private TMP_Text leaderWord;
     [SerializeField] private TMP_Text endgameText;
-    [SerializeField] private TMP_Text finaleScoreText;
 
 
 
     [Header("Other")]
-    public int lives = 2;
+    private int lives = 2;
     [SerializeField] private GameObject[] livesImage;
     [SerializeField] private DrawingManager drawing;
     public PlayerScript playerToTrack;
-
-    private List<Rank> ranks;
-    [SerializeField] private Image rankImage;
-
 
 
 
@@ -43,10 +38,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject wordButtonPrefab;
     private List<GameObject> wordsButtons = new();
 
-
+    
     public event Action actionConfirmed;
+<<<<<<< HEAD
     public event Func<int> gameEnded;
+    public event Action<bool> gameScreenIsPerformed;
 
+=======
+>>>>>>> parent of aa20503 (Score and some game ending)
 
 
 
@@ -56,15 +55,6 @@ public class UIManager : MonoBehaviour
         OpenPlayerScreen();
 
     }
-    private void Update()
-    {
-        drawenLines.text = drawing.drawenLines.ToString();
-    }
-    public void RanksSet(List<Rank> ranks)
-    {
-        this.ranks = ranks;
-    }
-
 
 
 
@@ -96,7 +86,7 @@ public class UIManager : MonoBehaviour
         startPanel.SetActive(true);
         endPanel.SetActive(false);
         ingamePanel.SetActive(false);
-        drawing.DrawingAllowed = false;
+        gameScreenIsPerformed.Invoke(false);
 
     }
 
@@ -104,14 +94,14 @@ public class UIManager : MonoBehaviour
     {
         startPanel.SetActive(false);
         ingamePanel.SetActive(true);
-        drawing.DrawingAllowed = true;
+        gameScreenIsPerformed.Invoke(true);
     }
 
     public void CallCheckUpMenu() //коли намалювали лінію
     {
         endPanel.SetActive(true);
         ingamePanel.SetActive(false);
-        drawing.DrawingAllowed = false;
+        gameScreenIsPerformed.Invoke(false);
     }
 
     public void RestartTurn()//коли визнали шо лінія не підходить
@@ -119,7 +109,7 @@ public class UIManager : MonoBehaviour
         endPanel.SetActive(false);
         ingamePanel.SetActive(true);
         drawing.RemoveLastLine();
-        drawing.DrawingAllowed = true;
+        gameScreenIsPerformed.Invoke(true);
     }
 
     public void ConfirmLine()//коли визнали шо лінія підходить
@@ -133,7 +123,7 @@ public class UIManager : MonoBehaviour
     {
 
         ingamePanel.SetActive(false);
-        drawing.DrawingAllowed = false;
+        gameScreenIsPerformed.Invoke(false);
 
         if (playerToTrack.role == PlayerRole.Leader)
         {
@@ -152,7 +142,7 @@ public class UIManager : MonoBehaviour
         wordPanel.SetActive(false);
         leaderPanel.SetActive(false);
         ingamePanel.SetActive(true);
-        drawing.DrawingAllowed = true;
+        gameScreenIsPerformed.Invoke(true);
     }
 
     private void CheckTheWord(string buttonText)
@@ -166,9 +156,7 @@ public class UIManager : MonoBehaviour
         {
 
             endgameText.text = winingText;
-
             endgamePanel.SetActive(true);
-            StartCoroutine(StartScoring(gameEnded.Invoke()));
 
         }
         else
@@ -188,7 +176,6 @@ public class UIManager : MonoBehaviour
             {
                 endgameText.text = losingText;
                 endgamePanel.SetActive(true);
-
             }
 
         }
@@ -205,39 +192,6 @@ public class UIManager : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.buildIndex);
 
-    }
-
-
-    private IEnumerator StartScoring(int finaleScore)
-    {
-        int scoreNow = 0;
-        int rankIndex = 0;
-        Rank currentRank = ranks[0];  // Початковий ранг
-        rankImage.gameObject.SetActive(true);  // Відображаємо зображення рангу
-        rankImage.sprite = currentRank.rankImage;  // Встановлюємо початковий спрайт
-
-        while (scoreNow < finaleScore)
-        {
-            scoreNow += 10;  // Збільшуємо очки поступово
-
-            // Оновлюємо текст без окремого методу
-            finaleScoreText.text = scoreNow.ToString();  // Оновлюємо текст з очками
-
-            // Перевіряємо, чи досягнуто порогове значення для наступного рангу
-            if (rankIndex < ranks.Count - 1 && scoreNow >= ranks[rankIndex + 1].threshold)
-            {
-                rankIndex++;  // Змінюємо індекс рангу
-                currentRank = ranks[rankIndex];  // Оновлюємо поточний ранг
-                rankImage.sprite = currentRank.rankImage;  // Міняємо зображення рангу
-                yield return new WaitForSeconds(0.1f);  // Затримка для візуалізації зміни рангу
-            }
-
-            yield return null;  // Перерва на один кадр перед продовженням
-        }
-
-        // Активуємо кнопки "перезапуск" та "повернутись до меню"
-        //replayButton.SetActive(true);
-        //menuButton.SetActive(true);
     }
 
 }
