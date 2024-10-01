@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MainManager : MonoBehaviour
@@ -16,6 +15,9 @@ public class MainManager : MonoBehaviour
     private string leaderWord;
 
 
+    [Header("Підрахунок ПО")]
+    [SerializeField] private List<Rank> gameRanks;
+
 
     private void Awake()
     {
@@ -23,16 +25,19 @@ public class MainManager : MonoBehaviour
         leaderWord = wordManager.GetLeaderWord(wordsForRound);
         uIManager.GenerateWordButtons(wordsForRound);
         uIManager.SetLeaderWord(leaderWord);
+        uIManager.gameEnded += CountScore;
 
 
-        
+
+
         drawingManager.OnDrawingComplete += uIManager.CallCheckUpMenu;
-        uIManager.gameScreenIsPerformed += AllowDrawing;
 
         
         uIManager.actionConfirmed += playerManager.ChangeTurn;
 
         playerManager.OnPlayerChange += UpdateCurrentPlayer;
+
+        uIManager.RanksSet(gameRanks);
 
 
     }
@@ -43,7 +48,6 @@ public class MainManager : MonoBehaviour
     {
         uIManager.playerToTrack = currentPlayer;
     }
-<<<<<<< HEAD
 
     private int CountScore()
     {
@@ -54,18 +58,4 @@ public class MainManager : MonoBehaviour
         return score;
 
     }
-
-    private void AllowDrawing(bool isAllowed)
-    {
-        if (isAllowed)
-        {
-            drawingManager.gameObject.SetActive(true);
-        }
-        else
-        {
-            drawingManager.gameObject.SetActive(false);
-        }
-    }
-=======
->>>>>>> parent of aa20503 (Score and some game ending)
 }
