@@ -119,19 +119,48 @@ public class LobbyManager : MonoBehaviour
                 float lobbyPollTimerMax = 1.1f;
                 _lobbyPollTimer = lobbyPollTimerMax;
 
-                _joinedLobby = await LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id);
-
-                OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
-
-                if (!IsPlayerInLobby())
+                try
                 {
-                    // Player was kicked out of this lobby
-                    _logger.Log("Kicked from Lobby!");
+                    // Try to fetch the lobby status
+                    _joinedLobby = await LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id);
 
-                    OnKickedFromLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
+                    // Fire event to update listeners that the lobby has been updated
+                    OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
 
-                    _joinedLobby = null;
+                    // Check if the player is still in the lobby
+                    if (!IsPlayerInLobby())
+                    {
+                        // Player was kicked from the lobby
+                        _logger.Log("Kicked from Lobby!");
+
+                        OnKickedFromLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
+
+                        // Leave the lobby as we no longer have access
+                        _joinedLobby = null;
+                    }
                 }
+                catch (LobbyServiceException ex)
+                {
+                    // Handle the case where the player is kicked from a private lobby
+                    _logger.Log($"Error fetching lobby: {ex.Message} {ex.Reason}");
+
+                    // If the error is due to being kicked from a private lobby, handle it
+                    if (ex.Reason == LobbyExceptionReason.Forbidden)
+                    {
+                        _logger.Log("Kicked from Private Lobby!");
+
+                        OnKickedFromLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
+
+                        // Nullify the lobby as the player has been kicked
+                        _joinedLobby = null;
+                    }
+                    else
+                    {
+                        // Handle other exceptions if necessary
+                        _logger.Log($"Unhandled Lobby Exception: {ex.Message}");
+                    }
+                }
+
             }
         }
     }
