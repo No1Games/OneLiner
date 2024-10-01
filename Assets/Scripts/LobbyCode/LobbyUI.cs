@@ -18,6 +18,7 @@ public class LobbyUI : MonoBehaviour
     [Header("Lobby Info Fields")]
     [SerializeField] private TextMeshProUGUI _lobbyNameTMP;
     [SerializeField] private TextMeshProUGUI _playersTMP;
+    [SerializeField] private TextMeshProUGUI _codeTMP;
 
     [Header("Buttons")]
     [SerializeField] private Button _leaveLobbyBtn;
@@ -80,11 +81,18 @@ public class LobbyUI : MonoBehaviour
                 player.Id != AuthenticationService.Instance.PlayerId // Don't allow kick self
             );
 
+            Debug.Log($"Player Name: {player.Data[LobbyManager.KEY_PLAYER_NAME].Value}");
+
             lobbyPlayerSingleUI.UpdatePlayer(player);
         }
 
         _lobbyNameTMP.text = lobby.Name;
         _playersTMP.text = $"{lobby.Players.Count} / {lobby.MaxPlayers}";
+
+        if (lobby.IsPrivate)
+        {
+            _codeTMP.text = $"Code: {lobby.LobbyCode}";
+        }
     }
 
     private void ClearLobby()
@@ -94,6 +102,8 @@ public class LobbyUI : MonoBehaviour
             if (child == _playerItemTemplate) continue;
             Destroy(child.gameObject);
         }
+
+        _codeTMP.text = "";
     }
 
     #endregion

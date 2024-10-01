@@ -31,6 +31,8 @@ public class LobbyCreateUI : MonoBehaviour
         _createButton.onClick.AddListener(OnClick_CreateButton);
         _backButton.onClick.AddListener(OnClick_BackButton);
 
+        _isPrivate = _isPrivateToggle.isOn;
+
         Hide();
     }
 
@@ -58,7 +60,7 @@ public class LobbyCreateUI : MonoBehaviour
     private void OnClick_CreateButton()
     {
         LobbyManager.Instance.CreateLobby(_lobbyName, _maxPlayers, _isPrivate);
-        // LobbyUI.Instance.Show();
+
         Hide();
     }
 

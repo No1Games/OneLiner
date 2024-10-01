@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -53,6 +54,7 @@ public class LobbyManager : MonoBehaviour
     {
         _playerName = playerName;
         InitializationOptions initializationOptions = new InitializationOptions();
+        initializationOptions.SetProfile(playerName);
 
         await UnityServices.InitializeAsync(initializationOptions);
 
@@ -186,7 +188,7 @@ public class LobbyManager : MonoBehaviour
 
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
 
-        _logger.Log("Created Lobby " + lobby.Name);
+        _logger.Log($"Created Lobby {lobby.Name} {lobby.IsPrivate}");
     }
 
     public async void KickPlayer(string playerId)
@@ -240,6 +242,20 @@ public class LobbyManager : MonoBehaviour
         }
 
         _logger.Log($"Lobby Joined! {_joinedLobby.Id}");
+
+        OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
+    }
+
+    public async Task JoinLobbyByCode(string code)
+    {
+        Player player = GetPlayer();
+
+        Lobby lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code, new JoinLobbyByCodeOptions
+        {
+            Player = player
+        });
+
+        _joinedLobby = lobby;
 
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
     }
