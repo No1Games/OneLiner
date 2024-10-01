@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class DrawingManager : MonoBehaviour
@@ -13,10 +13,13 @@ public class DrawingManager : MonoBehaviour
 
     private bool firstLineDone = false;
     private List<GameObject> lines = new List<GameObject>();
+<<<<<<< HEAD
 
-    [SerializeField] private float minDistance = 0.1f; // ВіпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
-    [SerializeField] private float minLength = 2f; // ВіпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
-    [SerializeField] private float secondPointAngle = 10f; // пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+=======
+>>>>>>> parent of aa20503 (Score and some game ending)
+    [SerializeField] private float minDistance = 0.1f; // Відстань для перевірки, чи точка близька до лінії
+    [SerializeField] private float minLength = 2f; // Відстань для перевірки, чи достатньо довга лінія
+    [SerializeField] private float secondPointAngle = 10f; // Кут для перевірки чи не йде друга точка вздовж лінії з якої почалась
 
     private GameObject lineToTrack;
 
@@ -44,50 +47,33 @@ public class DrawingManager : MonoBehaviour
 
     void Update()
     {
+<<<<<<< HEAD
+        // Можна використовувати для інших потреб, якщо буде потрібно
+=======
         GenerateLine();
-    }
-    
-    private bool isDrawing = false;
-    private bool firstLineDone = false;
-    private bool drawingAllowed = false;
-    public bool DrawingAllowed
-    {
-        set { drawingAllowed = value; }
+>>>>>>> parent of aa20503 (Score and some game ending)
     }
 
-    public event Action OnDrawingComplete;
-
-    private List<GameObject> lines = new List<GameObject>();
-    public int drawenLines;
-    [SerializeField] private float minDistance = 0.1f; // ВіпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
-    [SerializeField] private float minLength = 2f; // ВіпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
-    [SerializeField] private float secondPointAngle = 10f; // пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-
-    private GameObject lineToTrack;
-
-    
-
-
-    
-    void Update()
-    {
-        GenerateLine();
-        drawenLines = lines.Count;
-
-    }
+    // Перевіряємо, чи курсор знаходиться над UI елементом, який є кнопкою
     bool IsPointerOverButton()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        return EventSystem.current.IsPointerOverGameObject();
+    }
+
+    private void StartDrawing()
+    {
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(touchController.Touch.TuchPosition.ReadValue<Vector2>());
+        if (!IsPointerOverButton() && FirstPointPositionCheck(mousePos))
         {
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+            // Створення нової лінії
             currentLine = Instantiate(linePrefab);
             lineRenderer = currentLine.GetComponent<LineRenderer>();
 
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
-            lineRenderer.positionCount = 2; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+            // Ініціалізація першої точки
+            lineRenderer.positionCount = 2; // Встановлюємо кількість точок
             lineRenderer.SetPosition(0, mousePos);
             lineRenderer.SetPosition(1, mousePos);
-            firstLineDone = true; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            firstLineDone = true; // Першу лінію закінчено
         }
     }
 
@@ -98,44 +84,23 @@ public class DrawingManager : MonoBehaviour
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(touchController.Touch.TuchPosition.ReadValue<Vector2>());
             lineRenderer.SetPosition(1, mousePos);
 
-            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            // Зміна кольору лінії в залежності від довжини
             if (Vector3.Distance(lineRenderer.GetPosition(0), mousePos) < minLength || !SecondPointDistanceCheck())
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ'пїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-            PointerEventData pointerData = new PointerEventData(EventSystem.current)
             {
-                position = Input.mousePosition
-            };
-
-            List<RaycastResult> raycastResults = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(pointerData, raycastResults);
-
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-            foreach (RaycastResult result in raycastResults)
+                lineRenderer.startColor = Color.red;
+                lineRenderer.endColor = Color.red;
+            }
+            else
             {
-                if (result.gameObject.GetComponent<Button>() != null)
-                {
-                    return true; // пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ
-                }
+                lineRenderer.startColor = Color.black;
+                lineRenderer.endColor = Color.black;
             }
         }
-        return false; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
     private void FinishDrawing()
     {
         if (lineRenderer != null)
-    private void GenerateLine()
-    {
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = -1f;
-
-        bool touchBegan = false;
-        bool touchMoved = false;
-        bool touchEnded = false;
-
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
-        if (Input.touchCount > 0)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(touchController.Touch.TuchPosition.ReadValue<Vector2>());
             lineRenderer.SetPosition(1, mousePos);
@@ -147,158 +112,61 @@ public class DrawingManager : MonoBehaviour
             else
             {
                 lines.Add(currentLine);
-                currentLine = null; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
-            touchBegan = touch.phase == TouchPhase.Began;
-            touchMoved = touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary;
-            touchEnded = touch.phase == TouchPhase.Ended;
-        }
-
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-        if (drawingAllowed && !IsPointerOverButton())
-        {
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-            if (Input.GetMouseButtonDown(0) || touchBegan)
-            {
-                if (FirstPointDistanceCheck(mousePos))
-                {
-                    currentLine = Instantiate(linePrefab);
-                    lineRenderer = currentLine.GetComponent<LineRenderer>();
-
-                    if (lineRenderer == null)
-                    {
-                        Debug.LogError("LineRenderer component not found on linePrefab!");
-                        return;
-                    }
-
-                    lineRenderer.SetPosition(0, mousePos);
-                    lineRenderer.SetPosition(1, mousePos);
-                    isDrawing = true; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-                }
-                else
-                {
-                    Camera.main.GetComponent<CameraControl>().ShackCamera();
-                }
-            }
-
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-            if (isDrawing)
-            {
-                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
-                if (Input.GetMouseButton(0) || touchMoved)
-                {
-                    if (Vector3.Distance(lineRenderer.GetPosition(0), mousePos) < minLength || !SecondPointDistanceCheck())
-                    {
-                        lineRenderer.startColor = Color.red;
-                        lineRenderer.endColor = Color.red;
-                    }
-                    else
-                    {
-                        lineRenderer.startColor = Color.black;
-                        lineRenderer.endColor = Color.black;
-                    }
-
-                    lineRenderer.SetPosition(1, mousePos);
-                }
-
-                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-                if (Input.GetMouseButtonUp(0) || touchEnded)
-                {
-                    isDrawing = false; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-                    if (Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < minLength || !SecondPointDistanceCheck())
-                    {
-                        Camera.main.GetComponent<CameraControl>().ShackCamera();
-                        Destroy(currentLine);
-                    }
-                    else
-                    {
-                        lines.Add(currentLine);
-                        if (!firstLineDone)
-                        {
-                            firstLineDone = true;
-                        }
-                        OnDrawingComplete?.Invoke();
-                    }
-                }
+                currentLine = null; // Скидаємо наявну лінію
             }
         }
     }
 
     public void RemoveLastLine()
     {
-        Destroy(lines[lines.Count - 1]);
-        lines.RemoveAt(lines.Count - 1);
-        if (lines.Count == 0)
+        if (lines.Count > 0)
         {
-            firstLineDone = false;
-
+            Destroy(lines[lines.Count - 1]);
+            lines.RemoveAt(lines.Count - 1);
         }
     }
 
-    private bool FirstPointDistanceCheck(Vector3 point)
+    private bool FirstPointPositionCheck(Vector3 point)
     {
-        if (!firstLineDone)
+        if (!firstLineDone) return true;
+
+        foreach (GameObject lineObj in lines)
         {
-            return true; // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
-        }
-        else
-        {
-            foreach (GameObject lineObj in lines)
+            LineRenderer lineRenderer = lineObj.GetComponent<LineRenderer>();
+            if (lineRenderer != null && lineRenderer.positionCount == 2)
             {
-                LineRenderer lineRenderer = lineObj.GetComponent<LineRenderer>();
-                if (lineRenderer != null && lineRenderer.positionCount == 2)
+                Vector3 start = lineRenderer.GetPosition(0);
+                Vector3 end = lineRenderer.GetPosition(1);
+                if (DistancePointToLineSegment(point, start, end) < minDistance)
                 {
-                    Vector3 start = lineRenderer.GetPosition(0);
-                    Vector3 end = lineRenderer.GetPosition(1);
-                    if (DistancePointToLineSegment(point, start, end) < minDistance)
-                    {
-                        lineToTrack = lineObj;
-                        return true; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
-                    }
+                    lineToTrack = lineObj;
+                    return true;
                 }
             }
         }
-        return false; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+        return false;
     }
-
 
     private bool SecondPointDistanceCheck()
     {
-        if (!firstLineDone)
-        {
-            return true; // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
-        }
-        else
-        {
+        if (!firstLineDone) return true;
 
-            LineRenderer oldLine = lineToTrack.GetComponent<LineRenderer>();
-            LineRenderer newLine = currentLine.GetComponent<LineRenderer>();
+        LineRenderer oldLine = lineToTrack.GetComponent<LineRenderer>();
+        LineRenderer newLine = lineRenderer;
 
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-            Vector3 vectorToStartOldLine = oldLine.GetPosition(0) - newLine.GetPosition(0);
-            Vector3 vectorToEndOldLine = oldLine.GetPosition(1) - newLine.GetPosition(0);
-            Vector3 newLineVector = newLine.GetPosition(1) - newLine.GetPosition(0);
+        Vector3 vectorToStartOldLine = oldLine.GetPosition(0) - newLine.GetPosition(0);
+        Vector3 vectorToEndOldLine = oldLine.GetPosition(1) - newLine.GetPosition(0);
+        Vector3 newLineVector = newLine.GetPosition(1) - newLine.GetPosition(0);
 
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
-            float angleToStart = Vector3.Angle(newLineVector, vectorToStartOldLine);
-            float angleToEnd = Vector3.Angle(newLineVector, vectorToEndOldLine);
+        float angleToStart = Vector3.Angle(newLineVector, vectorToStartOldLine);
+        float angleToEnd = Vector3.Angle(newLineVector, vectorToEndOldLine);
 
-
-
-            if (angleToEnd > secondPointAngle && angleToStart > secondPointAngle)
-            {
-
-                return true; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
-            }
-
-
-        }
-        return false; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+        return angleToEnd > secondPointAngle && angleToStart > secondPointAngle;
     }
 
-    // ВіпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    // Відстань від точки до відрізка
     float DistancePointToLineSegment(Vector3 point, Vector3 lineStart, Vector3 lineEnd)
     {
-
         Vector3 lineDir = lineEnd - lineStart;
         Vector3 pointToStart = point - lineStart;
         float lineLengthSquared = lineDir.sqrMagnitude;
