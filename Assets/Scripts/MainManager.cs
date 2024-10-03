@@ -29,7 +29,7 @@ public class MainManager : MonoBehaviour
 
 
 
-
+        drawingManager.OnLineUnavailable += uIManager.WarningActivate;
         drawingManager.OnDrawingComplete += uIManager.CallCheckUpMenu;
 
         

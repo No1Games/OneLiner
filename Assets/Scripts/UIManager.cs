@@ -16,6 +16,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject leaderPanel;
     [SerializeField] private GameObject ingamePanel;
     [SerializeField] private GameObject endgamePanel;
+    [SerializeField] private GameObject warningPanel;
+
+    [SerializeField] private GameObject replayButton;
+    [SerializeField] private GameObject menuButton;
+
 
     [Header("Texts")]
     [SerializeField] private TMP_Text drawenLines;
@@ -24,6 +29,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text leaderWord;
     [SerializeField] private TMP_Text endgameText;
     [SerializeField] private TMP_Text finaleScoreText;
+    [SerializeField] private TMP_Text warningText;
+
 
 
 
@@ -32,6 +39,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject[] livesImage;
     [SerializeField] private DrawingManager drawing;
     public PlayerScript playerToTrack;
+
+    private Coroutine warningCoroutine = null;
+    private bool isWarningActive = false;
 
     private List<Rank> ranks;
     [SerializeField] private Image rankImage;
@@ -229,15 +239,35 @@ public class UIManager : MonoBehaviour
                 rankIndex++;  // Змінюємо індекс рангу
                 currentRank = ranks[rankIndex];  // Оновлюємо поточний ранг
                 rankImage.sprite = currentRank.rankImage;  // Міняємо зображення рангу
-                yield return new WaitForSeconds(0.1f);  // Затримка для візуалізації зміни рангу
+                yield return new WaitForSeconds(0.5f);  // Затримка для візуалізації зміни рангу
             }
 
             yield return null;  // Перерва на один кадр перед продовженням
         }
 
-        // Активуємо кнопки "перезапуск" та "повернутись до меню"
-        //replayButton.SetActive(true);
-        //menuButton.SetActive(true);
+        
+        replayButton.SetActive(true);
+        menuButton.SetActive(true);
+    }
+
+    private IEnumerator PushWarning(string message)
+    {
+        isWarningActive = true;
+        warningText.text = message;
+        warningPanel.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        warningPanel.SetActive(false);
+        isWarningActive = false;
+    }
+    public void WarningActivate(string message)
+    {
+        if (isWarningActive)                     
+        {
+            StopCoroutine(warningCoroutine);     
+            isWarningActive = false;             
+        }
+
+        warningCoroutine = StartCoroutine(PushWarning(message));  
     }
 
 }

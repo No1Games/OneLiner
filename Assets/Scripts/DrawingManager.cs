@@ -20,6 +20,7 @@ public class DrawingManager : MonoBehaviour
     }
 
     public event Action OnDrawingComplete;
+    public event Action <string> OnLineUnavailable;
 
     private List<GameObject> lines = new List<GameObject>();
     public int drawenLines;
@@ -112,7 +113,7 @@ public class DrawingManager : MonoBehaviour
                 }
                 else
                 {
-                    Camera.main.GetComponent<CameraControl>().ShackCamera();
+                    OnLineUnavailable.Invoke("Лінія має починатись з іншої лінії");
                 }
             }
 
@@ -140,9 +141,14 @@ public class DrawingManager : MonoBehaviour
                 if (Input.GetMouseButtonUp(0) || touchEnded)
                 {
                     isDrawing = false; // Завершити малювання
-                    if (Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < minLength || !SecondPointDistanceCheck())
+                    if (Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < minLength)
                     {
-                        Camera.main.GetComponent<CameraControl>().ShackCamera();
+                        OnLineUnavailable.Invoke("Лінія занадто коротка");
+                        Destroy(currentLine);
+                    }
+                    else if (!SecondPointDistanceCheck())
+                    {
+                        OnLineUnavailable.Invoke("Лінія не має продовжувати напрямок іншої лінії");
                         Destroy(currentLine);
                     }
                     else
