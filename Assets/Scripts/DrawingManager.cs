@@ -24,14 +24,14 @@ public class DrawingManager : MonoBehaviour
 
     private List<GameObject> lines = new List<GameObject>();
     public int drawenLines;
-    [SerializeField] private float minDistance = 0.1f; // Відстань для перевірки, чи точка близька до лінії
+    [SerializeField] private float minDistance = 0.5f; // Відстань для перевірки, чи точка близька до лінії
     [SerializeField] private float minLength = 2f; // Відстань для перевірки, чи достатньо довга лінія
     [SerializeField] private float secondPointAngle = 10f; // кут для перевірки чи не йде друга точка вздовж лінії з якої почалась
 
     private GameObject lineToTrack;
 
-    
 
+    Vector3 firstPointPosition;
 
     
     void Update()
@@ -107,8 +107,8 @@ public class DrawingManager : MonoBehaviour
                         return;
                     }
 
-                    lineRenderer.SetPosition(0, mousePos);
-                    lineRenderer.SetPosition(1, mousePos);
+                    lineRenderer.SetPosition(0, firstPointPosition);
+                    lineRenderer.SetPosition(1, firstPointPosition);
                     isDrawing = true; // Малювання активне
                 }
                 else
@@ -168,19 +168,24 @@ public class DrawingManager : MonoBehaviour
 
     public void RemoveLastLine()
     {
-        Destroy(lines[lines.Count - 1]);
-        lines.RemoveAt(lines.Count - 1);
-        if (lines.Count == 0)
+        if(lines.Count > 0)
         {
-            firstLineDone = false;
+            Destroy(lines[lines.Count - 1]);
+            lines.RemoveAt(lines.Count - 1);
+            if (lines.Count == 0)
+            {
+                firstLineDone = false;
 
+            }
         }
+        
     }
 
     private bool FirstPointDistanceCheck(Vector3 point)
     {
         if (!firstLineDone)
         {
+            firstPointPosition = point;
             return true; // Якщо ще немає ліній, завжди дозволяємо почати нову
         }
         else
@@ -247,6 +252,7 @@ public class DrawingManager : MonoBehaviour
         float lineLengthSquared = lineDir.sqrMagnitude;
         float t = Mathf.Clamp01(Vector3.Dot(pointToStart, lineDir) / lineLengthSquared);
         Vector3 closestPoint = lineStart + t * lineDir;
+        firstPointPosition = closestPoint;
         return Vector3.Distance(point, closestPoint);
     }
 }

@@ -710,7 +710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linePrefab: {fileID: 393530969098998648, guid: b099c03fddcffe94d91afafe4f8e7515, type: 3}
   drawenLines: 0
-  minDistance: 0.1
+  minDistance: 0.25
   minLength: 1
   secondPointAngle: 7
 --- !u!4 &149930182
@@ -2879,7 +2879,6 @@ MonoBehaviour:
   startPanel: {fileID: 368842262}
   endPanel: {fileID: 889509361}
   wordPanel: {fileID: 597228371}
-  leaderPanel: {fileID: 2097190392}
   ingamePanel: {fileID: 1230155462}
   endgamePanel: {fileID: 1483874727}
   warningPanel: {fileID: 615336098}
@@ -2888,7 +2887,6 @@ MonoBehaviour:
   drawenLines: {fileID: 49886116}
   playerNameOnGameScreen: {fileID: 70152556}
   playerNameOnPlayerScreen: {fileID: 1290597272}
-  leaderWord: {fileID: 1766652845}
   endgameText: {fileID: 153522968}
   finaleScoreText: {fileID: 65978210}
   warningText: {fileID: 1980548246}

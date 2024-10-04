@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject startPanel;
     [SerializeField] private GameObject endPanel;
     [SerializeField] private GameObject wordPanel;
-    [SerializeField] private GameObject leaderPanel;
+    
     [SerializeField] private GameObject ingamePanel;
     [SerializeField] private GameObject endgamePanel;
     [SerializeField] private GameObject warningPanel;
@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text drawenLines;
     [SerializeField] private TMP_Text playerNameOnGameScreen;
     [SerializeField] private TMP_Text playerNameOnPlayerScreen;
-    [SerializeField] private TMP_Text leaderWord;
+    
     [SerializeField] private TMP_Text endgameText;
     [SerializeField] private TMP_Text finaleScoreText;
     [SerializeField] private TMP_Text warningText;
@@ -39,6 +39,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject[] livesImage;
     [SerializeField] private DrawingManager drawing;
     public PlayerScript playerToTrack;
+    private string leaderWordText;
+    private GameObject leaderWord;
 
     private Coroutine warningCoroutine = null;
     private bool isWarningActive = false;
@@ -64,6 +66,7 @@ public class UIManager : MonoBehaviour
     {
 
         OpenPlayerScreen();
+        InitiateLeaderWordButton();
 
     }
     private void Update()
@@ -95,7 +98,22 @@ public class UIManager : MonoBehaviour
 
     public void SetLeaderWord(string word)
     {
-        leaderWord.text = word;
+        leaderWordText = word;
+
+
+    }
+    private void InitiateLeaderWordButton()
+    {
+        foreach (GameObject wordButton in wordsButtons)
+        {
+            if(wordButton.GetComponentInChildren<TMP_Text>().text == leaderWordText)
+            {
+                Debug.Log("leader finded");
+                leaderWord = wordButton;
+                break;
+            }
+        }
+        
     }
 
     public void OpenPlayerScreen() //коли вгадували слово чи підтвердили лінію
@@ -144,25 +162,29 @@ public class UIManager : MonoBehaviour
 
         ingamePanel.SetActive(false);
         drawing.DrawingAllowed = false;
+        wordPanel.SetActive(true);
 
         if (playerToTrack.role == PlayerRole.Leader)
         {
-            leaderPanel.SetActive(true);
+            leaderWord.GetComponentInChildren<Image>().color = Color.yellow; //TO DO: choose image
         }
-        else
-        {
-            wordPanel.SetActive(true);
+        
 
-        }
 
     }
 
     public void CloseWordsMenu() //коли хочемо повернутись до малювання
     {
         wordPanel.SetActive(false);
-        leaderPanel.SetActive(false);
+       
         ingamePanel.SetActive(true);
         drawing.DrawingAllowed = true;
+        if (playerToTrack.role == PlayerRole.Leader)
+        {
+            leaderWord.GetComponentInChildren<Image>().color = Color.white; //TO DO: choose image
+
+
+        }
     }
 
     private void CheckTheWord(string buttonText)
@@ -170,38 +192,44 @@ public class UIManager : MonoBehaviour
 
         string winingText = "Вітаю з перемогою";
         string losingText = "Нажаль, цього разу ви програли";
-        wordPanel.SetActive(false);
+        
 
-        if (buttonText == leaderWord.text)
+        if(playerToTrack.role != PlayerRole.Leader)
         {
-
-            endgameText.text = winingText;
-
-            endgamePanel.SetActive(true);
-            StartCoroutine(StartScoring(gameEnded.Invoke()));
-
-        }
-        else
-        {
-
-
-
-            if (lives > 0)
+            wordPanel.SetActive(false);
+            if (buttonText == leaderWordText)
             {
-                lives--;
-                livesImage[lives].SetActive(false);
-                actionConfirmed.Invoke();
-                OpenPlayerScreen();
+
+                endgameText.text = winingText;
+
+                endgamePanel.SetActive(true);
+                StartCoroutine(StartScoring(gameEnded.Invoke()));
 
             }
             else
             {
-                endgameText.text = losingText;
-                endgamePanel.SetActive(true);
+
+
+
+                if (lives > 0)
+                {
+                    lives--;
+                    livesImage[lives].SetActive(false);
+                    actionConfirmed.Invoke();
+                    OpenPlayerScreen();
+
+                }
+                else
+                {
+                    endgameText.text = losingText;
+                    endgamePanel.SetActive(true);
+
+                }
 
             }
 
         }
+       
 
     }
 
