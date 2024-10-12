@@ -9,6 +9,7 @@ public class MainManager : MonoBehaviour
     [SerializeField] WordManager wordManager;
     [SerializeField] UIManager uIManager;
     [SerializeField] DrawingManager drawingManager;
+    [SerializeField] DrawingUpdate drawingUpdate;
 
     [Header("Параметри гри")]
     private List<string> wordsForRound;
@@ -27,7 +28,7 @@ public class MainManager : MonoBehaviour
         uIManager.SetLeaderWord(leaderWord);
         uIManager.gameEnded += CountScore;
 
-
+        drawingUpdate.OnScreenshotTaken += uIManager.ConfirmLine;
 
         drawingManager.OnLineUnavailable += uIManager.WarningActivate;
         drawingManager.OnDrawingComplete += uIManager.CallCheckUpMenu;

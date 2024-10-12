@@ -13,20 +13,21 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject startPanel;
     [SerializeField] private GameObject endPanel;
     [SerializeField] private GameObject wordPanel;
-    
-    [SerializeField] private GameObject ingamePanel;
+    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject inGamePanel;
+    [SerializeField] private GameObject drawingPanel;
     [SerializeField] private GameObject endgamePanel;
     [SerializeField] private GameObject warningPanel;
+    [SerializeField] private GameObject confirmedDrawing;
 
-    [SerializeField] private GameObject replayButton;
-    [SerializeField] private GameObject menuButton;
+
 
 
     [Header("Texts")]
     [SerializeField] private TMP_Text drawenLines;
     [SerializeField] private TMP_Text playerNameOnGameScreen;
     [SerializeField] private TMP_Text playerNameOnPlayerScreen;
-    
+
     [SerializeField] private TMP_Text endgameText;
     [SerializeField] private TMP_Text finaleScoreText;
     [SerializeField] private TMP_Text warningText;
@@ -47,13 +48,17 @@ public class UIManager : MonoBehaviour
 
     private List<Rank> ranks;
     [SerializeField] private Image rankImage;
+    [SerializeField] private GameObject mainCam;
 
-
+    public Sprite test;
 
 
     [Header("Buttons")]
     [SerializeField] private GameObject wordButtonPrefab;
     private List<GameObject> wordsButtons = new();
+
+    [SerializeField] private GameObject replayButton;
+    [SerializeField] private GameObject menuButton;
 
 
     public event Action actionConfirmed;
@@ -77,7 +82,6 @@ public class UIManager : MonoBehaviour
     {
         this.ranks = ranks;
     }
-
 
 
 
@@ -106,61 +110,66 @@ public class UIManager : MonoBehaviour
     {
         foreach (GameObject wordButton in wordsButtons)
         {
-            if(wordButton.GetComponentInChildren<TMP_Text>().text == leaderWordText)
+            if (wordButton.GetComponentInChildren<TMP_Text>().text == leaderWordText)
             {
                 Debug.Log("leader finded");
                 leaderWord = wordButton;
                 break;
             }
         }
-        
+
     }
 
     public void OpenPlayerScreen() //коли вгадували слово чи підтвердили лінію
     {
         playerNameOnGameScreen.text = playerToTrack.name;
         playerNameOnPlayerScreen.text = playerToTrack.name;
+        if (drawingPanel.activeSelf)
+        {
 
+            StopDrawing();
+        }
         startPanel.SetActive(true);
-        endPanel.SetActive(false);
-        ingamePanel.SetActive(false);
-        drawing.DrawingAllowed = false;
+        inGamePanel.SetActive(false);
+
 
     }
 
     public void StartTurn() //коли підтвердили що телефон у гравця
     {
         startPanel.SetActive(false);
-        ingamePanel.SetActive(true);
-        drawing.DrawingAllowed = true;
+        inGamePanel.SetActive(true);
     }
 
     public void CallCheckUpMenu() //коли намалювали лінію
     {
         endPanel.SetActive(true);
-        ingamePanel.SetActive(false);
         drawing.DrawingAllowed = false;
     }
 
     public void RestartTurn()//коли визнали шо лінія не підходить
     {
         endPanel.SetActive(false);
-        ingamePanel.SetActive(true);
         drawing.RemoveLastLine();
         drawing.DrawingAllowed = true;
     }
 
-    public void ConfirmLine()//коли визнали шо лінія підходить
+    public void ConfirmLine(Texture2D texture)//коли визнали шо лінія підходить
     {
+        Sprite screenshotSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        endPanel.SetActive(false);
         actionConfirmed.Invoke();
         OpenPlayerScreen();
+        confirmedDrawing.GetComponent<Image>().sprite = screenshotSprite;
+        //confirmedDrawing.GetComponent<Image>().sprite = test;
+
 
     }
 
     public void OpenWordsMenu()//коли хочемо подивитись слова або своє слово як ведучий
     {
 
-        ingamePanel.SetActive(false);
+        inGamePanel.SetActive(false);
         drawing.DrawingAllowed = false;
         wordPanel.SetActive(true);
 
@@ -168,7 +177,7 @@ public class UIManager : MonoBehaviour
         {
             leaderWord.GetComponentInChildren<Image>().color = Color.yellow; //TO DO: choose image
         }
-        
+
 
 
     }
@@ -176,8 +185,8 @@ public class UIManager : MonoBehaviour
     public void CloseWordsMenu() //коли хочемо повернутись до малювання
     {
         wordPanel.SetActive(false);
-       
-        ingamePanel.SetActive(true);
+
+        inGamePanel.SetActive(true);
         drawing.DrawingAllowed = true;
         if (playerToTrack.role == PlayerRole.Leader)
         {
@@ -192,9 +201,9 @@ public class UIManager : MonoBehaviour
 
         string winingText = "Вітаю з перемогою";
         string losingText = "Нажаль, цього разу ви програли";
-        
 
-        if(playerToTrack.role != PlayerRole.Leader)
+
+        if (playerToTrack.role != PlayerRole.Leader)
         {
             wordPanel.SetActive(false);
             if (buttonText == leaderWordText)
@@ -229,7 +238,7 @@ public class UIManager : MonoBehaviour
             }
 
         }
-       
+
 
     }
 
@@ -273,7 +282,7 @@ public class UIManager : MonoBehaviour
             yield return null;  // Перерва на один кадр перед продовженням
         }
 
-        
+
         replayButton.SetActive(true);
         menuButton.SetActive(true);
     }
@@ -289,13 +298,38 @@ public class UIManager : MonoBehaviour
     }
     public void WarningActivate(string message)
     {
-        if (isWarningActive)                     
+        if (isWarningActive)
         {
-            StopCoroutine(warningCoroutine);     
-            isWarningActive = false;             
+            StopCoroutine(warningCoroutine);
+            isWarningActive = false;
         }
 
-        warningCoroutine = StartCoroutine(PushWarning(message));  
+        warningCoroutine = StartCoroutine(PushWarning(message));
     }
+
+    public void OpenSettings()
+    {
+        settingsPanel.SetActive(true);
+    }
+    public void CloseSettings()
+    {
+        settingsPanel.SetActive(false);
+    }
+
+    public void StartDrawing()
+    {
+        mainCam.SetActive(false);
+        drawingPanel.SetActive(true);
+
+        drawing.DrawingAllowed = true;
+
+    }
+    public void StopDrawing()
+    {
+        drawingPanel.SetActive(false);
+        mainCam.SetActive(true);
+        drawing.DrawingAllowed = false;
+    }
+
 
 }

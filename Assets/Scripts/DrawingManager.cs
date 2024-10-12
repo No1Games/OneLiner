@@ -10,7 +10,7 @@ public class DrawingManager : MonoBehaviour
     public GameObject linePrefab;
     private GameObject currentLine;
     private LineRenderer lineRenderer;
-    
+    [SerializeField] private Camera drawingCam;
     private bool isDrawing = false;
     private bool firstLineDone = false;
     private bool drawingAllowed = false;
@@ -71,8 +71,8 @@ public class DrawingManager : MonoBehaviour
     private void GenerateLine()
     {
         // ќтримуЇмо позиц≥ю миш≥ або дотику
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = -1f;
+        Vector3 mousePos = drawingCam.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = drawingCam.transform.position.z + 15f;
 
         bool touchBegan = false;
         bool touchMoved = false;
