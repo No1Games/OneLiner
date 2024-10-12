@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -11,18 +12,19 @@ public class RuntimeTMPLogger : ILogger
             try
             {
                 _logField = GameObject.FindGameObjectWithTag("LogField").GetComponent<TextMeshProUGUI>();
+
+                string logs = _logField.text;
+
+                string newLogs = $"{message}\n{logs}";
+
+                _logField.text = newLogs;
             }
-            catch
+            catch (Exception e)
             {
-                return;
+                Debug.Log($"TMP LOGGER NOT FOUND {e.Message}");
+                Debug.Log(message);
             }
         }
-
-        string logs = _logField.text;
-
-        string newLogs = $"{message}\n{logs}";
-
-        _logField.text = newLogs;
 
         Debug.Log(message);
     }
