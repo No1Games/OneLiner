@@ -14,6 +14,7 @@ public class MainManager : MonoBehaviour
     [Header("Параметри гри")]
     private List<string> wordsForRound;
     private string leaderWord;
+    [SerializeField] private Timer timer;
 
 
     [Header("Підрахунок ПО")]
@@ -26,7 +27,7 @@ public class MainManager : MonoBehaviour
         leaderWord = wordManager.GetLeaderWord(wordsForRound);
         uIManager.GenerateWordButtons(wordsForRound);
         uIManager.SetLeaderWord(leaderWord);
-        uIManager.gameEnded += CountScore;
+        uIManager.OnGameEnded += CountScore;
 
         drawingUpdate.OnScreenshotTaken += uIManager.ConfirmLine;
 
@@ -34,11 +35,15 @@ public class MainManager : MonoBehaviour
         drawingManager.OnDrawingComplete += uIManager.CallCheckUpMenu;
 
         
-        uIManager.actionConfirmed += playerManager.ChangeTurn;
+        uIManager.OnActionConfirmed += playerManager.ChangeTurn;
 
         playerManager.OnPlayerChange += UpdateCurrentPlayer;
 
         uIManager.RanksSet(gameRanks);
+
+        uIManager.OnTurnStarted += timer.TimerStrat;
+        timer.OnTimerEnds += playerManager.ChangeTurn;
+        timer.OnTimerEnds += uIManager.OpenPlayerScreen;
 
 
     }

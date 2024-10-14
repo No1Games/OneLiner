@@ -61,8 +61,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject menuButton;
 
 
-    public event Action actionConfirmed;
-    public event Func<int> gameEnded;
+    public event Action OnActionConfirmed;
+    public event Func<int> OnGameEnded;
+    public event Action OnTurnStarted;
 
 
 
@@ -120,7 +121,7 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void OpenPlayerScreen() //коли вгадували слово чи п≥дтвердили л≥н≥ю
+    public void OpenPlayerScreen() //коли вгадували слово чи п≥дтвердили л≥н≥ю чи вийшов час
     {
         playerNameOnGameScreen.text = playerToTrack.name;
         playerNameOnPlayerScreen.text = playerToTrack.name;
@@ -137,8 +138,10 @@ public class UIManager : MonoBehaviour
 
     public void StartTurn() //коли п≥дтвердили що телефон у гравц€
     {
+        
         startPanel.SetActive(false);
         inGamePanel.SetActive(true);
+        OnTurnStarted?.Invoke();
     }
 
     public void CallCheckUpMenu() //коли намалювали л≥н≥ю
@@ -158,10 +161,10 @@ public class UIManager : MonoBehaviour
     {
         Sprite screenshotSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         endPanel.SetActive(false);
-        actionConfirmed.Invoke();
+        OnActionConfirmed.Invoke();
         OpenPlayerScreen();
         confirmedDrawing.GetComponent<Image>().sprite = screenshotSprite;
-        //confirmedDrawing.GetComponent<Image>().sprite = test;
+       
 
 
     }
@@ -212,7 +215,7 @@ public class UIManager : MonoBehaviour
                 endgameText.text = winingText;
 
                 endgamePanel.SetActive(true);
-                StartCoroutine(StartScoring(gameEnded.Invoke()));
+                StartCoroutine(StartScoring(OnGameEnded.Invoke()));
 
             }
             else
@@ -224,7 +227,7 @@ public class UIManager : MonoBehaviour
                 {
                     lives--;
                     livesImage[lives].SetActive(false);
-                    actionConfirmed.Invoke();
+                    OnActionConfirmed.Invoke();
                     OpenPlayerScreen();
 
                 }

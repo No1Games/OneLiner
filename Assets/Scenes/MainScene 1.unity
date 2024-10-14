@@ -824,6 +824,7 @@ GameObject:
   - component: {fileID: 76630987}
   - component: {fileID: 76630989}
   - component: {fileID: 76630988}
+  - component: {fileID: 76630990}
   m_Layer: 2
   m_Name: TopPanel
   m_TagString: Untagged
@@ -895,6 +896,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76630986}
   m_CullTransparentMesh: 1
+--- !u!114 &76630990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76630986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4066de299a1e59f42bb623a49db13458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxTime: 60
+  timeText: {fileID: 1740681343}
 --- !u!1 &149930180
 GameObject:
   m_ObjectHideFlags: 0
@@ -2417,6 +2432,7 @@ MonoBehaviour:
   uIManager: {fileID: 969784015}
   drawingManager: {fileID: 149930181}
   drawingUpdate: {fileID: 940072994}
+  timer: {fileID: 76630990}
   gameRanks:
   - rankName: D
     threshold: 200
