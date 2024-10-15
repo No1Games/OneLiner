@@ -50,7 +50,7 @@ public class GameSetupMenu : MonoBehaviour
                 {
                     string playerName = inputField.text;
                     Debug.Log(playerName);
-                    IngameData.Instance.players.Add(new PlayerScript(playerName, PlayerRole.NotSetYet, i));
+                    IngameData.Instance.players.Add(new PlayerScript(playerName, i));
                     i++;
                 }
                 else

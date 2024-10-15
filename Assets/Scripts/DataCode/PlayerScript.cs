@@ -8,12 +8,19 @@ public class PlayerScript
     public string name;
     public PlayerRole role;
     public int playerID;
+    public int avatarID;
+    public int avatarBackID;
+    public int nameBackID;
 
-    public PlayerScript(string name, PlayerRole role, int playerID)
+
+    public PlayerScript(string name, int playerID)
     {
         this.name = name;
-        this.role = role;
+        this.role = PlayerRole.NotSetYet;
         this.playerID = playerID;
+        this.avatarBackID = 0;
+        this.avatarID = 0;
+        this.nameBackID = 0;
     }
 
 }
