@@ -3,78 +3,101 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameSetupMenu : MonoBehaviour
 {
     private int playerAmount = 0;
-    private int maxPlayers = 7;
-    private int minPlayers = 0;
-    [SerializeField] private TMP_Text playerNumber;
+    private int maxPlayers = 8;
+    private int minPlayers = 2;
+    [SerializeField] private GameObject playerPlatePrefab;
+    [SerializeField] private GameObject playerPanel;
+    [SerializeField] private AvatarManager avatarManager;
+    [SerializeField] private AccountManager accountManager;
 
-    [SerializeField] private List<GameObject> playersFields;
+    private List<PlayerScript> players = new();
+    private List<GameObject> playersPlates = new();
+
+
+    [SerializeField] private GameObject avatarMainMenu;
+    [SerializeField] private GameObject avatarBackMainMenu;
+
+    private void Awake()
+    {
+        SetStartScreen();
+    }
+
+    void SetStartScreen()
+    {
+        if (accountManager.player != null)
+        {
+            avatarMainMenu.GetComponent<Image>().sprite = avatarManager.GetAvatarImage(accountManager.player.avatarID);
+            avatarBackMainMenu.GetComponent<Image>().sprite = avatarManager.GetAvatarBackImage(accountManager.player.avatarBackID);
+        }
+    }
 
     public void IncreasePlayers()
     {
-        if (playerAmount < maxPlayers && playersFields.Count  > 0)
+        if (playerAmount < maxPlayers)
         {
-            playersFields[playerAmount].SetActive(true);
+            string newPlayerName = "Player " + players.Count;
+            int newPlayerID = Random.Range(1, 1000);
+            PlayerScript newPlayer;
+            if (players.Count > 0)
+            {
+                newPlayer = new PlayerScript(newPlayerName, newPlayerID);
+                avatarManager.SetRandomPlayerSettings(newPlayer);
+
+            }
+            else
+            {
+                newPlayer = accountManager.player;
+            }
+            players.Add(newPlayer);
+
+            GameObject newPlate = Instantiate(playerPlatePrefab, playerPanel.transform);
+            playersPlates.Add(newPlate);
+
+            newPlate.GetComponent<PlateCustomization>().CustomizePlate(avatarManager, newPlayer);
+
+
             playerAmount++;
         }
-        
+
     }
-    public void DecreasePlayers() 
-    { 
-        if(playerAmount > minPlayers && playersFields.Count > 0)
+
+
+    public void DecreasePlayers()
+    {
+        if (playerAmount > 0)
         {
             playerAmount--;
-            playersFields[playerAmount].SetActive(false);
+            players.RemoveAt(playerAmount);
+            Destroy(playersPlates[playerAmount]);
+            playersPlates.RemoveAt(playerAmount);
+
+
         }
-    
+
     }
 
     public void NextLevel()
     {
-        bool allFieldsFilled = true; // ‘лаг дл€ перев≥рки, чи вс≥ пол€ заповнен≥
-        int i = 1;
-
         // ќчищенн€ попереднього списку гравц≥в
         IngameData.Instance.players.Clear();
 
-        foreach (GameObject playerObject in playersFields)
+        if (playerAmount >= minPlayers)
         {
-            if (playerObject.activeSelf)
+            foreach (PlayerScript player in players)
             {
-                TMP_InputField inputField = playerObject.GetComponentInChildren<TMP_InputField>();
-
-                if (inputField != null && !string.IsNullOrEmpty(inputField.text))
-                {
-                    string playerName = inputField.text;
-                    Debug.Log(playerName);
-                    IngameData.Instance.players.Add(new PlayerScript(playerName, i));
-                    i++;
-                }
-                else
-                {
-                    // якщо хоча б одне поле не заповнене, виводимо попередженн€ ≥ встановлюЇмо флаг
-                    Debug.LogWarning("≤м'€ гравц€ не введене дл€ " + playerObject.name);
-                    allFieldsFilled = false;
-                    break;
-                }
+                IngameData.Instance.players.Add(player);
             }
-        }
-
-        // якщо вс≥ пол€ введен≥, завантажуЇмо наступну сцену
-        if (allFieldsFilled && playerAmount > 1)
-        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else
         {
-            Debug.LogWarning("Ќе вс≥ пол€ введен≥. ѕерех≥д на наступну сцену заблоковано.");
+            Debug.LogWarning("ѕерех≥д на наступну сцену заблоковано.");
         }
     }
-    public void Update()
-    {
-        playerNumber.text = playerAmount.ToString();
-    }
+
 }

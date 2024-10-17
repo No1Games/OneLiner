@@ -8,26 +8,27 @@ public class AvatarManager : MonoBehaviour
     [SerializeField] private ImagesPack avatars;
     [SerializeField] private ImagesPack avatarsBack;
     [SerializeField] private ImagesPack nameBack;
-    [SerializeField] private AccountManager accountManager;
-    [SerializeField] private GameObject avatarMainMenu;
-    [SerializeField] private GameObject avatarBackMainMenu;
-    // Start is called before the first frame update
-    void Start()
+    
+    
+    public Sprite GetAvatarImage(int index)
     {
-        SetStartScreen();
+        return avatars.someImage[index];
+    }
+    public Sprite GetNameBackImage (int index)
+    {
+        return nameBack.someImage[index];
+    }
+    public Sprite GetAvatarBackImage(int index)
+    {
+        return avatarsBack.someImage[index];
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetRandomPlayerSettings(PlayerScript player)
     {
-        
+        player.avatarBackID = Random.Range(0, avatarsBack.someImage.Count);
+        player.nameBackID = Random.Range(0, nameBack.someImage.Count);
+        player.avatarID = Random.Range(0, avatars.someImage.Count);
     }
-    void SetStartScreen()
-    {
-        if(accountManager.player != null)
-        {
-            avatarMainMenu.GetComponent<Image>().sprite = avatars.someImage[accountManager.player.avatarID];
-            avatarBackMainMenu.GetComponent<Image>().sprite = avatarsBack.someImage[accountManager.player.avatarBackID];
-        }
-    }
+
+    
 }

@@ -15,4 +15,9 @@ public class MainMenuManager : MonoBehaviour
     {
         
     }
+
+    void StartLocalGame()
+    {
+        
+    }
 }
