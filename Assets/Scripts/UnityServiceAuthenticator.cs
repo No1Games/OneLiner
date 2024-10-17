@@ -47,6 +47,11 @@ public static class UnityServiceAuthenticator
 
     public static async Task<bool> TrySignInAsync(string profileName = null)
     {
+        if (AuthenticationService.Instance.IsSignedIn)
+        {
+            return true;
+        }
+
         if (!await TryInitServicesAsync(profileName))
             return false;
         if (s_IsSigningIn)

@@ -1,6 +1,5 @@
+using System.Collections.Generic;
 using TMPro;
-using Unity.Services.Authentication;
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -11,9 +10,13 @@ public class LobbyUI : MenuBase
 
     [Inject(Id = "RuntimeTMP")] private ILogger _logger;
 
+    private LocalLobby _localLobby;
+
     [Header("Players List Fields")]
-    [SerializeField] private Transform _playerItemTemplate;
+    [SerializeField] private LobbyPlayerItemUI _playerItemTemplate;
     [SerializeField] private Transform _container;
+
+    private List<LobbyPlayerItemUI> _playerItemPool = new List<LobbyPlayerItemUI>();
 
     [Header("Lobby Info Fields")]
     [SerializeField] private TextMeshProUGUI _lobbyNameTMP;
@@ -33,6 +36,8 @@ public class LobbyUI : MenuBase
 
     private void Start()
     {
+        GameManager.Instance.JoinLobbyEvent += UpdateLobby;
+
         LobbyManager.Instance.OnJoinedLobby += UpdateLobby_Event;
         LobbyManager.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
         LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
@@ -56,44 +61,48 @@ public class LobbyUI : MenuBase
 
     private void UpdateLobby()
     {
-        UpdateLobby(LobbyManager.Instance.JoinedLobby);
+        UpdateLobby(GameManager.Instance.LocalLobby);
     }
 
-    private void UpdateLobby(Lobby lobby)
+    private void UpdateLobby(LocalLobby lobby)
     {
         ClearLobby();
 
-        Show();
-
-        foreach (Player player in lobby.Players)
+        if (lobby.PlayerCount > _playerItemPool.Count)
         {
-            Transform playerItemTransform = Instantiate(_playerItemTemplate, _container);
-            playerItemTransform.gameObject.SetActive(true);
-            LobbyPlayerItemUI lobbyPlayerSingleUI = playerItemTransform.GetComponent<LobbyPlayerItemUI>();
-
-            lobbyPlayerSingleUI.SetKickPlayerButtonVisible(
-                LobbyManager.Instance.IsLobbyHost() &&
-                player.Id != AuthenticationService.Instance.PlayerId // Don't allow kick self
-            );
-
-            lobbyPlayerSingleUI.UpdatePlayer(player);
+            InstantiatePlayerItems(lobby.PlayerCount - _playerItemPool.Count);
         }
 
-        _lobbyNameTMP.text = lobby.Name;
-        _playersTMP.text = $"{lobby.Players.Count} / {lobby.MaxPlayers}";
-
-        if (lobby.IsPrivate)
+        for (int i = 0; i < lobby.PlayerCount; i++)
         {
-            _codeTMP.text = $"Code: {lobby.LobbyCode}";
+            _playerItemPool[i].gameObject.SetActive(true);
+            Debug.Log($"{lobby.GetLocalPlayer(i).DisplayName.Value}");
+            _playerItemPool[i].SetLocalPlayer(lobby.GetLocalPlayer(i));
+            _playerItemPool[i].SetKickPlayerButtonVisible(
+                GameManager.Instance.LocalUser.IsHost.Value &&
+                GameManager.Instance.LocalUser.ID.Value != lobby.HostID.Value);
         }
+    }
+
+    private void InstantiatePlayerItems(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            InstantiatePlayerItem();
+        }
+    }
+
+    private void InstantiatePlayerItem()
+    {
+        LobbyPlayerItemUI playerItemTransform = Instantiate(_playerItemTemplate, _container);
+        _playerItemPool.Add(playerItemTransform);
     }
 
     private void ClearLobby()
     {
-        foreach (Transform child in _container)
+        foreach (var playerItem in _playerItemPool)
         {
-            if (child == _playerItemTemplate) continue;
-            Destroy(child.gameObject);
+            playerItem.gameObject.SetActive(false);
         }
 
         _codeTMP.text = "";
@@ -121,6 +130,13 @@ public class LobbyUI : MenuBase
         _playerItemTemplate.gameObject.SetActive(false);
 
         _leaveLobbyBtn.onClick.AddListener(OnClick_LeaveLobbyButton);
+    }
+
+    public override void Show()
+    {
+        base.Show();
+
+        _localLobby = GameManager.Instance.LocalLobby;
     }
 
     #endregion

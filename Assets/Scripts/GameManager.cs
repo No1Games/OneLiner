@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     public LocalLobby LocalLobby => _localLobby;
 
     private LocalPlayer _localUser;
+    public LocalPlayer LocalUser => _localUser;
+
+    public event Action JoinLobbyEvent;
 
     private async void Awake()
     {
@@ -68,6 +71,7 @@ public class GameManager : MonoBehaviour
             await CreateLobby();
 
             MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
+            JoinLobbyEvent?.Invoke();
         }
         catch (LobbyServiceException exception)
         {
@@ -83,7 +87,6 @@ public class GameManager : MonoBehaviour
         //_localLobby.onUserReadyChange = OnPlayersReady;
         try
         {
-            // TODO: BINDING LOCAL LOBBY TO REMOTE LOBBY
             await BindLobby();
         }
         catch (LobbyServiceException exception)
@@ -96,10 +99,10 @@ public class GameManager : MonoBehaviour
 
     async Task BindLobby()
     {
-        // TODO: BINDING LOCAL LOBBY TO REMOTE LOBBY
-        //await LobbyManager.Instance.BindLocalLobbyToRemote(m_LocalLobby.LobbyID.Value, m_LocalLobby);
-        //m_LocalLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
+        await LobbyManager.Instance.BindLocalLobbyToRemote(_localLobby.LobbyID.Value, _localLobby);
+        //_localLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
         //SetLobbyView();
+        MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
     }
 
     public void SetLocalUserName(string name)
@@ -110,12 +113,14 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        _logger.Log($"Change user name to: {name}");
+
         _localUser.DisplayName.Value = name;
         SendLocalUserData();
     }
 
     async void SendLocalUserData()
     {
-        //await LobbyManager.Instance.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(m_LocalUser));
+        await LobbyManager.Instance.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localUser));
     }
 }
