@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class LobbyUI : MonoBehaviour
+public class LobbyUI : MenuBase
 {
     public static LobbyUI Instance { get; private set; }
 
@@ -24,24 +24,19 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private Button _leaveLobbyBtn;
     [SerializeField] private Button _stratGameBtn;
 
+    public override MenuName Menu => MenuName.Lobby;
+
     private void Awake()
     {
-        Instance = this;
-
-        _playerItemTemplate.gameObject.SetActive(false);
-
-        _leaveLobbyBtn.onClick.AddListener(OnClick_LeaveLobbyButton);
+        Init();
     }
 
     private void Start()
     {
-        _logger.Log("LobbyUI Start");
         LobbyManager.Instance.OnJoinedLobby += UpdateLobby_Event;
         LobbyManager.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
         LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
         LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnLeftLobby;
-
-        Hide();
     }
 
     private void OnDestroy()
@@ -81,8 +76,6 @@ public class LobbyUI : MonoBehaviour
                 player.Id != AuthenticationService.Instance.PlayerId // Don't allow kick self
             );
 
-            Debug.Log($"Player Name: {player.Data[LobbyManager.KEY_PLAYER_NAME].Value}");
-
             lobbyPlayerSingleUI.UpdatePlayer(player);
         }
 
@@ -119,16 +112,15 @@ public class LobbyUI : MonoBehaviour
         LobbyManager.Instance.LeaveLobby();
     }
 
-    #region Show/Hide Methods
+    #region Menu Methods
 
-    public void Show()
+    public override void Init()
     {
-        gameObject.SetActive(true);
-    }
+        Instance = this;
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
+        _playerItemTemplate.gameObject.SetActive(false);
+
+        _leaveLobbyBtn.onClick.AddListener(OnClick_LeaveLobbyButton);
     }
 
     #endregion

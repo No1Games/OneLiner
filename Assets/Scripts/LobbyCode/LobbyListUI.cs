@@ -5,11 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class LobbyListUI : MonoBehaviour
+public class LobbyListUI : MenuBase
 {
     [Inject(Id = "RuntimeTMP")] ILogger _logger;
 
     public static LobbyListUI Instance { get; private set; }
+
+    public override MenuName Menu => MenuName.LobbyList;
 
     [Header("Lobby List Fields")]
     [SerializeField] private Transform _lobbyItemTemplate;
@@ -22,13 +24,7 @@ public class LobbyListUI : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
-        _lobbyItemTemplate.gameObject.SetActive(false);
-
-        _refreshButton.onClick.AddListener(OnClick_RefreshButton);
-        _createLobbyButton.onClick.AddListener(OnClick_CreateButton);
-        _backButton.onClick.AddListener(OnClick_BackButton);
+        Init();
     }
 
     private void Start()
@@ -94,8 +90,7 @@ public class LobbyListUI : MonoBehaviour
 
     private void OnClick_BackButton()
     {
-        Hide();
-        LobbyManager.Instance.Unauthenticate();
+        MainMenuManager.Instance.ChangeMenu(MenuName.Auth);
     }
 
     private void OnClick_RefreshButton()
@@ -105,22 +100,22 @@ public class LobbyListUI : MonoBehaviour
 
     private void OnClick_CreateButton()
     {
-        LobbyCreateUI.Instance.Show();
-        Hide();
+        MainMenuManager.Instance.ChangeMenu(MenuName.LobbyCreate);
     }
 
     #endregion
 
     #region Show/Hide Methods
 
-    public void Hide()
+    public override void Init()
     {
-        gameObject.SetActive(false);
-    }
+        Instance = this;
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
+        _lobbyItemTemplate.gameObject.SetActive(false);
+
+        _refreshButton.onClick.AddListener(OnClick_RefreshButton);
+        _createLobbyButton.onClick.AddListener(OnClick_CreateButton);
+        _backButton.onClick.AddListener(OnClick_BackButton);
     }
 
     #endregion

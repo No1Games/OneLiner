@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyCreateUI : MonoBehaviour
+public class LobbyCreateUI : MenuBase
 {
     public static LobbyCreateUI Instance { get; private set; }
 
@@ -16,24 +16,20 @@ public class LobbyCreateUI : MonoBehaviour
     [SerializeField] private Button _createButton;
     [SerializeField] private Button _backButton;
 
+    public override MenuName Menu => MenuName.LobbyCreate;
+
     private string _lobbyName;
     private bool _isPrivate;
     private int _maxPlayers;
 
     private void Awake()
     {
-        Instance = this;
+        Init();
+    }
 
-        _lobbyNameInput.onValueChanged.AddListener(OnValueChanged_LobbyMenuInput);
-        _maxPlayersInput.onValueChanged.AddListener(OnValueChanged_MaxPlayersInput);
-        _isPrivateToggle.onValueChanged.AddListener(OnValueChanged_IsPrivateToggle);
-
-        _createButton.onClick.AddListener(OnClick_CreateButton);
-        _backButton.onClick.AddListener(OnClick_BackButton);
-
-        _isPrivate = _isPrivateToggle.isOn;
-
-        Hide();
+    private void Start()
+    {
+        _createButton.interactable = false;
     }
 
     #region Fields Listeners
@@ -59,9 +55,7 @@ public class LobbyCreateUI : MonoBehaviour
 
     private void OnClick_CreateButton()
     {
-        LobbyManager.Instance.CreateLobby(_lobbyName, _maxPlayers, _isPrivate);
-
-        Hide();
+        GameManager.Instance.CreateLobby(_lobbyName, _isPrivate, _maxPlayers);
     }
 
     private void OnClick_BackButton()
@@ -70,16 +64,20 @@ public class LobbyCreateUI : MonoBehaviour
         LobbyListUI.Instance.Show();
     }
 
-    #region Show/Hide Methods
+    #region Menu Methods
 
-    public void Hide()
+    public override void Init()
     {
-        gameObject.SetActive(false);
-    }
+        Instance = this;
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
+        _lobbyNameInput.onValueChanged.AddListener(OnValueChanged_LobbyMenuInput);
+        _maxPlayersInput.onValueChanged.AddListener(OnValueChanged_MaxPlayersInput);
+        _isPrivateToggle.onValueChanged.AddListener(OnValueChanged_IsPrivateToggle);
+
+        _createButton.onClick.AddListener(OnClick_CreateButton);
+        _backButton.onClick.AddListener(OnClick_BackButton);
+
+        _isPrivate = _isPrivateToggle.isOn;
     }
 
     private void UpdateFields()
