@@ -39,6 +39,7 @@ public class PlayerManager : MonoBehaviour
         players[randomLeaderIndex].role = PlayerRole.Leader;
 
 
+
         for (int i = 0; i < players.Count; i++)
         {
             if (i != randomLeaderIndex)
@@ -89,6 +90,13 @@ public class PlayerManager : MonoBehaviour
         {
             GameObject playerPlate = Instantiate(platePrefab, playersPanel.transform);
             playerPlate.GetComponent<PlateCustomization>().CustomizePlate(avatarManager, player);
+
+            if(player.role == PlayerRole.Leader)
+            {
+                Transform crown = playerPlate.transform.Find("Crown");
+                crown.gameObject.SetActive(true);
+            }
+            
 
         }
     }

@@ -9,16 +9,19 @@ public class AccountManager : MonoBehaviour
     void Awake()
     {
         
-        if (PlayerPrefs.HasKey("PlayerName") && PlayerPrefs.HasKey("PlayerID"))
-        {
-            
-            LoadPlayerData();
-        }
-        else
-        {
-            
-            CreateNewPlayer();
-        }
+            if (PlayerPrefs.HasKey("PlayerName") && PlayerPrefs.HasKey("PlayerID"))
+            {
+
+                LoadPlayerData();
+            }
+            else
+            {
+
+                CreateNewPlayer();
+            }
+        
+        
+       
     }
 
     void LoadPlayerData()
