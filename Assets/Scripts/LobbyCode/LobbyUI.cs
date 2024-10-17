@@ -68,6 +68,11 @@ public class LobbyUI : MenuBase
     {
         ClearLobby();
 
+        _lobbyNameTMP.text = lobby.LobbyName.Value;
+        _playersTMP.text = $"{lobby.PlayerCount} / {lobby.MaxPlayerCount.Value}";
+
+        _codeTMP.text = $"{lobby.RelayCode.Value}";
+
         if (lobby.PlayerCount > _playerItemPool.Count)
         {
             InstantiatePlayerItems(lobby.PlayerCount - _playerItemPool.Count);

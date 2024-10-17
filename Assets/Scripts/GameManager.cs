@@ -65,7 +65,8 @@ public class GameManager : MonoBehaviour
             var lobby = await LobbyManager.Instance.CreateLobbyAsync(
                 name,
                 maxPlayers,
-                isPrivate);
+                isPrivate,
+                _localUser);
 
             LobbyConverters.RemoteToLocal(lobby, _localLobby);
             await CreateLobby();
@@ -75,7 +76,6 @@ public class GameManager : MonoBehaviour
         }
         catch (LobbyServiceException exception)
         {
-            // SetGameState(GameState.JoinMenu);
             MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
             _logger.Log($"Error creating lobby : ({exception.ErrorCode}) {exception.Message}");
         }

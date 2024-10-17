@@ -204,6 +204,30 @@ public class LobbyManager : MonoBehaviour
         return _joinedLobby;
     }
 
+    public async Task<Lobby> CreateLobbyAsync(string lobbyName, int maxPlayers, bool isPrivate, LocalPlayer localUser)
+    {
+        // TODO COOLDOWN
+
+        //if (m_CreateCooldown.IsCoolingDown)
+        //{
+        //    Debug.LogWarning("Create Lobby hit the rate limit.");
+        //    return null;
+        //}
+        //await m_CreateCooldown.QueueUntilCooldown();
+
+        string uasId = AuthenticationService.Instance.PlayerId;
+
+        CreateLobbyOptions createOptions = new CreateLobbyOptions
+        {
+            IsPrivate = isPrivate,
+            Player = new Player(id: uasId, data: CreateInitialPlayerData(localUser))
+        };
+
+        _joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createOptions);
+
+        return _joinedLobby;
+    }
+
     public async void KickPlayer(string playerId)
     {
         if (IsLobbyHost())
@@ -575,6 +599,16 @@ public class LobbyManager : MonoBehaviour
             player.UserStatus.Value = (PlayerStatus)int.Parse(playerDataValue);
         else if (dataKey == key_Displayname)
             player.DisplayName.Value = playerDataValue;
+    }
+
+    Dictionary<string, PlayerDataObject> CreateInitialPlayerData(LocalPlayer user)
+    {
+        Dictionary<string, PlayerDataObject> data = new Dictionary<string, PlayerDataObject>();
+
+        var displayNameObject =
+            new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, user.DisplayName.Value);
+        data.Add("DisplayName", displayNameObject);
+        return data;
     }
 
     public void Dispose()
