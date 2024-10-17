@@ -35,7 +35,6 @@ public class LobbyUI : MonoBehaviour
 
     private void Start()
     {
-        _logger.Log("LobbyUI Start");
         LobbyManager.Instance.OnJoinedLobby += UpdateLobby_Event;
         LobbyManager.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
         LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
@@ -80,8 +79,6 @@ public class LobbyUI : MonoBehaviour
                 LobbyManager.Instance.IsLobbyHost() &&
                 player.Id != AuthenticationService.Instance.PlayerId // Don't allow kick self
             );
-
-            Debug.Log($"Player Name: {player.Data[LobbyManager.KEY_PLAYER_NAME].Value}");
 
             lobbyPlayerSingleUI.UpdatePlayer(player);
         }

@@ -18,11 +18,6 @@ public class LobbyPlayerItemUI : MonoBehaviour
 
     public void UpdatePlayer(Player player)
     {
-        foreach (var item in player.Data.Keys)
-        {
-            Debug.Log($"{item} - {player.Data?[item].Value}");
-        }
-
         _player = player;
         _playerNameText.text = player.Data[LobbyManager.KEY_PLAYER_NAME].Value;
     }

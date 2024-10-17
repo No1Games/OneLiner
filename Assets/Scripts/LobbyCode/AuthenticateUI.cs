@@ -1,9 +1,12 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class AuthenticateUI : MonoBehaviour
 {
+    [Inject(Id = "RuntimeTMP")] ILogger _logger;
+
     [Header("UI Components")]
     [SerializeField] private TMP_InputField _playerNameInput;
     [SerializeField] private Button _logInButton;
@@ -14,6 +17,7 @@ public class AuthenticateUI : MonoBehaviour
     {
         _logInButton.interactable = false;
         _playerNameInput.onValueChanged.AddListener(OnValueChanged_PlayerNameInput);
+        _logInButton.onClick.RemoveAllListeners();
         _logInButton.onClick.AddListener(OnClick_LogInButton);
     }
 
@@ -25,6 +29,9 @@ public class AuthenticateUI : MonoBehaviour
 
     private void OnClick_LogInButton()
     {
-        LobbyManager.Instance.Authenticate(_playerNameStr);
+        GameManager.Instance.SetLocalUserName(_playerNameStr);
+
+        gameObject.SetActive(false);
+        LobbyListUI.Instance.Show();
     }
 }

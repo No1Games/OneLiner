@@ -50,32 +50,6 @@ public class LobbyManager : MonoBehaviour
         HandleLobbyPolling();
     }
 
-    public async void Authenticate(string playerName)
-    {
-        _playerName = playerName;
-        InitializationOptions initializationOptions = new InitializationOptions();
-        initializationOptions.SetProfile(playerName);
-
-        await UnityServices.InitializeAsync(initializationOptions);
-
-        AuthenticationService.Instance.SignedIn += () =>
-        {
-            _logger.Log("Signed in! " + AuthenticationService.Instance.PlayerId);
-
-            RefreshLobbyList();
-        };
-
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
-    }
-
-    public void Unauthenticate()
-    {
-        if (AuthenticationService.Instance.IsSignedIn)
-        {
-            AuthenticationService.Instance.SignOut();
-        }
-    }
-
     #region Routine Handlers
 
     private async void HandleLobbyHeartbeat()
@@ -321,6 +295,47 @@ public class LobbyManager : MonoBehaviour
         return false;
     }
 
+    public bool InLobby()
+    {
+        if (_joinedLobby == null)
+        {
+            Debug.LogWarning("LobbyManager not currently in a lobby. Did you CreateLobbyAsync or JoinLobbyAsync?");
+            return false;
+        }
+
+        return true;
+    }
+
     #endregion
+
+    public async Task UpdatePlayerDataAsync(Dictionary<string, string> data)
+    {
+        if (!InLobby())
+            return;
+
+        string playerId = AuthenticationService.Instance.PlayerId;
+        Dictionary<string, PlayerDataObject> dataCurr = new Dictionary<string, PlayerDataObject>();
+        foreach (var dataNew in data)
+        {
+            PlayerDataObject dataObj = new PlayerDataObject(visibility: PlayerDataObject.VisibilityOptions.Member,
+                value: dataNew.Value);
+            if (dataCurr.ContainsKey(dataNew.Key))
+                dataCurr[dataNew.Key] = dataObj;
+            else
+                dataCurr.Add(dataNew.Key, dataObj);
+        }
+
+        if (m_UpdatePlayerCooldown.TaskQueued)
+            return;
+        await m_UpdatePlayerCooldown.QueueUntilCooldown();
+
+        UpdatePlayerOptions updateOptions = new UpdatePlayerOptions
+        {
+            Data = dataCurr,
+            AllocationId = null,
+            ConnectionInfo = null
+        };
+        m_CurrentLobby = await LobbyService.Instance.UpdatePlayerAsync(m_CurrentLobby.Id, playerId, updateOptions);
+    }
 
 }

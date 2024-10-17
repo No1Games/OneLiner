@@ -29,6 +29,8 @@ public class LobbyListUI : MonoBehaviour
         _refreshButton.onClick.AddListener(OnClick_RefreshButton);
         _createLobbyButton.onClick.AddListener(OnClick_CreateButton);
         _backButton.onClick.AddListener(OnClick_BackButton);
+
+        Hide();
     }
 
     private void Start()
