@@ -7,7 +7,7 @@ public class LoggerInstaller : MonoInstaller
         Container
             .Bind<ILogger>()
             .WithId("RuntimeTMP")
-            .To<RuntimeTMPLogger>()
+            .To<RuntimeLogger>()
             .FromNew()
             .AsSingle();
     }

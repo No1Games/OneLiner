@@ -8,12 +8,6 @@ public static class UnityServiceAuthenticator
     const int k_InitTimeout = 10000;
     static bool s_IsSigningIn;
 
-    /// <summary>
-    /// Unity anonymous Auth grants unique ID's by editor/build and machine. This means that if you open several builds or editors on the same machine, they will all have the same ID.
-    /// Using a unique profile name forces a new ID. So the strategy is to make sure that each build/editor has its own profile name to act as multiple users for a service.
-    /// </summary>
-    /// <param name="profileName">Unique name that generates the unique ID</param>
-    /// <returns></returns>
     public static async Task<bool> TryInitServicesAsync(string profileName = null)
     {
         if (UnityServices.State == ServicesInitializationState.Initialized)

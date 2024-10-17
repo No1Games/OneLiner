@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class AuthenticateUI : MonoBehaviour
+public class AuthenticateUI : MenuBase
 {
     [Inject(Id = "RuntimeTMP")] ILogger _logger;
 
@@ -13,12 +13,11 @@ public class AuthenticateUI : MonoBehaviour
 
     private string _playerNameStr;
 
+    public override MenuName Menu => MenuName.Auth;
+
     private void Start()
     {
-        _logInButton.interactable = false;
-        _playerNameInput.onValueChanged.AddListener(OnValueChanged_PlayerNameInput);
-        _logInButton.onClick.RemoveAllListeners();
-        _logInButton.onClick.AddListener(OnClick_LogInButton);
+        Init();
     }
 
     private void OnValueChanged_PlayerNameInput(string value)
@@ -30,8 +29,17 @@ public class AuthenticateUI : MonoBehaviour
     private void OnClick_LogInButton()
     {
         GameManager.Instance.SetLocalUserName(_playerNameStr);
+        MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
 
-        gameObject.SetActive(false);
-        LobbyListUI.Instance.Show();
+        //gameObject.SetActive(false);
+        //LobbyListUI.Instance.Show();
+    }
+
+    public override void Init()
+    {
+        _logInButton.interactable = false;
+        _playerNameInput.onValueChanged.AddListener(OnValueChanged_PlayerNameInput);
+        _logInButton.onClick.RemoveAllListeners();
+        _logInButton.onClick.AddListener(OnClick_LogInButton);
     }
 }

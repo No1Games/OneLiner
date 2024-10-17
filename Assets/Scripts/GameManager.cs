@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
+using Unity.Services.Lobbies;
 using UnityEngine;
 using Zenject;
 
@@ -37,7 +38,9 @@ public class GameManager : MonoBehaviour
     {
         string serviceProfileName = $"player{Guid.NewGuid()}";
 
-        await UnityServiceAuthenticator.TrySignInAsync(serviceProfileName);
+        var result = await UnityServiceAuthenticator.TrySignInAsync(serviceProfileName.Substring(0, 30));
+
+        _logger.Log($"Services Authentification Result: {result}");
     }
 
     void AuthenticatePlayer()
@@ -50,6 +53,53 @@ public class GameManager : MonoBehaviour
 
         _localUser.ID.Value = localId;
         _localUser.DisplayName.Value = randomName;
+    }
+
+    public async void CreateLobby(string name, bool isPrivate, int maxPlayers = 4)
+    {
+        try
+        {
+            var lobby = await LobbyManager.Instance.CreateLobbyAsync(
+                name,
+                maxPlayers,
+                isPrivate);
+
+            LobbyConverters.RemoteToLocal(lobby, _localLobby);
+            await CreateLobby();
+
+            MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
+        }
+        catch (LobbyServiceException exception)
+        {
+            // SetGameState(GameState.JoinMenu);
+            MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+            _logger.Log($"Error creating lobby : ({exception.ErrorCode}) {exception.Message}");
+        }
+    }
+
+    async Task CreateLobby()
+    {
+        _localUser.IsHost.Value = true;
+        //_localLobby.onUserReadyChange = OnPlayersReady;
+        try
+        {
+            // TODO: BINDING LOCAL LOBBY TO REMOTE LOBBY
+            await BindLobby();
+        }
+        catch (LobbyServiceException exception)
+        {
+            // SetGameState(GameState.JoinMenu);
+            MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+            _logger.Log($"Couldn't join Lobby : ({exception.ErrorCode}) {exception.Message}");
+        }
+    }
+
+    async Task BindLobby()
+    {
+        // TODO: BINDING LOCAL LOBBY TO REMOTE LOBBY
+        //await LobbyManager.Instance.BindLocalLobbyToRemote(m_LocalLobby.LobbyID.Value, m_LocalLobby);
+        //m_LocalLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
+        //SetLobbyView();
     }
 
     public void SetLocalUserName(string name)
@@ -66,6 +116,6 @@ public class GameManager : MonoBehaviour
 
     async void SendLocalUserData()
     {
-        await LobbyManager.Instance.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(m_LocalUser));
+        //await LobbyManager.Instance.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(m_LocalUser));
     }
 }
