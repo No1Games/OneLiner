@@ -585,11 +585,14 @@ public class LobbyManager : MonoBehaviour
     public async Task LeaveLobbyAsync()
     {
         //await m_LeaveLobbyOrRemovePlayer.QueueUntilCooldown();
+
         if (!InLobby())
             return;
+
         string playerId = AuthenticationService.Instance.PlayerId;
 
         await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, playerId);
+
         Dispose();
     }
 

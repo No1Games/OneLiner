@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class LobbyCreateUI : MenuBase
 {
-    public static LobbyCreateUI Instance { get; private set; }
-
     [Header("UI Components")]
     [SerializeField] private TMP_InputField _lobbyNameInput;
     [SerializeField] private TMP_InputField _maxPlayersInput;
@@ -60,16 +58,13 @@ public class LobbyCreateUI : MenuBase
 
     private void OnClick_BackButton()
     {
-        Hide();
-        LobbyListUI.Instance.Show();
+        MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
     }
 
     #region Menu Methods
 
     public override void Init()
     {
-        Instance = this;
-
         _lobbyNameInput.onValueChanged.AddListener(OnValueChanged_LobbyMenuInput);
         _maxPlayersInput.onValueChanged.AddListener(OnValueChanged_MaxPlayersInput);
         _isPrivateToggle.onValueChanged.AddListener(OnValueChanged_IsPrivateToggle);

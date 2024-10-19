@@ -14,6 +14,7 @@ public class LobbyItemUI : MonoBehaviour
     [SerializeField] private Button _joinButton;
 
     private Lobby _lobby;
+    private LocalLobby _localLobby;
 
     private void Awake()
     {
@@ -26,6 +27,19 @@ public class LobbyItemUI : MonoBehaviour
 
         _lobbyNameText.text = lobby.Name;
         _playersText.text = lobby.Players.Count + "/" + lobby.MaxPlayers;
+    }
+
+    public void SetLocalLobby(LocalLobby lobby)
+    {
+        _localLobby = lobby;
+
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        _lobbyNameText.text = _localLobby.LobbyName.Value;
+        _playersText.text = $"{_localLobby.PlayerCount}/{_localLobby.MaxPlayerCount.Value}";
     }
 
     private void OnClick_JoinButton()

@@ -21,6 +21,7 @@ public class LocalLobby
     public Action<LocalPlayer> onUserJoined;
     public Action<int> onUserLeft;
     public Action<int> onUserReadyChange;
+    public Action onLobbyDataChanged;
 
     public CallbackValue<string> LobbyID = new CallbackValue<string>();
     public CallbackValue<string> LobbyCode = new CallbackValue<string>();
@@ -84,6 +85,7 @@ public class LocalLobby
         m_LocalPlayers.Insert(index, user);
         user.UserStatus.onChanged += OnUserChangedStatus;
         onUserJoined?.Invoke(user);
+        onLobbyDataChanged?.Invoke();
         Debug.Log($"Added User: {user.DisplayName.Value} - {user.ID.Value} to slot {index + 1}/{PlayerCount}");
     }
 
@@ -92,6 +94,7 @@ public class LocalLobby
         m_LocalPlayers[playerIndex].UserStatus.onChanged -= OnUserChangedStatus;
         m_LocalPlayers.RemoveAt(playerIndex);
         onUserLeft?.Invoke(playerIndex);
+        onLobbyDataChanged?.Invoke();
     }
 
     void OnUserChangedStatus(PlayerStatus status)
@@ -104,6 +107,7 @@ public class LocalLobby
         }
 
         onUserReadyChange?.Invoke(readyCount);
+        onLobbyDataChanged?.Invoke();
     }
 
     public override string ToString()

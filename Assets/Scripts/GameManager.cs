@@ -106,6 +106,14 @@ public class GameManager : MonoBehaviour
         MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
     }
 
+    public void LeaveLobby()
+    {
+        _localUser.ResetState();
+        LobbyManager.Instance.LeaveLobbyAsync();
+        ResetLocalLobby();
+        //LobbyList.Clear();
+    }
+
     public void SetLocalUserName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -123,5 +131,10 @@ public class GameManager : MonoBehaviour
     async void SendLocalUserData()
     {
         await LobbyManager.Instance.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localUser));
+    }
+
+    private void ResetLocalLobby()
+    {
+        _localLobby.ResetLobby();
     }
 }
