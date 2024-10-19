@@ -6834,31 +6834,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 909698470}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 441879406}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &909698470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16850,6 +16826,7 @@ GameObject:
   - component: {fileID: 1728661414}
   - component: {fileID: 1728661416}
   - component: {fileID: 1728661415}
+  - component: {fileID: 1728661417}
   m_Layer: 5
   m_Name: Online\offline
   m_TagString: Untagged
@@ -16918,6 +16895,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728661413}
   m_CullTransparentMesh: 1
+--- !u!114 &1728661417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728661413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17cea94f1884c2a4ab9de877ef1e2868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _localButton: {fileID: 1907824026}
+  _onlineButton: {fileID: 909698469}
+  _backButton: {fileID: 1816021816}
 --- !u!1 &1729003515
 GameObject:
   m_ObjectHideFlags: 0
@@ -17578,7 +17570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _menus:
-  - {fileID: 441879408}
+  - {fileID: 1728661417}
   - {fileID: 1214036622}
   - {fileID: 358858790}
   - {fileID: 354576363}

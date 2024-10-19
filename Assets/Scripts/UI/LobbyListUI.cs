@@ -90,7 +90,7 @@ public class LobbyListUI : MenuBase
 
     private void OnClick_BackButton()
     {
-        MainMenuManager.Instance.ChangeMenu(MenuName.Auth);
+        MainMenuManager.Instance.ChangeMenu(MenuName.LocalOnline);
     }
 
     private void OnClick_RefreshButton()

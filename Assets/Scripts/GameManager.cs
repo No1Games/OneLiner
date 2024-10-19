@@ -52,10 +52,11 @@ public class GameManager : MonoBehaviour
 
         // TODO: GET NAME FROM PLAYER PREFS OR ACCOUNT
 
-        var randomName = $"Player{UnityEngine.Random.Range(1, 10)}";
+        var randomName = RandomNameGenerator.GetName();
 
         _localUser.ID.Value = localId;
-        _localUser.DisplayName.Value = randomName;
+
+        SetLocalUserName(randomName);
     }
 
     public async void CreateLobby(string name, bool isPrivate, int maxPlayers = 4)
