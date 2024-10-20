@@ -19,11 +19,10 @@ public class LobbyManager : MonoBehaviour
 
     [Inject(Id = "RuntimeTMP")] private ILogger _logger;
 
-    public const string KEY_PLAYER_NAME = "PlayerName";
+    //public const string KEY_PLAYER_NAME = "PlayerName";
 
     private float _heartbeatTimer;
     private float _lobbyPollTimer;
-    private float _refreshLobbyListTimer = 5f;
 
     private string _playerName;
     private Lobby _joinedLobby;
@@ -230,49 +229,21 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    public async void JoinLobby(Lobby lobby)
-    {
-        Player player = GetPlayer();
+    //public async Task JoinLobbyByCode(string code)
+    //{
+    //    Player player = GetPlayer();
 
-        try
-        {
-            _joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobby.Id, new JoinLobbyByIdOptions
-            {
-                Player = player
-            });
-        }
-        catch (LobbyServiceException e)
-        {
-            _logger.Log(e.Message);
-        }
+    //    Lobby lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code, new JoinLobbyByCodeOptions
+    //    {
+    //        Player = player
+    //    });
 
-        _logger.Log($"Lobby Joined! {_joinedLobby.Id}");
+    //    _joinedLobby = lobby;
 
-        OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
-    }
-
-    public async Task JoinLobbyByCode(string code)
-    {
-        Player player = GetPlayer();
-
-        Lobby lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code, new JoinLobbyByCodeOptions
-        {
-            Player = player
-        });
-
-        _joinedLobby = lobby;
-
-        OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
-    }
+    //    OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
+    //}
 
     #endregion
-
-    private Player GetPlayer()
-    {
-        return new Player(AuthenticationService.Instance.PlayerId, null, new Dictionary<string, PlayerDataObject> {
-            { KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, _playerName) }
-        });
-    }
 
     #region State Check Methods
 
