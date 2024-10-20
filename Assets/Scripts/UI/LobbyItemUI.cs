@@ -1,6 +1,5 @@
 using System;
 using TMPro;
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,20 +12,11 @@ public class LobbyItemUI : MonoBehaviour
     [Space]
     [SerializeField] private Button _joinButton;
 
-    private Lobby _lobby;
     private LocalLobby _localLobby;
 
     private void Awake()
     {
         _joinButton.onClick.AddListener(OnClick_JoinButton);
-    }
-
-    public void UpdateLobby(Lobby lobby)
-    {
-        _lobby = lobby;
-
-        _lobbyNameText.text = lobby.Name;
-        _playersText.text = lobby.Players.Count + "/" + lobby.MaxPlayers;
     }
 
     public void SetLocalLobby(LocalLobby lobby)

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
-using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
@@ -76,21 +75,6 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    private void HandleRefreshLobbyList()
-    {
-        if (UnityServices.State == ServicesInitializationState.Initialized && AuthenticationService.Instance.IsSignedIn)
-        {
-            _refreshLobbyListTimer -= Time.deltaTime;
-            if (_refreshLobbyListTimer < 0f)
-            {
-                float refreshLobbyListTimerMax = 5f;
-                _refreshLobbyListTimer = refreshLobbyListTimerMax;
-
-                RefreshLobbyList();
-            }
-        }
-    }
-
     private async void HandleLobbyPolling()
     {
         if (_joinedLobby != null)
@@ -149,38 +133,6 @@ public class LobbyManager : MonoBehaviour
 
     #endregion
 
-    public async void RefreshLobbyList()
-    {
-        try
-        {
-            QueryLobbiesOptions options = new QueryLobbiesOptions();
-            options.Count = 25;
-
-            // Filter for open lobbies only
-            options.Filters = new List<QueryFilter> {
-                new QueryFilter(
-                    field: QueryFilter.FieldOptions.AvailableSlots,
-                    op: QueryFilter.OpOptions.GT,
-                    value: "0")
-            };
-
-            // Order by newest lobbies first
-            options.Order = new List<QueryOrder> {
-                new QueryOrder(
-                    asc: false,
-                    field: QueryOrder.FieldOptions.Created)
-            };
-
-            QueryResponse lobbyListQueryResponse = await Lobbies.Instance.QueryLobbiesAsync();
-
-            OnLobbyListChanged?.Invoke(this, new OnLobbyListChangedEventArgs { lobbyList = lobbyListQueryResponse.Results });
-        }
-        catch (LobbyServiceException e)
-        {
-            _logger.Log(e.Message);
-        }
-    }
-
     public async Task<QueryResponse> GetLobbyListAsync()
     {
         //if (m_QueryCooldown.TaskQueued)
@@ -209,27 +161,6 @@ public class LobbyManager : MonoBehaviour
     }
 
     #region Lobby Methods
-
-    public async Task<Lobby> CreateLobbyAsync(string lobbyName, int maxPlayers, bool isPrivate)
-    {
-        Player player = GetPlayer();
-
-        CreateLobbyOptions options = new CreateLobbyOptions
-        {
-            Player = player,
-            IsPrivate = isPrivate
-        };
-
-        Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
-
-        _joinedLobby = lobby;
-
-        OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
-
-        _logger.Log($"Created Lobby {lobby.Name} {lobby.IsPrivate} with player {player.Id}");
-
-        return _joinedLobby;
-    }
 
     public async Task<Lobby> CreateLobbyAsync(string lobbyName, int maxPlayers, bool isPrivate, LocalPlayer localUser)
     {
@@ -291,25 +222,6 @@ public class LobbyManager : MonoBehaviour
             try
             {
                 await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, playerId);
-            }
-            catch (LobbyServiceException e)
-            {
-                _logger.Log(e.Message);
-            }
-        }
-    }
-
-    public async void LeaveLobby()
-    {
-        if (_joinedLobby != null)
-        {
-            try
-            {
-                await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
-
-                _joinedLobby = null;
-
-                OnLeftLobby?.Invoke(this, EventArgs.Empty);
             }
             catch (LobbyServiceException e)
             {
