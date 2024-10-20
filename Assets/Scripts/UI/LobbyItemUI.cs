@@ -46,7 +46,7 @@ public class LobbyItemUI : MonoBehaviour
     {
         try
         {
-            LobbyManager.Instance.JoinLobby(_lobby);
+            GameManager.Instance.JoinLobby(_localLobby.LobbyID.Value, _localLobby.LobbyCode.Value);
         }
         catch (Exception e)
         {

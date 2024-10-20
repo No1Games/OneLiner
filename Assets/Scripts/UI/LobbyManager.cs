@@ -181,6 +181,33 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    public async Task<QueryResponse> GetLobbyListAsync()
+    {
+        //if (m_QueryCooldown.TaskQueued)
+        //    return null;
+        //await m_QueryCooldown.QueueUntilCooldown();
+
+        QueryLobbiesOptions options = new QueryLobbiesOptions();
+        options.Count = 25;
+
+        // Filter for open lobbies only
+        options.Filters = new List<QueryFilter> {
+                new QueryFilter(
+                    field: QueryFilter.FieldOptions.AvailableSlots,
+                    op: QueryFilter.OpOptions.GT,
+                    value: "0")
+            };
+
+        // Order by newest lobbies first
+        options.Order = new List<QueryOrder> {
+                new QueryOrder(
+                    asc: false,
+                    field: QueryOrder.FieldOptions.Created)
+            };
+
+        return await LobbyService.Instance.QueryLobbiesAsync(options);
+    }
+
     #region Lobby Methods
 
     public async Task<Lobby> CreateLobbyAsync(string lobbyName, int maxPlayers, bool isPrivate)
@@ -224,6 +251,35 @@ public class LobbyManager : MonoBehaviour
         };
 
         _joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createOptions);
+
+        return _joinedLobby;
+    }
+
+    public async Task<Lobby> JoinLobbyAsync(string lobbyId, string lobbyCode, LocalPlayer localUser)
+    {
+        //if (m_JoinCooldown.IsCoolingDown ||
+        //    (lobbyId == null && lobbyCode == null))
+        //{
+        //    return null;
+        //}
+        //
+        //await m_JoinCooldown.QueueUntilCooldown();
+
+        string uasId = AuthenticationService.Instance.PlayerId;
+        var playerData = CreateInitialPlayerData(localUser);
+
+        if (!string.IsNullOrEmpty(lobbyId))
+        {
+            JoinLobbyByIdOptions joinOptions = new JoinLobbyByIdOptions
+            { Player = new Player(id: uasId, data: playerData) };
+            _joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId, joinOptions);
+        }
+        else
+        {
+            JoinLobbyByCodeOptions joinOptions = new JoinLobbyByCodeOptions
+            { Player = new Player(id: uasId, data: playerData) };
+            _joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode, joinOptions);
+        }
 
         return _joinedLobby;
     }

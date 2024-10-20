@@ -2479,7 +2479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e0e6362ada20140b60b976b74e772c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lobbyItemTemplate: {fileID: 522414}
+  _lobbyItemTemplate: {fileID: 522415}
   _container: {fileID: 1692078316}
   _backButton: {fileID: 1041811757}
   _refreshButton: {fileID: 1314556023}

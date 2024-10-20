@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using Unity.Services.Lobbies.Models;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -9,18 +8,18 @@ public class LobbyListUI : MenuBase
 {
     [Inject(Id = "RuntimeTMP")] ILogger _logger;
 
-    public static LobbyListUI Instance { get; private set; }
-
     public override MenuName Menu => MenuName.LobbyList;
 
     [Header("Lobby List Fields")]
-    [SerializeField] private Transform _lobbyItemTemplate;
+    [SerializeField] private LobbyItemUI _lobbyItemTemplate;
     [SerializeField] private Transform _container;
 
     [Header("Buttons")]
     [SerializeField] private Button _backButton;
     [SerializeField] private Button _refreshButton;
     [SerializeField] private Button _createLobbyButton;
+
+    private List<LobbyItemUI> _lobbyItemPool = new List<LobbyItemUI>();
 
     private void Awake()
     {
@@ -29,64 +28,61 @@ public class LobbyListUI : MenuBase
 
     private void Start()
     {
-        LobbyManager.Instance.OnLobbyListChanged += LobbyManager_OnLobbyListChanged;
-        LobbyManager.Instance.OnJoinedLobby += LobbyManager_OnJoinedLobby;
-        LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
-        LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnKickedFromLobby;
+        GameManager.Instance.LobbyList.onLobbyListChanged += OnLobbyListChanged;
     }
 
     private void OnDestroy()
     {
-        LobbyManager.Instance.OnLobbyListChanged -= LobbyManager_OnLobbyListChanged;
-        LobbyManager.Instance.OnJoinedLobby -= LobbyManager_OnJoinedLobby;
-        LobbyManager.Instance.OnLeftLobby -= LobbyManager_OnLeftLobby;
-        LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnKickedFromLobby;
+        GameManager.Instance.LobbyList.onLobbyListChanged += OnLobbyListChanged;
     }
 
-    #region Events Listeners
-
-    private void LobbyManager_OnKickedFromLobby(object sender, LobbyManager.LobbyEventArgs e)
+    private void UpdateLobbyList(Dictionary<string, LocalLobby> lobbies)
     {
-        Show();
-    }
+        ClearLobbyList();
 
-    private void LobbyManager_OnLeftLobby(object sender, EventArgs e)
-    {
-        Show();
-    }
-
-    private void LobbyManager_OnJoinedLobby(object sender, LobbyManager.LobbyEventArgs e)
-    {
-        Hide();
-    }
-
-    private void LobbyManager_OnLobbyListChanged(object sender, LobbyManager.OnLobbyListChangedEventArgs e)
-    {
-        UpdateLobbyList(e.lobbyList);
-    }
-
-    #endregion
-
-    private void UpdateLobbyList(List<Lobby> lobbyList)
-    {
-        foreach (Transform child in _container)
+        if (lobbies.Count > _lobbyItemPool.Count)
         {
-            if (child == _lobbyItemTemplate) continue;
-
-            Destroy(child.gameObject);
+            InstantiateLobbyItems(lobbies.Count - _lobbyItemPool.Count);
         }
 
-        foreach (Lobby lobby in lobbyList)
+        List<LocalLobby> localLobbiesList = lobbies.Values.ToList();
+
+        for (int i = 0; i < lobbies.Count; i++)
         {
-            _logger.Log($"Lobby: {lobby.Name}");
-            Transform lobbySingleTransform = Instantiate(_lobbyItemTemplate, _container);
-            lobbySingleTransform.gameObject.SetActive(true);
-            LobbyItemUI lobbyListSingleUI = lobbySingleTransform.GetComponent<LobbyItemUI>();
-            lobbyListSingleUI.UpdateLobby(lobby);
+            _lobbyItemPool[i].gameObject.SetActive(true);
+            _lobbyItemPool[i].SetLocalLobby(localLobbiesList[i]);
         }
     }
 
-    #region Button Click
+    private void InstantiateLobbyItems(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            InstantiateLobbyItem();
+        }
+    }
+
+    private void InstantiateLobbyItem()
+    {
+        LobbyItemUI item = Instantiate(_lobbyItemTemplate, _container);
+        item.gameObject.SetActive(false);
+        _lobbyItemPool.Add(item);
+    }
+
+    private void ClearLobbyList()
+    {
+        foreach (var item in _lobbyItemPool)
+        {
+            item.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnLobbyListChanged(Dictionary<string, LocalLobby> lobbies)
+    {
+        UpdateLobbyList(lobbies);
+    }
+
+    #region Click Handlers
 
     private void OnClick_BackButton()
     {
@@ -95,7 +91,7 @@ public class LobbyListUI : MenuBase
 
     private void OnClick_RefreshButton()
     {
-        LobbyManager.Instance.RefreshLobbyList();
+        GameManager.Instance.QueryLobbies();
     }
 
     private void OnClick_CreateButton()
@@ -105,12 +101,10 @@ public class LobbyListUI : MenuBase
 
     #endregion
 
-    #region Show/Hide Methods
+    #region Base Methods
 
     public override void Init()
     {
-        Instance = this;
-
         _lobbyItemTemplate.gameObject.SetActive(false);
 
         _refreshButton.onClick.AddListener(OnClick_RefreshButton);

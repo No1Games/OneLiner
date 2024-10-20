@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     private LocalPlayer _localUser;
     public LocalPlayer LocalUser => _localUser;
+    public LocalLobbyList LobbyList { get; private set; } = new LocalLobbyList();
 
     public event Action JoinLobbyEvent;
 
@@ -82,6 +84,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public async void JoinLobby(string lobbyID, string lobbyCode)
+    {
+        try
+        {
+            var lobby = await LobbyManager.Instance.JoinLobbyAsync(lobbyID, lobbyCode, _localUser);
+
+            LobbyConverters.RemoteToLocal(lobby, _localLobby);
+            await JoinLobby();
+        }
+        catch (LobbyServiceException exception)
+        {
+            // SetGameState(GameState.JoinMenu);
+            MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+            _logger.Log($"Error joining lobby : ({exception.ErrorCode}) {exception.Message}");
+        }
+    }
+
+    private async Task JoinLobby()
+    {
+        _localUser.IsHost.ForceSet(false);
+        await BindLobby();
+    }
+
     async Task CreateLobby()
     {
         _localUser.IsHost.Value = true;
@@ -136,5 +161,27 @@ public class GameManager : MonoBehaviour
     private void ResetLocalLobby()
     {
         _localLobby.ResetLobby();
+    }
+
+    public async void QueryLobbies()
+    {
+        LobbyList.QueryState.Value = LobbyQueryState.Fetching;
+        var qr = await LobbyManager.Instance.GetLobbyListAsync();
+        if (qr == null)
+        {
+            return;
+        }
+
+        SetCurrentLobbies(LobbyConverters.QueryToLocalList(qr));
+    }
+
+    void SetCurrentLobbies(IEnumerable<LocalLobby> lobbies)
+    {
+        var newLobbyDict = new Dictionary<string, LocalLobby>();
+        foreach (var lobby in lobbies)
+            newLobbyDict.Add(lobby.LobbyID.Value, lobby);
+
+        LobbyList.CurrentLobbies = newLobbyDict;
+        LobbyList.QueryState.Value = LobbyQueryState.Fetched;
     }
 }
