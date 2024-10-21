@@ -6,6 +6,8 @@ using Zenject;
 
 public class LobbyUI : MenuBase
 {
+    public static LobbyUI Instance { get; private set; }
+
     [Inject(Id = "RuntimeTMP")] private ILogger _logger;
 
     private LocalLobby _localLobby;
@@ -34,42 +36,51 @@ public class LobbyUI : MenuBase
 
     private void Start()
     {
-        _localLobby = GameManager.Instance.LocalLobby;
-        _localLobby.onLobbyDataChanged += UpdateUI;
+        GameManager.Instance.JoinLobbyEvent += UpdateLobby;
 
-        UpdateUI();
+        LobbyManager.Instance.OnJoinedLobby += UpdateLobby_Event;
+        LobbyManager.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
+        LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
+        LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnLeftLobby;
     }
 
-    #region Update UI Methods
+    private void OnDestroy()
+    {
+        LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
+        LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
+        LobbyManager.Instance.OnLeftLobby -= LobbyManager_OnLeftLobby;
+        LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnLeftLobby;
+    }
 
-    private void UpdateUI()
+    #region Update Lobby Methods
+
+    private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)
+    {
+        UpdateLobby();
+    }
+
+    private void UpdateLobby()
+    {
+        UpdateLobby(GameManager.Instance.LocalLobby);
+    }
+
+    private void UpdateLobby(LocalLobby lobby)
     {
         ClearLobby();
 
-        _lobbyNameTMP.text = _localLobby.LobbyName.Value;
-        _playersTMP.text = $"{_localLobby.PlayerCount} / {_localLobby.MaxPlayerCount.Value}";
-
-        _codeTMP.text = $"{_localLobby.RelayCode.Value}";
-
-        UpdatePlayersList();
-    }
-
-    private void UpdatePlayersList()
-    {
-        if (_localLobby.PlayerCount > _playerItemPool.Count)
+        if (lobby.PlayerCount > _playerItemPool.Count)
         {
-            InstantiatePlayerItems(_localLobby.PlayerCount - _playerItemPool.Count);
+            InstantiatePlayerItems(lobby.PlayerCount - _playerItemPool.Count);
         }
 
-        for (int i = 0; i < _localLobby.PlayerCount; i++)
+        for (int i = 0; i < lobby.PlayerCount; i++)
         {
-            Debug.Log($"{_localLobby.GetLocalPlayer(i).DisplayName.Value}");
-
             _playerItemPool[i].gameObject.SetActive(true);
-            _playerItemPool[i].SetLocalPlayer(_localLobby.GetLocalPlayer(i));
+            Debug.Log($"{lobby.GetLocalPlayer(i).DisplayName.Value}");
+            _playerItemPool[i].SetLocalPlayer(lobby.GetLocalPlayer(i));
             _playerItemPool[i].SetKickPlayerButtonVisible(
                 GameManager.Instance.LocalUser.IsHost.Value &&
-                GameManager.Instance.LocalUser.ID.Value != _localLobby.HostID.Value);
+                GameManager.Instance.LocalUser.ID.Value != lobby.HostID.Value);
         }
     }
 
@@ -99,16 +110,23 @@ public class LobbyUI : MenuBase
 
     #endregion
 
+    private void LobbyManager_OnLeftLobby(object sender, System.EventArgs e)
+    {
+        ClearLobby();
+        Hide();
+    }
+
     private void OnClick_LeaveLobbyButton()
     {
-        GameManager.Instance.LeaveLobby();
-        MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+        LobbyManager.Instance.LeaveLobby();
     }
 
     #region Menu Methods
 
     public override void Init()
     {
+        Instance = this;
+
         _playerItemTemplate.gameObject.SetActive(false);
 
         _leaveLobbyBtn.onClick.AddListener(OnClick_LeaveLobbyButton);
