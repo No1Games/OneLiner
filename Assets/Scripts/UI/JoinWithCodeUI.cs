@@ -15,7 +15,7 @@ public class JoinWithCodeUI : MonoBehaviour
 
     void Awake()
     {
-        LobbyManager.Instance.OnJoinedLobby += LobbyManager_OnJoinedLobby;
+        //LobbyManager.Instance.OnJoinedLobby += LobbyManager_OnJoinedLobby;
     }
 
     void Start()
@@ -24,11 +24,6 @@ public class JoinWithCodeUI : MonoBehaviour
         _connectButton.onClick.AddListener(OnClick_ConnectButton);
         _connectButton.interactable = false;
         _codeInput.onValueChanged.AddListener(OnValueChanged_CodeInput);
-    }
-
-    private void LobbyManager_OnJoinedLobby(object sender, LobbyManager.LobbyEventArgs e)
-    {
-        Hide();
     }
 
     private void OnValueChanged_CodeInput(string value)
@@ -44,7 +39,7 @@ public class JoinWithCodeUI : MonoBehaviour
     {
         try
         {
-            await LobbyManager.Instance.JoinLobbyByCode(_code);
+            //await LobbyManager.Instance.JoinLobbyByCode(_code);
         }
         catch (Exception e)
         {
