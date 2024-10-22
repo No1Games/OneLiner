@@ -22,6 +22,10 @@ public class GameSetupMenu : MonoBehaviour
     [SerializeField] private GameObject avatarMainMenu;
     [SerializeField] private GameObject avatarBackMainMenu;
 
+    [SerializeField] private GameObject customizationMenu;
+    [SerializeField] private CustomizationManager customizationManager;
+
+
     private void Awake()
     {
         SetStartScreen();
@@ -34,6 +38,13 @@ public class GameSetupMenu : MonoBehaviour
             avatarMainMenu.GetComponent<Image>().sprite = avatarManager.GetAvatarImage(accountManager.player.avatarID);
             avatarBackMainMenu.GetComponent<Image>().sprite = avatarManager.GetAvatarBackImage(accountManager.player.avatarBackID);
         }
+    }
+
+    public void OpenMainCustomization()
+    {
+        customizationMenu.SetActive(true);
+        customizationManager.SetCustomizationPreview(accountManager.player);
+
     }
 
     public void IncreasePlayers()
