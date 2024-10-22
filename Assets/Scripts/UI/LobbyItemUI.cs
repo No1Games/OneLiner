@@ -1,6 +1,5 @@
 using System;
 using TMPro;
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,26 +12,31 @@ public class LobbyItemUI : MonoBehaviour
     [Space]
     [SerializeField] private Button _joinButton;
 
-    private Lobby _lobby;
+    private LocalLobby _localLobby;
 
     private void Awake()
     {
         _joinButton.onClick.AddListener(OnClick_JoinButton);
     }
 
-    public void UpdateLobby(Lobby lobby)
+    public void SetLocalLobby(LocalLobby lobby)
     {
-        _lobby = lobby;
+        _localLobby = lobby;
 
-        _lobbyNameText.text = lobby.Name;
-        _playersText.text = lobby.Players.Count + "/" + lobby.MaxPlayers;
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        _lobbyNameText.text = _localLobby.LobbyName.Value;
+        _playersText.text = $"{_localLobby.PlayerCount}/{_localLobby.MaxPlayerCount.Value}";
     }
 
     private void OnClick_JoinButton()
     {
         try
         {
-            LobbyManager.Instance.JoinLobby(_lobby);
+            GameManager.Instance.JoinLobby(_localLobby.LobbyID.Value, _localLobby.LobbyCode.Value);
         }
         catch (Exception e)
         {

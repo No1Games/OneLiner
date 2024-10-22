@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     private LocalPlayer _localUser;
     public LocalPlayer LocalUser => _localUser;
+    public LocalLobbyList LobbyList { get; private set; } = new LocalLobbyList();
 
     public event Action JoinLobbyEvent;
 
@@ -52,10 +54,11 @@ public class GameManager : MonoBehaviour
 
         // TODO: GET NAME FROM PLAYER PREFS OR ACCOUNT
 
-        var randomName = $"Player{UnityEngine.Random.Range(1, 10)}";
+        var randomName = RandomNameGenerator.GetName();
 
         _localUser.ID.Value = localId;
-        _localUser.DisplayName.Value = randomName;
+
+        SetLocalUserName(randomName);
     }
 
     public async void CreateLobby(string name, bool isPrivate, int maxPlayers = 4)
@@ -65,7 +68,8 @@ public class GameManager : MonoBehaviour
             var lobby = await LobbyManager.Instance.CreateLobbyAsync(
                 name,
                 maxPlayers,
-                isPrivate);
+                isPrivate,
+                _localUser);
 
             LobbyConverters.RemoteToLocal(lobby, _localLobby);
             await CreateLobby();
@@ -75,10 +79,32 @@ public class GameManager : MonoBehaviour
         }
         catch (LobbyServiceException exception)
         {
-            // SetGameState(GameState.JoinMenu);
             MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
             _logger.Log($"Error creating lobby : ({exception.ErrorCode}) {exception.Message}");
         }
+    }
+
+    public async void JoinLobby(string lobbyID, string lobbyCode)
+    {
+        try
+        {
+            var lobby = await LobbyManager.Instance.JoinLobbyAsync(lobbyID, lobbyCode, _localUser);
+
+            LobbyConverters.RemoteToLocal(lobby, _localLobby);
+            await JoinLobby();
+        }
+        catch (LobbyServiceException exception)
+        {
+            // SetGameState(GameState.JoinMenu);
+            MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+            _logger.Log($"Error joining lobby : ({exception.ErrorCode}) {exception.Message}");
+        }
+    }
+
+    private async Task JoinLobby()
+    {
+        _localUser.IsHost.ForceSet(false);
+        await BindLobby();
     }
 
     async Task CreateLobby()
@@ -105,6 +131,14 @@ public class GameManager : MonoBehaviour
         MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
     }
 
+    public void LeaveLobby()
+    {
+        _localUser.ResetState();
+        LobbyManager.Instance.LeaveLobbyAsync();
+        ResetLocalLobby();
+        //LobbyList.Clear();
+    }
+
     public void SetLocalUserName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -122,5 +156,32 @@ public class GameManager : MonoBehaviour
     async void SendLocalUserData()
     {
         await LobbyManager.Instance.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localUser));
+    }
+
+    private void ResetLocalLobby()
+    {
+        _localLobby.ResetLobby();
+    }
+
+    public async void QueryLobbies()
+    {
+        LobbyList.QueryState.Value = LobbyQueryState.Fetching;
+        var qr = await LobbyManager.Instance.GetLobbyListAsync();
+        if (qr == null)
+        {
+            return;
+        }
+
+        SetCurrentLobbies(LobbyConverters.QueryToLocalList(qr));
+    }
+
+    void SetCurrentLobbies(IEnumerable<LocalLobby> lobbies)
+    {
+        var newLobbyDict = new Dictionary<string, LocalLobby>();
+        foreach (var lobby in lobbies)
+            newLobbyDict.Add(lobby.LobbyID.Value, lobby);
+
+        LobbyList.CurrentLobbies = newLobbyDict;
+        LobbyList.QueryState.Value = LobbyQueryState.Fetched;
     }
 }

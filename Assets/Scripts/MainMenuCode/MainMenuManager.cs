@@ -35,11 +35,11 @@ public class MainMenuManager : MonoBehaviour
 
     void StartLocalGame()
     {
-        
+
     }
 }
 
 public enum MenuName
 {
-    Auth, LobbyList, Lobby, LobbyCreate
+    LocalOnline, LobbyList, Lobby, LobbyCreate
 }
