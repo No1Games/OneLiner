@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 public class GameManager : MonoBehaviour
@@ -15,11 +17,24 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if (_instance != null) return _instance;
-            _instance = FindObjectOfType<GameManager>();
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<GameManager>();
+
+                if (_instance == null)
+                {
+                    GameObject singletonObj = new GameObject("GameManager");
+                    _instance = singletonObj.AddComponent<GameManager>();
+                }
+
+                DontDestroyOnLoad(_instance.gameObject);
+            }
+
             return _instance;
         }
     }
+
+    public LobbyManager LobbyManager { get; private set; }
 
     private LocalLobby _localLobby;
     public LocalLobby LocalLobby => _localLobby;
@@ -32,8 +47,19 @@ public class GameManager : MonoBehaviour
 
     private async void Awake()
     {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject);
+        }
+
         _localUser = new LocalPlayer("", 0, false, "LocalPlayer");
         _localLobby = new LocalLobby { LocalLobbyState = { Value = LobbyState.Lobby } };
+        LobbyManager = new LobbyManager();
 
         await InitializeServices();
         AuthenticatePlayer();
@@ -65,7 +91,7 @@ public class GameManager : MonoBehaviour
     {
         try
         {
-            var lobby = await LobbyManager.Instance.CreateLobbyAsync(
+            var lobby = await LobbyManager.CreateLobbyAsync(
                 name,
                 maxPlayers,
                 isPrivate,
@@ -88,7 +114,7 @@ public class GameManager : MonoBehaviour
     {
         try
         {
-            var lobby = await LobbyManager.Instance.JoinLobbyAsync(lobbyID, lobbyCode, _localUser);
+            var lobby = await LobbyManager.JoinLobbyAsync(lobbyID, lobbyCode, _localUser);
 
             LobbyConverters.RemoteToLocal(lobby, _localLobby);
             await JoinLobby();
@@ -99,6 +125,11 @@ public class GameManager : MonoBehaviour
             MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
             _logger.Log($"Error joining lobby : ({exception.ErrorCode}) {exception.Message}");
         }
+    }
+
+    public void StartNetworkGame()
+    {
+        SceneManager.LoadScene("OnlineGameScene");
     }
 
     private async Task JoinLobby()
@@ -117,7 +148,6 @@ public class GameManager : MonoBehaviour
         }
         catch (LobbyServiceException exception)
         {
-            // SetGameState(GameState.JoinMenu);
             MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
             _logger.Log($"Couldn't join Lobby : ({exception.ErrorCode}) {exception.Message}");
         }
@@ -125,7 +155,7 @@ public class GameManager : MonoBehaviour
 
     async Task BindLobby()
     {
-        await LobbyManager.Instance.BindLocalLobbyToRemote(_localLobby.LobbyID.Value, _localLobby);
+        await LobbyManager.BindLocalLobbyToRemote(_localLobby.LobbyID.Value, _localLobby);
         //_localLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
         //SetLobbyView();
         MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
@@ -134,14 +164,14 @@ public class GameManager : MonoBehaviour
     public void LeaveLobby()
     {
         _localUser.ResetState();
-        LobbyManager.Instance.LeaveLobbyAsync();
+        LobbyManager.LeaveLobbyAsync();
         ResetLocalLobby();
-        //LobbyList.Clear();
+        LobbyList.Clear();
     }
 
     public void KickPlayer(string playerId)
     {
-        LobbyManager.Instance.KickPlayer(playerId);
+        LobbyManager.KickPlayer(playerId);
     }
 
     public void SetLocalUserName(string name)
@@ -160,7 +190,7 @@ public class GameManager : MonoBehaviour
 
     async void SendLocalUserData()
     {
-        await LobbyManager.Instance.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localUser));
+        await LobbyManager.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localUser));
     }
 
     private void ResetLocalLobby()
@@ -171,7 +201,7 @@ public class GameManager : MonoBehaviour
     public async void QueryLobbies()
     {
         LobbyList.QueryState.Value = LobbyQueryState.Fetching;
-        var qr = await LobbyManager.Instance.GetLobbyListAsync();
+        var qr = await LobbyManager.GetLobbyListAsync();
         if (qr == null)
         {
             return;
@@ -189,4 +219,43 @@ public class GameManager : MonoBehaviour
         LobbyList.CurrentLobbies = newLobbyDict;
         LobbyList.QueryState.Value = LobbyQueryState.Fetched;
     }
+
+    #region Teardown
+
+    /// <summary>
+    /// In builds, if we are in a lobby and try to send a Leave request on application quit, it won't go through if we're quitting on the same frame.
+    /// So, we need to delay just briefly to let the request happen (though we don't need to wait for the result).
+    /// </summary>
+    IEnumerator LeaveBeforeQuit()
+    {
+        ForceLeaveAttempt();
+        yield return null;
+        Application.Quit();
+    }
+
+    bool OnWantToQuit()
+    {
+        bool canQuit = string.IsNullOrEmpty(_localLobby?.LobbyID.Value);
+        StartCoroutine(LeaveBeforeQuit());
+        return canQuit;
+    }
+
+    void OnDestroy()
+    {
+        ForceLeaveAttempt();
+        LobbyManager.Dispose();
+    }
+
+    void ForceLeaveAttempt()
+    {
+        if (!string.IsNullOrEmpty(_localLobby?.LobbyID.Value))
+        {
+#pragma warning disable 4014
+            LobbyManager.LeaveLobbyAsync();
+#pragma warning restore 4014
+            _localLobby = null;
+        }
+    }
+
+    #endregion
 }

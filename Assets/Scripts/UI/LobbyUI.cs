@@ -105,6 +105,11 @@ public class LobbyUI : MenuBase
         MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
     }
 
+    private void OnClick_StartButton()
+    {
+        GameManager.Instance.StartNetworkGame();
+    }
+
     #region Menu Methods
 
     public override void Init()
@@ -112,6 +117,7 @@ public class LobbyUI : MenuBase
         _playerItemTemplate.gameObject.SetActive(false);
 
         _leaveLobbyBtn.onClick.AddListener(OnClick_LeaveLobbyButton);
+        _stratGameBtn.onClick.AddListener(OnClick_StartButton);
     }
 
     public override void Show()

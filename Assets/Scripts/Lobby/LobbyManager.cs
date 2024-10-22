@@ -1,12 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
-using Zenject;
 
-public class LobbyManager : MonoBehaviour
+public class LobbyManager : IDisposable
 {
     const string key_RelayCode = nameof(LocalLobby.RelayCode);
     const string key_LobbyState = nameof(LocalLobby.LocalLobbyState);
@@ -14,42 +14,42 @@ public class LobbyManager : MonoBehaviour
     const string key_Displayname = nameof(LocalPlayer.DisplayName);
     const string key_Userstatus = nameof(LocalPlayer.UserStatus);
 
-    public static LobbyManager Instance { get; private set; }
-
-    [Inject(Id = "RuntimeTMP")] private ILogger _logger;
-
-    private float _heartbeatTimer;
+    private Task _heartBeatTask;
 
     private Lobby _joinedLobby;
     public Lobby JoinedLobby => _joinedLobby;
 
     LobbyEventCallbacks _lobbyEventCallbacks = new LobbyEventCallbacks();
 
-    private void Awake()
+    #region HeartBeat
+
+    async Task SendHeartbeatPingAsync()
     {
-        Instance = this;
+        if (!InLobby())
+            return;
+        //if (m_HeartBeatCooldown.IsCoolingDown)
+        //    return;
+        //await m_HeartBeatCooldown.QueueUntilCooldown();
+
+        Debug.Log("HeartBeat");
+
+        await LobbyService.Instance.SendHeartbeatPingAsync(_joinedLobby.Id);
     }
 
-    private void Update()
+    void StartHeartBeat()
     {
-        HandleLobbyHeartbeat();
+        Debug.Log("Start HeartBeat");
+#pragma warning disable 4014
+        _heartBeatTask = HeartBeatLoop();
+#pragma warning restore 4014
     }
 
-    #region Routine Handlers
-
-    private async void HandleLobbyHeartbeat()
+    async Task HeartBeatLoop()
     {
-        if (IsLobbyHost())
+        while (_joinedLobby != null)
         {
-            _heartbeatTimer -= Time.deltaTime;
-            if (_heartbeatTimer < 0f)
-            {
-                float heartbeatTimerMax = 15f;
-                _heartbeatTimer = heartbeatTimerMax;
-
-                _logger.Log("Heartbeat");
-                await LobbyService.Instance.SendHeartbeatPingAsync(_joinedLobby.Id);
-            }
+            await SendHeartbeatPingAsync();
+            await Task.Delay(8000);
         }
     }
 
@@ -104,6 +104,7 @@ public class LobbyManager : MonoBehaviour
         };
 
         _joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createOptions);
+        StartHeartBeat();
 
         return _joinedLobby;
     }
@@ -147,7 +148,7 @@ public class LobbyManager : MonoBehaviour
             }
             catch (LobbyServiceException e)
             {
-                _logger.Log(e.Message);
+                Debug.Log(e.Message);
             }
         }
     }
@@ -211,7 +212,7 @@ public class LobbyManager : MonoBehaviour
             msgDebug += $"{dataNew.Key} -- {dataObj.Value}\n";
         }
 
-        _logger.Log(msgDebug);
+        Debug.Log(msgDebug);
 
         //if (m_UpdatePlayerCooldown.TaskQueued)
         //    return;
@@ -224,7 +225,7 @@ public class LobbyManager : MonoBehaviour
             ConnectionInfo = null
         };
 
-        _logger.Log($"Update Options: {updateOptions.Data["DisplayName"].Value}");
+        Debug.Log($"Update Options: {updateOptions.Data["DisplayName"].Value}");
 
         _joinedLobby = await LobbyService.Instance.UpdatePlayerAsync(_joinedLobby.Id, playerId, updateOptions);
     }
