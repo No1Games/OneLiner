@@ -12,7 +12,7 @@ public class PlateCustomization : MonoBehaviour
     [SerializeField] GameObject avatar;
     [SerializeField] GameObject avatarBack;
 
-    public int playerID;
+    public PlayerScript player;
     
     public void SetName(string name)
     {
@@ -31,6 +31,11 @@ public class PlateCustomization : MonoBehaviour
     public void SetAvatar(Sprite avatar)
     {
         this.avatar.GetComponent<Image>().sprite = avatar;
+    }
+
+    public void SetPlayer(PlayerScript player)
+    {
+        this.player = player;
     }
 
     public void CustomizePlate(AvatarManager avatarManager, PlayerScript player)

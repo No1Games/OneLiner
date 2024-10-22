@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class GameSetupMenu : MonoBehaviour
 {
@@ -25,10 +26,13 @@ public class GameSetupMenu : MonoBehaviour
     [SerializeField] private GameObject customizationMenu;
     [SerializeField] private CustomizationManager customizationManager;
 
+    
+
 
     private void Awake()
     {
         SetStartScreen();
+        customizationManager.onChangesAccepted += CloseCustomization;
     }
 
     void SetStartScreen()
@@ -44,6 +48,29 @@ public class GameSetupMenu : MonoBehaviour
     {
         customizationMenu.SetActive(true);
         customizationManager.SetCustomizationPreview(accountManager.player);
+
+    }
+
+    public void OpenCustomizationFromPlate(PlayerScript player)
+    {
+        customizationMenu.SetActive(true);
+        customizationManager.SetCustomizationPreview(player);
+    }
+
+    public void CloseCustomization(PlayerScript updatedPlayer)
+    {
+        customizationMenu.SetActive(false);
+        if (playersPlates.Count > 0)
+        {
+            foreach(GameObject p in playersPlates)
+            {
+                if (p.GetComponent<PlateCustomization>().player == updatedPlayer)
+                {
+                    p.GetComponent<PlateCustomization>().CustomizePlate(avatarManager, updatedPlayer);
+                }
+            }
+        }
+        SetStartScreen();
 
     }
 
@@ -68,7 +95,8 @@ public class GameSetupMenu : MonoBehaviour
 
             GameObject newPlate = Instantiate(playerPlatePrefab, playerPanel.transform);
             playersPlates.Add(newPlate);
-
+            newPlate.GetComponent<PlateCustomization>().SetPlayer(newPlayer);
+            newPlate.GetComponentInChildren<Button>().onClick.AddListener(() => OpenCustomizationFromPlate(newPlayer));
             newPlate.GetComponent<PlateCustomization>().CustomizePlate(avatarManager, newPlayer);
 
 

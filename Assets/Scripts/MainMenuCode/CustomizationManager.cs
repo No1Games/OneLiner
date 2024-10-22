@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class CustomizationManager : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class CustomizationManager : MonoBehaviour
     private int playerAvatarIndex;
     private int playerAvatarBackIndex;
     private int playerNameBackIndex;
+
+    public event Action<PlayerScript> onChangesAccepted;
 
 
     private void Awake()
@@ -65,7 +68,7 @@ public class CustomizationManager : MonoBehaviour
             cus.SetInfield(itemImage);
             cus.index = avatarsImages.someImage.IndexOf(itemImage);
             cus.part = CustomizationPart.Avatar;
-            newElement.GetComponentInChildren<Button>().onClick.AddListener(() => SetCustomizationElement(cus)); ;
+            newElement.GetComponentInChildren<Button>().onClick.AddListener(() => SetCustomizationElement(cus));
 
 
         }
@@ -90,6 +93,15 @@ public class CustomizationManager : MonoBehaviour
                 break;
         }
         UpdatePreviewImage();
+    }
+
+    public void AcceptCustomization()
+    {
+        playerToChange.avatarBackID = playerAvatarBackIndex;
+        playerToChange.avatarID = playerAvatarIndex;
+        playerToChange.nameBackID = playerNameBackIndex;
+        playerToChange.name = playerName.text;
+        onChangesAccepted.Invoke(playerToChange);
     }
 
 
