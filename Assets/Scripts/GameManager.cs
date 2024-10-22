@@ -139,6 +139,11 @@ public class GameManager : MonoBehaviour
         //LobbyList.Clear();
     }
 
+    public void KickPlayer(string playerId)
+    {
+        LobbyManager.Instance.KickPlayer(playerId);
+    }
+
     public void SetLocalUserName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))

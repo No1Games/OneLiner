@@ -35,7 +35,9 @@ public class LobbyPlayerItemUI : MonoBehaviour
     {
         if (_localPlayer != null)
         {
-            LobbyManager.Instance.KickPlayer(_localPlayer.ID.Value);
+            GameManager.Instance.KickPlayer(_localPlayer.ID.Value);
+
+            // LobbyManager.Instance.KickPlayer(_localPlayer.ID.Value);
         }
     }
 }

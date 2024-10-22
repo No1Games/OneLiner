@@ -69,7 +69,7 @@ public class LobbyUI : MenuBase
             _playerItemPool[i].SetLocalPlayer(_localLobby.GetLocalPlayer(i));
             _playerItemPool[i].SetKickPlayerButtonVisible(
                 GameManager.Instance.LocalUser.IsHost.Value &&
-                GameManager.Instance.LocalUser.ID.Value != _localLobby.HostID.Value);
+                _localLobby.GetLocalPlayer(i).ID.Value != _localLobby.HostID.Value);
         }
     }
 

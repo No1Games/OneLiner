@@ -439,6 +439,7 @@ public class LobbyManager : MonoBehaviour
         _lobbyEventCallbacks.KickedFromLobby += () =>
         {
             Debug.Log("Left Lobby");
+            MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
             Dispose();
         };
         await LobbyService.Instance.SubscribeToLobbyEventsAsync(lobbyID, _lobbyEventCallbacks);
