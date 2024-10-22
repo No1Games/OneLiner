@@ -152,20 +152,6 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    //public async Task JoinLobbyByCode(string code)
-    //{
-    //    Player player = GetPlayer();
-
-    //    Lobby lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code, new JoinLobbyByCodeOptions
-    //    {
-    //        Player = player
-    //    });
-
-    //    _joinedLobby = lobby;
-
-    //    OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
-    //}
-
     #endregion
 
     #region State Check Methods

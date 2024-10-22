@@ -49,7 +49,7 @@ public class LobbyUI : MenuBase
         _lobbyNameTMP.text = _localLobby.LobbyName.Value;
         _playersTMP.text = $"{_localLobby.PlayerCount} / {_localLobby.MaxPlayerCount.Value}";
 
-        _codeTMP.text = $"{_localLobby.RelayCode.Value}";
+        _codeTMP.text = $"{_localLobby.LobbyCode.Value}";
 
         UpdatePlayersList();
     }
