@@ -10,7 +10,7 @@ public class CustomizationManager : MonoBehaviour
     [SerializeField] private GameObject avatar;
     [SerializeField] private GameObject avatarBack;
     [SerializeField] private GameObject nameBack;
-    [SerializeField] private TMP_Text playerName;
+    [SerializeField] private TMP_InputField playerName;
 
     [SerializeField] private ImagesPack avatarsImages;
     [SerializeField] private ImagesPack avatarsBackImages;
