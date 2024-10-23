@@ -82,8 +82,6 @@ public class LobbyManager : IDisposable
         return await LobbyService.Instance.QueryLobbiesAsync(options);
     }
 
-    #region Lobby Methods
-
     public async Task<Lobby> CreateLobbyAsync(string lobbyName, int maxPlayers, bool isPrivate, LocalPlayer localUser)
     {
         // TODO COOLDOWN
@@ -153,29 +151,9 @@ public class LobbyManager : IDisposable
         }
     }
 
-    #endregion
-
-    #region State Check Methods
-
     public bool IsLobbyHost()
     {
         return _joinedLobby != null && _joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
-    }
-
-    private bool IsPlayerInLobby()
-    {
-        if (_joinedLobby != null && _joinedLobby.Players != null)
-        {
-            foreach (Player player in _joinedLobby.Players)
-            {
-                if (player.Id == AuthenticationService.Instance.PlayerId)
-                {
-                    // This player is in this lobby
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     public bool InLobby()
@@ -189,14 +167,10 @@ public class LobbyManager : IDisposable
         return true;
     }
 
-    #endregion
-
     public async Task UpdatePlayerDataAsync(Dictionary<string, string> data)
     {
         if (!InLobby())
             return;
-
-        string msgDebug = "";
 
         string playerId = AuthenticationService.Instance.PlayerId;
         Dictionary<string, PlayerDataObject> dataCurr = new Dictionary<string, PlayerDataObject>();
@@ -208,11 +182,7 @@ public class LobbyManager : IDisposable
                 dataCurr[dataNew.Key] = dataObj;
             else
                 dataCurr.Add(dataNew.Key, dataObj);
-
-            msgDebug += $"{dataNew.Key} -- {dataObj.Value}\n";
         }
-
-        Debug.Log(msgDebug);
 
         //if (m_UpdatePlayerCooldown.TaskQueued)
         //    return;
@@ -224,8 +194,6 @@ public class LobbyManager : IDisposable
             AllocationId = null,
             ConnectionInfo = null
         };
-
-        Debug.Log($"Update Options: {updateOptions.Data["DisplayName"].Value}");
 
         _joinedLobby = await LobbyService.Instance.UpdatePlayerAsync(_joinedLobby.Id, playerId, updateOptions);
     }
@@ -468,5 +436,38 @@ public class LobbyManager : IDisposable
     {
         _joinedLobby = null;
         _lobbyEventCallbacks = new LobbyEventCallbacks();
+    }
+
+    internal async Task UpdateLobbyDataAsync(Dictionary<string, string> data)
+    {
+        if (!InLobby())
+            return;
+
+        Dictionary<string, DataObject> dataCurr = _joinedLobby.Data ?? new Dictionary<string, DataObject>();
+
+        var shouldLock = false;
+        foreach (var dataNew in data)
+        {
+            DataObject dataObj = new DataObject(DataObject.VisibilityOptions.Public, dataNew.Value);
+            if (dataCurr.ContainsKey(dataNew.Key))
+                dataCurr[dataNew.Key] = dataObj;
+            else
+                dataCurr.Add(dataNew.Key, dataObj);
+
+            //Special Use: Get the state of the Local lobby so we can lock it from appearing in queries if it's not in the "Lobby" LocalLobbyState
+            if (dataNew.Key == "LocalLobbyState")
+            {
+                Enum.TryParse(dataNew.Value, out LobbyState lobbyState);
+                shouldLock = lobbyState != LobbyState.Lobby;
+            }
+        }
+
+        //We can still update the latest data to send to the service, but we will not send multiple UpdateLobbySyncCalls
+        //if (m_UpdateLobbyCooldown.TaskQueued)
+        //    return;
+        //await m_UpdateLobbyCooldown.QueueUntilCooldown();
+
+        UpdateLobbyOptions updateOptions = new UpdateLobbyOptions { Data = dataCurr, IsLocked = shouldLock };
+        _joinedLobby = await LobbyService.Instance.UpdateLobbyAsync(_joinedLobby.Id, updateOptions);
     }
 }

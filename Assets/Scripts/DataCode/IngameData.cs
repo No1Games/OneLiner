@@ -1,10 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class IngameData : MonoBehaviour
 {
-    
+
     public int playersAmount;
 
     public static IngameData Instance;

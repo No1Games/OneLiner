@@ -2,8 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -11,6 +16,16 @@ using Zenject;
 public class GameManager : MonoBehaviour
 {
     [Inject(Id = "RuntimeTMP")] private ILogger _logger;
+
+    #region NGO Fields and Props
+
+    [SerializeField] private NetworkManager _networkManager;
+    [SerializeField] private NetworkGameManager _networkGameManagerPrefab;
+    private NetworkGameManager _networkGameManager;
+
+    private bool _hasConnectedViaNGO = false;
+
+    #endregion
 
     static GameManager _instance;
     public static GameManager Instance
@@ -34,16 +49,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #region Lobby Fields and Props
+
     public LobbyManager LobbyManager { get; private set; }
 
     private LocalLobby _localLobby;
     public LocalLobby LocalLobby => _localLobby;
 
     private LocalPlayer _localUser;
+    private bool _doesNeedCleanup;
+
     public LocalPlayer LocalUser => _localUser;
     public LocalLobbyList LobbyList { get; private set; } = new LocalLobbyList();
 
     public event Action JoinLobbyEvent;
+
+    #endregion
+
+    [SerializeField] Countdown _countdown;
 
     private async void Awake()
     {
@@ -57,12 +80,23 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        Application.wantsToQuit += OnWantToQuit;
+
         _localUser = new LocalPlayer("", 0, false, "LocalPlayer");
         _localLobby = new LocalLobby { LocalLobbyState = { Value = LobbyState.Lobby } };
         LobbyManager = new LobbyManager();
 
         await InitializeServices();
         AuthenticatePlayer();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "OnlineGameScene")
+        {
+            InitOnlineGame();
+        }
     }
 
     public async Task InitializeServices()
@@ -127,9 +161,193 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartNetworkGame()
+    //Only Host needs to listen to this and change state.
+    void OnPlayersReady(int readyCount)
+    {
+        Debug.Log($"Ready Players Count: {readyCount}");
+
+        if (readyCount == _localLobby.PlayerCount &&
+            _localLobby.LocalLobbyState.Value != LobbyState.CountDown)
+        {
+            _localLobby.LocalLobbyState.Value = LobbyState.CountDown;
+            SendLocalLobbyData();
+        }
+        else if (_localLobby.LocalLobbyState.Value == LobbyState.CountDown)
+        {
+            _localLobby.LocalLobbyState.Value = LobbyState.Lobby;
+            SendLocalLobbyData();
+        }
+    }
+
+    void OnLobbyStateChanged(LobbyState state)
+    {
+        Debug.Log($"Changed Lobby State to {state}");
+
+        if (state == LobbyState.Lobby)
+            CancelCountDown();
+        if (state == LobbyState.CountDown)
+            BeginCountDown();
+    }
+
+    void BeginCountDown()
+    {
+        Debug.Log("Beginning Countdown.");
+        _countdown.StartCountDown();
+    }
+
+    void CancelCountDown()
+    {
+        Debug.Log("Countdown Cancelled.");
+        _countdown.CancelCountDown();
+    }
+
+    public void FinishedCountDown()
+    {
+        ChangeScene();
+    }
+
+    private void ChangeScene()
     {
         SceneManager.LoadScene("OnlineGameScene");
+    }
+
+    private void InitOnlineGame()
+    {
+        if (_localUser.IsHost.Value)
+        {
+            _localUser.UserStatus.Value = PlayerStatus.InGame;
+            _localLobby.LocalLobbyState.Value = LobbyState.InGame;
+            _localLobby.Locked.Value = true;
+            SendLocalLobbyData();
+            StartNetworkGame();
+        }
+    }
+
+    public void EndGame()
+    {
+        if (_localUser.IsHost.Value)
+        {
+            _localLobby.LocalLobbyState.Value = LobbyState.Lobby;
+            _localLobby.Locked.Value = false;
+            SendLocalLobbyData();
+        }
+
+        // SetLobbyView();
+    }
+
+    private async void StartNetworkGame()
+    {
+        _networkGameManager = Instantiate(_networkGameManagerPrefab);
+        _networkGameManager.Initialize(OnConnectionVerified, _localLobby.PlayerCount, OnGameBegin, OnGameEnd, _localUser);
+        if (_localUser.IsHost.Value)
+        {
+            await SetRelayHostData();
+            NetworkManager.Singleton.StartHost();
+        }
+        else
+        {
+            await AwaitRelayCode(_localLobby);
+            await SetRelayClientData();
+            NetworkManager.Singleton.StartClient();
+        }
+        SceneManager.LoadScene("OnlineGameScene");
+    }
+
+    async Task AwaitRelayCode(LocalLobby lobby)
+    {
+        string relayCode = lobby.RelayCode.Value;
+        lobby.RelayCode.onChanged += (code) => relayCode = code;
+        while (string.IsNullOrEmpty(relayCode))
+        {
+            await Task.Delay(100);
+        }
+    }
+
+    async Task SetRelayHostData()
+    {
+        UnityTransport transport = NetworkManager.Singleton.GetComponentInChildren<UnityTransport>();
+
+        var allocation = await Relay.Instance.CreateAllocationAsync(_localLobby.MaxPlayerCount.Value);
+        var joincode = await Relay.Instance.GetJoinCodeAsync(allocation.AllocationId);
+        GameManager.Instance.HostSetRelayCode(joincode);
+
+        bool isSecure = false;
+        var endpoint = GetEndpointForAllocation(allocation.ServerEndpoints,
+            allocation.RelayServer.IpV4, allocation.RelayServer.Port, out isSecure);
+
+        transport.SetHostRelayData(AddressFromEndpoint(endpoint), endpoint.Port,
+            allocation.AllocationIdBytes, allocation.Key, allocation.ConnectionData, isSecure);
+    }
+
+    async Task SetRelayClientData()
+    {
+        UnityTransport transport = NetworkManager.Singleton.GetComponentInChildren<UnityTransport>();
+
+        var joinAllocation = await Relay.Instance.JoinAllocationAsync(_localLobby.RelayCode.Value);
+        bool isSecure = false;
+        var endpoint = GetEndpointForAllocation(joinAllocation.ServerEndpoints,
+            joinAllocation.RelayServer.IpV4, joinAllocation.RelayServer.Port, out isSecure);
+
+        transport.SetClientRelayData(AddressFromEndpoint(endpoint), endpoint.Port,
+            joinAllocation.AllocationIdBytes, joinAllocation.Key,
+            joinAllocation.ConnectionData, joinAllocation.HostConnectionData, isSecure);
+    }
+
+    public void HostSetRelayCode(string code)
+    {
+        _localLobby.RelayCode.Value = code;
+        SendLocalLobbyData();
+    }
+
+    NetworkEndPoint GetEndpointForAllocation(List<RelayServerEndpoint> endpoints, string ip, int port, out bool isSecure)
+    {
+#if ENABLE_MANAGED_UNITYTLS
+        foreach (RelayServerEndpoint endpoint in endpoints)
+        {
+            if (endpoint.Secure && endpoint.Network == RelayServerEndpoint.NetworkOptions.Udp)
+            {
+                isSecure = true;
+                return NetworkEndPoint.Parse(endpoint.Host, (ushort)endpoint.Port);
+            }
+        }
+#endif
+        isSecure = false;
+        return NetworkEndPoint.Parse(ip, (ushort)port);
+    }
+
+    string AddressFromEndpoint(NetworkEndPoint endpoint)
+    {
+        return endpoint.Address.Split(':')[0];
+    }
+
+    void OnConnectionVerified()
+    {
+        _hasConnectedViaNGO = true;
+    }
+    public void OnGameBegin()
+    {
+        if (!_hasConnectedViaNGO)
+        {
+            // If this localPlayer hasn't successfully connected via NGO, forcibly exit the game.
+            _logger.Log("Failed to join the game.");
+            OnGameEnd();
+        }
+    }
+
+    /// <summary>
+    /// Return to the localLobby after the game, whether due to the game ending or due to a failed connection.
+    /// </summary>
+    public void OnGameEnd()
+    {
+        if (_doesNeedCleanup)
+        {
+            NetworkManager.Singleton.Shutdown(true);
+            Destroy(_networkGameManager.transform.parent.gameObject); // Since this destroys the NetworkManager, that will kick off cleaning up networked objects.
+
+            _localLobby.RelayCode.Value = "";
+            EndGame();
+            _doesNeedCleanup = false;
+        }
     }
 
     private async Task JoinLobby()
@@ -141,7 +359,7 @@ public class GameManager : MonoBehaviour
     async Task CreateLobby()
     {
         _localUser.IsHost.Value = true;
-        //_localLobby.onUserReadyChange = OnPlayersReady;
+        _localLobby.onUserReadyChange = OnPlayersReady;
         try
         {
             await BindLobby();
@@ -156,8 +374,7 @@ public class GameManager : MonoBehaviour
     async Task BindLobby()
     {
         await LobbyManager.BindLocalLobbyToRemote(_localLobby.LobbyID.Value, _localLobby);
-        //_localLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
-        //SetLobbyView();
+        _localLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
         MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
     }
 
@@ -188,9 +405,20 @@ public class GameManager : MonoBehaviour
         SendLocalUserData();
     }
 
+    public void SetLocalUserStatus(PlayerStatus status)
+    {
+        _localUser.UserStatus.Value = status;
+        SendLocalUserData();
+    }
+
     async void SendLocalUserData()
     {
         await LobbyManager.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localUser));
+    }
+
+    async void SendLocalLobbyData()
+    {
+        await LobbyManager.UpdateLobbyDataAsync(LobbyConverters.LocalToRemoteLobbyData(_localLobby));
     }
 
     private void ResetLocalLobby()
