@@ -110,6 +110,8 @@ public class LobbyUI : MenuBase
 
     private void OnClick_ReadyButton()
     {
+        _logger.Log($"Ready Button Clicked: Switch status of {GameManager.Instance.LocalUser.DisplayName} to {_playerReady}");
+
         if (_playerReady)
         {
             _playerReady = false;
@@ -122,8 +124,6 @@ public class LobbyUI : MenuBase
             _readyGameBtn.GetComponentInChildren<TextMeshProUGUI>().text = "Cancel";
             GameManager.Instance.SetLocalUserStatus(PlayerStatus.Ready);
         }
-
-        //GameManager.Instance.StartGame();
     }
 
     #region Menu Methods
@@ -134,6 +134,8 @@ public class LobbyUI : MenuBase
 
         _leaveLobbyBtn.onClick.AddListener(OnClick_LeaveLobbyButton);
         _readyGameBtn.onClick.AddListener(OnClick_ReadyButton);
+
+        _playerReady = false;
     }
 
     public override void Show()
