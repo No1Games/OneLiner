@@ -20,8 +20,6 @@ public class LobbyPlayerItemUI : MonoBehaviour
 
     public void SetLocalPlayer(LocalPlayer player)
     {
-        Debug.Log($"Setting player item: {player.ID.Value}");
-
         _localPlayer = player;
         _playerNameText.text = player.DisplayName.Value;
     }

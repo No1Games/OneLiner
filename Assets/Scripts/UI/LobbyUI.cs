@@ -23,7 +23,9 @@ public class LobbyUI : MenuBase
 
     [Header("Buttons")]
     [SerializeField] private Button _leaveLobbyBtn;
-    [SerializeField] private Button _stratGameBtn;
+    [SerializeField] private Button _readyGameBtn;
+
+    private bool _playerReady = false;
 
     public override MenuName Menu => MenuName.Lobby;
 
@@ -36,6 +38,7 @@ public class LobbyUI : MenuBase
     {
         _localLobby = GameManager.Instance.LocalLobby;
         _localLobby.onLobbyDataChanged += UpdateUI;
+        _playerReady = false;
 
         UpdateUI();
     }
@@ -51,6 +54,8 @@ public class LobbyUI : MenuBase
 
         _codeTMP.text = $"{_localLobby.LobbyCode.Value}";
 
+        // _readyGameBtn.gameObject.SetActive(_localLobby.HostID.Value == GameManager.Instance.LocalUser.ID.Value);
+
         UpdatePlayersList();
     }
 
@@ -63,8 +68,6 @@ public class LobbyUI : MenuBase
 
         for (int i = 0; i < _localLobby.PlayerCount; i++)
         {
-            Debug.Log($"{_localLobby.GetLocalPlayer(i).DisplayName.Value}");
-
             _playerItemPool[i].gameObject.SetActive(true);
             _playerItemPool[i].SetLocalPlayer(_localLobby.GetLocalPlayer(i));
             _playerItemPool[i].SetKickPlayerButtonVisible(
@@ -105,9 +108,22 @@ public class LobbyUI : MenuBase
         MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
     }
 
-    private void OnClick_StartButton()
+    private void OnClick_ReadyButton()
     {
-        GameManager.Instance.StartNetworkGame();
+        _logger.Log($"Ready Button Clicked: Switch status of {GameManager.Instance.LocalUser.DisplayName} to {_playerReady}");
+
+        if (_playerReady)
+        {
+            _playerReady = false;
+            _readyGameBtn.GetComponentInChildren<TextMeshProUGUI>().text = "Ready";
+            GameManager.Instance.SetLocalUserStatus(PlayerStatus.Lobby);
+        }
+        else
+        {
+            _playerReady = true;
+            _readyGameBtn.GetComponentInChildren<TextMeshProUGUI>().text = "Cancel";
+            GameManager.Instance.SetLocalUserStatus(PlayerStatus.Ready);
+        }
     }
 
     #region Menu Methods
@@ -117,7 +133,9 @@ public class LobbyUI : MenuBase
         _playerItemTemplate.gameObject.SetActive(false);
 
         _leaveLobbyBtn.onClick.AddListener(OnClick_LeaveLobbyButton);
-        _stratGameBtn.onClick.AddListener(OnClick_StartButton);
+        _readyGameBtn.onClick.AddListener(OnClick_ReadyButton);
+
+        _playerReady = false;
     }
 
     public override void Show()
