@@ -96,7 +96,7 @@ public class UIManager : MonoBehaviour
             wordsButtons.Add(newButton);
 
             Button button = newButton.GetComponentInChildren<Button>();
-            button.onClick.AddListener(() => CheckTheWord(newButton.GetComponentInChildren<TMP_Text>().text));
+            button.onClick.AddListener(() => CheckTheWord(newButton));
         }
     }
 
@@ -199,7 +199,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void CheckTheWord(string buttonText)
+    private void CheckTheWord(GameObject pressedButton)
     {
 
         string winingText = "Вітаю з перемогою";
@@ -209,7 +209,7 @@ public class UIManager : MonoBehaviour
         if (playerToTrack.role != PlayerRole.Leader)
         {
             wordPanel.SetActive(false);
-            if (buttonText == leaderWordText)
+            if (pressedButton.GetComponentInChildren<TMP_Text>().text == leaderWordText)
             {
 
                 endgameText.text = winingText;
@@ -220,12 +220,13 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-
-
-
-                if (lives > 0)
+                if (lives > 1)
                 {
                     lives--;
+                    pressedButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+                    pressedButton.GetComponentInChildren<Image>().color = Color.red;
+
+
                     livesImage[lives].SetActive(false);
                     OnActionConfirmed.Invoke();
                     OpenPlayerScreen();
@@ -235,6 +236,7 @@ public class UIManager : MonoBehaviour
                 {
                     endgameText.text = losingText;
                     endgamePanel.SetActive(true);
+                    StartCoroutine(StartScoring(0));
 
                 }
 
