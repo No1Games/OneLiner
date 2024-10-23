@@ -164,8 +164,6 @@ public class GameManager : MonoBehaviour
     //Only Host needs to listen to this and change state.
     void OnPlayersReady(int readyCount)
     {
-        Debug.Log($"Ready Players Count: {readyCount}");
-
         if (readyCount == _localLobby.PlayerCount &&
             _localLobby.LocalLobbyState.Value != LobbyState.CountDown)
         {
@@ -181,8 +179,6 @@ public class GameManager : MonoBehaviour
 
     void OnLobbyStateChanged(LobbyState state)
     {
-        Debug.Log($"Changed Lobby State to {state}");
-
         if (state == LobbyState.Lobby)
             CancelCountDown();
         if (state == LobbyState.CountDown)
@@ -250,7 +246,6 @@ public class GameManager : MonoBehaviour
             await SetRelayClientData();
             NetworkManager.Singleton.StartClient();
         }
-        SceneManager.LoadScene("OnlineGameScene");
     }
 
     async Task AwaitRelayCode(LocalLobby lobby)

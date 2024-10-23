@@ -110,7 +110,6 @@ public class LobbyUI : MenuBase
 
     private void OnClick_ReadyButton()
     {
-        Debug.Log($"Change Player Ready Status: {GameManager.Instance.LocalUser.DisplayName} to {!_playerReady}");
         if (_playerReady)
         {
             _playerReady = false;
