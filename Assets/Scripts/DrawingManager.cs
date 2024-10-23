@@ -29,6 +29,7 @@ public class DrawingManager : MonoBehaviour
     [SerializeField] private float secondPointAngle = 10f; // кут для перевірки чи не йде друга точка вздовж лінії з якої почалась
 
     private GameObject lineToTrack;
+    
 
 
     Vector3 firstPointPosition;
@@ -70,6 +71,10 @@ public class DrawingManager : MonoBehaviour
     }
     private void GenerateLine()
     {
+        if (drawingCam.gameObject.activeInHierarchy)
+        {
+
+        
         // Отримуємо позицію миші або дотику
         Vector3 mousePos = drawingCam.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = drawingCam.transform.position.z + 15f;
@@ -82,10 +87,10 @@ public class DrawingManager : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
-            mousePos = Camera.main.ScreenToWorldPoint(touch.position);
-            mousePos.z = -1f;
+            mousePos = drawingCam.ScreenToWorldPoint(touch.position);
+            mousePos.z = drawingCam.transform.position.z + 15f;
 
-            touchBegan = touch.phase == TouchPhase.Began;
+                touchBegan = touch.phase == TouchPhase.Began;
             touchMoved = touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary;
             touchEnded = touch.phase == TouchPhase.Ended;
         }
@@ -162,6 +167,7 @@ public class DrawingManager : MonoBehaviour
                     }
                 }
             }
+        }
         }
     }
 
