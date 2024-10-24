@@ -53,13 +53,19 @@ public class AccountManager : MonoBehaviour
         player = new PlayerScript(newPlayerName, newPlayerID);
 
         // «бер≥гаЇмо дан≥ нового гравц€ в PlayerPrefs
+        SavePlayerData();
+
+
+
+        Debug.Log("New player created and saved");
+    }
+
+    public void SavePlayerData()
+    {
         PlayerPrefs.SetString("PlayerName", player.name);
         PlayerPrefs.SetInt("PlayerID", player.playerID);
         PlayerPrefs.SetInt("AvatarID", player.avatarID);
         PlayerPrefs.SetInt("AvatarBackID", player.avatarBackID);
         PlayerPrefs.SetInt("NameBackID", player.nameBackID);
-        
-
-        Debug.Log("New player created and saved");
     }
 }

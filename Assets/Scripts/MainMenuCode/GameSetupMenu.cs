@@ -31,8 +31,13 @@ public class GameSetupMenu : MonoBehaviour
 
     private void Awake()
     {
-        SetStartScreen();
+        
         customizationManager.onChangesAccepted += CloseCustomization;
+        customizationManager.onChangesAccepted += UpdatePlayerData;
+    }
+    private void Start()
+    {
+        SetStartScreen();
     }
 
     void SetStartScreen()
@@ -136,6 +141,14 @@ public class GameSetupMenu : MonoBehaviour
         else
         {
             Debug.LogWarning("Перехід на наступну сцену заблоковано.");
+        }
+    }
+
+    private void UpdatePlayerData(PlayerScript playerToSave)
+    {
+        if (playerToSave == accountManager.player)
+        {
+            accountManager.SavePlayerData();
         }
     }
 

@@ -10,6 +10,8 @@ public class IngameData : MonoBehaviour
 
     public List<PlayerScript> players = new List<PlayerScript>();
 
+    private GameModes selectedMode = GameModes.Coop;
+
     private void Awake()
     {
         if (Instance == null)
@@ -22,4 +24,24 @@ public class IngameData : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void SetGameMode(GameModes mode)
+    {
+        selectedMode = mode;
+    }
+
+    public GameModes GetGameMode()
+    {
+        return selectedMode;
+    }
+
+
+}
+
+public enum GameModes
+{
+    Coop,
+    ReversCoop,
+
+
 }
