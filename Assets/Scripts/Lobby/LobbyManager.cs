@@ -21,15 +21,51 @@ public class LobbyManager : IDisposable
 
     LobbyEventCallbacks _lobbyEventCallbacks = new LobbyEventCallbacks();
 
+    #region Rate Limiting
+
+    public enum RequestType
+    {
+        Query = 0,
+        Join,
+        QuickJoin,
+        Host
+    }
+
+    public ServiceRateLimiter GetRateLimit(RequestType type)
+    {
+        if (type == RequestType.Join)
+            return _joinCooldown;
+        else if (type == RequestType.QuickJoin)
+            return _quickJoinCooldown;
+        else if (type == RequestType.Host)
+            return _createCooldown;
+        return _queryCooldown;
+    }
+
+    // Rate Limits are posted here: https://docs.unity.com/lobby/rate-limits.html
+
+    ServiceRateLimiter _queryCooldown = new ServiceRateLimiter(1, 1f);
+    ServiceRateLimiter _createCooldown = new ServiceRateLimiter(2, 6f);
+    ServiceRateLimiter _joinCooldown = new ServiceRateLimiter(2, 6f);
+    ServiceRateLimiter _quickJoinCooldown = new ServiceRateLimiter(1, 10f);
+    ServiceRateLimiter m_GetLobbyCooldown = new ServiceRateLimiter(1, 1f);
+    ServiceRateLimiter m_DeleteLobbyCooldown = new ServiceRateLimiter(2, 1f);
+    ServiceRateLimiter _updateLobbyCooldown = new ServiceRateLimiter(5, 5f);
+    ServiceRateLimiter _updatePlayerCooldown = new ServiceRateLimiter(5, 5f);
+    ServiceRateLimiter _leaveLobbyOrRemovePlayer = new ServiceRateLimiter(5, 1);
+    ServiceRateLimiter _heartBeatCooldown = new ServiceRateLimiter(5, 30);
+
+    #endregion
+
     #region HeartBeat
 
     async Task SendHeartbeatPingAsync()
     {
         if (!InLobby())
             return;
-        //if (m_HeartBeatCooldown.IsCoolingDown)
-        //    return;
-        //await m_HeartBeatCooldown.QueueUntilCooldown();
+        if (_heartBeatCooldown.IsCoolingDown)
+            return;
+        await _heartBeatCooldown.QueueUntilCooldown();
 
         Debug.Log("HeartBeat");
 
@@ -57,9 +93,9 @@ public class LobbyManager : IDisposable
 
     public async Task<QueryResponse> GetLobbyListAsync()
     {
-        //if (m_QueryCooldown.TaskQueued)
-        //    return null;
-        //await m_QueryCooldown.QueueUntilCooldown();
+        if (_queryCooldown.TaskQueued)
+            return null;
+        await _queryCooldown.QueueUntilCooldown();
 
         QueryLobbiesOptions options = new QueryLobbiesOptions();
         options.Count = 25;
@@ -84,14 +120,12 @@ public class LobbyManager : IDisposable
 
     public async Task<Lobby> CreateLobbyAsync(string lobbyName, int maxPlayers, bool isPrivate, LocalPlayer localUser)
     {
-        // TODO COOLDOWN
-
-        //if (m_CreateCooldown.IsCoolingDown)
-        //{
-        //    Debug.LogWarning("Create Lobby hit the rate limit.");
-        //    return null;
-        //}
-        //await m_CreateCooldown.QueueUntilCooldown();
+        if (_createCooldown.IsCoolingDown)
+        {
+            Debug.LogWarning("Create Lobby hit the rate limit.");
+            return null;
+        }
+        await _createCooldown.QueueUntilCooldown();
 
         string uasId = AuthenticationService.Instance.PlayerId;
 
@@ -109,13 +143,13 @@ public class LobbyManager : IDisposable
 
     public async Task<Lobby> JoinLobbyAsync(string lobbyId, string lobbyCode, LocalPlayer localUser)
     {
-        //if (m_JoinCooldown.IsCoolingDown ||
-        //    (lobbyId == null && lobbyCode == null))
-        //{
-        //    return null;
-        //}
-        //
-        //await m_JoinCooldown.QueueUntilCooldown();
+        if (_joinCooldown.IsCoolingDown ||
+            (lobbyId == null && lobbyCode == null))
+        {
+            return null;
+        }
+
+        await _joinCooldown.QueueUntilCooldown();
 
         string uasId = AuthenticationService.Instance.PlayerId;
         var playerData = CreateInitialPlayerData(localUser);
@@ -173,7 +207,9 @@ public class LobbyManager : IDisposable
             return;
 
         string playerId = AuthenticationService.Instance.PlayerId;
+
         Dictionary<string, PlayerDataObject> dataCurr = new Dictionary<string, PlayerDataObject>();
+
         foreach (var dataNew in data)
         {
             PlayerDataObject dataObj = new PlayerDataObject(visibility: PlayerDataObject.VisibilityOptions.Member,
@@ -184,10 +220,12 @@ public class LobbyManager : IDisposable
                 dataCurr.Add(dataNew.Key, dataObj);
         }
 
-        //if (m_UpdatePlayerCooldown.TaskQueued)
-        //    return;
-        //await m_UpdatePlayerCooldown.QueueUntilCooldown();
-        //
+        Debug.Log($"Update Player Data Async: {dataCurr["DisplayName"].Value} --- {dataCurr["UserStatus"].Value}");
+
+        if (_updatePlayerCooldown.TaskQueued)
+            return;
+        await _updatePlayerCooldown.QueueUntilCooldown();
+
         UpdatePlayerOptions updateOptions = new UpdatePlayerOptions
         {
             Data = dataCurr,
@@ -195,7 +233,16 @@ public class LobbyManager : IDisposable
             ConnectionInfo = null
         };
 
-        _joinedLobby = await LobbyService.Instance.UpdatePlayerAsync(_joinedLobby.Id, playerId, updateOptions);
+        try
+        {
+            _joinedLobby = await LobbyService.Instance.UpdatePlayerAsync(_joinedLobby.Id, playerId, updateOptions);
+
+            Debug.Log($"{_joinedLobby.Players.Find(player => playerId == GameManager.Instance.LocalUser.ID.Value).Data["UserStatus"].Value}");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
     }
 
     public async Task BindLocalLobbyToRemote(string lobbyID, LocalLobby localLobby)
@@ -341,7 +388,7 @@ public class LobbyManager : IDisposable
             }
         };
 
-        _lobbyEventCallbacks.LobbyChanged += async changes =>
+        _lobbyEventCallbacks.LobbyChanged += changes =>
         {
             //Lobby Fields
             if (changes.Name.Changed)
@@ -397,12 +444,13 @@ public class LobbyManager : IDisposable
             MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
             Dispose();
         };
+
         await LobbyService.Instance.SubscribeToLobbyEventsAsync(lobbyID, _lobbyEventCallbacks);
     }
 
     public async Task LeaveLobbyAsync()
     {
-        //await m_LeaveLobbyOrRemovePlayer.QueueUntilCooldown();
+        await _leaveLobbyOrRemovePlayer.QueueUntilCooldown();
 
         if (!InLobby())
             return;
@@ -438,7 +486,7 @@ public class LobbyManager : IDisposable
         _lobbyEventCallbacks = new LobbyEventCallbacks();
     }
 
-    internal async Task UpdateLobbyDataAsync(Dictionary<string, string> data)
+    public async Task UpdateLobbyDataAsync(Dictionary<string, string> data)
     {
         if (!InLobby())
             return;
@@ -463,9 +511,9 @@ public class LobbyManager : IDisposable
         }
 
         //We can still update the latest data to send to the service, but we will not send multiple UpdateLobbySyncCalls
-        //if (m_UpdateLobbyCooldown.TaskQueued)
-        //    return;
-        //await m_UpdateLobbyCooldown.QueueUntilCooldown();
+        if (_updateLobbyCooldown.TaskQueued)
+            return;
+        await _updateLobbyCooldown.QueueUntilCooldown();
 
         UpdateLobbyOptions updateOptions = new UpdateLobbyOptions { Data = dataCurr, IsLocked = shouldLock };
         _joinedLobby = await LobbyService.Instance.UpdateLobbyAsync(_joinedLobby.Id, updateOptions);

@@ -19,6 +19,7 @@ public class CallbackValue<T>
             if (m_CachedValue != null && m_CachedValue.Equals(value))
                 return;
             m_CachedValue = value;
+
             onChanged?.Invoke(m_CachedValue);
         }
     }

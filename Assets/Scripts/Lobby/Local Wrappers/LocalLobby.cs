@@ -84,6 +84,9 @@ public class LocalLobby
     {
         m_LocalPlayers.Insert(index, user);
         user.UserStatus.onChanged += OnUserChangedStatus;
+
+        Debug.Log($"{user.UserStatus.onChanged.GetInvocationList().Length}");
+
         onUserJoined?.Invoke(user);
         onLobbyDataChanged?.Invoke();
         Debug.Log($"Added User: {user.DisplayName.Value} - {user.ID.Value} to slot {index + 1}/{PlayerCount}");
@@ -99,6 +102,8 @@ public class LocalLobby
 
     void OnUserChangedStatus(PlayerStatus status)
     {
+        Debug.Log($"Local Lobby OnUserChangedStatus: {status}");
+
         int readyCount = 0;
         foreach (var player in m_LocalPlayers)
         {
