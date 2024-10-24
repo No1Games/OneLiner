@@ -23,9 +23,10 @@ public class LobbyUI : MenuBase
 
     [Header("Buttons")]
     [SerializeField] private Button _leaveLobbyBtn;
-    [SerializeField] private Button _readyGameBtn;
+    [SerializeField] private Button _startBtn;
+    //[SerializeField] private Button _readyGameBtn;
 
-    private bool _playerReady = false;
+    //private PlayerStatus _playerReady = PlayerStatus.Lobby;
 
     public override MenuName Menu => MenuName.Lobby;
 
@@ -38,7 +39,10 @@ public class LobbyUI : MenuBase
     {
         _localLobby = GameManager.Instance.LocalLobby;
         _localLobby.onLobbyDataChanged += UpdateUI;
-        _playerReady = false;
+
+        _startBtn.gameObject.SetActive(GameManager.Instance.LocalUser.IsHost.Value);
+
+        // _playerReady = GameManager.Instance.LocalUser.UserStatus.Value;
 
         UpdateUI();
     }
@@ -53,8 +57,6 @@ public class LobbyUI : MenuBase
         _playersTMP.text = $"{_localLobby.PlayerCount} / {_localLobby.MaxPlayerCount.Value}";
 
         _codeTMP.text = $"{_localLobby.LobbyCode.Value}";
-
-        // _readyGameBtn.gameObject.SetActive(_localLobby.HostID.Value == GameManager.Instance.LocalUser.ID.Value);
 
         UpdatePlayersList();
     }
@@ -94,7 +96,7 @@ public class LobbyUI : MenuBase
     {
         foreach (var playerItem in _playerItemPool)
         {
-            playerItem.gameObject.SetActive(false);
+            playerItem.ResetUI();
         }
 
         _codeTMP.text = "";
@@ -108,23 +110,20 @@ public class LobbyUI : MenuBase
         MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
     }
 
-    private void OnClick_ReadyButton()
+    private void OnClick_StartButton()
     {
-        _logger.Log($"Ready Button Clicked: Switch status of {GameManager.Instance.LocalUser.DisplayName} to {_playerReady}");
-
-        if (_playerReady)
-        {
-            _playerReady = false;
-            _readyGameBtn.GetComponentInChildren<TextMeshProUGUI>().text = "Ready";
-            GameManager.Instance.SetLocalUserStatus(PlayerStatus.Lobby);
-        }
-        else
-        {
-            _playerReady = true;
-            _readyGameBtn.GetComponentInChildren<TextMeshProUGUI>().text = "Cancel";
-            GameManager.Instance.SetLocalUserStatus(PlayerStatus.Ready);
-        }
+        GameManager.Instance.StartOnlineGame();
     }
+
+    //private void OnClick_ReadyButton()
+    //{
+    //    _playerReady = _playerReady == PlayerStatus.Lobby ? PlayerStatus.Ready : PlayerStatus.Lobby;
+
+    //    _logger.Log($"Ready Button Clicked: Switch status of {GameManager.Instance.LocalUser.DisplayName.Value} to {_playerReady}");
+
+    //    GameManager.Instance.SetLocalUserStatus(_playerReady);
+    //    _readyGameBtn.GetComponentInChildren<TextMeshProUGUI>().text = _playerReady == PlayerStatus.Ready ? "Cancel" : "Ready";
+    //}
 
     #region Menu Methods
 
@@ -133,9 +132,10 @@ public class LobbyUI : MenuBase
         _playerItemTemplate.gameObject.SetActive(false);
 
         _leaveLobbyBtn.onClick.AddListener(OnClick_LeaveLobbyButton);
-        _readyGameBtn.onClick.AddListener(OnClick_ReadyButton);
+        _startBtn.onClick.AddListener(OnClick_StartButton);
+        // _readyGameBtn.onClick.AddListener(OnClick_ReadyButton);
 
-        _playerReady = false;
+        // _playerReady = GameManager.Instance.LocalUser.UserStatus.Value;
     }
 
     public override void Show()

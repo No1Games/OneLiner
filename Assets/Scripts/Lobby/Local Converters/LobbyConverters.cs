@@ -118,7 +118,7 @@ public static class LobbyConverters
     }
 
     //This might be heavy handed,
-    static LocalLobby RemoteToNewLocal(Lobby lobby)
+    public static LocalLobby RemoteToNewLocal(Lobby lobby)
     {
         LocalLobby data = new LocalLobby();
         RemoteToLocal(lobby, data);

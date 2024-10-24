@@ -18,8 +18,6 @@ public class MainMenuManager : MonoBehaviour
 
     public void ChangeMenu(MenuName menu)
     {
-        _logger.Log($"Change Menu to {menu}");
-
         foreach (var m in _menus)
         {
             if (m.Menu == menu)

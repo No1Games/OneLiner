@@ -62,8 +62,6 @@ public class GameManager : MonoBehaviour
     public LocalPlayer LocalUser => _localUser;
     public LocalLobbyList LobbyList { get; private set; } = new LocalLobbyList();
 
-    public event Action JoinLobbyEvent;
-
     #endregion
 
     [SerializeField] Countdown _countdown;
@@ -80,7 +78,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        //SceneManager.sceneLoaded += OnSceneLoaded;
         Application.wantsToQuit += OnWantToQuit;
 
         _localUser = new LocalPlayer("", 0, false, "LocalPlayer");
@@ -105,7 +103,7 @@ public class GameManager : MonoBehaviour
 
         var result = await UnityServiceAuthenticator.TrySignInAsync(serviceProfileName.Substring(0, 30));
 
-        _logger.Log($"Services Authentification Result: {result}");
+        Debug.Log($"Services Authentification Result: {result}");
     }
 
     void AuthenticatePlayer()
@@ -132,10 +130,11 @@ public class GameManager : MonoBehaviour
                 _localUser);
 
             LobbyConverters.RemoteToLocal(lobby, _localLobby);
+
+            Debug.Log($"{_localLobby.LobbyName.Value}");
             await CreateLobby();
 
             MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
-            JoinLobbyEvent?.Invoke();
         }
         catch (LobbyServiceException exception)
         {
@@ -155,7 +154,6 @@ public class GameManager : MonoBehaviour
         }
         catch (LobbyServiceException exception)
         {
-            // SetGameState(GameState.JoinMenu);
             MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
             _logger.Log($"Error joining lobby : ({exception.ErrorCode}) {exception.Message}");
         }
@@ -164,6 +162,8 @@ public class GameManager : MonoBehaviour
     //Only Host needs to listen to this and change state.
     void OnPlayersReady(int readyCount)
     {
+        Debug.Log($"Players Ready Count: {readyCount}");
+
         if (readyCount == _localLobby.PlayerCount &&
             _localLobby.LocalLobbyState.Value != LobbyState.CountDown)
         {
@@ -183,6 +183,8 @@ public class GameManager : MonoBehaviour
             CancelCountDown();
         if (state == LobbyState.CountDown)
             BeginCountDown();
+        if (state == LobbyState.InGame)
+            ChangeScene();
     }
 
     void BeginCountDown()
@@ -199,7 +201,12 @@ public class GameManager : MonoBehaviour
 
     public void FinishedCountDown()
     {
-        ChangeScene();
+        Debug.Log("Finished Countdown!");
+    }
+
+    public void StartOnlineGame()
+    {
+        InitOnlineGame();
     }
 
     private void ChangeScene()
@@ -370,13 +377,14 @@ public class GameManager : MonoBehaviour
     {
         await LobbyManager.BindLocalLobbyToRemote(_localLobby.LobbyID.Value, _localLobby);
         _localLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
+        SetLobbyView();
         MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
     }
 
-    public void LeaveLobby()
+    public async void LeaveLobby()
     {
         _localUser.ResetState();
-        LobbyManager.LeaveLobbyAsync();
+        await LobbyManager.LeaveLobbyAsync();
         ResetLocalLobby();
         LobbyList.Clear();
     }
@@ -393,21 +401,23 @@ public class GameManager : MonoBehaviour
             _logger.Log("Empty Name not allowed."); // Lobby error type, then HTTP error type.
             return;
         }
-
-        _logger.Log($"Change user name to: {name}");
-
         _localUser.DisplayName.Value = name;
         SendLocalUserData();
     }
 
     public void SetLocalUserStatus(PlayerStatus status)
     {
+        _logger.Log($"Set Local User Status: {_localUser.DisplayName.Value} --- {status}");
+
         _localUser.UserStatus.Value = status;
+
+        _logger.Log($"User Status Invocation List is NULL: {_localUser.UserStatus.onChanged?.GetInvocationList() is null}");
         SendLocalUserData();
     }
 
     async void SendLocalUserData()
     {
+        _logger.Log($"Send Local User Data: {LocalUser.DisplayName.Value} --- {LocalUser.UserStatus.Value}");
         await LobbyManager.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localUser));
     }
 
@@ -443,6 +453,11 @@ public class GameManager : MonoBehaviour
         LobbyList.QueryState.Value = LobbyQueryState.Fetched;
     }
 
+    void SetLobbyView()
+    {
+        SetLocalUserStatus(PlayerStatus.Lobby);
+    }
+
     #region Teardown
 
     /// <summary>
@@ -466,7 +481,7 @@ public class GameManager : MonoBehaviour
     void OnDestroy()
     {
         ForceLeaveAttempt();
-        LobbyManager.Dispose();
+        LobbyManager?.Dispose();
     }
 
     void ForceLeaveAttempt()

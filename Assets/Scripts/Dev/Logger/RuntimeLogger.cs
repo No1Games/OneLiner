@@ -23,7 +23,8 @@ public class RuntimeLogger : ILogger
 
         if (_logField != null)
         {
-            _logField.text += $"\n{message}";
+            string newLogs = $"{message}\n{_logField.text}";
+            _logField.text = newLogs;
         }
 
         Debug.Log(message);
