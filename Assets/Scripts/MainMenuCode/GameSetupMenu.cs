@@ -26,7 +26,7 @@ public class GameSetupMenu : MonoBehaviour
     [SerializeField] private GameObject customizationMenu;
     [SerializeField] private CustomizationManager customizationManager;
 
-    
+    private bool leaderChoosingProcess = false;
 
 
     private void Awake()
@@ -39,7 +39,6 @@ public class GameSetupMenu : MonoBehaviour
     {
         SetStartScreen();
     }
-
     void SetStartScreen()
     {
         if (accountManager.player != null)
@@ -48,20 +47,17 @@ public class GameSetupMenu : MonoBehaviour
             avatarBackMainMenu.GetComponent<Image>().sprite = avatarManager.GetAvatarBackImage(accountManager.player.avatarBackID);
         }
     }
-
     public void OpenMainCustomization()
     {
         customizationMenu.SetActive(true);
         customizationManager.SetCustomizationPreview(accountManager.player);
 
     }
-
     public void OpenCustomizationFromPlate(PlayerScript player)
     {
         customizationMenu.SetActive(true);
         customizationManager.SetCustomizationPreview(player);
     }
-
     public void CloseCustomization(PlayerScript updatedPlayer)
     {
         customizationMenu.SetActive(false);
@@ -78,7 +74,16 @@ public class GameSetupMenu : MonoBehaviour
         SetStartScreen();
 
     }
+    private void UpdatePlayerData(PlayerScript playerToSave)
+    {
+        if (playerToSave == accountManager.player)
+        {
+            accountManager.SavePlayerData();
+        }
+    }
 
+
+    #region Setup
     public void IncreasePlayers()
     {
         if (playerAmount < maxPlayers)
@@ -101,7 +106,7 @@ public class GameSetupMenu : MonoBehaviour
             GameObject newPlate = Instantiate(playerPlatePrefab, playerPanel.transform);
             playersPlates.Add(newPlate);
             newPlate.GetComponent<PlateCustomization>().SetPlayer(newPlayer);
-            newPlate.GetComponentInChildren<Button>().onClick.AddListener(() => OpenCustomizationFromPlate(newPlayer));
+            newPlate.GetComponentInChildren<Button>().onClick.AddListener(() => PlayerPlateClick(newPlayer));
             newPlate.GetComponent<PlateCustomization>().CustomizePlate(avatarManager, newPlayer);
 
 
@@ -109,8 +114,6 @@ public class GameSetupMenu : MonoBehaviour
         }
 
     }
-
-
     public void DecreasePlayers()
     {
         if (playerAmount > 0)
@@ -124,7 +127,6 @@ public class GameSetupMenu : MonoBehaviour
         }
 
     }
-
     public void NextLevel()
     {
         // Очищення попереднього списку гравців
@@ -144,12 +146,61 @@ public class GameSetupMenu : MonoBehaviour
         }
     }
 
-    private void UpdatePlayerData(PlayerScript playerToSave)
+     public void AssignLeader(PlayerScript newLeader = null)
     {
-        if (playerToSave == accountManager.player)
+        if(newLeader == null)
         {
-            accountManager.SavePlayerData();
+            int randomLeaderIndex = UnityEngine.Random.Range(0, players.Count);
+            newLeader = players[randomLeaderIndex];
+
+        } 
+
+        newLeader.role = PlayerRole.Leader;
+        
+
+        foreach (PlayerScript p in players)
+        {
+            if (p != newLeader)
+            {
+                p.role = PlayerRole.Player;
+                playersPlates[players.IndexOf(p)].GetComponent<PlateCustomization>().leaderCrown.SetActive(false);
+            }
+            else
+            {
+                playersPlates[players.IndexOf(p)].GetComponent<PlateCustomization>().leaderCrown.SetActive(true);
+            }
         }
     }
+
+    void PlayerPlateClick(PlayerScript player)
+    {
+        Debug.Log("plate is clicked");
+        if (leaderChoosingProcess)
+        {
+            AssignLeader(player);
+            leaderChoosingProcess = false;
+            Debug.Log("we chose the leader");
+        }
+        else
+        {
+            Debug.Log("customization in process");
+            OpenCustomizationFromPlate(player);
+        }
+    }
+
+    public void ChoseLeader()
+    {
+        leaderChoosingProcess = true;
+        Debug.Log("Choosing started");
+        // change player plate view as active
+    }
+
+    public void ChoseRandomLeader()
+    {
+        AssignLeader();
+    }
+
+    #endregion
+
 
 }

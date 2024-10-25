@@ -4,13 +4,15 @@ using UnityEngine;
 public class IngameData : MonoBehaviour
 {
 
-    public int playersAmount;
+    
 
     public static IngameData Instance;
 
     public List<PlayerScript> players = new List<PlayerScript>();
 
     private GameModes selectedMode = GameModes.Coop;
+    
+    
 
     private void Awake()
     {

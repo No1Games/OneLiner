@@ -22,7 +22,7 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         players = new List<PlayerScript>(IngameData.Instance.players);        
-        AssignRoles();
+        //AssignRoles();
         GeneratePlates();
         GenerateTurnQueue();
         OnPlayerChange.Invoke(turnsQueue[actualTurnPosition]);

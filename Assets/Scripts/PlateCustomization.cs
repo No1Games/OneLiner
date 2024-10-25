@@ -11,6 +11,7 @@ public class PlateCustomization : MonoBehaviour
     [SerializeField] GameObject back;
     [SerializeField] GameObject avatar;
     [SerializeField] GameObject avatarBack;
+    public GameObject leaderCrown;
 
     public PlayerScript player;
     
