@@ -66,6 +66,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Countdown _countdown;
 
+    [SerializeField] private AvatarManager _avatarManager;
+    public AvatarManager AvatarManager => _avatarManager;
+
     private async void Awake()
     {
         if (_instance == null)
@@ -87,14 +90,6 @@ public class GameManager : MonoBehaviour
 
         await InitializeServices();
         AuthenticatePlayer();
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "OnlineGameScene")
-        {
-            InitOnlineGame();
-        }
     }
 
     public async Task InitializeServices()
@@ -235,7 +230,7 @@ public class GameManager : MonoBehaviour
             SendLocalLobbyData();
         }
 
-        // SetLobbyView();
+        SetLobbyView();
     }
 
     private async void StartNetworkGame()

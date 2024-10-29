@@ -27,6 +27,12 @@ public class LocalPlayer
     public CallbackValue<string> ID = new CallbackValue<string>("");
     public CallbackValue<int> Index = new CallbackValue<int>(0);
 
+    public CallbackValue<int> AvatarID = new CallbackValue<int>(0);
+    public CallbackValue<int> NameBackID = new CallbackValue<int>(0);
+    public CallbackValue<int> AvatarBackID = new CallbackValue<int>(0);
+
+    public CallbackValue<PlayerRole> Role = new CallbackValue<PlayerRole>((PlayerRole)0);
+
     public DateTime LastUpdated;
 
     public LocalPlayer(string id, int index, bool isHost, string displayName = default, PlayerStatus status = default)

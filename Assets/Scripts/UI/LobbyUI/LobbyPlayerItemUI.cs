@@ -61,6 +61,11 @@ public class LobbyPlayerItemUI : MonoBehaviour
         //    m_LocalPlayer.IsHost.onChanged -= SetIsHost;
     }
 
+    private void OnDestroy()
+    {
+        Unsubscribe();
+    }
+
     private void SetDisplayName(string name)
     {
         _playerNameText.text = name;
