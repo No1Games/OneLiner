@@ -19,13 +19,13 @@ public class PlayerManager : MonoBehaviour
     List<GameObject> playersPlates = new();
 
 
-    private void Awake()
+    private void Start()
     {
         players = new List<PlayerScript>(IngameData.Instance.players);        
         //AssignRoles();
         GeneratePlates();
         GenerateTurnQueue();
-        OnPlayerChange.Invoke(turnsQueue[actualTurnPosition]);
+        OnPlayerChange?.Invoke(turnsQueue[actualTurnPosition]);
 
 
     }

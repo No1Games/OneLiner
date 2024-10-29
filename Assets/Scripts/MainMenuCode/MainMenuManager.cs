@@ -39,5 +39,6 @@ public class MainMenuManager : MonoBehaviour
 
 public enum MenuName
 {
-    LocalOnline, LobbyList, Lobby, LobbyCreate
+    LocalOnline, LobbyList, Lobby, LobbyCreate,
+    MainScreen, LocalSetup
 }
