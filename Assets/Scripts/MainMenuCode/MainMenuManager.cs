@@ -31,6 +31,11 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
+    public void OpenMenu(MenuName menu)
+    {
+        _menus.Find(m => m.Menu == menu).Show();
+    }
+
     void StartLocalGame()
     {
 

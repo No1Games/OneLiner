@@ -118,6 +118,8 @@ public class GameManager : MonoBehaviour
     {
         try
         {
+            _localUser.Role.Value = PlayerRole.Leader;
+
             var lobby = await LobbyManager.CreateLobbyAsync(
                 name,
                 maxPlayers,
@@ -142,6 +144,8 @@ public class GameManager : MonoBehaviour
     {
         try
         {
+            _localUser.Role.Value = PlayerRole.Player;
+
             var lobby = await LobbyManager.JoinLobbyAsync(lobbyID, lobbyCode, _localUser);
 
             LobbyConverters.RemoteToLocal(lobby, _localLobby);
