@@ -33,6 +33,8 @@ public class LocalPlayer
 
     public CallbackValue<PlayerRole> Role = new CallbackValue<PlayerRole>((PlayerRole)0);
 
+    public CallbackValue<bool> IsPlayerTurn = new CallbackValue<bool>(false);
+
     public DateTime LastUpdated;
 
     public LocalPlayer(string id, int index, bool isHost, string displayName = default, PlayerStatus status = default)

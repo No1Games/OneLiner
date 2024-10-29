@@ -73,4 +73,9 @@ public class PlayerPanelUI : MonoBehaviour
     {
         _crownGO.SetActive(role == PlayerRole.Leader);
     }
+
+    private void SetPlayerTurn(bool isPlayerTurn)
+    {
+
+    }
 }
