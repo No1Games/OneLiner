@@ -2115,13 +2115,14 @@ GameObject:
   - component: {fileID: 615336099}
   - component: {fileID: 615336101}
   - component: {fileID: 615336100}
-  m_Layer: 5
+  - component: {fileID: 615336102}
+  m_Layer: 2
   m_Name: WarningPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &615336099
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2180,6 +2181,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 615336098}
   m_CullTransparentMesh: 1
+--- !u!114 &615336102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615336098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b00acf65f09ea64392ff018b8d63375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _drawingManager: {fileID: 149930181}
+  _textTMP: {fileID: 1980548246}
+  _background: {fileID: 615336100}
 --- !u!1 &634156064
 GameObject:
   m_ObjectHideFlags: 0
@@ -7398,13 +7414,13 @@ GameObject:
   - component: {fileID: 1980548244}
   - component: {fileID: 1980548245}
   - component: {fileID: 1980548246}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1980548244
 RectTransform:
   m_ObjectHideFlags: 0
