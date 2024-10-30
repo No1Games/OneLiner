@@ -128,7 +128,6 @@ public class GameManager : MonoBehaviour
 
             LobbyConverters.RemoteToLocal(lobby, _localLobby);
 
-            Debug.Log($"{_localLobby.LobbyName.Value}");
             await CreateLobby();
 
             MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
