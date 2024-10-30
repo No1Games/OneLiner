@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Text;
 using Unity.Services.Lobbies.Models;
 using Zenject;
 
@@ -13,6 +14,8 @@ public static class LobbyConverters
     const string key_RelayCode = nameof(LocalLobby.RelayCode);
     const string key_LobbyState = nameof(LocalLobby.LocalLobbyState);
     const string key_LastEdit = nameof(LocalLobby.LastUpdated);
+    const string key_WordsList = nameof(LocalLobby.WordsList);
+    const string key_LeaderWord = nameof(LocalLobby.LeaderWord);
 
     const string key_Displayname = nameof(LocalPlayer.DisplayName);
     const string key_Userstatus = nameof(LocalPlayer.UserStatus);
@@ -23,8 +26,34 @@ public static class LobbyConverters
         data.Add(key_RelayCode, lobby.RelayCode.Value);
         data.Add(key_LobbyState, ((int)lobby.LocalLobbyState.Value).ToString());
         data.Add(key_LastEdit, lobby.LastUpdated.Value.ToString());
+        data.Add(key_LeaderWord, lobby.LeaderWord.Value.ToString());
+
+        data.Add(key_WordsList, ListToString(lobby.WordsList.Value));
 
         return data;
+    }
+
+    private static string ListToString(List<int> list)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        foreach (int i in list)
+        {
+            stringBuilder.Append($"{i};");
+        }
+
+        return stringBuilder.ToString();
+    }
+
+    public static List<int> ParseWordsIndexes(string indexes)
+    {
+        string[] strings = indexes.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
+        List<int> result = new List<int>();
+        foreach (string index in strings)
+        {
+            result.Add(int.Parse(index));
+        }
+        return result;
     }
 
     public static Dictionary<string, string> LocalToRemoteUserData(LocalPlayer user)
@@ -70,6 +99,12 @@ public static class LobbyConverters
         localLobby.LocalLobbyState.Value = remoteLobby.Data?.ContainsKey(key_LobbyState) == true
             ? (LobbyState)int.Parse(remoteLobby.Data[key_LobbyState].Value)
             : LobbyState.Lobby;
+        localLobby.LeaderWord.Value = remoteLobby.Data?.ContainsKey(key_LeaderWord) == true
+            ? int.Parse(remoteLobby.Data[key_LeaderWord].Value)
+            : -1;
+        localLobby.WordsList.Value = remoteLobby.Data?.ContainsKey(key_WordsList) == true
+            ? ParseWordsIndexes(remoteLobby.Data[key_WordsList].Value)
+            : new List<int>();
 
         //Custom User Data Conversions
         List<string> remotePlayerIDs = new List<string>();
