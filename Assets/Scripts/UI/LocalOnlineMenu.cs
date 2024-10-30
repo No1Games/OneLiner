@@ -18,16 +18,21 @@ public class LocalOnlineMenu : MenuBase
 
     private void OnClick_LocalButton()
     {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        MainMenuManager.Instance.ChangeMenu(MenuName.LocalSetup);
 
     }
 
     private void OnClick_OnlineButton()
     {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
     }
 
     private void OnClick_BackButton()
     {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        MainMenuManager.Instance.ChangeMenu(MenuName.MainScreen);
 
     }
 }

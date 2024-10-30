@@ -5,19 +5,37 @@ using UnityEngine.UI;
 
 public class AvatarManager : MonoBehaviour
 {
+    // Статичний екземпляр для реалізації сінглтону
+    public static AvatarManager Instance { get; private set; }
+
     [SerializeField] private ImagesPack avatars;
     [SerializeField] private ImagesPack avatarsBack;
     [SerializeField] private ImagesPack nameBack;
-    
-    
+
+    private void Awake()
+    {
+        // Перевірка, чи екземпляр уже існує
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Залишати цей об'єкт при переході на інші сцени
+        }
+        else
+        {
+            Destroy(gameObject); // Якщо екземпляр уже існує, знищити дублікати
+        }
+    }
+
     public Sprite GetAvatarImage(int index)
     {
         return avatars.someImage[index];
     }
-    public Sprite GetNameBackImage (int index)
+
+    public Sprite GetNameBackImage(int index)
     {
         return nameBack.someImage[index];
     }
+
     public Sprite GetAvatarBackImage(int index)
     {
         return avatarsBack.someImage[index];
@@ -29,6 +47,4 @@ public class AvatarManager : MonoBehaviour
         player.nameBackID = Random.Range(0, nameBack.someImage.Count);
         player.avatarID = Random.Range(0, avatars.someImage.Count);
     }
-
-    
 }

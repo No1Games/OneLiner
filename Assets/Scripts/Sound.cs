@@ -5,12 +5,9 @@ using UnityEngine;
 public class Sound
 {
     public AudioClip clip;
-    public float volume;
-    public float pitch;
-    public string name;
-
+    
+    public GameSounds name;
     public bool loop;
 
-    [HideInInspector]
-    public AudioSource source;
+    
 }

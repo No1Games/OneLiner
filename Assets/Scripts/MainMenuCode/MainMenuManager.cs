@@ -45,5 +45,5 @@ public class MainMenuManager : MonoBehaviour
 public enum MenuName
 {
     LocalOnline, LobbyList, Lobby, LobbyCreate,
-    MainScreen, LocalSetup
+    MainScreen, LocalSetup, CustomizationScreen, ModeScreen 
 }
