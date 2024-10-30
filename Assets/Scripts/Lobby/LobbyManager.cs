@@ -10,6 +10,8 @@ public class LobbyManager : IDisposable
 {
     const string key_RelayCode = nameof(LocalLobby.RelayCode);
     const string key_LobbyState = nameof(LocalLobby.LocalLobbyState);
+    const string key_LeaderWord = nameof(LocalLobby.LeaderWord);
+    const string key_WordsList = nameof(LocalLobby.WordsList);
 
     const string key_Displayname = nameof(LocalPlayer.DisplayName);
     const string key_Userstatus = nameof(LocalPlayer.UserStatus);
@@ -220,8 +222,6 @@ public class LobbyManager : IDisposable
                 dataCurr.Add(dataNew.Key, dataObj);
         }
 
-        Debug.Log($"Update Player Data Async: {dataCurr["DisplayName"].Value} --- {dataCurr["UserStatus"].Value}");
-
         if (_updatePlayerCooldown.TaskQueued)
             return;
         await _updatePlayerCooldown.QueueUntilCooldown();
@@ -236,8 +236,6 @@ public class LobbyManager : IDisposable
         try
         {
             _joinedLobby = await LobbyService.Instance.UpdatePlayerAsync(_joinedLobby.Id, playerId, updateOptions);
-
-            Debug.Log($"{_joinedLobby.Players.Find(player => playerId == GameManager.Instance.LocalUser.ID.Value).Data["UserStatus"].Value}");
         }
         catch (Exception ex)
         {
@@ -258,6 +256,12 @@ public class LobbyManager : IDisposable
             {
                 var changedValue = change.Value;
                 var changedKey = change.Key;
+
+                if (changedKey == key_LeaderWord)
+                    localLobby.LeaderWord.Value = int.Parse(changedValue.Value.Value);
+
+                if (changedKey == key_WordsList)
+                    localLobby.WordsList.Value = LobbyConverters.ParseWordsIndexes(changedValue.Value.Value);
 
                 if (changedKey == key_RelayCode)
                     localLobby.RelayCode.Value = changedValue.Value.Value;

@@ -128,7 +128,6 @@ public class GameManager : MonoBehaviour
 
             LobbyConverters.RemoteToLocal(lobby, _localLobby);
 
-            Debug.Log($"{_localLobby.LobbyName.Value}");
             await CreateLobby();
 
             MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
@@ -406,18 +405,21 @@ public class GameManager : MonoBehaviour
 
     public void SetLocalUserStatus(PlayerStatus status)
     {
-        _logger.Log($"Set Local User Status: {_localUser.DisplayName.Value} --- {status}");
-
         _localUser.UserStatus.Value = status;
 
-        _logger.Log($"User Status Invocation List is NULL: {_localUser.UserStatus.onChanged?.GetInvocationList() is null}");
         SendLocalUserData();
     }
 
     async void SendLocalUserData()
     {
-        _logger.Log($"Send Local User Data: {LocalUser.DisplayName.Value} --- {LocalUser.UserStatus.Value}");
         await LobbyManager.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localUser));
+    }
+
+    public void SetWordsList(List<int> words, int leaderWord)
+    {
+        _localLobby.WordsList.Value = words;
+        _localLobby.LeaderWord.Value = leaderWord;
+        SendLocalLobbyData();
     }
 
     async void SendLocalLobbyData()

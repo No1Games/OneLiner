@@ -35,6 +35,9 @@ public class LocalLobby
     public CallbackValue<int> MaxPlayerCount = new CallbackValue<int>();
     public CallbackValue<long> LastUpdated = new CallbackValue<long>();
 
+    public CallbackValue<List<int>> WordsList = new CallbackValue<List<int>>();
+    public CallbackValue<int> LeaderWord = new CallbackValue<int>();
+
     public int PlayerCount => m_LocalPlayers.Count;
     //ServerAddress m_RelayServer;
 
@@ -54,6 +57,9 @@ public class LocalLobby
         MaxPlayerCount.Value = 4;
         onUserJoined = null;
         onUserLeft = null;
+
+        WordsList.Value = new List<int>();
+        LeaderWord.Value = -1;
     }
 
     public LocalLobby()
@@ -84,9 +90,6 @@ public class LocalLobby
     {
         m_LocalPlayers.Insert(index, user);
         user.UserStatus.onChanged += OnUserChangedStatus;
-
-        Debug.Log($"{user.UserStatus.onChanged.GetInvocationList().Length}");
-
         onUserJoined?.Invoke(user);
         onLobbyDataChanged?.Invoke();
         Debug.Log($"Added User: {user.DisplayName.Value} - {user.ID.Value} to slot {index + 1}/{PlayerCount}");

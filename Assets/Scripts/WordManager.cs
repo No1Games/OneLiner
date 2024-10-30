@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
-
 
 public class WordManager : MonoBehaviour
 {
@@ -17,7 +12,6 @@ public class WordManager : MonoBehaviour
 
     string GetRandomWord(List<string> wordsToChoose)
     {
-
         int wordIndex = rand.Next(0, wordsToChoose.Count);
         return wordsToChoose[wordIndex];
     }
@@ -45,4 +39,33 @@ public class WordManager : MonoBehaviour
         return GetRandomWord(words);
     }
 
+    public int GetLeaderWordIndex(List<string> words)
+    {
+        return UnityEngine.Random.Range(0, words.Count);
+    }
+
+    public List<int> GetWordsIndexes(List<string> words)
+    {
+        List<int> indexes = new List<int>();
+
+        foreach (string word in words)
+        {
+            int index = wordList.words.IndexOf(word);
+            indexes.Add(index);
+        }
+
+        return indexes;
+    }
+
+    public List<string> GetWordsFromIndexes(List<int> indexes)
+    {
+        List<string> words = new List<string>();
+
+        foreach (int index in indexes)
+        {
+            words.Add(wordList.words[index]);
+        }
+
+        return words;
+    }
 }
