@@ -17507,9 +17507,18 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: d9c1023f65184a7498195d11bd5b79b8, type: 3}
     name: 1
     loop: 0
+  - clip: {fileID: 8300000, guid: 73ddfaad79a1fe44dbbfd00bd291e9fd, type: 3}
+    name: 3
+    loop: 0
+  - clip: {fileID: 8300000, guid: 8644f997b537a5b438afcba464b694bd, type: 3}
+    name: 2
+    loop: 0
+  - clip: {fileID: 8300000, guid: 8644f997b537a5b438afcba464b694bd, type: 3}
+    name: 2
+    loop: 0
   audioSourceMain: {fileID: 1826386452}
   audioSourceBack: {fileID: 1826386451}
-  audioSourceAdditional: {fileID: 0}
+  audioSourceAdditional: {fileID: 1826386450}
 --- !u!82 &1826386450
 AudioSource:
   m_ObjectHideFlags: 0

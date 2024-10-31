@@ -22,12 +22,44 @@ public class LocalSetup : MenuBase
     public override void Init()
     {
         addPlayer.onClick.AddListener(OnClick_AddPlayerBtn);
+        removePlayer.onClick.AddListener (OnClick_RemovePlayerBtn);
+        selectLeader.onClick.AddListener(OnClick_SelectLeaderBtn);
+        randomLeader.onClick.AddListener(OnClick_RandomLeaderBtn);
+        modeSelect.onClick.AddListener(OnClick_ModeSelectBtn);
+        startGame.onClick.AddListener(OnClick_StartGameBtn);
+        back.onClick.AddListener(OnClick_Back);
+
     }
 
     private void OnClick_AddPlayerBtn()
     {
-        //AudioManager.Instance.PlaySound("MenuClick");
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         //MainMenuManager.Instance.OpenMenu(MenuName.LocalOnline);
 
+    }
+    private void OnClick_RemovePlayerBtn()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+    }
+    private void OnClick_SelectLeaderBtn()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+    }
+    private void OnClick_RandomLeaderBtn() 
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+    }
+
+    private void OnClick_ModeSelectBtn()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+    }
+    private void OnClick_StartGameBtn()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Play);
+    }
+    private void OnClick_Back()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
     }
 }
