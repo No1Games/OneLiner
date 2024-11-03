@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,8 @@ public class WordsPanel : MonoBehaviour
     [SerializeField] private WordButton _wordButtonPrefab;
 
     private List<WordButton> _buttonsPool = new List<WordButton>();
+
+    public event Action<int> UserClickedWord;
 
     private void Start()
     {
@@ -30,9 +33,16 @@ public class WordsPanel : MonoBehaviour
 
         for (int i = 0; i < words.Count; i++)
         {
-            _buttonsPool[i].SetWord(words[i]);
+            _buttonsPool[i].SetWord(words[i], i);
             _buttonsPool[i].gameObject.SetActive(true);
+            _buttonsPool[i].WordButtonClick += OnUserClickedWord;
         }
+    }
+
+    private void OnUserClickedWord(int index)
+    {
+        UserClickedWord?.Invoke(index);
+        Hide();
     }
 
     private void InstantiateButtons(int count)
@@ -59,6 +69,11 @@ public class WordsPanel : MonoBehaviour
     }
 
     private void OnClick_CloseButton()
+    {
+        Hide();
+    }
+
+    private void Hide()
     {
         gameObject.SetActive(false);
     }

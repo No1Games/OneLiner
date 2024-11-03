@@ -42,6 +42,8 @@ public class OnlineGameSetup : MonoBehaviour
         }
 
         _drawingUpdate.OnScreenshotTaken += OnDrawingComplete;
+
+        _wordsPanel.UserClickedWord += OnUserMakeGuess;
     }
 
     private void OnDestroy()
@@ -82,4 +84,13 @@ public class OnlineGameSetup : MonoBehaviour
         _drawingManager.DrawingAllowed = isDrawing;
     }
 
+    private void OnUserMakeGuess(int index)
+    {
+        if (_leaderWord != index)
+        {
+            _logger.Log("Oh-oh! Wrong word! Duh!");
+        }
+
+        _turnHandler.EndTurn();
+    }
 }

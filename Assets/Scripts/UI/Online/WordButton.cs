@@ -7,17 +7,21 @@ public class WordButton : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _wordTMP;
     [SerializeField] private Image _image;
+    [SerializeField] private Button _buttonComponent;
 
-    private Button _buttonComponent;
+    private int _index;
 
-    private string _word;
+    public event Action<int> WordButtonClick;
 
-    public event Action<string> WordButtonClick;
+    private void Start()
+    {
+        _buttonComponent.onClick.AddListener(OnClick);
+    }
 
-    public void SetWord(string word)
+    public void SetWord(string word, int index)
     {
         _wordTMP.text = word;
-        _word = word;
+        _index = index;
     }
 
     public void SetLeaderWord()
@@ -33,6 +37,6 @@ public class WordButton : MonoBehaviour
         if (!GameManager.Instance.LocalUser.IsTurn.Value)
             return;
 
-        WordButtonClick?.Invoke(_word);
+        WordButtonClick?.Invoke(_index);
     }
 }
