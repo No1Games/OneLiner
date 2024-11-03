@@ -16,9 +16,12 @@ public static class LobbyConverters
     const string key_LastEdit = nameof(LocalLobby.LastUpdated);
     const string key_WordsList = nameof(LocalLobby.WordsList);
     const string key_LeaderWord = nameof(LocalLobby.LeaderWord);
+    const string key_CurrentPlayerID = nameof(LocalLobby.CurrentPlayerID);
 
     const string key_Displayname = nameof(LocalPlayer.DisplayName);
     const string key_Userstatus = nameof(LocalPlayer.UserStatus);
+    const string key_PlayerRole = nameof(LocalPlayer.Role);
+    const string key_IsTurn = nameof(LocalPlayer.IsTurn);
 
     public static Dictionary<string, string> LocalToRemoteLobbyData(LocalLobby lobby)
     {
@@ -26,9 +29,10 @@ public static class LobbyConverters
         data.Add(key_RelayCode, lobby.RelayCode.Value);
         data.Add(key_LobbyState, ((int)lobby.LocalLobbyState.Value).ToString());
         data.Add(key_LastEdit, lobby.LastUpdated.Value.ToString());
-        data.Add(key_LeaderWord, lobby.LeaderWord.Value.ToString());
 
+        data.Add(key_LeaderWord, lobby.LeaderWord.Value.ToString());
         data.Add(key_WordsList, ListToString(lobby.WordsList.Value));
+        data.Add(key_CurrentPlayerID, lobby.CurrentPlayerID.Value);
 
         return data;
     }
@@ -63,6 +67,8 @@ public static class LobbyConverters
             return data;
         data.Add(key_Displayname, user.DisplayName.Value);
         data.Add(key_Userstatus, ((int)user.UserStatus.Value).ToString());
+        data.Add(key_PlayerRole, ((int)user.Role.Value).ToString());
+        data.Add(key_IsTurn, user.IsTurn.Value.ToString());
         return data;
     }
 
@@ -105,6 +111,9 @@ public static class LobbyConverters
         localLobby.WordsList.Value = remoteLobby.Data?.ContainsKey(key_WordsList) == true
             ? ParseWordsIndexes(remoteLobby.Data[key_WordsList].Value)
             : new List<int>();
+        localLobby.CurrentPlayerID.Value = remoteLobby.Data?.ContainsKey(key_CurrentPlayerID) == true
+            ? remoteLobby.Data[key_CurrentPlayerID].Value
+            : "";
 
         //Custom User Data Conversions
         List<string> remotePlayerIDs = new List<string>();
@@ -120,12 +129,15 @@ public static class LobbyConverters
             var userStatus = player.Data?.ContainsKey(key_Userstatus) == true
                 ? (PlayerStatus)int.Parse(player.Data[key_Userstatus].Value)
                 : PlayerStatus.Lobby;
+            var playerRole = player?.Data?.ContainsKey(key_PlayerRole) == true
+                ? (PlayerRole)int.Parse(player.Data[key_PlayerRole].Value)
+                : PlayerRole.NotSetYet;
 
             LocalPlayer localPlayer = localLobby.GetLocalPlayer(index);
 
             if (localPlayer == null)
             {
-                localPlayer = new LocalPlayer(id, index, isHost, displayName, userStatus);
+                localPlayer = new LocalPlayer(id, index, isHost, displayName, userStatus, playerRole);
                 localLobby.AddPlayer(index, localPlayer);
             }
             else
@@ -135,6 +147,7 @@ public static class LobbyConverters
                 localPlayer.IsHost.Value = isHost;
                 localPlayer.DisplayName.Value = displayName;
                 localPlayer.UserStatus.Value = userStatus;
+                localPlayer.Role.Value = playerRole;
             }
 
             index++;

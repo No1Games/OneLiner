@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class DrawingUpdate : MonoBehaviour
 {
@@ -54,6 +51,7 @@ public class DrawingUpdate : MonoBehaviour
 
     private void ProcessScreenshot(Texture2D screenshot)
     {
+        Debug.Log("Screenshot taken. Invoke event");
         // ¬икликаЇмо под≥ю та передаЇмо зн≥мок
         OnScreenshotTaken?.Invoke(screenshot);
     }

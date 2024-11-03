@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
 {
     [Inject(Id = "RuntimeTMP")] private ILogger _logger;
 
+    public event Action PassTurn;
+    public event Action TurnPassed;
+
     #region NGO Fields and Props
 
     [SerializeField] private NetworkManager _networkManager;
@@ -98,7 +101,9 @@ public class GameManager : MonoBehaviour
 
         var result = await UnityServiceAuthenticator.TrySignInAsync(serviceProfileName.Substring(0, 30));
 
-        Debug.Log($"Services Authentification Result: {result}");
+        (LobbyService.Instance as ILobbyServiceSDKConfiguration).EnableLocalPlayerLobbyEvents(true);
+
+        _logger.Log($"Services Authentification Result: {result}");
     }
 
     void AuthenticatePlayer()
@@ -118,8 +123,6 @@ public class GameManager : MonoBehaviour
     {
         try
         {
-            _localUser.Role.Value = PlayerRole.Leader;
-
             var lobby = await LobbyManager.CreateLobbyAsync(
                 name,
                 maxPlayers,
@@ -143,12 +146,12 @@ public class GameManager : MonoBehaviour
     {
         try
         {
-            _localUser.Role.Value = PlayerRole.Player;
-
             var lobby = await LobbyManager.JoinLobbyAsync(lobbyID, lobbyCode, _localUser);
 
             LobbyConverters.RemoteToLocal(lobby, _localLobby);
             await JoinLobby();
+
+            SetLocalUserRole(PlayerRole.Player);
         }
         catch (LobbyServiceException exception)
         {
@@ -158,20 +161,18 @@ public class GameManager : MonoBehaviour
     }
 
     //Only Host needs to listen to this and change state.
-    void OnPlayersReady(int readyCount)
+    async void OnPlayersReady(int readyCount)
     {
-        Debug.Log($"Players Ready Count: {readyCount}");
-
         if (readyCount == _localLobby.PlayerCount &&
             _localLobby.LocalLobbyState.Value != LobbyState.CountDown)
         {
             _localLobby.LocalLobbyState.Value = LobbyState.CountDown;
-            SendLocalLobbyData();
+            await SendLocalLobbyData();
         }
         else if (_localLobby.LocalLobbyState.Value == LobbyState.CountDown)
         {
             _localLobby.LocalLobbyState.Value = LobbyState.Lobby;
-            SendLocalLobbyData();
+            await SendLocalLobbyData();
         }
     }
 
@@ -187,19 +188,21 @@ public class GameManager : MonoBehaviour
 
     void BeginCountDown()
     {
-        Debug.Log("Beginning Countdown.");
+        _logger.Log("Beginning Countdown.");
         _countdown.StartCountDown();
     }
 
     void CancelCountDown()
     {
-        Debug.Log("Countdown Cancelled.");
+        _logger.Log("Countdown Cancelled.");
         _countdown.CancelCountDown();
     }
 
     public void FinishedCountDown()
     {
-        Debug.Log("Finished Countdown!");
+        _localLobby.LocalLobbyState.Value = LobbyState.InGame;
+        SendLocalLobbyData();
+        _logger.Log("Finished Countdown!");
     }
 
     public void StartOnlineGame()
@@ -217,6 +220,7 @@ public class GameManager : MonoBehaviour
         if (_localUser.IsHost.Value)
         {
             _localUser.UserStatus.Value = PlayerStatus.InGame;
+
             _localLobby.LocalLobbyState.Value = LobbyState.InGame;
             _localLobby.Locked.Value = true;
             SendLocalLobbyData();
@@ -354,15 +358,19 @@ public class GameManager : MonoBehaviour
     {
         _localUser.IsHost.ForceSet(false);
         await BindLobby();
+
+        SetLocalUserRole(PlayerRole.Player);
     }
 
     async Task CreateLobby()
     {
         _localUser.IsHost.Value = true;
-        _localLobby.onUserReadyChange = OnPlayersReady;
+        _localLobby.onUserReadyChange += OnPlayersReady;
         try
         {
             await BindLobby();
+
+            SetLocalUserRole(PlayerRole.Leader);
         }
         catch (LobbyServiceException exception)
         {
@@ -374,7 +382,13 @@ public class GameManager : MonoBehaviour
     async Task BindLobby()
     {
         await LobbyManager.BindLocalLobbyToRemote(_localLobby.LobbyID.Value, _localLobby);
+
         _localLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
+
+        _localLobby.CurrentPlayerID.onChanged += OnCurrentTurnIDChanged;
+
+        _localLobby.onUserTurnChanged += OnAnyUserTurnChanged;
+
         SetLobbyView();
         MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
     }
@@ -392,7 +406,7 @@ public class GameManager : MonoBehaviour
         LobbyManager.KickPlayer(playerId);
     }
 
-    public void SetLocalUserName(string name)
+    public async void SetLocalUserName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -400,19 +414,32 @@ public class GameManager : MonoBehaviour
             return;
         }
         _localUser.DisplayName.Value = name;
-        SendLocalUserData();
+        await SendLocalUserData();
     }
 
-    public void SetLocalUserStatus(PlayerStatus status)
+    public async void SetLocalUserStatus(PlayerStatus status)
     {
         _localUser.UserStatus.Value = status;
 
-        SendLocalUserData();
+        await SendLocalUserData();
     }
 
-    async void SendLocalUserData()
+    public async void SetLocalUserRole(PlayerRole role)
     {
-        await LobbyManager.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localUser));
+        _localUser.Role.Value = role;
+        await SendLocalUserData();
+    }
+
+    public async void SetLocalUserTurn(bool newValue)
+    {
+        _localUser.IsTurn.Value = newValue;
+        await SendLocalUserData();
+    }
+
+    async Task SendLocalUserData(LocalPlayer localPlayer = null, string id = null)
+    {
+        await LobbyManager.UpdatePlayerDataAsync(
+            LobbyConverters.LocalToRemoteUserData(localPlayer == null ? _localUser : localPlayer), id);
     }
 
     public void SetWordsList(List<int> words, int leaderWord)
@@ -422,9 +449,34 @@ public class GameManager : MonoBehaviour
         SendLocalLobbyData();
     }
 
-    async void SendLocalLobbyData()
+    public async void SetTurnID(string id)
+    {
+        _localLobby.CurrentPlayerID.Value = id;
+        await SendLocalLobbyData();
+    }
+
+    async Task SendLocalLobbyData()
     {
         await LobbyManager.UpdateLobbyDataAsync(LobbyConverters.LocalToRemoteLobbyData(_localLobby));
+    }
+
+    private void OnAnyUserTurnChanged(bool newValue)
+    {
+        if (!newValue)
+        {
+            if (_localUser.IsHost.Value)
+                PassTurn?.Invoke();
+        }
+    }
+
+    private async void OnCurrentTurnIDChanged(string id)
+    {
+        if (_localUser.ID.Value == id)
+        {
+            _localUser.IsTurn.Value = true;
+
+            await SendLocalUserData();
+        }
     }
 
     private void ResetLocalLobby()

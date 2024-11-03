@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,14 +49,13 @@ public class WordsPanel : MonoBehaviour
     {
         if (GameManager.Instance.LocalUser.Role.Value != PlayerRole.Leader) return;
 
-        try
-        {
-            _buttonsPool[leaderWordIndex].SetLeaderWord();
-        }
-        catch (Exception e)
+        if (leaderWordIndex > _buttonsPool.Count || leaderWordIndex < 0)
         {
             Debug.Log("Invalid Leader Word Index");
+            return;
         }
+
+        _buttonsPool[leaderWordIndex].SetLeaderWord();
     }
 
     private void OnClick_CloseButton()

@@ -1,9 +1,12 @@
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
+using Zenject;
 
-public class OnlineGameSetup : NetworkBehaviour
+public class OnlineGameSetup : MonoBehaviour
 {
+    [Inject(Id = "RuntimeTMP")] ILogger _logger;
+
     [SerializeField] private StartTurnPanelUI _startTurnPanel;
     [SerializeField] private TurnHandler _turnHandler;
 
@@ -13,21 +16,19 @@ public class OnlineGameSetup : NetworkBehaviour
     private List<int> _wordsIndexes = new List<int>();
     private int _leaderWord;
 
+    [SerializeField] private DrawingManager _drawingManager;
+    [SerializeField] private DrawingUpdate _drawingUpdate;
+    [SerializeField] private Image _drawnImage;
+
+    [SerializeField] private Camera _mainCamera;
+
     private LocalLobby _localLobby;
     private LocalPlayer _localPlayer;
-
-    private LocalPlayer _leader;
-    private LocalPlayer _host;
 
     private void Start()
     {
         _localLobby = GameManager.Instance.LocalLobby;
         _localPlayer = GameManager.Instance.LocalUser;
-
-        _leader = _localLobby.LocalPlayers.Find(p => p.Role.Value == PlayerRole.Leader);
-        _host = _localLobby.LocalPlayers.Find(_p => _p.IsHost.Value == true);
-
-        _turnHandler.OnTurnChanged += _startTurnPanel.OnTurnChanged;
 
         _localLobby.WordsList.onChanged += OnWordsChanged;
         _localLobby.LeaderWord.onChanged += OnLeaderWordChanged;
@@ -39,6 +40,16 @@ public class OnlineGameSetup : NetworkBehaviour
             _leaderWord = _wordManager.GetLeaderWordIndex(_words);
             GameManager.Instance.SetWordsList(_wordsIndexes, _leaderWord);
         }
+
+        _drawingUpdate.OnScreenshotTaken += OnDrawingComplete;
+    }
+
+    private void OnDestroy()
+    {
+        _localLobby.WordsList.onChanged -= OnWordsChanged;
+        _localLobby.LeaderWord.onChanged -= OnLeaderWordChanged;
+
+        _drawingUpdate.OnScreenshotTaken -= OnDrawingComplete;
     }
 
     private void OnWordsChanged(List<int> indexes)
@@ -52,4 +63,23 @@ public class OnlineGameSetup : NetworkBehaviour
     {
         _wordsPanel.SetLeaderWord(index);
     }
+
+    private void OnDrawingComplete(Texture2D texture)
+    {
+        Sprite screenshotSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+
+        _drawnImage.sprite = screenshotSprite;
+
+        ToggleScreen(false);
+
+        _turnHandler.EndTurn();
+    }
+
+    private void ToggleScreen(bool isDrawing)
+    {
+        _drawingUpdate.gameObject.SetActive(isDrawing);
+        _mainCamera.gameObject.SetActive(!isDrawing);
+        _drawingManager.DrawingAllowed = isDrawing;
+    }
+
 }

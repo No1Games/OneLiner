@@ -8,9 +8,9 @@ public class StartTurnPanelUI : MonoBehaviour
     //private readonly string _yourTurnStr = "Ваш хід!";
     //private readonly string _otherTurnStr = "Зараз ходить ";
 
-    public void OnTurnChanged(LocalPlayer currentPlayer)
+    public void OnTurnChanged(string currentPlayerID)
     {
-        if (currentPlayer.ID.Value == GameManager.Instance.LocalUser.ID.Value)
+        if (currentPlayerID == GameManager.Instance.LocalUser.ID.Value)
         {
             gameObject.SetActive(true);
             // _turnText.text = _yourTurnStr;

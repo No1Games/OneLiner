@@ -31,7 +31,6 @@ public class WordManager : MonoBehaviour
 
         }
         return new List<string>(words);
-
     }
 
     public string GetLeaderWord(List<string> words)

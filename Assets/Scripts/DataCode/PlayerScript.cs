@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 [System.Serializable]
-public class PlayerScript 
+public class PlayerScript
 {
     public string name;
     public PlayerRole role;
@@ -27,7 +23,7 @@ public class PlayerScript
 
 public enum PlayerRole
 {
-    Leader, 
-    Player,
-    NotSetYet
+    Leader = 1,
+    Player = 2,
+    NotSetYet = default
 }

@@ -53,12 +53,17 @@ public class LobbyPlayerItemUI : MonoBehaviour
     {
         if (_localPlayer == null)
             return;
+
         if (_localPlayer.DisplayName?.onChanged != null)
             _localPlayer.DisplayName.onChanged -= SetDisplayName;
+
         if (_localPlayer.UserStatus?.onChanged != null)
             _localPlayer.UserStatus.onChanged -= SetUserStatus;
+
         //if (m_LocalPlayer.IsHost?.onChanged != null)
         //    m_LocalPlayer.IsHost.onChanged -= SetIsHost;
+
+        _localPlayer = null;
     }
 
     private void OnDestroy()
@@ -79,8 +84,6 @@ public class LobbyPlayerItemUI : MonoBehaviour
         SetUserStatus(PlayerStatus.Lobby);
 
         Unsubscribe();
-
-        _localPlayer = null;
 
         gameObject.SetActive(false);
     }

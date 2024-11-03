@@ -21,6 +21,7 @@ public class LocalLobby
     public Action<LocalPlayer> onUserJoined;
     public Action<int> onUserLeft;
     public Action<int> onUserReadyChange;
+    public Action<bool> onUserTurnChanged;
     public Action onLobbyDataChanged;
 
     public CallbackValue<string> LobbyID = new CallbackValue<string>();
@@ -37,6 +38,7 @@ public class LocalLobby
 
     public CallbackValue<List<int>> WordsList = new CallbackValue<List<int>>();
     public CallbackValue<int> LeaderWord = new CallbackValue<int>();
+    public CallbackValue<string> CurrentPlayerID = new CallbackValue<string>("");
 
     public int PlayerCount => m_LocalPlayers.Count;
     //ServerAddress m_RelayServer;
@@ -60,6 +62,7 @@ public class LocalLobby
 
         WordsList.Value = new List<int>();
         LeaderWord.Value = -1;
+        CurrentPlayerID.Value = "";
     }
 
     public LocalLobby()
@@ -86,10 +89,30 @@ public class LocalLobby
         return PlayerCount > index ? m_LocalPlayers[index] : null;
     }
 
+    public LocalPlayer GetLocalPlayer(string id)
+    {
+        if (id == null || id.Equals(string.Empty))
+        {
+            Debug.Log("Error: empty id");
+            return null;
+        }
+
+        foreach (var player in m_LocalPlayers)
+        {
+            if (player.ID.Value == id)
+            {
+                return player;
+            }
+        }
+
+        return null;
+    }
+
     public void AddPlayer(int index, LocalPlayer user)
     {
         m_LocalPlayers.Insert(index, user);
         user.UserStatus.onChanged += OnUserChangedStatus;
+        user.IsTurn.onChanged += OnUserChangedTurn;
         onUserJoined?.Invoke(user);
         onLobbyDataChanged?.Invoke();
         Debug.Log($"Added User: {user.DisplayName.Value} - {user.ID.Value} to slot {index + 1}/{PlayerCount}");
@@ -103,10 +126,13 @@ public class LocalLobby
         onLobbyDataChanged?.Invoke();
     }
 
+    private void OnUserChangedTurn(bool value)
+    {
+        onUserTurnChanged?.Invoke(value);
+    }
+
     void OnUserChangedStatus(PlayerStatus status)
     {
-        Debug.Log($"Local Lobby OnUserChangedStatus: {status}");
-
         int readyCount = 0;
         foreach (var player in m_LocalPlayers)
         {

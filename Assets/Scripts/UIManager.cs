@@ -138,7 +138,7 @@ public class UIManager : MonoBehaviour
 
     public void StartTurn() //коли п≥дтвердили що телефон у гравц€
     {
-        
+
         startPanel.SetActive(false);
         inGamePanel.SetActive(true);
         OnTurnStarted?.Invoke();
@@ -164,9 +164,6 @@ public class UIManager : MonoBehaviour
         OnActionConfirmed.Invoke();
         OpenPlayerScreen();
         confirmedDrawing.GetComponent<Image>().sprite = screenshotSprite;
-       
-
-
     }
 
     public void OpenWordsMenu()//коли хочемо подивитись слова або своЇ слово €к ведучий

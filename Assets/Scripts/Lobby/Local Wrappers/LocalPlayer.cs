@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 /// <summary>
 /// Current state of the user in the lobby.
@@ -33,22 +34,36 @@ public class LocalPlayer
 
     public CallbackValue<PlayerRole> Role = new CallbackValue<PlayerRole>((PlayerRole)0);
 
-    public CallbackValue<bool> IsPlayerTurn = new CallbackValue<bool>(false);
+    public CallbackValue<bool> IsTurn = new CallbackValue<bool>(false);
 
     public DateTime LastUpdated;
 
-    public LocalPlayer(string id, int index, bool isHost, string displayName = default, PlayerStatus status = default)
+    public LocalPlayer(string id, int index, bool isHost, string displayName = default, PlayerStatus status = default, PlayerRole role = default)
     {
         ID.Value = id;
         IsHost.Value = isHost;
         Index.Value = index;
         DisplayName.Value = displayName;
         UserStatus.Value = status;
+        Role.Value = role;
     }
 
     public void ResetState()
     {
         IsHost.Value = false;
         UserStatus.Value = PlayerStatus.Menu;
+    }
+
+    public override string ToString()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append($"ID: {ID.Value}\n");
+        sb.Append($"Name: {DisplayName.Value}\n");
+        sb.Append($"Role: {Role.Value}\n");
+        sb.Append($"Is Turn: {IsTurn.Value}\n");
+        sb.Append($"Is Host: {IsHost.Value}\n");
+
+        return sb.ToString();
     }
 }
