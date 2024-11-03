@@ -100,6 +100,7 @@ public class GameSetupMenu : MonoBehaviour
             else
             {
                 newPlayer = accountManager.player;
+                
             }
             players.Add(newPlayer);
 
@@ -108,7 +109,7 @@ public class GameSetupMenu : MonoBehaviour
             newPlate.GetComponent<PlateCustomization>().SetPlayer(newPlayer);
             newPlate.GetComponentInChildren<Button>().onClick.AddListener(() => PlayerPlateClick(newPlayer));
             newPlate.GetComponent<PlateCustomization>().CustomizePlate(avatarManager, newPlayer);
-
+            AssignLeader(newPlayer);
 
             playerAmount++;
         }
@@ -174,30 +175,38 @@ public class GameSetupMenu : MonoBehaviour
 
     void PlayerPlateClick(PlayerScript player)
     {
-        Debug.Log("plate is clicked");
+       
         if (leaderChoosingProcess)
         {
             AssignLeader(player);
             leaderChoosingProcess = false;
-            Debug.Log("we chose the leader");
+            
         }
         else
         {
-            Debug.Log("customization in process");
+            
             OpenCustomizationFromPlate(player);
         }
     }
 
     public void ChoseLeader()
     {
-        leaderChoosingProcess = true;
-        Debug.Log("Choosing started");
-        // change player plate view as active
+        if(players.Count >  0)
+        {
+            leaderChoosingProcess = true;
+            Debug.Log("Choosing started");
+            // change player plate view as active
+        }
+
     }
 
     public void ChoseRandomLeader()
     {
-        AssignLeader();
+        if (players.Count > 0)
+        {
+            AssignLeader();
+        }
+        
     }
 
     #endregion
