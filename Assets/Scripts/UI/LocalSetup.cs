@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,8 @@ public class LocalSetup : MenuBase
     [SerializeField] private Button back;
     public override MenuName Menu => MenuName.LocalSetup;
 
+    public event Action OnScreenShow;
+
     private void Awake()
     {
         Init();
@@ -29,6 +32,13 @@ public class LocalSetup : MenuBase
         startGame.onClick.AddListener(OnClick_StartGameBtn);
         back.onClick.AddListener(OnClick_Back);
 
+    }
+
+    public override void Show()
+    {
+        base.Show();
+        OnScreenShow?.Invoke();
+        
     }
 
     private void OnClick_AddPlayerBtn()
@@ -56,7 +66,7 @@ public class LocalSetup : MenuBase
     }
     private void OnClick_StartGameBtn()
     {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Play);
+        //AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Play);
     }
     private void OnClick_Back()
     {

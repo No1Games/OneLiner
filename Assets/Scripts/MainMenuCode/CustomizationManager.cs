@@ -77,6 +77,7 @@ public class CustomizationManager : MonoBehaviour
 
     private void SetCustomizationElement(CustomizationButton element)
     {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         switch (element.part)
         {
             case CustomizationPart.Avatar:
@@ -97,6 +98,7 @@ public class CustomizationManager : MonoBehaviour
 
     public void AcceptCustomization()
     {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         playerToChange.avatarBackID = playerAvatarBackIndex;
         playerToChange.avatarID = playerAvatarIndex;
         playerToChange.nameBackID = playerNameBackIndex;

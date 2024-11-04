@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AvatarBacksBasic
   m_EditorClassIdentifier: 
   someImage:
-  - {fileID: 21300000, guid: 8401b6e08f8e2fb4d976670393fc7479, type: 3}
+  - {fileID: 21300000, guid: 1c10cf2da80346544963cbb48c572f79, type: 3}
   - {fileID: 21300000, guid: f2cdc96cfd8c45041b441f58e411310f, type: 3}
   - {fileID: 21300000, guid: ea10e6561c3768e4daff3f66b025e0b4, type: 3}
   - {fileID: 21300000, guid: 53c7200bd4fe8d5489e39c8097e4a98e, type: 3}

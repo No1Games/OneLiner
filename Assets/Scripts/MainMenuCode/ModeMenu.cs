@@ -20,6 +20,7 @@ public class ModeMenu : MonoBehaviour
     public void NextMode()
     {
         // Знайдемо наступний режим гри
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         currentMode = (GameModes)(((int)currentMode + 1) % modePanels.Count);
         ActivateGameModePanel(currentMode);
     }
@@ -27,6 +28,7 @@ public class ModeMenu : MonoBehaviour
     public void PreviousMode()
     {
         // Знайдемо попередній режим гри
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         currentMode = (GameModes)(((int)currentMode - 1 + modePanels.Count) % modePanels.Count);
         ActivateGameModePanel(currentMode);
     }
@@ -49,6 +51,7 @@ public class ModeMenu : MonoBehaviour
     public void SelectMode()
     {
         // Обираємо режим гри і передаємо його в скрипт з даними
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         IngameData.Instance.SetGameMode(currentMode);
         this.gameObject.SetActive(false);
     }

@@ -60,6 +60,7 @@ public class GameSetupMenu : MonoBehaviour
     }
     public void CloseCustomization(PlayerScript updatedPlayer)
     {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         customizationMenu.SetActive(false);
         if (playersPlates.Count > 0)
         {
@@ -139,10 +140,12 @@ public class GameSetupMenu : MonoBehaviour
             {
                 IngameData.Instance.players.Add(player);
             }
+            AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Play);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else
         {
+            AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
             Debug.LogWarning("Перехід на наступну сцену заблоковано.");
         }
     }
@@ -178,13 +181,14 @@ public class GameSetupMenu : MonoBehaviour
        
         if (leaderChoosingProcess)
         {
+            AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
             AssignLeader(player);
             leaderChoosingProcess = false;
             
         }
         else
         {
-            
+            AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_edit);
             OpenCustomizationFromPlate(player);
         }
     }
