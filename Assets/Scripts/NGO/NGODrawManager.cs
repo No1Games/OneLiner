@@ -11,6 +11,7 @@ public class NGODrawManager : MonoBehaviour
     [SerializeField] private Camera _drawingCamera;
 
     private List<NGOLine> _lines;
+    private Queue<NGOLine> _linesPool;
     private NGOLine _currentLine;
     private NGOLine _startLine;
 
@@ -33,6 +34,7 @@ public class NGODrawManager : MonoBehaviour
     void Start()
     {
         _lines = new List<NGOLine>();
+        _linesPool = new Queue<NGOLine>();
     }
 
     void Update()
@@ -55,12 +57,18 @@ public class NGODrawManager : MonoBehaviour
 
             if (_currentLine.GetLength() < _minLength)
             {
-                Destroy(_currentLine.gameObject);
+                _currentLine.gameObject.SetActive(false);
+                _linesPool.Enqueue(_currentLine);
+                _currentLine = null;
+
                 OnLineUnavailable?.Invoke(_lineTooShortMessage);
             }
             else if (!SecondPointAngleCheck())
             {
-                Destroy(_currentLine.gameObject);
+                _currentLine.gameObject.SetActive(false);
+                _linesPool.Enqueue(_currentLine);
+                _currentLine = null;
+
                 OnLineUnavailable?.Invoke(_lineMustNotContinueAnotherLineMessage);
             }
             else
@@ -94,7 +102,17 @@ public class NGODrawManager : MonoBehaviour
                 if (FirstPointDistanceCheck(point))
                 {
                     _isDrawing = true;
-                    _currentLine = Instantiate(_linePrefab);
+
+                    if (_linesPool.Count > 0)
+                    {
+                        _currentLine = _linesPool.Dequeue();
+                        _currentLine.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        _currentLine = Instantiate(_linePrefab);
+                    }
+
                     _currentLine.SetLinePositions(point, point);
                 }
                 else
@@ -240,7 +258,11 @@ public class NGODrawManager : MonoBehaviour
 
     public void RemoveLastLine()
     {
-        Destroy(_lines[_lines.Count - 1].gameObject);
+        NGOLine lastLine = _lines[_lines.Count - 1];
+
+        _linesPool.Enqueue(lastLine);
+        lastLine.gameObject.SetActive(false);
+
         _lines.RemoveAt(_lines.Count - 1);
     }
 }
