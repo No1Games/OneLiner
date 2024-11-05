@@ -16,7 +16,7 @@ public class OnlineGameSetup : MonoBehaviour
     private List<int> _wordsIndexes = new List<int>();
     private int _leaderWord;
 
-    [SerializeField] private DrawingManager _drawingManager;
+    [SerializeField] private NGODrawManager _drawingManager;
     [SerializeField] private DrawingUpdate _drawingUpdate;
     [SerializeField] private Image _drawnImage;
 
@@ -77,11 +77,11 @@ public class OnlineGameSetup : MonoBehaviour
         _turnHandler.EndTurn();
     }
 
-    private void ToggleScreen(bool isDrawing)
+    public void ToggleScreen(bool isDrawing)
     {
         _drawingUpdate.gameObject.SetActive(isDrawing);
         _mainCamera.gameObject.SetActive(!isDrawing);
-        _drawingManager.DrawingAllowed = isDrawing;
+        _drawingManager.IsDrawAllowed = isDrawing;
     }
 
     private void OnUserMakeGuess(int index)

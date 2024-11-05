@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ConfirmLineUI : MonoBehaviour
 {
-    [SerializeField] private DrawingManager _drawingManager;
+    [SerializeField] private NGODrawManager _drawingManager;
     [SerializeField] private DrawingUpdate _drawingUpdate;
 
     [SerializeField] private GameObject _panelGO;
@@ -13,15 +13,15 @@ public class ConfirmLineUI : MonoBehaviour
 
     private void Start()
     {
-        _drawingManager.OnDrawingComplete += ConfirmTurnActivate;
+        _drawingManager.OnDrawingEnd += ConfirmTurnActivate;
 
         _removeBtn.onClick.AddListener(OnClick_RemoveButton);
         _confirmBtn.onClick.AddListener(OnClick_ConfirmButton);
     }
 
-    private void ConfirmTurnActivate()
+    private void ConfirmTurnActivate(NGOLine line)
     {
-        _drawingManager.DrawingAllowed = false;
+        _drawingManager.IsDrawAllowed = false;
         _panelGO.SetActive(true);
     }
 
@@ -29,7 +29,7 @@ public class ConfirmLineUI : MonoBehaviour
     {
         _panelGO.SetActive(false);
         _drawingManager.RemoveLastLine();
-        _drawingManager.DrawingAllowed = true;
+        _drawingManager.IsDrawAllowed = true;
     }
 
     private void OnClick_ConfirmButton()
