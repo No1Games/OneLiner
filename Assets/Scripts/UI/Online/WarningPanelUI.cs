@@ -7,7 +7,7 @@ public class WarningPanelUI : MonoBehaviour
 {
     private bool _isActive = false;
 
-    [SerializeField] private DrawingManager _drawingManager;
+    [SerializeField] private NGODrawManager _drawingManager;
 
     [SerializeField] private TextMeshProUGUI _textTMP;
     [SerializeField] private Image _background;

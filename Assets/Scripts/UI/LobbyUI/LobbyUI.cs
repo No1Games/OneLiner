@@ -23,7 +23,6 @@ public class LobbyUI : MenuBase
 
     [Header("Buttons")]
     [SerializeField] private Button _leaveLobbyBtn;
-    [SerializeField] private Button _startBtn;
     [SerializeField] private Button _readyGameBtn;
 
     private PlayerStatus _playerReady = PlayerStatus.Lobby;
@@ -39,8 +38,6 @@ public class LobbyUI : MenuBase
     {
         _localLobby = GameManager.Instance.LocalLobby;
         _localLobby.onLobbyDataChanged += UpdateUI;
-
-        //_startBtn.gameObject.SetActive(GameManager.Instance.LocalUser.IsHost.Value);
 
         _playerReady = GameManager.Instance.LocalUser.UserStatus.Value;
 
@@ -119,8 +116,6 @@ public class LobbyUI : MenuBase
     {
         _playerReady = _playerReady == PlayerStatus.Lobby ? PlayerStatus.Ready : PlayerStatus.Lobby;
 
-        _logger.Log($"Ready Button Clicked: Switch status of {GameManager.Instance.LocalUser.DisplayName.Value} to {_playerReady} \n ID: {GameManager.Instance.LocalUser.ID.Value}");
-
         GameManager.Instance.SetLocalUserStatus(_playerReady);
         _readyGameBtn.GetComponentInChildren<TextMeshProUGUI>().text = _playerReady == PlayerStatus.Ready ? "Cancel" : "Ready";
     }
@@ -132,10 +127,7 @@ public class LobbyUI : MenuBase
         _playerItemTemplate.gameObject.SetActive(false);
 
         _leaveLobbyBtn.onClick.AddListener(OnClick_LeaveLobbyButton);
-        _startBtn.onClick.AddListener(OnClick_StartButton);
         _readyGameBtn.onClick.AddListener(OnClick_ReadyButton);
-
-        // _playerReady = GameManager.Instance.LocalUser.UserStatus.Value;
     }
 
     public override void Show()

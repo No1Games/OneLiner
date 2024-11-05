@@ -73,8 +73,6 @@ public class TurnHandler : MonoBehaviour
             return;
         }
 
-        _logger.Log($"Set new player with ID {_currentPlayer.ID.Value} name {_currentPlayer.DisplayName.Value}");
-
         // Update UI
         SetUI();
     }
