@@ -45,6 +45,8 @@ public class NetworkGameManager : NetworkBehaviour
         if (line != null)
         {
             line.SetLinePositions(start, end);
+
+            _drawManager.AddLine(line);
         }
     }
 

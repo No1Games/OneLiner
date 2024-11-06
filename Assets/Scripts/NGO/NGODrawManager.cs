@@ -25,7 +25,9 @@ public class NGODrawManager : MonoBehaviour
     public bool IsDrawAllowed { set { _isDrawAllowed = value; } }
 
     public event Action<string> OnLineUnavailable;
-    public event Action<NGOLine> OnDrawingEnd;
+    public event Action<NGOLine> OnLineDrawn;
+    public event Action<NGOLine> OnLineConfirmed;
+    public event Action OnLineSpawned;
 
     private readonly string _lineMustStartMessage = "Лінія має починатись з іншої лінії";
     private readonly string _lineTooShortMessage = "Лінія занадто коротка";
@@ -73,9 +75,7 @@ public class NGODrawManager : MonoBehaviour
             }
             else
             {
-                //_lines.Add(_currentLine);
-
-                OnDrawingEnd?.Invoke(_currentLine);
+                OnLineDrawn?.Invoke(_currentLine);
             }
         }
         else
@@ -270,5 +270,11 @@ public class NGODrawManager : MonoBehaviour
     public void AddLine(NGOLine line)
     {
         _lines.Add(line);
+        OnLineSpawned?.Invoke();
+    }
+
+    public void LineConfirmed()
+    {
+        OnLineConfirmed?.Invoke(_currentLine);
     }
 }

@@ -45,9 +45,11 @@ public class OnlineGameSetup : MonoBehaviour
             GameManager.Instance.SetWordsList(_wordsIndexes, _leaderWord);
         }
 
-        _drawingManager.OnDrawingEnd += OnDrawingEnd;
+        _drawingManager.OnLineConfirmed += OnLineConfirmed;
 
-        _drawingUpdate.OnScreenshotTaken += OnDrawingComplete;
+        _drawingManager.OnLineSpawned += OnLineSpawned;
+
+        _drawingUpdate.OnScreenshotTaken += OnScreenshotTaken;
 
         _wordsPanel.UserClickedWord += OnUserMakeGuess;
     }
@@ -57,12 +59,20 @@ public class OnlineGameSetup : MonoBehaviour
         _localLobby.WordsList.onChanged -= OnWordsChanged;
         _localLobby.LeaderWord.onChanged -= OnLeaderWordChanged;
 
-        _drawingUpdate.OnScreenshotTaken -= OnDrawingComplete;
+        _drawingUpdate.OnScreenshotTaken -= OnScreenshotTaken;
     }
 
-    private void OnDrawingEnd(NGOLine line)
+    private void OnLineSpawned()
+    {
+        ToggleScreen(true);
+        _drawingUpdate.TakeScreenshot();
+        ToggleScreen(false);
+    }
+
+    private void OnLineConfirmed(NGOLine line)
     {
         _networkGameManager.SpawnLine(line.Start, line.End);
+        _turnHandler.EndTurn();
     }
 
     private void OnWordsChanged(List<int> indexes)
@@ -77,15 +87,18 @@ public class OnlineGameSetup : MonoBehaviour
         _wordsPanel.SetLeaderWord(index);
     }
 
-    private void OnDrawingComplete(Texture2D texture)
+    private void UpdatePicture(Texture2D texture)
     {
         Sprite screenshotSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
 
         _drawnImage.sprite = screenshotSprite;
+    }
+
+    private void OnScreenshotTaken(Texture2D texture)
+    {
+        UpdatePicture(texture);
 
         ToggleScreen(false);
-
-        _turnHandler.EndTurn();
     }
 
     public void ToggleScreen(bool isDrawing)
