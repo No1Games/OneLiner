@@ -10,6 +10,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource audioSourceMain;
     [SerializeField] private AudioSource audioSourceBack;
     [SerializeField] private AudioSource audioSourceAdditional;
+
+    [SerializeField] AudioMixer audioMixer;
+    [SerializeField] string musicVolumeParam;
+    [SerializeField] string sfxVolumeParam;
     private void Awake()
     {
         if (Instance == null)
@@ -63,6 +67,36 @@ public class AudioManager : MonoBehaviour
         audioSourceAdditional.clip = s.clip;
         audioSourceAdditional.loop = s.loop;
         audioSourceAdditional.Play();
+    }
+
+    public void TurnMusicOn()
+    {
+        audioMixer.SetFloat(musicVolumeParam, 0f);
+    }
+    public void TurnMusicOff()
+    {
+        audioMixer.SetFloat(musicVolumeParam, -80f);
+    }
+    public void TurnSFXOn()
+    {
+        audioMixer.SetFloat(sfxVolumeParam, 0f);
+    }
+    public void TurnSFXOff()
+    {
+        audioMixer.SetFloat(sfxVolumeParam, -80f);
+    }
+
+    public float GetMusicVolume()
+    {
+        float volume;
+        audioMixer.GetFloat(musicVolumeParam, out volume);
+        return volume;
+    }
+    public float GetSFXVolume()
+    {
+        float volume;
+        audioMixer.GetFloat(sfxVolumeParam, out volume);
+        return volume;
     }
 
 

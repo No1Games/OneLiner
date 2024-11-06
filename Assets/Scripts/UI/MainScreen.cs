@@ -34,6 +34,7 @@ public class MainScreen : MenuBase
     private void OnClick_OptionsBtn()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        MainMenuManager.Instance.OpenMenu(MenuName.OptionScreen);
     }
     private void OnClick_ShopBtn()
     {
