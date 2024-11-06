@@ -73,7 +73,8 @@ public class NGODrawManager : MonoBehaviour
             }
             else
             {
-                _lines.Add(_currentLine);
+                //_lines.Add(_currentLine);
+
                 OnDrawingEnd?.Invoke(_currentLine);
             }
         }
@@ -264,5 +265,10 @@ public class NGODrawManager : MonoBehaviour
         lastLine.gameObject.SetActive(false);
 
         _lines.RemoveAt(_lines.Count - 1);
+    }
+
+    public void AddLine(NGOLine line)
+    {
+        _lines.Add(line);
     }
 }

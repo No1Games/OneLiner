@@ -22,6 +22,8 @@ public class OnlineGameSetup : MonoBehaviour
 
     [SerializeField] private Camera _mainCamera;
 
+    private NetworkGameManager _networkGameManager;
+
     private LocalLobby _localLobby;
     private LocalPlayer _localPlayer;
 
@@ -29,6 +31,8 @@ public class OnlineGameSetup : MonoBehaviour
     {
         _localLobby = GameManager.Instance.LocalLobby;
         _localPlayer = GameManager.Instance.LocalUser;
+
+        _networkGameManager = FindAnyObjectByType<NetworkGameManager>();
 
         _localLobby.WordsList.onChanged += OnWordsChanged;
         _localLobby.LeaderWord.onChanged += OnLeaderWordChanged;
@@ -41,6 +45,8 @@ public class OnlineGameSetup : MonoBehaviour
             GameManager.Instance.SetWordsList(_wordsIndexes, _leaderWord);
         }
 
+        _drawingManager.OnDrawingEnd += OnDrawingEnd;
+
         _drawingUpdate.OnScreenshotTaken += OnDrawingComplete;
 
         _wordsPanel.UserClickedWord += OnUserMakeGuess;
@@ -52,6 +58,11 @@ public class OnlineGameSetup : MonoBehaviour
         _localLobby.LeaderWord.onChanged -= OnLeaderWordChanged;
 
         _drawingUpdate.OnScreenshotTaken -= OnDrawingComplete;
+    }
+
+    private void OnDrawingEnd(NGOLine line)
+    {
+        _networkGameManager.SpawnLine(line.Start, line.End);
     }
 
     private void OnWordsChanged(List<int> indexes)

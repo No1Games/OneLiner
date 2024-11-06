@@ -107,11 +107,6 @@ public class LobbyUI : MenuBase
         MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
     }
 
-    private void OnClick_StartButton()
-    {
-        GameManager.Instance.StartOnlineGame();
-    }
-
     private void OnClick_ReadyButton()
     {
         _playerReady = _playerReady == PlayerStatus.Lobby ? PlayerStatus.Ready : PlayerStatus.Lobby;
