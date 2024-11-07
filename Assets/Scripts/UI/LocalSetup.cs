@@ -12,6 +12,9 @@ public class LocalSetup : MenuBase
     [SerializeField] private Button modeSelect;
     [SerializeField] private Button startGame;
     [SerializeField] private Button back;
+
+    [SerializeField] private Animator ModeAnimator;
+    [SerializeField] private GameObject ModeBGScreen;
     public override MenuName Menu => MenuName.LocalSetup;
 
     public event Action OnScreenShow;
@@ -72,6 +75,17 @@ public class LocalSetup : MenuBase
     private void OnClick_ModeSelectBtn()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        ModeAnimator.SetTrigger("OpenMenu");
+        if (ModeBGScreen.activeSelf)
+        {
+            ModeBGScreen.SetActive(false);
+        }
+        else
+        {
+            ModeBGScreen.SetActive(true);
+        }
+        
+
         OnModeSelectBtnClick?.Invoke();
     }
     private void OnClick_StartGameBtn()
