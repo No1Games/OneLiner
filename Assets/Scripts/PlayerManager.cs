@@ -21,10 +21,12 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        players = new List<PlayerScript>(IngameData.Instance.players);        
-        //AssignRoles();
+        players = new List<PlayerScript>(IngameData.Instance.players);
+
         GeneratePlates();
+
         GenerateTurnQueue();
+
         OnPlayerChange?.Invoke(turnsQueue[actualTurnPosition]);
 
 
@@ -32,7 +34,7 @@ public class PlayerManager : MonoBehaviour
 
     void AssignRoles()
     {
-        
+
         int randomLeaderIndex = UnityEngine.Random.Range(0, players.Count); // Випадковий індекс для ведучого
 
 
@@ -86,17 +88,17 @@ public class PlayerManager : MonoBehaviour
 
     void GeneratePlates()
     {
-        foreach(PlayerScript player in players)
+        foreach (PlayerScript player in players)
         {
             GameObject playerPlate = Instantiate(platePrefab, playersPanel.transform);
             playerPlate.GetComponent<PlateCustomization>().CustomizePlate(avatarManager, player);
 
-            if(player.role == PlayerRole.Leader)
+            if (player.role == PlayerRole.Leader)
             {
                 Transform crown = playerPlate.transform.Find("Crown");
                 crown.gameObject.SetActive(true);
             }
-            
+
 
         }
     }

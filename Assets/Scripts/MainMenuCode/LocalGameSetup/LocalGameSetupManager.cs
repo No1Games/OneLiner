@@ -10,6 +10,7 @@ public class LocalGameSetupManager : MonoBehaviour
     [SerializeField] private GameObject playerPlatePrefab;
     [SerializeField] private GameObject playerPanel;
     [SerializeField] LocalSetup localSetupUI;
+    private bool leaderSelectInProcess = false;
     
     private List<PlayerScript> players = new();
     private List<GameObject> playersPlates = new();
@@ -24,6 +25,7 @@ public class LocalGameSetupManager : MonoBehaviour
         localSetupUI.OnAddPlayerBtnClick += AddPlayer;
         localSetupUI.OnStartGameBtnClick += StartLocalGame;
         localSetupUI.OnRandomLeaderBtnClick += ChoseRandomLeader;
+        localSetupUI.OnChooseLeaderBtnClick += SelectLeader;
     }
 
     private void AddPlayer()
@@ -46,25 +48,19 @@ public class LocalGameSetupManager : MonoBehaviour
             }
            GameObject newPlate = lgsFunc.GeneratePlayerPlate(player);
            
-            //if (players.Count == maxPlayers)
-            //{
-                
-            //    newPlate.transform.SetSiblingIndex(playerPanel.transform.childCount - 1);
-            //}
-            //else
-            //{
-                newPlate.transform.SetSiblingIndex(playerPanel.transform.childCount - 2);
-            //}
+           newPlate.transform.SetSiblingIndex(playerPanel.transform.childCount - 2);
+           
 
             playersPlates.Add(newPlate);
             if(playersPlates.Count == 1)
             {
                 lgsFunc.AssignLeader(playersPlates, player);
             }
-
+            newPlate.GetComponent<PlateCustomization>().MainButton.onClick.AddListener(() => PlateBtnController(newPlate));
             newPlate.GetComponent<PlateCustomization>().FirstMiniButton.onClick.AddListener(() => RemovePlayer(player));
 
             newPlate.GetComponent<PlateCustomization>().SecondMiniButton.onClick.AddListener(EditPlayer);
+            
 
 
         }
@@ -129,6 +125,39 @@ public class LocalGameSetupManager : MonoBehaviour
         {
             lgsFunc.AssignLeader(playersPlates);
         }
+
+    }
+
+    private void SelectLeader()
+    {
+        leaderSelectInProcess = true;
+    }
+    
+    public void PlateBtnController(GameObject plate)
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        PlateCustomization plateInfo = plate.GetComponent<PlateCustomization>();
+
+        if (leaderSelectInProcess)
+        {
+            lgsFunc.AssignLeader(playersPlates, plateInfo.player);
+            leaderSelectInProcess = false;
+
+        }
+        else
+        {
+            
+            if (plateInfo.additionalMenu.activeSelf == false)
+            {
+                plateInfo.additionalMenu.gameObject.SetActive(true);
+
+            }
+            else
+            {
+                plateInfo.additionalMenu.gameObject.SetActive(false);
+            }
+        }
+        
 
     }
 }

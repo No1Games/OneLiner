@@ -40,6 +40,10 @@ public class LocalGameSetup_Func : MonoBehaviour
         IngameData.Instance.players.Clear();
         foreach (PlayerScript player in players)
         {
+            if(player.role == PlayerRole.NotSetYet)
+            {
+                player.role = PlayerRole.Player;
+            }
             IngameData.Instance.players.Add(player);
         }
 
@@ -83,35 +87,5 @@ public class LocalGameSetup_Func : MonoBehaviour
 }
 
 
-
-
-
-//    void PlayerPlateClick(PlayerScript player)
-//    {
-
-//        if (leaderChoosingProcess)
-//        {
-//            AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-//            AssignLeader(player);
-//            leaderChoosingProcess = false;
-
-//        }
-//        else
-//        {
-//            AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_edit);
-//            OpenCustomizationFromPlate(player);
-//        }
-//    }
-
-//    public void ChoseLeader()
-//    {
-//        if (players.Count > 0)
-//        {
-//            leaderChoosingProcess = true;
-//            Debug.Log("Choosing started");
-//            // change player plate view as active
-//        }
-
-//    }
 
 

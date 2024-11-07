@@ -12,7 +12,7 @@ public class PlateCustomization : MonoBehaviour
     [SerializeField] GameObject back;
     [SerializeField] GameObject avatar;
     [SerializeField] GameObject avatarBack;
-    [SerializeField] GameObject additionalMenu;
+    public GameObject additionalMenu;
     public GameObject leaderCrown;
 
     [SerializeField] private Button mainBtn;
@@ -23,15 +23,10 @@ public class PlateCustomization : MonoBehaviour
     public Button FirstMiniButton => firstMiniBtn;
     
     public Button SecondMiniButton => secondMiniBtn;
+    public Button MainButton => mainBtn;
 
     public PlayerScript player;
-
-    
-
-    private void Awake()
-    {
-        mainBtn.onClick.AddListener(BtnMenuController);
-    }
+      
 
     public void SetName(string name)
     {
@@ -65,22 +60,7 @@ public class PlateCustomization : MonoBehaviour
         SetAvatar(avatarManager.GetAvatarImage(player.avatarID));
         SetBack(avatarManager.GetNameBackImage(player.nameBackID));
         SetAvatarBack(avatarManager.GetAvatarBackImage(player.avatarBackID));
-    }
-
-    private void BtnMenuController()
-    {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        if (additionalMenu.activeSelf == false)
-        {
-            additionalMenu.gameObject.SetActive(true);
-            
-        }
-        else
-        {
-            additionalMenu.gameObject.SetActive(false);
-        }
-        
-    }
+    }   
     
     
 }
