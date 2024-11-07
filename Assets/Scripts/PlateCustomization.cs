@@ -11,10 +11,22 @@ public class PlateCustomization : MonoBehaviour
     [SerializeField] GameObject back;
     [SerializeField] GameObject avatar;
     [SerializeField] GameObject avatarBack;
+    public GameObject additionalMenu;
     public GameObject leaderCrown;
+
+    [SerializeField] private Button mainBtn;
+    [SerializeField] private Button firstMiniBtn;
+    [SerializeField] private Button secondMiniBtn;
+    public Button MainButton => mainBtn;
+    
+    public Button FirstMiniButton => firstMiniBtn;
+    
+    public Button SecondMiniButton => secondMiniBtn;
 
     public PlayerScript player;
     
+
+
     public void SetName(string name)
     {
         playerName.text = name;
@@ -48,4 +60,5 @@ public class PlateCustomization : MonoBehaviour
         SetBack(avatarManager.GetNameBackImage(player.nameBackID));
         SetAvatarBack(avatarManager.GetAvatarBackImage(player.avatarBackID));
     }
+    
 }

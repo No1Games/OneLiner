@@ -12,6 +12,7 @@ public class GameSetupMenu : MonoBehaviour
     private int maxPlayers = 8;
     private int minPlayers = 2;
     [SerializeField] private GameObject playerPlatePrefab;
+    [SerializeField] private GameObject addPlayerBtn;
     [SerializeField] private GameObject playerPanel;
     [SerializeField] private AvatarManager avatarManager;
     [SerializeField] private AccountManager accountManager;
@@ -104,8 +105,19 @@ public class GameSetupMenu : MonoBehaviour
                 
             }
             players.Add(newPlayer);
+            
 
             GameObject newPlate = Instantiate(playerPlatePrefab, playerPanel.transform);
+            if (players.Count == 8)
+            {
+                addPlayerBtn.gameObject.SetActive(false);
+                newPlate.transform.SetSiblingIndex(playerPanel.transform.childCount - 1);
+            }
+            else
+            {
+                newPlate.transform.SetSiblingIndex(playerPanel.transform.childCount - 2);
+            }
+            
             playersPlates.Add(newPlate);
             newPlate.GetComponent<PlateCustomization>().SetPlayer(newPlayer);
             newPlate.GetComponentInChildren<Button>().onClick.AddListener(() => PlayerPlateClick(newPlayer));

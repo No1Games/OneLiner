@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class LocalSetup : MenuBase
 {
     [SerializeField] private Button addPlayer;
-    [SerializeField] private Button removePlayer;
+    //[SerializeField] private Button removePlayer;
     //[SerializeField] private Button editPlayer;
     [SerializeField] private Button selectLeader;
     [SerializeField] private Button randomLeader;
@@ -25,13 +25,18 @@ public class LocalSetup : MenuBase
     public override void Init()
     {
         addPlayer.onClick.AddListener(OnClick_AddPlayerBtn);
-        removePlayer.onClick.AddListener (OnClick_RemovePlayerBtn);
+        //removePlayer.onClick.AddListener (OnClick_RemovePlayerBtn);
         selectLeader.onClick.AddListener(OnClick_SelectLeaderBtn);
         randomLeader.onClick.AddListener(OnClick_RandomLeaderBtn);
         modeSelect.onClick.AddListener(OnClick_ModeSelectBtn);
         startGame.onClick.AddListener(OnClick_StartGameBtn);
         back.onClick.AddListener(OnClick_Back);
 
+    }
+
+    public void AddPlayerBtn_VisibilityChange(bool visibility)
+    {
+        addPlayer.gameObject.SetActive(visibility);
     }
 
     public override void Show()
