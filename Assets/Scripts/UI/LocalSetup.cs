@@ -7,8 +7,6 @@ using UnityEngine.UI;
 public class LocalSetup : MenuBase
 {
     [SerializeField] private Button addPlayer;
-    //[SerializeField] private Button removePlayer;
-    //[SerializeField] private Button editPlayer;
     [SerializeField] private Button selectLeader;
     [SerializeField] private Button randomLeader;
     [SerializeField] private Button modeSelect;
@@ -17,6 +15,11 @@ public class LocalSetup : MenuBase
     public override MenuName Menu => MenuName.LocalSetup;
 
     public event Action OnScreenShow;
+    public event Action OnAddPlayerBtnClick;
+    public event Action OnStartGameBtnClick;
+    public event Action OnRandomLeaderBtnClick;
+    public event Action OnChooseLeaderBtnClick;
+    public event Action OnModeSelectBtnClick;
 
     private void Awake()
     {
@@ -24,8 +27,7 @@ public class LocalSetup : MenuBase
     }
     public override void Init()
     {
-        addPlayer.onClick.AddListener(OnClick_AddPlayerBtn);
-        //removePlayer.onClick.AddListener (OnClick_RemovePlayerBtn);
+        addPlayer.onClick.AddListener(OnClick_AddPlayerBtn);        
         selectLeader.onClick.AddListener(OnClick_SelectLeaderBtn);
         randomLeader.onClick.AddListener(OnClick_RandomLeaderBtn);
         modeSelect.onClick.AddListener(OnClick_ModeSelectBtn);
@@ -37,6 +39,7 @@ public class LocalSetup : MenuBase
     public void AddPlayerBtn_VisibilityChange(bool visibility)
     {
         addPlayer.gameObject.SetActive(visibility);
+        addPlayer.GetComponentInParent<LayoutElement>().ignoreLayout = !visibility;
     }
 
     public override void Show()
@@ -49,32 +52,35 @@ public class LocalSetup : MenuBase
     private void OnClick_AddPlayerBtn()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        //MainMenuManager.Instance.OpenMenu(MenuName.LocalOnline);
+        OnAddPlayerBtnClick?.Invoke();
+        
 
     }
-    private void OnClick_RemovePlayerBtn()
-    {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-    }
+    
     private void OnClick_SelectLeaderBtn()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        OnChooseLeaderBtnClick?.Invoke();
     }
     private void OnClick_RandomLeaderBtn() 
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        OnRandomLeaderBtnClick?.Invoke();
+
     }
 
     private void OnClick_ModeSelectBtn()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        OnModeSelectBtnClick?.Invoke();
     }
     private void OnClick_StartGameBtn()
     {
-        //AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Play);
+        OnStartGameBtnClick?.Invoke();
     }
     private void OnClick_Back()
     {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);        
+        MainMenuManager.Instance.ChangeMenu(MenuName.MainScreen);
     }
 }

@@ -2125,6 +2125,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 277664800}
+  - component: {fileID: 277664801}
   m_Layer: 5
   m_Name: PLusBtn
   m_TagString: Untagged
@@ -2152,6 +2153,26 @@ RectTransform:
   m_AnchoredPosition: {x: 708.5, y: -435.5}
   m_SizeDelta: {x: 600, y: 215}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &277664801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277664799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &277863855
 GameObject:
   m_ObjectHideFlags: 0
@@ -5618,6 +5639,7 @@ GameObject:
   m_Component:
   - component: {fileID: 592447412}
   - component: {fileID: 592447413}
+  - component: {fileID: 592447414}
   m_Layer: 0
   m_Name: GameSetupManager
   m_TagString: Untagged
@@ -5661,6 +5683,22 @@ MonoBehaviour:
   avatarBackMainMenu: {fileID: 1584371409}
   customizationMenu: {fileID: 2096529580}
   customizationManager: {fileID: 1331264617}
+--- !u!114 &592447414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592447411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f74ba58d6d0a2b840aa69cc50b99ce59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPlatePrefab: {fileID: 5534373913382693980, guid: 2bcac1312f4a5ca40a6e4ce4aae65eda, type: 3}
+  playerPanel: {fileID: 1729003515}
+  localSetupUI: {fileID: 402494987}
+  accountManager: {fileID: 1742775555}
 --- !u!1 &592459965
 GameObject:
   m_ObjectHideFlags: 0
@@ -19235,6 +19273,7 @@ MonoBehaviour:
   - {fileID: 354576363}
   - {fileID: 1499553356}
   - {fileID: 1252108368}
+  - {fileID: 402494987}
 --- !u!1 &1799736151
 GameObject:
   m_ObjectHideFlags: 0
@@ -22896,7 +22935,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6160490110680524204, guid: faf5cbb67e4cfa74e81f86a943e5ea07, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -611.17
+      value: -611.1699
       objectReference: {fileID: 0}
     - target: {fileID: 8738660899898169828, guid: faf5cbb67e4cfa74e81f86a943e5ea07, type: 3}
       propertyPath: m_Name

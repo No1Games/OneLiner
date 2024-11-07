@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class PlateCustomization : MonoBehaviour
 {
@@ -11,21 +12,26 @@ public class PlateCustomization : MonoBehaviour
     [SerializeField] GameObject back;
     [SerializeField] GameObject avatar;
     [SerializeField] GameObject avatarBack;
-    public GameObject additionalMenu;
+    [SerializeField] GameObject additionalMenu;
     public GameObject leaderCrown;
 
     [SerializeField] private Button mainBtn;
     [SerializeField] private Button firstMiniBtn;
     [SerializeField] private Button secondMiniBtn;
-    public Button MainButton => mainBtn;
+    
     
     public Button FirstMiniButton => firstMiniBtn;
     
     public Button SecondMiniButton => secondMiniBtn;
 
     public PlayerScript player;
+
     
 
+    private void Awake()
+    {
+        mainBtn.onClick.AddListener(BtnMenuController);
+    }
 
     public void SetName(string name)
     {
@@ -60,5 +66,21 @@ public class PlateCustomization : MonoBehaviour
         SetBack(avatarManager.GetNameBackImage(player.nameBackID));
         SetAvatarBack(avatarManager.GetAvatarBackImage(player.avatarBackID));
     }
+
+    private void BtnMenuController()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        if (additionalMenu.activeSelf == false)
+        {
+            additionalMenu.gameObject.SetActive(true);
+            
+        }
+        else
+        {
+            additionalMenu.gameObject.SetActive(false);
+        }
+        
+    }
+    
     
 }

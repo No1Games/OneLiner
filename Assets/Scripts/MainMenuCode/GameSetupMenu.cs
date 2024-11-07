@@ -86,124 +86,124 @@ public class GameSetupMenu : MonoBehaviour
 
 
     #region Setup
-    public void IncreasePlayers()
-    {
-        if (playerAmount < maxPlayers)
-        {
-            string newPlayerName = "Player " + players.Count;
-            int newPlayerID = Random.Range(1, 1000);
-            PlayerScript newPlayer;
-            if (players.Count > 0)
-            {
-                newPlayer = new PlayerScript(newPlayerName, newPlayerID);
-                avatarManager.SetRandomPlayerSettings(newPlayer);
+    //public void IncreasePlayers()
+    //{
+    //    if (playerAmount < maxPlayers)
+    //    {
+    //        string newPlayerName = "Player " + players.Count;
+    //        int newPlayerID = Random.Range(1, 1000);
+    //        PlayerScript newPlayer;
+    //        if (players.Count > 0)
+    //        {
+    //            newPlayer = new PlayerScript(newPlayerName, newPlayerID);
+    //            avatarManager.SetRandomPlayerSettings(newPlayer);
 
-            }
-            else
-            {
-                newPlayer = accountManager.player;
+    //        }
+    //        else
+    //        {
+    //            newPlayer = accountManager.player;
                 
-            }
-            players.Add(newPlayer);
+    //        }
+    //        players.Add(newPlayer);
             
 
-            GameObject newPlate = Instantiate(playerPlatePrefab, playerPanel.transform);
-            if (players.Count == 8)
-            {
-                addPlayerBtn.gameObject.SetActive(false);
-                newPlate.transform.SetSiblingIndex(playerPanel.transform.childCount - 1);
-            }
-            else
-            {
-                newPlate.transform.SetSiblingIndex(playerPanel.transform.childCount - 2);
-            }
+    //        GameObject newPlate = Instantiate(playerPlatePrefab, playerPanel.transform);
+    //        if (players.Count == 8)
+    //        {
+    //            addPlayerBtn.gameObject.SetActive(false);
+    //            newPlate.transform.SetSiblingIndex(playerPanel.transform.childCount - 1);
+    //        }
+    //        else
+    //        {
+    //            newPlate.transform.SetSiblingIndex(playerPanel.transform.childCount - 2);
+    //        }
             
-            playersPlates.Add(newPlate);
-            newPlate.GetComponent<PlateCustomization>().SetPlayer(newPlayer);
-            newPlate.GetComponentInChildren<Button>().onClick.AddListener(() => PlayerPlateClick(newPlayer));
-            newPlate.GetComponent<PlateCustomization>().CustomizePlate(avatarManager, newPlayer);
-            AssignLeader(newPlayer);
+    //        playersPlates.Add(newPlate);
+    //        newPlate.GetComponent<PlateCustomization>().SetPlayer(newPlayer);
+    //        newPlate.GetComponentInChildren<Button>().onClick.AddListener(() => PlayerPlateClick(newPlayer));
+    //        newPlate.GetComponent<PlateCustomization>().CustomizePlate(avatarManager, newPlayer);
+    //        AssignLeader(newPlayer);
 
-            playerAmount++;
-        }
+    //        playerAmount++;
+    //    }
 
-    }
-    public void DecreasePlayers()
-    {
-        if (playerAmount > 0)
-        {
-            playerAmount--;
-            players.RemoveAt(playerAmount);
-            Destroy(playersPlates[playerAmount]);
-            playersPlates.RemoveAt(playerAmount);
+    //}
+    //public void DecreasePlayers()
+    //{
+    //    if (playerAmount > 0)
+    //    {
+    //        playerAmount--;
+    //        players.RemoveAt(playerAmount);
+    //        Destroy(playersPlates[playerAmount]);
+    //        playersPlates.RemoveAt(playerAmount);
 
 
-        }
+    //    }
 
-    }
-    public void NextLevel()
-    {
-        // Очищення попереднього списку гравців
-        IngameData.Instance.players.Clear();
+    //}
+    //public void NextLevel()
+    //{
+    //    // Очищення попереднього списку гравців
+    //    IngameData.Instance.players.Clear();
 
-        if (playerAmount >= minPlayers)
-        {
-            foreach (PlayerScript player in players)
-            {
-                IngameData.Instance.players.Add(player);
-            }
-            AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Play);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
-        else
-        {
-            AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-            Debug.LogWarning("Перехід на наступну сцену заблоковано.");
-        }
-    }
+    //    if (playerAmount >= minPlayers)
+    //    {
+    //        foreach (PlayerScript player in players)
+    //        {
+    //            IngameData.Instance.players.Add(player);
+    //        }
+    //        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Play);
+    //        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    //    }
+    //    else
+    //    {
+    //        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+    //        Debug.LogWarning("Перехід на наступну сцену заблоковано.");
+    //    }
+    //}
 
-     public void AssignLeader(PlayerScript newLeader = null)
-    {
-        if(newLeader == null)
-        {
-            int randomLeaderIndex = UnityEngine.Random.Range(0, players.Count);
-            newLeader = players[randomLeaderIndex];
+    // public void AssignLeader(PlayerScript newLeader = null)
+    //{
+    //    if(newLeader == null)
+    //    {
+    //        int randomLeaderIndex = UnityEngine.Random.Range(0, players.Count);
+    //        newLeader = players[randomLeaderIndex];
 
-        } 
+    //    } 
 
-        newLeader.role = PlayerRole.Leader;
+    //    newLeader.role = PlayerRole.Leader;
         
 
-        foreach (PlayerScript p in players)
-        {
-            if (p != newLeader)
-            {
-                p.role = PlayerRole.Player;
-                playersPlates[players.IndexOf(p)].GetComponent<PlateCustomization>().leaderCrown.SetActive(false);
-            }
-            else
-            {
-                playersPlates[players.IndexOf(p)].GetComponent<PlateCustomization>().leaderCrown.SetActive(true);
-            }
-        }
-    }
+    //    foreach (PlayerScript p in players)
+    //    {
+    //        if (p != newLeader)
+    //        {
+    //            p.role = PlayerRole.Player;
+    //            playersPlates[players.IndexOf(p)].GetComponent<PlateCustomization>().leaderCrown.SetActive(false);
+    //        }
+    //        else
+    //        {
+    //            playersPlates[players.IndexOf(p)].GetComponent<PlateCustomization>().leaderCrown.SetActive(true);
+    //        }
+    //    }
+    //}
 
-    void PlayerPlateClick(PlayerScript player)
-    {
+    //void PlayerPlateClick(PlayerScript player)
+    //{
        
-        if (leaderChoosingProcess)
-        {
-            AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-            AssignLeader(player);
-            leaderChoosingProcess = false;
+    //    if (leaderChoosingProcess)
+    //    {
+    //        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+    //        AssignLeader(player);
+    //        leaderChoosingProcess = false;
             
-        }
-        else
-        {
-            AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_edit);
-            OpenCustomizationFromPlate(player);
-        }
-    }
+    //    }
+    //    else
+    //    {
+    //        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_edit);
+    //        OpenCustomizationFromPlate(player);
+    //    }
+    //}
 
     public void ChoseLeader()
     {
@@ -216,14 +216,14 @@ public class GameSetupMenu : MonoBehaviour
 
     }
 
-    public void ChoseRandomLeader()
-    {
-        if (players.Count > 0)
-        {
-            AssignLeader();
-        }
+    //public void ChoseRandomLeader()
+    //{
+    //    if (players.Count > 0)
+    //    {
+    //        AssignLeader();
+    //    }
         
-    }
+    //}
 
     #endregion
 

@@ -13,17 +13,17 @@ public class LocalGameSetup_Func : MonoBehaviour
     {
         this.platePrefab = platePrefab;
         this.playerPanel = playerPanel;
-        
+
     }
 
-    public void AddRandomPlayer(List <PlayerScript> players)
+    public PlayerScript AddRandomPlayer(List<PlayerScript> players)
     {
-        
-            string newPlayerName = "Player " + players.Count;
-            int newPlayerID = Random.Range(1, 1000);
-            PlayerScript newPlayer = new PlayerScript(newPlayerName, newPlayerID);
-            AvatarManager.Instance.SetRandomPlayerSettings(newPlayer);
-            players.Add(newPlayer);                    
+
+        string newPlayerName = "Player " + players.Count;
+        int newPlayerID = Random.Range(1, 1000);
+        PlayerScript newPlayer = new PlayerScript(newPlayerName, newPlayerID);
+        AvatarManager.Instance.SetRandomPlayerSettings(newPlayer);
+        return newPlayer;
     }
 
     public GameObject GeneratePlayerPlate(PlayerScript player)
@@ -32,78 +32,59 @@ public class LocalGameSetup_Func : MonoBehaviour
         newPlate.GetComponent<PlateCustomization>().CustomizePlate(AvatarManager.Instance, player);
         newPlate.GetComponent<PlateCustomization>().SetPlayer(player);
         return newPlate;
+    }
 
-        
-        
-        //newPlate.GetComponentInChildren<Button>().onClick.AddListener(() => PlayerPlateClick(newPlayer));
-        //newPlate.GetComponent<PlateCustomization>().CustomizePlate(avatarManager, newPlayer);
-//AssignLeader(newPlayer);
+    public void NextLevel(List<PlayerScript> players)
+    {
+        // Очищення попереднього списку гравців
+        IngameData.Instance.players.Clear();
+        foreach (PlayerScript player in players)
+        {
+            IngameData.Instance.players.Add(player);
+        }
 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
 
+    public void AssignLeader(List<GameObject> playersPlates,  PlayerScript newLeader = null)
+    {
 
+        if (newLeader == null)
+        {
+            do
+            {
+                int randomLeaderIndex = UnityEngine.Random.Range(0, playersPlates.Count);
+                newLeader = playersPlates[randomLeaderIndex].GetComponent<PlateCustomization>().player;
+
+            }
+            while (newLeader.role == PlayerRole.Leader); 
+        }
+
+        newLeader.role = PlayerRole.Leader;
+
+        foreach(GameObject plate in playersPlates)
+        {
+            PlateCustomization plateInfo = plate.GetComponent<PlateCustomization>();
+            if (plateInfo.player == newLeader)
+            {
+                plateInfo.leaderCrown.SetActive(true);
+            }
+            else
+            {
+                plateInfo.player.role = PlayerRole.Player;
+                plateInfo.leaderCrown.SetActive(false);
+
+            }
+        }
 
     }
 
-    }
-//    public void DecreasePlayers()
-//    {
-//        if (playerAmount > 0)
-//        {
-//            playerAmount--;
-//            players.RemoveAt(playerAmount);
-//            Destroy(playersPlates[playerAmount]);
-//            playersPlates.RemoveAt(playerAmount);
+
+}
 
 
-//        }
-
-//    }
-//    public void NextLevel()
-//    {
-//        // Очищення попереднього списку гравців
-//        IngameData.Instance.players.Clear();
-
-//        if (playerAmount >= minPlayers)
-//        {
-//            foreach (PlayerScript player in players)
-//            {
-//                IngameData.Instance.players.Add(player);
-//            }
-//            AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Play);
-//            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-//        }
-//        else
-//        {
-//            AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-//            Debug.LogWarning("Перехід на наступну сцену заблоковано.");
-//        }
-//    }
-
-//    public void AssignLeader(PlayerScript newLeader = null)
-//    {
-//        if (newLeader == null)
-//        {
-//            int randomLeaderIndex = UnityEngine.Random.Range(0, players.Count);
-//            newLeader = players[randomLeaderIndex];
-
-//        }
-
-//        newLeader.role = PlayerRole.Leader;
 
 
-//        foreach (PlayerScript p in players)
-//        {
-//            if (p != newLeader)
-//            {
-//                p.role = PlayerRole.Player;
-//                playersPlates[players.IndexOf(p)].GetComponent<PlateCustomization>().leaderCrown.SetActive(false);
-//            }
-//            else
-//            {
-//                playersPlates[players.IndexOf(p)].GetComponent<PlateCustomization>().leaderCrown.SetActive(true);
-//            }
-//        }
-//    }
 
 //    void PlayerPlateClick(PlayerScript player)
 //    {
@@ -133,12 +114,4 @@ public class LocalGameSetup_Func : MonoBehaviour
 
 //    }
 
-//    public void ChoseRandomLeader()
-//    {
-//        if (players.Count > 0)
-//        {
-//            AssignLeader();
-//        }
 
-//    }
-//}
