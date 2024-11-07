@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     [Inject(Id = "RuntimeTMP")] private ILogger _logger;
 
     public event Action PassTurn;
-    public event Action TurnPassed;
 
     #region NGO Fields and Props
 
@@ -183,7 +182,7 @@ public class GameManager : MonoBehaviour
         if (state == LobbyState.CountDown)
             BeginCountDown();
         if (state == LobbyState.InGame)
-            ChangeScene();
+            InitOnlineGame();
     }
 
     void BeginCountDown()
@@ -198,16 +197,11 @@ public class GameManager : MonoBehaviour
         _countdown.CancelCountDown();
     }
 
-    public void FinishedCountDown()
+    public async void FinishedCountDown()
     {
         _localLobby.LocalLobbyState.Value = LobbyState.InGame;
-        SendLocalLobbyData();
+        await SendLocalLobbyData();
         _logger.Log("Finished Countdown!");
-    }
-
-    public void StartOnlineGame()
-    {
-        InitOnlineGame();
     }
 
     private void ChangeScene()
@@ -215,26 +209,29 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("OnlineGameScene");
     }
 
-    private void InitOnlineGame()
+    private async void InitOnlineGame()
     {
+        ChangeScene();
+
         if (_localUser.IsHost.Value)
         {
             _localUser.UserStatus.Value = PlayerStatus.InGame;
 
             _localLobby.LocalLobbyState.Value = LobbyState.InGame;
             _localLobby.Locked.Value = true;
-            SendLocalLobbyData();
-            StartNetworkGame();
+            await SendLocalLobbyData();
         }
+
+        StartNetworkGame();
     }
 
-    public void EndGame()
+    public async void EndGame()
     {
         if (_localUser.IsHost.Value)
         {
             _localLobby.LocalLobbyState.Value = LobbyState.Lobby;
             _localLobby.Locked.Value = false;
-            SendLocalLobbyData();
+            await SendLocalLobbyData();
         }
 
         SetLobbyView();
@@ -242,8 +239,9 @@ public class GameManager : MonoBehaviour
 
     private async void StartNetworkGame()
     {
-        _networkGameManager = Instantiate(_networkGameManagerPrefab);
-        _networkGameManager.Initialize(OnConnectionVerified, _localLobby.PlayerCount, OnGameBegin, OnGameEnd, _localUser);
+        _networkGameManager = FindAnyObjectByType<NetworkGameManager>();
+        // _networkGameManager = Instantiate(_networkGameManagerPrefab);
+        //_networkGameManager.Initialize(OnConnectionVerified, _localLobby.PlayerCount, OnGameBegin, OnGameEnd, _localUser);
         if (_localUser.IsHost.Value)
         {
             await SetRelayHostData();
@@ -297,10 +295,10 @@ public class GameManager : MonoBehaviour
             joinAllocation.ConnectionData, joinAllocation.HostConnectionData, isSecure);
     }
 
-    public void HostSetRelayCode(string code)
+    public async void HostSetRelayCode(string code)
     {
         _localLobby.RelayCode.Value = code;
-        SendLocalLobbyData();
+        await SendLocalLobbyData();
     }
 
     NetworkEndPoint GetEndpointForAllocation(List<RelayServerEndpoint> endpoints, string ip, int port, out bool isSecure)
@@ -442,11 +440,11 @@ public class GameManager : MonoBehaviour
             LobbyConverters.LocalToRemoteUserData(localPlayer == null ? _localUser : localPlayer), id);
     }
 
-    public void SetWordsList(List<int> words, int leaderWord)
+    public async void SetWordsList(List<int> words, int leaderWord)
     {
         _localLobby.WordsList.Value = words;
         _localLobby.LeaderWord.Value = leaderWord;
-        SendLocalLobbyData();
+        await SendLocalLobbyData();
     }
 
     public async void SetTurnID(string id)

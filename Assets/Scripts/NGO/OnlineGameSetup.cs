@@ -22,6 +22,8 @@ public class OnlineGameSetup : MonoBehaviour
 
     [SerializeField] private Camera _mainCamera;
 
+    private NetworkGameManager _networkGameManager;
+
     private LocalLobby _localLobby;
     private LocalPlayer _localPlayer;
 
@@ -29,6 +31,8 @@ public class OnlineGameSetup : MonoBehaviour
     {
         _localLobby = GameManager.Instance.LocalLobby;
         _localPlayer = GameManager.Instance.LocalUser;
+
+        _networkGameManager = FindAnyObjectByType<NetworkGameManager>();
 
         _localLobby.WordsList.onChanged += OnWordsChanged;
         _localLobby.LeaderWord.onChanged += OnLeaderWordChanged;
@@ -41,7 +45,11 @@ public class OnlineGameSetup : MonoBehaviour
             GameManager.Instance.SetWordsList(_wordsIndexes, _leaderWord);
         }
 
-        _drawingUpdate.OnScreenshotTaken += OnDrawingComplete;
+        _drawingManager.OnLineConfirmed += OnLineConfirmed;
+
+        _drawingManager.OnLineSpawned += OnLineSpawned;
+
+        _drawingUpdate.OnScreenshotTaken += OnScreenshotTaken;
 
         _wordsPanel.UserClickedWord += OnUserMakeGuess;
     }
@@ -51,7 +59,20 @@ public class OnlineGameSetup : MonoBehaviour
         _localLobby.WordsList.onChanged -= OnWordsChanged;
         _localLobby.LeaderWord.onChanged -= OnLeaderWordChanged;
 
-        _drawingUpdate.OnScreenshotTaken -= OnDrawingComplete;
+        _drawingUpdate.OnScreenshotTaken -= OnScreenshotTaken;
+    }
+
+    private void OnLineSpawned()
+    {
+        ToggleScreen(true);
+        _drawingUpdate.TakeScreenshot();
+        ToggleScreen(false);
+    }
+
+    private void OnLineConfirmed(NGOLine line)
+    {
+        _networkGameManager.SpawnLine(line.Start, line.End);
+        _turnHandler.EndTurn();
     }
 
     private void OnWordsChanged(List<int> indexes)
@@ -66,15 +87,18 @@ public class OnlineGameSetup : MonoBehaviour
         _wordsPanel.SetLeaderWord(index);
     }
 
-    private void OnDrawingComplete(Texture2D texture)
+    private void UpdatePicture(Texture2D texture)
     {
         Sprite screenshotSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
 
         _drawnImage.sprite = screenshotSprite;
+    }
+
+    private void OnScreenshotTaken(Texture2D texture)
+    {
+        UpdatePicture(texture);
 
         ToggleScreen(false);
-
-        _turnHandler.EndTurn();
     }
 
     public void ToggleScreen(bool isDrawing)

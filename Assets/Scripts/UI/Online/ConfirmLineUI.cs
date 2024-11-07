@@ -13,7 +13,7 @@ public class ConfirmLineUI : MonoBehaviour
 
     private void Start()
     {
-        _drawingManager.OnDrawingEnd += ConfirmTurnActivate;
+        _drawingManager.OnLineDrawn += ConfirmTurnActivate;
 
         _removeBtn.onClick.AddListener(OnClick_RemoveButton);
         _confirmBtn.onClick.AddListener(OnClick_ConfirmButton);
@@ -37,6 +37,8 @@ public class ConfirmLineUI : MonoBehaviour
         Debug.Log("User confirmed his line");
 
         _panelGO.SetActive(false);
-        _drawingUpdate.TakeScreenshot();
+        //_drawingUpdate.TakeScreenshot();
+
+        _drawingManager.LineConfirmed();
     }
 }

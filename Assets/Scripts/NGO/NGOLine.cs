@@ -1,8 +1,12 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class NGOLine : MonoBehaviour
+public class NGOLine : NetworkBehaviour
 {
     [SerializeField] private LineRenderer _renderer;
+
+    public Vector3 Start => _renderer.GetPosition(0);
+    public Vector3 End => _renderer.GetPosition(1);
 
     public void SetLinePositions(Vector3 first, Vector3 second)
     {
