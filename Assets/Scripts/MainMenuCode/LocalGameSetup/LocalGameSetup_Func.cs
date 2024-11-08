@@ -9,7 +9,7 @@ public class LocalGameSetup_Func : MonoBehaviour
     private GameObject playerPanel;
 
 
-    public LocalGameSetup_Func(GameObject platePrefab, GameObject playerPanel)
+    public void Initialize(GameObject platePrefab, GameObject playerPanel)
     {
         this.platePrefab = platePrefab;
         this.playerPanel = playerPanel;

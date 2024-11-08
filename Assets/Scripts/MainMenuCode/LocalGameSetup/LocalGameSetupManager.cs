@@ -21,7 +21,8 @@ public class LocalGameSetupManager : MonoBehaviour
 
     private void Awake()
     {
-        lgsFunc = new(playerPlatePrefab, playerPanel);
+        lgsFunc = gameObject.AddComponent<LocalGameSetup_Func>(); 
+        lgsFunc.Initialize(playerPlatePrefab, playerPanel);
         localSetupUI.OnAddPlayerBtnClick += AddPlayer;
         localSetupUI.OnStartGameBtnClick += StartLocalGame;
         localSetupUI.OnRandomLeaderBtnClick += ChoseRandomLeader;
