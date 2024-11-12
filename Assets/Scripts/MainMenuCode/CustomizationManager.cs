@@ -12,13 +12,18 @@ public class CustomizationManager : MonoBehaviour
     [SerializeField] private GameObject nameBack;
     [SerializeField] private TMP_InputField playerName;
 
-    [SerializeField] private ImagesPack avatarsImages;
-    [SerializeField] private ImagesPack avatarsBackImages;
-    [SerializeField] private ImagesPack nameBackImages;
+    [SerializeField] private GameObject avatarMini;
+    [SerializeField] private GameObject avatarBackMini;
 
     [SerializeField] private GameObject avatarsMenu;
     [SerializeField] private GameObject nameBackMenu;
     [SerializeField] private GameObject avatarBacksMenu;
+
+    [SerializeField] private ImagesPack avatarsImages;
+    [SerializeField] private ImagesPack avatarsBackImages;
+    [SerializeField] private ImagesPack nameBackImages;
+
+    
 
     [SerializeField] private GameObject customizationButtonPrefab;
 
@@ -32,7 +37,7 @@ public class CustomizationManager : MonoBehaviour
 
     private void Awake()
     {
-        GenerateCustomizationMenuElements();
+        //GenerateCustomizationMenuElements();
     }
 
 
@@ -53,7 +58,9 @@ public class CustomizationManager : MonoBehaviour
         if (playerToChange != null)
         {
             avatar.GetComponent<Image>().sprite = avatarsImages.someImage[playerAvatarIndex];
+            avatarMini.GetComponent<Image>().sprite = avatarsImages.someImage[playerAvatarIndex];
             avatarBack.GetComponent<Image>().sprite = avatarsBackImages.someImage[playerAvatarBackIndex];
+            avatarBackMini.GetComponent<Image>().sprite = avatarsBackImages.someImage[playerAvatarBackIndex];
             nameBack.GetComponent<Image>().sprite = nameBackImages.someImage[playerNameBackIndex];
 
         }

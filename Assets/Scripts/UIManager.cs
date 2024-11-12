@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Texts")]
     [SerializeField] private TMP_Text drawenLines;
-    [SerializeField] private TMP_Text playerNameOnGameScreen;
+    //[SerializeField] private TMP_Text playerNameOnGameScreen;
     [SerializeField] private TMP_Text playerNameOnPlayerScreen;
 
     [SerializeField] private TMP_Text endgameText;
@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image rankImage;
     [SerializeField] private GameObject mainCam;
 
-    public Sprite test;
+    
 
 
     [Header("Buttons")]
@@ -123,7 +123,7 @@ public class UIManager : MonoBehaviour
 
     public void OpenPlayerScreen() //коли вгадували слово чи підтвердили лінію чи вийшов час
     {
-        playerNameOnGameScreen.text = playerToTrack.name;
+        //playerNameOnGameScreen.text = playerToTrack.name;
         playerNameOnPlayerScreen.text = playerToTrack.name;
         if (drawingPanel.activeSelf)
         {

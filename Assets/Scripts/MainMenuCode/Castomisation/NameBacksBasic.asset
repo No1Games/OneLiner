@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: NameBacksBasic
   m_EditorClassIdentifier: 
   someImage:
-  - {fileID: 21300000, guid: 7b718685603366e4da74c3224d46853e, type: 3}
-  - {fileID: 21300000, guid: 3abdc071270c776428fc6489668bc7cd, type: 3}
-  - {fileID: 21300000, guid: e0731b623eb872c4184c49537e780634, type: 3}
-  - {fileID: 21300000, guid: 77ce39d80c03a6d499e2abbf2104ffbc, type: 3}
-  - {fileID: 21300000, guid: 2f3c52c67cbf0a948ae35b51407dd4de, type: 3}
-  - {fileID: 21300000, guid: d2f347709ad251f4183a5b7e7b719a00, type: 3}
-  - {fileID: 21300000, guid: 5f93c702a1cc5d94caff36dfec63420a, type: 3}
+  - {fileID: 21300000, guid: 016af4fb4129d6a469d3a5d289932831, type: 3}
+  - {fileID: 21300000, guid: e14aa75b4a284c0408cae0a83edd356d, type: 3}
+  - {fileID: 21300000, guid: 5fd51bbbca13db94cbb390e6bac87469, type: 3}
+  - {fileID: 21300000, guid: 8c1c3637bfd54b146b9e61e6beb9675e, type: 3}
+  - {fileID: 21300000, guid: 12c433dd10579884ea8bf9c33de6f127, type: 3}
+  - {fileID: 21300000, guid: c786eb6b552ee464ab90eaad30d6678c, type: 3}
