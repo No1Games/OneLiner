@@ -1,28 +1,14 @@
-using System;
 using Unity.Netcode;
 using UnityEngine;
 
 public class NetworkGameManager : NetworkBehaviour
 {
-    private Action _onConnectionVerified;
-    private int _expectedPlayerCount;
-    private Action onGameBeginning;
-    private Action _onGameEnd;
-    private bool? _canSpawnIngameObjects;
-    private PlayerScript _localUserData;
-
     [SerializeField] private NGOLine _linePrefab;
     [SerializeField] private NGODrawManager _drawManager;
 
-    public void Initialize(Action onConnectionVerified, int expectedPlayerCount, Action onGameBegin, Action onGameEnd, LocalPlayer localUser)
-    {
-        _onConnectionVerified = onConnectionVerified;
-        _expectedPlayerCount = expectedPlayerCount;
-        onGameBeginning = onGameBegin;
-        _onGameEnd = onGameEnd;
-        _canSpawnIngameObjects = null;
-        _localUserData = new PlayerScript(localUser.DisplayName.Value, 0);
-    }
+    [SerializeField] private OnlineGameSetup _gameSetupManager;
+
+    #region Line Syncronization
 
     public void SpawnLine(Vector3 start, Vector3 end)
     {
@@ -70,4 +56,97 @@ public class NetworkGameManager : NetworkBehaviour
         // Synchronize initial positions across all clients
         SpawnLineClientRpc(line.NetworkObjectId, start, end);
     }
+
+    #endregion
+
+    #region Wrong Guess Syncronization
+
+    public void OnGuessedWrong(int index, int count)
+    {
+        if (IsHost)
+        {
+            OnGuessedWrongOnHost(index, count);
+
+            OnGuessedWrongClientRpc(index, count);
+        }
+        else
+        {
+            OnGuessedWrongServerRpc(index, count);
+        }
+    }
+
+    private void OnGuessedWrongOnHost(int index, int count)
+    {
+        DisableButton(index);
+
+        UpdateHearts(count);
+
+        OnGuessedWrongClientRpc(index, count);
+    }
+
+    [ClientRpc]
+    private void OnGuessedWrongClientRpc(int index, int count)
+    {
+        DisableButton(index);
+
+        UpdateHearts(count);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void OnGuessedWrongServerRpc(int index, int count)
+    {
+        OnGuessedWrongOnHost(index, count);
+    }
+
+    private void DisableButton(int index)
+    {
+        _gameSetupManager.DisableButtonByIndex(index);
+    }
+
+    private void UpdateHearts(int count)
+    {
+        _gameSetupManager.SetHearts(count);
+    }
+
+    #endregion
+
+    #region Game Over Syncronization
+
+    private void ShowGameOverScreen(bool isWin, float score = 0f)
+    {
+        _gameSetupManager.ShowGameOverScreen(isWin, score);
+    }
+
+    public void OnGameOver(bool isWin, float score = 0f)
+    {
+        if (IsHost)
+        {
+            GameOverOnHost(isWin, score);
+        }
+        else
+        {
+            GameOverServerRpc(isWin, score);
+        }
+    }
+
+    private void GameOverOnHost(bool isWin, float score = 0f)
+    {
+        ShowGameOverScreen(isWin, score);
+
+        GameOverClientRpc(isWin, score);
+    }
+
+    [ClientRpc]
+    private void GameOverClientRpc(bool isWin, float score = 0f)
+    {
+        ShowGameOverScreen(isWin, score);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void GameOverServerRpc(bool isWin, float score = 0f)
+    {
+        GameOverOnHost(isWin, score);
+    }
+
+    #endregion
 }

@@ -71,6 +71,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AvatarManager _avatarManager;
     public AvatarManager AvatarManager => _avatarManager;
 
+    private Scene _menuScene;
+    private Scene _onlineGameScene;
+
     private async void Awake()
     {
         if (_instance == null)
@@ -83,7 +86,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        //SceneManager.sceneLoaded += OnSceneLoaded;
         Application.wantsToQuit += OnWantToQuit;
 
         _localUser = new LocalPlayer("", 0, false, "LocalPlayer");
@@ -194,7 +196,10 @@ public class GameManager : MonoBehaviour
     void CancelCountDown()
     {
         _logger.Log("Countdown Cancelled.");
-        _countdown.CancelCountDown();
+        if (_countdown != null)
+        {
+            _countdown.CancelCountDown();
+        }
     }
 
     public async void FinishedCountDown()
@@ -211,16 +216,15 @@ public class GameManager : MonoBehaviour
 
     private async void InitOnlineGame()
     {
-        ChangeScene();
-
         if (_localUser.IsHost.Value)
         {
             _localUser.UserStatus.Value = PlayerStatus.InGame;
 
-            _localLobby.LocalLobbyState.Value = LobbyState.InGame;
             _localLobby.Locked.Value = true;
             await SendLocalLobbyData();
         }
+
+        ChangeScene();
 
         StartNetworkGame();
     }
@@ -240,8 +244,7 @@ public class GameManager : MonoBehaviour
     private async void StartNetworkGame()
     {
         _networkGameManager = FindAnyObjectByType<NetworkGameManager>();
-        // _networkGameManager = Instantiate(_networkGameManagerPrefab);
-        //_networkGameManager.Initialize(OnConnectionVerified, _localLobby.PlayerCount, OnGameBegin, OnGameEnd, _localUser);
+
         if (_localUser.IsHost.Value)
         {
             await SetRelayHostData();
@@ -350,6 +353,28 @@ public class GameManager : MonoBehaviour
             EndGame();
             _doesNeedCleanup = false;
         }
+    }
+
+    public void ExitToLobbyList()
+    {
+        SceneManager.LoadScene("MainMenu");
+
+        LeaveLobby();
+
+        MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+    }
+
+    public async void ExitToLobby()
+    {
+        SceneManager.LoadScene("MainMenu");
+
+        _localLobby.LocalLobbyState.Value = LobbyState.Lobby;
+
+        SetLocalUserStatus(PlayerStatus.Lobby);
+
+        await SendLocalLobbyData();
+
+        MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
     }
 
     private async Task JoinLobby()

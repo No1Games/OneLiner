@@ -51,7 +51,6 @@ public class DrawingUpdate : MonoBehaviour
 
     private void ProcessScreenshot(Texture2D screenshot)
     {
-        Debug.Log("Screenshot taken. Invoke event");
         // ¬икликаЇмо под≥ю та передаЇмо зн≥мок
         OnScreenshotTaken?.Invoke(screenshot);
     }

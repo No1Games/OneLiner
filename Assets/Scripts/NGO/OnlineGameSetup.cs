@@ -7,6 +7,9 @@ public class OnlineGameSetup : MonoBehaviour
 {
     [Inject(Id = "RuntimeTMP")] ILogger _logger;
 
+    private int _maxHearts = 2;
+    private int _currentHearts;
+
     [SerializeField] private StartTurnPanelUI _startTurnPanel;
     [SerializeField] private TurnHandler _turnHandler;
 
@@ -22,6 +25,10 @@ public class OnlineGameSetup : MonoBehaviour
 
     [SerializeField] private Camera _mainCamera;
 
+    [SerializeField] private GameOverUI _gameOverUI;
+
+    [SerializeField] private HeartsUI _heartsUI;
+
     private NetworkGameManager _networkGameManager;
 
     private LocalLobby _localLobby;
@@ -29,6 +36,9 @@ public class OnlineGameSetup : MonoBehaviour
 
     private void Start()
     {
+        _currentHearts = _maxHearts;
+        _heartsUI.Init(_currentHearts);
+
         _localLobby = GameManager.Instance.LocalLobby;
         _localPlayer = GameManager.Instance.LocalUser;
 
@@ -84,6 +94,8 @@ public class OnlineGameSetup : MonoBehaviour
 
     private void OnLeaderWordChanged(int index)
     {
+        _leaderWord = index;
+
         _wordsPanel.SetLeaderWord(index);
     }
 
@@ -113,8 +125,41 @@ public class OnlineGameSetup : MonoBehaviour
         if (_leaderWord != index)
         {
             _logger.Log("Oh-oh! Wrong word! Duh!");
-        }
+            int newHearts = _currentHearts - 1;
 
-        _turnHandler.EndTurn();
+            Debug.Log($"Old hearts count: {_currentHearts} --- New hearts count: {newHearts}");
+
+            if (newHearts <= 0)
+            {
+                _networkGameManager.OnGameOver(false);
+            }
+            else
+            {
+                _networkGameManager.OnGuessedWrong(index, newHearts);
+            }
+
+            _turnHandler.EndTurn();
+        }
+        else
+        {
+            _networkGameManager.OnGameOver(true, 100f);
+        }
+    }
+
+    public void SetHearts(int count)
+    {
+        _currentHearts = count;
+
+        _heartsUI.UpdateHearts(count);
+    }
+
+    public void ShowGameOverScreen(bool isWin, float score = 0)
+    {
+        _gameOverUI.Show(isWin, score);
+    }
+
+    public void DisableButtonByIndex(int index)
+    {
+        _wordsPanel.DisableButton(index);
     }
 }

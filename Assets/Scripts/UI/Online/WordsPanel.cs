@@ -73,6 +73,11 @@ public class WordsPanel : MonoBehaviour
         Hide();
     }
 
+    public void DisableButton(int index)
+    {
+        _buttonsPool[index].Interactable = false;
+    }
+
     private void Hide()
     {
         gameObject.SetActive(false);

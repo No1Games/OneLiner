@@ -79,9 +79,22 @@ public class LobbyListUI : MenuBase
 
     private void ClearLobbyList()
     {
-        foreach (var item in _lobbyItemPool)
+        List<int> indexToRemove = new List<int>();
+        for (int i = 0; i < _lobbyItemPool.Count; i++)
         {
-            item.gameObject.SetActive(false);
+            if (_lobbyItemPool[i] != null)
+            {
+                _lobbyItemPool[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                indexToRemove.Add(i);
+            }
+        }
+
+        foreach (var index in indexToRemove)
+        {
+            _lobbyItemPool.RemoveAt(index);
         }
     }
 

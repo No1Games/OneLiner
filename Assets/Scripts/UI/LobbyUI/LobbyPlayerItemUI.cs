@@ -21,6 +21,8 @@ public class LobbyPlayerItemUI : MonoBehaviour
 
     public void SetLocalPlayer(LocalPlayer player)
     {
+        Unsubscribe();
+
         _localPlayer = player;
 
         SetDisplayName(player.DisplayName.Value);

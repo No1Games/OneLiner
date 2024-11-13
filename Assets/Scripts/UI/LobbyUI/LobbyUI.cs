@@ -60,6 +60,8 @@ public class LobbyUI : MenuBase
 
     private void UpdatePlayersList()
     {
+        ClearPlayersList();
+
         if (_localLobby.PlayerCount > _playerItemPool.Count)
         {
             InstantiatePlayerItems(_localLobby.PlayerCount - _playerItemPool.Count);
@@ -72,6 +74,17 @@ public class LobbyUI : MenuBase
             _playerItemPool[i].SetKickPlayerButtonVisible(
                 GameManager.Instance.LocalUser.IsHost.Value &&
                 _localLobby.GetLocalPlayer(i).ID.Value != _localLobby.HostID.Value);
+        }
+    }
+
+    private void ClearPlayersList()
+    {
+        for (int i = 0; i < _playerItemPool.Count; i++)
+        {
+            if (_playerItemPool[i] != null)
+            {
+                _playerItemPool[i].gameObject.SetActive(false);
+            }
         }
     }
 
@@ -130,6 +143,11 @@ public class LobbyUI : MenuBase
         base.Show();
 
         _localLobby = GameManager.Instance.LocalLobby;
+    }
+
+    private void OnDestroy()
+    {
+        _playerItemPool.Clear();
     }
 
     #endregion

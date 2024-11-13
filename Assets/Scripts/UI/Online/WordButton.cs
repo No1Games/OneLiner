@@ -13,6 +13,12 @@ public class WordButton : MonoBehaviour
 
     public event Action<int> WordButtonClick;
 
+    public bool Interactable
+    {
+        get { return _buttonComponent.interactable; }
+        set { _buttonComponent.interactable = value; }
+    }
+
     private void Start()
     {
         _buttonComponent.onClick.AddListener(OnClick);
@@ -36,6 +42,8 @@ public class WordButton : MonoBehaviour
 
         if (!GameManager.Instance.LocalUser.IsTurn.Value)
             return;
+
+        _buttonComponent.interactable = false;
 
         WordButtonClick?.Invoke(_index);
     }
