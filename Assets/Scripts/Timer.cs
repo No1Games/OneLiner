@@ -12,17 +12,22 @@ public class Timer : MonoBehaviour
     private bool switcher = false;
     private bool isPaused = false;
 
+    private bool alarmIsRunning = false;
+
     public event Action OnTimerEnds;
     void Update()
     {
         if (switcher)
         {
             RunTimer();
+            
         }
+       
 
     }
     public void TimerStrat()
     {
+        StopAlarm();
         currentTime = maxTime;
         switcher = true;
         isPaused = false;
@@ -31,6 +36,7 @@ public class Timer : MonoBehaviour
 
     private void TimerEnds()
     {
+        
         switcher = false;
         OnTimerEnds?.Invoke();
 
@@ -43,9 +49,15 @@ public class Timer : MonoBehaviour
         }
         else
         {
+            StopAlarm();
             TimerEnds();
         }
+        
         int timeToShow = Mathf.FloorToInt(currentTime % 60);
+        if (timeToShow <= 10 && timeToShow > 0)
+        {
+            StartAlarm();
+        }
         timeText.text = timeToShow.ToString();
 
     }
@@ -67,5 +79,19 @@ public class Timer : MonoBehaviour
             switcher = true;
         }
 
+    }
+
+    private void StartAlarm()
+    {
+        if ( !alarmIsRunning)
+        {
+            alarmIsRunning = true;
+            AudioManager.Instance.PlaySoundInAdditional(GameSounds.Timer_LastSeconds);
+        }
+    }
+    private void StopAlarm()
+    {
+        AudioManager.Instance.StopSoundInAdditional();
+        alarmIsRunning = false;
     }
 }

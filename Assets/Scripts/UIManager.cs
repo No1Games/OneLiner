@@ -24,8 +24,7 @@ public class UIManager : MonoBehaviour
 
 
     [Header("Texts")]
-    [SerializeField] private TMP_Text drawenLines;
-    //[SerializeField] private TMP_Text playerNameOnGameScreen;
+    [SerializeField] private TMP_Text drawenLines;    
     [SerializeField] private TMP_Text playerNameOnPlayerScreen;
 
     [SerializeField] private TMP_Text endgameText;
@@ -37,7 +36,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Other")]
     public int lives = 2;
-    [SerializeField] private GameObject[] livesImage;
+    [SerializeField] private Animator[] livesImage;
     [SerializeField] private DrawingManager drawing;
     public PlayerScript playerToTrack;
     private string leaderWordText;
@@ -83,9 +82,6 @@ public class UIManager : MonoBehaviour
     {
         this.ranks = ranks;
     }
-
-
-
     public void GenerateWordButtons(List<string> words)
     {
         for (int i = 0; i < words.Count; i++)
@@ -99,8 +95,6 @@ public class UIManager : MonoBehaviour
             button.onClick.AddListener(() => CheckTheWord(newButton));
         }
     }
-
-
     public void SetLeaderWord(string word)
     {
         leaderWordText = word;
@@ -123,6 +117,7 @@ public class UIManager : MonoBehaviour
 
     public void OpenPlayerScreen() //коли вгадували слово чи п≥дтвердили л≥н≥ю чи вийшов час
     {
+        
         //playerNameOnGameScreen.text = playerToTrack.name;
         playerNameOnPlayerScreen.text = playerToTrack.name;
         if (drawingPanel.activeSelf)
@@ -131,16 +126,16 @@ public class UIManager : MonoBehaviour
             StopDrawing();
         }
         startPanel.SetActive(true);
-        inGamePanel.SetActive(false);
+        
 
 
     }
 
     public void StartTurn() //коли п≥дтвердили що телефон у гравц€
     {
-
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Game_TurnChange);
         startPanel.SetActive(false);
-        inGamePanel.SetActive(true);
+        
         OnTurnStarted?.Invoke();
     }
 
@@ -169,7 +164,7 @@ public class UIManager : MonoBehaviour
     public void OpenWordsMenu()//коли хочемо подивитись слова або своЇ слово €к ведучий
     {
 
-        inGamePanel.SetActive(false);
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Game_WordMenu);
         drawing.DrawingAllowed = false;
         wordPanel.SetActive(true);
 
@@ -186,7 +181,7 @@ public class UIManager : MonoBehaviour
     {
         wordPanel.SetActive(false);
 
-        inGamePanel.SetActive(true);
+        
         drawing.DrawingAllowed = true;
         if (playerToTrack.role == PlayerRole.Leader)
         {
@@ -212,6 +207,9 @@ public class UIManager : MonoBehaviour
                 endgameText.text = winingText;
 
                 endgamePanel.SetActive(true);
+                AudioManager.Instance.TurnMusicOff();
+                AudioManager.Instance.PlaySoundInMain(GameSounds.Game_Victory);
+
                 StartCoroutine(StartScoring(OnGameEnded.Invoke()));
 
             }
@@ -219,12 +217,13 @@ public class UIManager : MonoBehaviour
             {
                 if (lives > 1)
                 {
+                    AudioManager.Instance.PlaySoundInMain(GameSounds.Game_WrongWord);
                     lives--;
                     pressedButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
                     pressedButton.GetComponentInChildren<Image>().color = Color.red;
 
-
-                    livesImage[lives].SetActive(false);
+                   //livesImage[0].SetTrigger("BeGray"); //exception null ref
+                    
                     OnActionConfirmed.Invoke();
                     OpenPlayerScreen();
 
@@ -233,6 +232,8 @@ public class UIManager : MonoBehaviour
                 {
                     endgameText.text = losingText;
                     endgamePanel.SetActive(true);
+                    AudioManager.Instance.TurnMusicOff();
+                    AudioManager.Instance.PlaySoundInMain(GameSounds.Game_Lose);
                     StartCoroutine(StartScoring(0));
 
                 }
@@ -246,11 +247,15 @@ public class UIManager : MonoBehaviour
 
     public void BackToMainMenu()
     {
+        AudioManager.Instance.TurnMusicOn();
+        AudioManager.Instance.StopSoundInAdditional();
         SceneManager.LoadScene(0);
     }
 
     public void PlayAgain()
     {
+        AudioManager.Instance.TurnMusicOn();
+        AudioManager.Instance.StopSoundInAdditional();
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.buildIndex);
 
@@ -291,6 +296,7 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator PushWarning(string message)
     {
+        
         isWarningActive = true;
         warningText.text = message;
         warningPanel.SetActive(true);
@@ -305,12 +311,13 @@ public class UIManager : MonoBehaviour
             StopCoroutine(warningCoroutine);
             isWarningActive = false;
         }
-
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Game_WrongDrawing);
         warningCoroutine = StartCoroutine(PushWarning(message));
     }
 
     public void OpenSettings()
     {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Game_Settings);
         settingsPanel.SetActive(true);
     }
     public void CloseSettings()
@@ -320,6 +327,7 @@ public class UIManager : MonoBehaviour
 
     public void StartDrawing()
     {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Game_DrawMenu);
         mainCam.SetActive(false);
         drawingPanel.SetActive(true);
 
