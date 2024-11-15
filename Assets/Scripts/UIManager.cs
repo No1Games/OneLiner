@@ -88,11 +88,13 @@ public class UIManager : MonoBehaviour
         {
 
             GameObject newButton = Instantiate(wordButtonPrefab, wordPanel.transform);
-            newButton.GetComponentInChildren<TMP_Text>().text = words[i];
+            WordButton_new wordInfo = newButton.GetComponent<WordButton_new>();
+            wordInfo.SetWord(words[i]);
+            wordInfo.wordClicked += CheckTheWord;
             wordsButtons.Add(newButton);
 
             Button button = newButton.GetComponentInChildren<Button>();
-            button.onClick.AddListener(() => CheckTheWord(newButton));
+            
         }
     }
     public void SetLeaderWord(string word)
@@ -170,7 +172,7 @@ public class UIManager : MonoBehaviour
 
         if (playerToTrack.role == PlayerRole.Leader)
         {
-            leaderWord.GetComponentInChildren<Image>().color = Color.yellow; //TO DO: choose image
+            leaderWord.GetComponent<WordButton_new>().ShowLeaderWord();
         }
 
 
@@ -180,18 +182,18 @@ public class UIManager : MonoBehaviour
     public void CloseWordsMenu() //коли хочемо повернутись до малювання
     {
         wordPanel.SetActive(false);
-
         
-        drawing.DrawingAllowed = true;
+
+        //drawing.DrawingAllowed = true;
         if (playerToTrack.role == PlayerRole.Leader)
         {
-            leaderWord.GetComponentInChildren<Image>().color = Color.white; //TO DO: choose image
+            leaderWord.GetComponent<WordButton_new>().HideLeaderWord();
 
 
         }
     }
 
-    private void CheckTheWord(GameObject pressedButton)
+    private void CheckTheWord(WordButton_new word)
     {
 
         string winingText = "Вітаю з перемогою";
@@ -201,15 +203,13 @@ public class UIManager : MonoBehaviour
         if (playerToTrack.role != PlayerRole.Leader)
         {
             wordPanel.SetActive(false);
-            if (pressedButton.GetComponentInChildren<TMP_Text>().text == leaderWordText)
+            if (word.gameObject.GetComponentInChildren<TMP_Text>().text == leaderWordText)
             {
 
                 endgameText.text = winingText;
-
                 endgamePanel.SetActive(true);
                 AudioManager.Instance.TurnMusicOff();
                 AudioManager.Instance.PlaySoundInMain(GameSounds.Game_Victory);
-
                 StartCoroutine(StartScoring(OnGameEnded.Invoke()));
 
             }
@@ -219,8 +219,7 @@ public class UIManager : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySoundInMain(GameSounds.Game_WrongWord);
                     lives--;
-                    pressedButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
-                    pressedButton.GetComponentInChildren<Image>().color = Color.red;
+                    word.ShowWordAsWrong();
 
                    //livesImage[0].SetTrigger("BeGray"); //exception null ref
                     
