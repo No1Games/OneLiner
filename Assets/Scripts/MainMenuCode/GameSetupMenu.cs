@@ -32,7 +32,7 @@ public class GameSetupMenu : MonoBehaviour
     {
         
         customizationManager.onChangesAccepted += CloseCustomization;
-        customizationManager.onChangesAccepted += UpdatePlayerData;
+        //customizationManager.onChangesAccepted += UpdatePlayerData;
     }
     private void Start()
     {
@@ -74,13 +74,13 @@ public class GameSetupMenu : MonoBehaviour
         SetStartScreen();
 
     }
-    private void UpdatePlayerData(PlayerScript playerToSave)
-    {
-        if (playerToSave == accountManager.player)
-        {
-            accountManager.SavePlayerData();
-        }
-    }
+    //private void UpdatePlayerData(PlayerScript playerToSave)
+    //{
+    //    if (playerToSave == accountManager.player)
+    //    {
+    //        accountManager.SavePlayerData();
+    //    }
+    //}
 
 
     
