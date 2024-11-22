@@ -11,24 +11,9 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Zenject;
 
 public class GameManager : MonoBehaviour
 {
-    [Inject(Id = "RuntimeTMP")] private ILogger _logger;
-
-    public event Action PassTurn;
-
-    #region NGO Fields and Props
-
-    [SerializeField] private NetworkManager _networkManager;
-    [SerializeField] private NetworkGameManager _networkGameManagerPrefab;
-    private NetworkGameManager _networkGameManager;
-
-    private bool _hasConnectedViaNGO = false;
-
-    #endregion
-
     static GameManager _instance;
     public static GameManager Instance
     {
@@ -51,6 +36,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public event Action PassTurn;
+
+    #region NGO Fields and Props
+
+    [SerializeField] private NetworkManager _networkManager;
+    [SerializeField] private NetworkGameManager _networkGameManagerPrefab;
+    private NetworkGameManager _networkGameManager;
+
+    private bool _hasConnectedViaNGO = false;
+
+    #endregion
+
     #region Lobby Fields and Props
 
     public LobbyManager LobbyManager { get; private set; }
@@ -66,13 +63,17 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+
     [SerializeField] Countdown _countdown;
+
 
     [SerializeField] private AvatarManager _avatarManager;
     public AvatarManager AvatarManager => _avatarManager;
 
+
     private Scene _menuScene;
     private Scene _onlineGameScene;
+
 
     private async void Awake()
     {
@@ -104,7 +105,7 @@ public class GameManager : MonoBehaviour
 
         (LobbyService.Instance as ILobbyServiceSDKConfiguration).EnableLocalPlayerLobbyEvents(true);
 
-        _logger.Log($"Services Authentification Result: {result}");
+        Debug.Log($"Services Authentification Result: {result}");
     }
 
     void AuthenticatePlayer()
@@ -139,7 +140,7 @@ public class GameManager : MonoBehaviour
         catch (LobbyServiceException exception)
         {
             MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
-            _logger.Log($"Error creating lobby : ({exception.ErrorCode}) {exception.Message}");
+            Debug.Log($"Error creating lobby : ({exception.ErrorCode}) {exception.Message}");
         }
     }
 
@@ -157,7 +158,7 @@ public class GameManager : MonoBehaviour
         catch (LobbyServiceException exception)
         {
             MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
-            _logger.Log($"Error joining lobby : ({exception.ErrorCode}) {exception.Message}");
+            Debug.Log($"Error joining lobby : ({exception.ErrorCode}) {exception.Message}");
         }
     }
 
@@ -189,13 +190,13 @@ public class GameManager : MonoBehaviour
 
     void BeginCountDown()
     {
-        _logger.Log("Beginning Countdown.");
+        Debug.Log("Beginning Countdown.");
         _countdown.StartCountDown();
     }
 
     void CancelCountDown()
     {
-        _logger.Log("Countdown Cancelled.");
+        Debug.Log("Countdown Cancelled.");
         if (_countdown != null)
         {
             _countdown.CancelCountDown();
@@ -206,7 +207,7 @@ public class GameManager : MonoBehaviour
     {
         _localLobby.LocalLobbyState.Value = LobbyState.InGame;
         await SendLocalLobbyData();
-        _logger.Log("Finished Countdown!");
+        Debug.Log("Finished Countdown!");
     }
 
     private void ChangeScene()
@@ -334,7 +335,7 @@ public class GameManager : MonoBehaviour
         if (!_hasConnectedViaNGO)
         {
             // If this localPlayer hasn't successfully connected via NGO, forcibly exit the game.
-            _logger.Log("Failed to join the game.");
+            Debug.Log("Failed to join the game.");
             OnGameEnd();
         }
     }
@@ -398,7 +399,7 @@ public class GameManager : MonoBehaviour
         catch (LobbyServiceException exception)
         {
             MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
-            _logger.Log($"Couldn't join Lobby : ({exception.ErrorCode}) {exception.Message}");
+            Debug.Log($"Couldn't join Lobby : ({exception.ErrorCode}) {exception.Message}");
         }
     }
 
@@ -433,7 +434,7 @@ public class GameManager : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            _logger.Log("Empty Name not allowed."); // Lobby error type, then HTTP error type.
+            Debug.Log("Empty Name not allowed."); // Lobby error type, then HTTP error type.
             return;
         }
         _localUser.DisplayName.Value = name;

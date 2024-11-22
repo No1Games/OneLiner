@@ -65,6 +65,7 @@ public static class UnityServiceAuthenticator
 
         s_IsSigningIn = true;
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
         s_IsSigningIn = false;
 
         return AuthenticationService.Instance.IsSignedIn;

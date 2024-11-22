@@ -56,17 +56,17 @@ public class PlayerPanelUI : MonoBehaviour
 
     private void SetNameBack(int index)
     {
-        _nameBackImage.sprite = GameManager.Instance.AvatarManager.GetNameBackImage(index);
+        _nameBackImage.sprite = AvatarManager.Instance.GetNameBackImage(index);
     }
 
     private void SetAvatarImage(int index)
     {
-        _avatarImage.sprite = GameManager.Instance.AvatarManager.GetAvatarImage(index);
+        _avatarImage.sprite = AvatarManager.Instance.GetAvatarImage(index);
     }
 
     private void SetAvatarBackImage(int index)
     {
-        _avatarBackImage.sprite = GameManager.Instance.AvatarManager.GetAvatarBackImage(index);
+        _avatarBackImage.sprite = AvatarManager.Instance.GetAvatarBackImage(index);
     }
 
     private void SetPlayerRole(PlayerRole role)

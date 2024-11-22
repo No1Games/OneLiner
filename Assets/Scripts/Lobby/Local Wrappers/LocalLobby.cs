@@ -24,6 +24,10 @@ public class LocalLobby
     public Action<bool> onUserTurnChanged;
     public Action onLobbyDataChanged;
 
+    public Action<int> PlayersCountChangedEvent;
+
+    public CallbackValue<HostData> HostData = new CallbackValue<HostData>();
+
     public CallbackValue<string> LobbyID = new CallbackValue<string>();
     public CallbackValue<string> LobbyCode = new CallbackValue<string>();
     public CallbackValue<string> RelayCode = new CallbackValue<string>();
@@ -35,6 +39,8 @@ public class LocalLobby
     public CallbackValue<int> AvailableSlots = new CallbackValue<int>();
     public CallbackValue<int> MaxPlayerCount = new CallbackValue<int>();
     public CallbackValue<long> LastUpdated = new CallbackValue<long>();
+
+    public CallbackValue<string> Mode = new CallbackValue<string>();
 
     public CallbackValue<List<int>> WordsList = new CallbackValue<List<int>>();
     public CallbackValue<int> LeaderWord = new CallbackValue<int>();
@@ -116,6 +122,8 @@ public class LocalLobby
         onUserJoined?.Invoke(user);
         onLobbyDataChanged?.Invoke();
         Debug.Log($"Added User: {user.DisplayName.Value} - {user.ID.Value} to slot {index + 1}/{PlayerCount}");
+
+        PlayersCountChangedEvent?.Invoke(PlayerCount);
     }
 
     public void RemovePlayer(int playerIndex)
@@ -124,6 +132,8 @@ public class LocalLobby
         m_LocalPlayers.RemoveAt(playerIndex);
         onUserLeft?.Invoke(playerIndex);
         onLobbyDataChanged?.Invoke();
+
+        PlayersCountChangedEvent?.Invoke(PlayerCount);
     }
 
     private void OnUserChangedTurn(bool value)
