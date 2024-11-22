@@ -8,5 +8,5 @@ public class Item : ScriptableObject
     public int itemCode; // Унікальний код для кожного елемента
     public int requiredLevel; // Мінімальний рівень для доступу до елемента
     public int cost; // Вартість в ігровій валюті
-    public bool isAvailableByDefault; // Чи доступний елемент відразу без розблокування
+   
 }
