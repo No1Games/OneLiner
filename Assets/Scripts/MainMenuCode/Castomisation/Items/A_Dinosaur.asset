@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f0c54b465956c0479f7dc44d4e2ae51, type: 3}
-  m_Name: Char_Croc
+  m_Name: A_Dinosaur
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 60dc14a53ecdfb44faa847e0e94694e4, type: 3}
-  itemCode: 101
+  icon: {fileID: 21300000, guid: 546f8bd8e427389489598fed56b5f156, type: 3}
+  itemCode: 1005
   requiredLevel: 0
-  cost: 0
-  isAvailableByDefault: 1
+  cost: 10
+  category: 0

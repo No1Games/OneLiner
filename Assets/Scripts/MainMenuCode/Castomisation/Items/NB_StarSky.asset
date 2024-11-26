@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f0c54b465956c0479f7dc44d4e2ae51, type: 3}
-  m_Name: NameB_green
+  m_Name: NB_StarSky
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 016af4fb4129d6a469d3a5d289932831, type: 3}
-  itemCode: 301
+  icon: {fileID: 21300000, guid: c786eb6b552ee464ab90eaad30d6678c, type: 3}
+  itemCode: 3006
   requiredLevel: 0
-  cost: 0
-  isAvailableByDefault: 1
+  cost: 10
+  category: 2

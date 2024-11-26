@@ -14,6 +14,14 @@ public class CustomizationMenuUi : MenuBase
     
     [SerializeField] private List<Tab> tabs;
 
+    [SerializeField] private GameObject smallPurchasePanel;
+    [SerializeField] private Button sppYesBtn;
+    [SerializeField] private Button sppNoBtn;
+
+    [SerializeField] private GameObject notEnoughGemsPanel;
+    [SerializeField] private Button negNoBtn;
+    [SerializeField] private Button negYesBtn;
+
     public override MenuName Menu => MenuName.CustomizationScreen;
 
        
@@ -36,6 +44,11 @@ public class CustomizationMenuUi : MenuBase
         nameBackShopBtn.onClick.AddListener(OnClick_nameBackShopBtn);
         backBtn.onClick.AddListener(OnClick_backButton);
         applyBtn.onClick.AddListener(OnClick_applyButton);
+
+        negNoBtn.onClick.AddListener(OnClick_closePopUp);
+        negYesBtn.onClick.AddListener(OnClick_applyButton);
+        sppYesBtn.onClick.AddListener(OnClick_sppYesButton);
+        sppNoBtn.onClick.AddListener(OnClick_closePopUp);
 
     }
 
@@ -87,5 +100,38 @@ public class CustomizationMenuUi : MenuBase
         }
     }
 
+    public void ShowPopup(Item item)
+    {
+        // Логіка відображення попапу
+        
+        if (GemManager.Instance.GetGems() >= item.cost)
+        {
+            smallPurchasePanel.SetActive(true);
+        }
+        else
+        {
+            notEnoughGemsPanel.SetActive(true);
+        }
 
+    }
+
+    private void OnClick_sppYesButton()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        //remove gems
+        //update shop icons
+    }
+    private void OnClick_negYesButton()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        //open gem shop screen
+        
+    }
+    private void OnClick_closePopUp()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        smallPurchasePanel.SetActive(false);
+        notEnoughGemsPanel.SetActive(false);
+
+    }
 }

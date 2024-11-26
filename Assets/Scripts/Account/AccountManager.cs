@@ -18,7 +18,10 @@ public class AccountManager : MonoBehaviour
     private AccountData accountData;
     public PlayerScript player;
 
-    private void Start()
+    [Header("Default Items")]
+    [SerializeField] private List<int> defaultCosmeticCodes;
+
+    private void Awake()
     {
         InitializeStorage();
 
@@ -32,6 +35,7 @@ public class AccountManager : MonoBehaviour
             accountData = CreateDefaultAccount();
             SaveAccount();
         }
+        UpdateDefaultCosmetics();
     }
     private void InitializeStorage()
     {
@@ -55,9 +59,10 @@ private void InitializeAccount(AccountData data)
             playerName = "Guest",
             playerID = Guid.NewGuid().ToString(),
             localPlayerID = 0,
-            avatarCode = 101,
-            avatarBackgroundCode = 201,
-            nameBackgroundCode = 301,
+            avatarCode = 1001,
+            avatarBackgroundCode = 2001,
+            nameBackgroundCode = 3001,
+            cosmeticCodes = defaultCosmeticCodes,
             gems = 0,
             experience = 0,
             level = 1,
@@ -73,6 +78,17 @@ private void InitializeAccount(AccountData data)
 
     public AccountData GetAccountData()
     {
-        return saveManager.Load();
+        return accountData;
+    }
+
+    private void UpdateDefaultCosmetics()
+    {
+        foreach(int code in defaultCosmeticCodes)
+        {
+            if (!accountData.cosmeticCodes.Contains(code))
+            {
+                accountData.cosmeticCodes.Add(code);
+            }
+        }
     }
 }

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f0c54b465956c0479f7dc44d4e2ae51, type: 3}
-  m_Name: Char_Jeraf
+  m_Name: A_Crocodile
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 2c11fdbea6a46ff4aaf27be0376eba8c, type: 3}
-  itemCode: 102
+  icon: {fileID: 21300000, guid: 60dc14a53ecdfb44faa847e0e94694e4, type: 3}
+  itemCode: 1001
   requiredLevel: 0
   cost: 0
-  isAvailableByDefault: 1
+  category: 0
