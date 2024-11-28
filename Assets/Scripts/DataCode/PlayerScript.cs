@@ -19,6 +19,14 @@ public class PlayerScript
         this.nameBackID = 0;
     }
 
+    public void UpdatePlayerInfo(string name, int avatarID, int avatarBackId, int nameBackId)
+    {
+        this.name = name;
+        this.avatarBackID = avatarBackId;
+        this.avatarID = avatarID;
+        this.nameBackID = nameBackId;
+    }
+
 }
 
 public enum PlayerRole

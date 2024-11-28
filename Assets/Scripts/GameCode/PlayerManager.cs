@@ -91,7 +91,7 @@ public class PlayerManager : MonoBehaviour
         foreach (PlayerScript player in players)
         {
             GameObject playerPlate = Instantiate(platePrefab, playersPanel.transform);
-            playerPlate.GetComponent<PlateCustomization>().CustomizePlate(avatarManager, player);
+            playerPlate.GetComponent<PlateCustomization>().CustomizePlate(player);
 
             if (player.role == PlayerRole.Leader)
             {

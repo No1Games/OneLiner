@@ -67,6 +67,7 @@ public class ShopPageManager : MonoBehaviour
     private void SetItem(Item item)
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        uiMenu.UpdateSpecific(item);
 
     }
     private void BueItem(Item item)

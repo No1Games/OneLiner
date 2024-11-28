@@ -15,6 +15,7 @@ public class LocalGameSetupManager : MonoBehaviour
     private List<PlayerScript> players = new();
     private List<GameObject> playersPlates = new();
     [SerializeField] private AccountManager accountManager;
+    [SerializeField] private CustomizationDataManager customizationDataManager;
 
     private LocalGameSetup_Func lgsFunc;
     
@@ -22,7 +23,7 @@ public class LocalGameSetupManager : MonoBehaviour
     private void Awake()
     {
         lgsFunc = gameObject.AddComponent<LocalGameSetup_Func>(); 
-        lgsFunc.Initialize(playerPlatePrefab, playerPanel);
+        lgsFunc.Initialize(playerPlatePrefab, playerPanel, accountManager);
         localSetupUI.OnAddPlayerBtnClick += AddPlayer;
         localSetupUI.OnStartGameBtnClick += StartLocalGame;
         localSetupUI.OnRandomLeaderBtnClick += ChoseRandomLeader;
@@ -60,7 +61,7 @@ public class LocalGameSetupManager : MonoBehaviour
             newPlate.GetComponent<PlateCustomization>().MainButton.onClick.AddListener(() => PlateBtnController(newPlate));
             newPlate.GetComponent<PlateCustomization>().FirstMiniButton.onClick.AddListener(() => RemovePlayer(player));
 
-            newPlate.GetComponent<PlateCustomization>().SecondMiniButton.onClick.AddListener(EditPlayer);
+            newPlate.GetComponent<PlateCustomization>().SecondMiniButton.onClick.AddListener(() => EditPlayer(player));
             
 
 
@@ -100,9 +101,11 @@ public class LocalGameSetupManager : MonoBehaviour
         }
 
     }
-    private void EditPlayer()
+    private void EditPlayer(PlayerScript player)
     {
-
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_edit);
+        customizationDataManager.SetupData(player, MenuName.LocalSetup);
+        MainMenuManager.Instance.ChangeMenu(MenuName.CustomizationScreen);
     }
 
     private void StartLocalGame()

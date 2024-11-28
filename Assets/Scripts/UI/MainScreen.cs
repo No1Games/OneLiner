@@ -9,12 +9,22 @@ public class MainScreen : MenuBase
     [SerializeField] private Button playBtn;
     [SerializeField] private Button optionsBtn;
     [SerializeField] private Button customizationBtn;
+    [SerializeField] private CustomizationDataManager customizationDataManager;
+    [SerializeField] private AccountManager accountManager;
+
+    [SerializeField] private Image avatarMainMenu;
+    [SerializeField] private Image avatarBackMainMenu;
 
     public override MenuName Menu => MenuName.MainScreen;
 
     private void Awake()
     {
         Init();
+    }
+    private void Start()
+    {
+        SetupMainScreenAvatar();
+        customizationDataManager.OnCustomizationEnds += SetupMainScreenAvatar;
     }
     public override void Init()
     {
@@ -44,9 +54,15 @@ public class MainScreen : MenuBase
     private void OnClick_CustomizationBtn()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        customizationDataManager.SetupData(accountManager.player, MenuName.MainScreen);
+        MainMenuManager.Instance.ChangeMenu(MenuName.CustomizationScreen);
     }
 
-   
+    private void SetupMainScreenAvatar()
+    {
+        avatarMainMenu.sprite = ItemManager.Instance.GetItemByCode(accountManager.player.avatarID).icon;
+        avatarBackMainMenu.sprite = ItemManager.Instance.GetItemByCode(accountManager.player.avatarBackID).icon;
+    }
 
 }
 

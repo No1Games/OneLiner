@@ -24,7 +24,7 @@ public class AccountManager : MonoBehaviour
     private void Awake()
     {
         InitializeStorage();
-
+        
         if (saveManager.HasSave())
         {
             accountData = saveManager.Load();
@@ -49,6 +49,7 @@ private void InitializeAccount(AccountData data)
     {
         // Ініціалізація акаунта (можливо, присвоєння значень у грі)
         player = new PlayerScript(data.playerName, data.localPlayerID);
+        player.UpdatePlayerInfo(data.playerName, data.avatarCode, data.avatarBackgroundCode, data.nameBackgroundCode);
     }
 
     private AccountData CreateDefaultAccount()

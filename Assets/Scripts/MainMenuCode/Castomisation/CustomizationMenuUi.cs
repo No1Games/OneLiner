@@ -6,6 +6,7 @@ using System;
 
 public class CustomizationMenuUi : MenuBase
 {
+    [Header("Navigation")]
     [SerializeField] private Button backBtn;
     [SerializeField] private Button applyBtn;
     [SerializeField] private Button avatarShopBtn;
@@ -14,6 +15,7 @@ public class CustomizationMenuUi : MenuBase
     
     [SerializeField] private List<Tab> tabs;
 
+    [Header("Purchase PopUp")]
     [SerializeField] private GameObject smallPurchasePanel;
     [SerializeField] private Button sppYesBtn;
     [SerializeField] private Button sppNoBtn;
@@ -21,6 +23,15 @@ public class CustomizationMenuUi : MenuBase
     [SerializeField] private GameObject notEnoughGemsPanel;
     [SerializeField] private Button negNoBtn;
     [SerializeField] private Button negYesBtn;
+
+    [Header("Preview")]
+    [SerializeField] CustomizationDataManager customizationDataManager;
+    [SerializeField] private Image avatarBig;
+    [SerializeField] private Image avatarSmall;
+    [SerializeField] private Image avatarBackBig;
+    [SerializeField] private Image avatarBackSmall;
+    [SerializeField] private Image nameBackImg;
+
 
     public override MenuName Menu => MenuName.CustomizationScreen;
 
@@ -48,8 +59,13 @@ public class CustomizationMenuUi : MenuBase
         negNoBtn.onClick.AddListener(OnClick_closePopUp);
         negYesBtn.onClick.AddListener(OnClick_applyButton);
         sppYesBtn.onClick.AddListener(OnClick_sppYesButton);
-        sppNoBtn.onClick.AddListener(OnClick_closePopUp);
+        sppNoBtn.onClick.AddListener(OnClick_closePopUp);       
 
+    }
+    public override void Show()
+    {
+        base.Show();
+        UpdatePreview(customizationDataManager.GetPlayer());
     }
 
     private void OnClick_backButton()
@@ -60,6 +76,9 @@ public class CustomizationMenuUi : MenuBase
     private void OnClick_applyButton()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        customizationDataManager.ReturnDataToPreviousMenu();
+        MainMenuManager.Instance.ChangeMenu(customizationDataManager.GetPreviousMenuName());
+        
     }
     private void OnClick_avatarShopBtn()
     {
@@ -134,4 +153,39 @@ public class CustomizationMenuUi : MenuBase
         notEnoughGemsPanel.SetActive(false);
 
     }
+
+    // оновлює вигляд всіх компонентів на основі даних гравця.
+    void UpdatePreview(PlayerScript player) 
+    {
+        avatarBig.sprite = ItemManager.Instance.GetItemByCode(player.avatarID).icon;
+        avatarSmall.sprite = ItemManager.Instance.GetItemByCode(player.avatarID).icon;
+        avatarBackBig.sprite = ItemManager.Instance.GetItemByCode(player.avatarBackID).icon;
+        avatarBackSmall.sprite = ItemManager.Instance.GetItemByCode(player.avatarBackID).icon;
+        nameBackImg.sprite = ItemManager.Instance.GetItemByCode(player.nameBackID).icon;
+
+    }
+
+    //оновлює тільки певну частину прев’ю (наприклад, аватар чи фон).
+    public void UpdateSpecific(Item item) 
+    {
+        switch(item.category)
+{
+            case ItemCategory.Avatars:
+                avatarBig.sprite = item.icon;
+                avatarSmall.sprite = item.icon;
+                break;
+            case ItemCategory.AvatarBackgrounds:
+                avatarBackBig.sprite = item.icon;
+                avatarBackSmall.sprite = item.icon;
+                break;
+            case ItemCategory.NameBackgrounds:
+                nameBackImg.sprite = item.icon;
+                break;
+            default:
+                // Код, якщо жоден case не виконався
+                Debug.Log("Item not found");
+                break;
+            }
+        customizationDataManager.AddItems(item);
+        }
 }
