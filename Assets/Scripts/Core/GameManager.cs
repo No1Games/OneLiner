@@ -68,8 +68,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Countdown _countdown;
 
-    [SerializeField] private AvatarManager _avatarManager;
-    public AvatarManager AvatarManager => _avatarManager;
+    // now it is item manager
+    //[SerializeField] private AvatarManager _avatarManager;
+    //public AvatarManager AvatarManager => _avatarManager;
+
+    
 
     private Scene _menuScene;
     private Scene _onlineGameScene;

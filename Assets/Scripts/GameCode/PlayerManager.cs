@@ -14,8 +14,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Plates")]
     [SerializeField] GameObject platePrefab;
-    [SerializeField] GameObject playersPanel;
-    [SerializeField] AvatarManager avatarManager;
+    [SerializeField] GameObject playersPanel;    
     List<GameObject> playersPlates = new();
 
 

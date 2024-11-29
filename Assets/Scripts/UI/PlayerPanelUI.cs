@@ -17,9 +17,9 @@ public class PlayerPanelUI : MonoBehaviour
         _localPlayer = localPlayer;
 
         SetDisplayName(localPlayer.DisplayName.Value);
-        SetNameBack(localPlayer.NameBackID.Value);
-        SetAvatarImage(localPlayer.AvatarID.Value);
-        SetAvatarBackImage(localPlayer.AvatarBackID.Value);
+        //SetNameBack(localPlayer.NameBackID.Value);
+        //SetAvatarImage(localPlayer.AvatarID.Value);
+        //SetAvatarBackImage(localPlayer.AvatarBackID.Value);
 
         Subscribe();
     }
@@ -27,9 +27,9 @@ public class PlayerPanelUI : MonoBehaviour
     private void Subscribe()
     {
         _localPlayer.DisplayName.onChanged += SetDisplayName;
-        _localPlayer.AvatarID.onChanged += SetAvatarImage;
-        _localPlayer.AvatarBackID.onChanged += SetAvatarBackImage;
-        _localPlayer.NameBackID.onChanged += SetNameBack;
+        //_localPlayer.AvatarID.onChanged += SetAvatarImage;
+        //_localPlayer.AvatarBackID.onChanged += SetAvatarBackImage;
+        //_localPlayer.NameBackID.onChanged += SetNameBack;
         _localPlayer.Role.onChanged += SetPlayerRole;
     }
 
@@ -43,9 +43,9 @@ public class PlayerPanelUI : MonoBehaviour
         if (_localPlayer == null) return;
 
         _localPlayer.DisplayName.onChanged -= SetDisplayName;
-        _localPlayer.AvatarID.onChanged -= SetAvatarImage;
-        _localPlayer.AvatarBackID.onChanged -= SetAvatarBackImage;
-        _localPlayer.NameBackID.onChanged -= SetNameBack;
+        //_localPlayer.AvatarID.onChanged -= SetAvatarImage;
+        //_localPlayer.AvatarBackID.onChanged -= SetAvatarBackImage;
+        //_localPlayer.NameBackID.onChanged -= SetNameBack;
         _localPlayer.Role.onChanged -= SetPlayerRole;
     }
 
@@ -54,20 +54,20 @@ public class PlayerPanelUI : MonoBehaviour
         _displayNameTMP.text = displayName;
     }
 
-    private void SetNameBack(int index)
-    {
-        _nameBackImage.sprite = GameManager.Instance.AvatarManager.GetNameBackImage(index);
-    }
+    //private void SetNameBack(int index)
+    //{
+    //    _nameBackImage.sprite = GameManager.Instance.AvatarManager.GetNameBackImage(index);
+    //}
 
-    private void SetAvatarImage(int index)
-    {
-        _avatarImage.sprite = GameManager.Instance.AvatarManager.GetAvatarImage(index);
-    }
+    //private void SetAvatarImage(int index)
+    //{
+    //    _avatarImage.sprite = GameManager.Instance.AvatarManager.GetAvatarImage(index);
+    //}
 
-    private void SetAvatarBackImage(int index)
-    {
-        _avatarBackImage.sprite = GameManager.Instance.AvatarManager.GetAvatarBackImage(index);
-    }
+    //private void SetAvatarBackImage(int index)
+    //{
+    //    _avatarBackImage.sprite = GameManager.Instance.AvatarManager.GetAvatarBackImage(index);
+    //}
 
     private void SetPlayerRole(PlayerRole role)
     {

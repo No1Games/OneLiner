@@ -1,8 +1,10 @@
-using System.Collections;
+
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
+
+
 
 public class CustomizationMenuUi : MenuBase
 {
@@ -31,15 +33,10 @@ public class CustomizationMenuUi : MenuBase
     [SerializeField] private Image avatarBackBig;
     [SerializeField] private Image avatarBackSmall;
     [SerializeField] private Image nameBackImg;
+    [SerializeField] private TMP_InputField playerNameInputField;
 
 
     public override MenuName Menu => MenuName.CustomizationScreen;
-
-       
-    public event Action OnApplyBtnClick;
-
-
-
     private void Awake()
     {
         Init();
@@ -59,7 +56,9 @@ public class CustomizationMenuUi : MenuBase
         negNoBtn.onClick.AddListener(OnClick_closePopUp);
         negYesBtn.onClick.AddListener(OnClick_applyButton);
         sppYesBtn.onClick.AddListener(OnClick_sppYesButton);
-        sppNoBtn.onClick.AddListener(OnClick_closePopUp);       
+        sppNoBtn.onClick.AddListener(OnClick_closePopUp);
+
+        playerNameInputField.onEndEdit.AddListener(OnPlayerNameEditComplete);
 
     }
     public override void Show()
@@ -162,6 +161,7 @@ public class CustomizationMenuUi : MenuBase
         avatarBackBig.sprite = ItemManager.Instance.GetItemByCode(player.avatarBackID).icon;
         avatarBackSmall.sprite = ItemManager.Instance.GetItemByCode(player.avatarBackID).icon;
         nameBackImg.sprite = ItemManager.Instance.GetItemByCode(player.nameBackID).icon;
+        playerNameInputField.text = player.name;
 
     }
 
@@ -188,4 +188,29 @@ public class CustomizationMenuUi : MenuBase
             }
         customizationDataManager.AddItems(item);
         }
+
+    private void OnPlayerNameEditComplete(string inputName)
+    {
+        // ѕерев≥р€Їмо, чи введенн€ Ї вал≥дним
+        if (string.IsNullOrWhiteSpace(inputName))
+        {
+            // якщо поле пусте, повертаЇмо попереднЇ значенн€
+            playerNameInputField.text = customizationDataManager.GetPlayer().name;
+            Debug.LogWarning("Name cannot be empty! Reverting to previous name.");
+        }
+        else if (inputName.Length > 13)
+        {
+            // якщо текст довший за 13 символ≥в, обр≥заЇмо його
+            string truncatedName = inputName.Substring(0, 13);
+            playerNameInputField.text = truncatedName;
+            customizationDataManager.SetNewPlayerName(playerNameInputField.text);
+            Debug.LogWarning("Name too long! Truncated to 13 characters.");
+        }
+        else
+        {
+            // якщо текст вал≥дний, збер≥гаЇмо його
+            customizationDataManager.SetNewPlayerName(playerNameInputField.text);
+            Debug.Log($"Name successfully updated to: {inputName}");
+        }
+    }
 }

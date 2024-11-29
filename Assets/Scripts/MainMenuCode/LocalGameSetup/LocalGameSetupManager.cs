@@ -28,6 +28,8 @@ public class LocalGameSetupManager : MonoBehaviour
         localSetupUI.OnStartGameBtnClick += StartLocalGame;
         localSetupUI.OnRandomLeaderBtnClick += ChoseRandomLeader;
         localSetupUI.OnChooseLeaderBtnClick += SelectLeader;
+
+        customizationDataManager.OnCustomizationEnds += PlateVisualUpdate;
     }
 
     private void AddPlayer()
@@ -163,5 +165,21 @@ public class LocalGameSetupManager : MonoBehaviour
         }
         
 
+    }
+
+    private void PlateVisualUpdate()
+    {
+       if(playersPlates.Count  > 0)
+        {
+            foreach (GameObject plate in playersPlates)
+            {
+
+                PlateCustomization plateInfo = plate.GetComponent<PlateCustomization>();
+                plateInfo.CustomizePlate(plateInfo.player);
+                plateInfo.additionalMenu.gameObject.SetActive(false);
+
+            }
+        }
+        
     }
 }
