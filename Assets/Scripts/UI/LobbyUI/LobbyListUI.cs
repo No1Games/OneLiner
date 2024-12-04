@@ -64,7 +64,7 @@ public class LobbyListUI : MenuBase
     {
         base.Hide();
 
-        ClearLobbyList();
+        //ClearLobbyList();
     }
 
     private void Start()
