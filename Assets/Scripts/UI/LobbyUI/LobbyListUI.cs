@@ -7,6 +7,9 @@ public class LobbyListUI : MenuBase
 {
     public override MenuName Menu => MenuName.LobbyList;
 
+    [Header("Loading Settings")]
+    [SerializeField] private string _joiningText = "Joining the room...";
+
     [Header("Lobby List Fields")]
     [SerializeField] private LobbyItemUI _lobbyItemPrefab;
     [SerializeField] private Transform _container;
@@ -45,16 +48,28 @@ public class LobbyListUI : MenuBase
         _quickJoinButton.onClick.AddListener(OnClick_QuickJoinButton);
         _createButton.onClick.AddListener(OnClick_CreateButton);
         _joinPrivateButton.onClick.AddListener(OnClick_JoinPrivateButton);
-        _joinButton.onClick.AddListener(OnClick_JoinButton);
+        _joinButton.onClick.AddListener(OnClick_JoinButtonAsync);
 
         _gameManager = OnlineGameManager.Instance;
+    }
+
+    public override void Show()
+    {
+        base.Show();
+
+        _updateTimer = _updateEverySeconds;
+    }
+
+    public override void Hide()
+    {
+        base.Hide();
+
+        ClearLobbyList();
     }
 
     private void Start()
     {
         _gameManager.LobbyList.onLobbyListChanged += OnLobbyListChanged;
-
-        _updateTimer = _updateEverySeconds;
     }
 
     private void Update()
@@ -64,7 +79,7 @@ public class LobbyListUI : MenuBase
 
     private void OnDestroy()
     {
-        _gameManager.LobbyList.onLobbyListChanged += OnLobbyListChanged;
+        _gameManager.LobbyList.onLobbyListChanged -= OnLobbyListChanged;
     }
 
     #region List Update Methods
@@ -150,19 +165,23 @@ public class LobbyListUI : MenuBase
     {
         OnlineMenuManager.Instance.OpenRoomPanel(true);
 
-        // MainMenuManager.Instance.ChangeMenu(MenuName.LobbyCreate);
-
     }
 
-    private void OnClick_JoinButton()
+    private async void OnClick_JoinButtonAsync()
     {
         if (_selectedLobby == null)
         {
-            Debug.Log("You need to select lobby!");
+            Debug.LogWarning("No lobby selected!");
             return;
         }
 
-        _gameManager.JoinLobby(_selectedLobby.LobbyID.Value, _selectedLobby.LobbyCode.Value);
+        LoadingPanel.Instance.Show(_joiningText);
+
+        await _gameManager.JoinLobby(_selectedLobby.LobbyID.Value, _selectedLobby.LobbyCode.Value);
+
+        OnlineMenuManager.Instance.OpenRoomPanel(false);
+
+        LoadingPanel.Instance.Hide();
     }
 
     #endregion

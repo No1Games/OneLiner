@@ -11,6 +11,12 @@ public class HostDataUI : MonoBehaviour
 
     public void SetHostData(HostData data)
     {
+        if (data == null)
+        {
+            Debug.LogWarning("Host data is null");
+            return;
+        }
+
         _displayNameTMP.text = data.Name;
         _nameBackImage.sprite = AvatarManager.Instance.GetNameBackImage(data.NameBackground);
         _avatarImage.sprite = AvatarManager.Instance.GetAvatarImage(data.Avatar);

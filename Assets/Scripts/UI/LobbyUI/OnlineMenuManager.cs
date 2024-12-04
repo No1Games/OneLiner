@@ -15,13 +15,13 @@ public class OnlineMenuManager : MonoBehaviour
 
     public void OpenRoomPanel(bool isCreate)
     {
-        _lobbyList.gameObject.SetActive(false);
+        _lobbyList.Hide();
         _roomPanel.Show(isCreate);
     }
 
     public void OpenLobbyList()
     {
-        _lobbyList.gameObject.SetActive(true);
+        _lobbyList.Show();
         _roomPanel.gameObject.SetActive(false);
     }
 }

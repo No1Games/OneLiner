@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class HostData
 {
     public string Name { get; set; }
@@ -16,8 +14,6 @@ public class HostData
     {
         HostData data = new HostData();
         string[] splitStr = str.Split(':');
-
-        Debug.Log(splitStr[0]);
 
         data.Name = splitStr[0];
         data.NameBackground = int.Parse(splitStr[1]);

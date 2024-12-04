@@ -11,6 +11,7 @@ public class LobbyManager : IDisposable
     #region Lobby Keys
 
     const string key_HostData = nameof(LocalLobby.HostData);
+    const string key_LeaderID = nameof(LocalLobby.LeaderID);
 
     const string key_RelayCode = nameof(LocalLobby.RelayCode);
     const string key_LobbyState = nameof(LocalLobby.LocalLobbyState);
@@ -20,10 +21,14 @@ public class LobbyManager : IDisposable
 
     #endregion
 
+    #region Player Keys
+
     const string key_Displayname = nameof(LocalPlayer.DisplayName);
     const string key_Userstatus = nameof(LocalPlayer.UserStatus);
     const string key_PlayerRole = nameof(LocalPlayer.Role);
     const string key_IsTurn = nameof(LocalPlayer.IsTurn);
+
+    #endregion
 
     private Task _heartBeatTask;
 
@@ -150,7 +155,8 @@ public class LobbyManager : IDisposable
 
         var customData = new Dictionary<string, DataObject>()
         {
-            { key_HostData, new DataObject(DataObject.VisibilityOptions.Public, hostData.ToString()) }
+            { key_HostData, new DataObject(DataObject.VisibilityOptions.Public, hostData.ToString()) },
+            { key_LeaderID, new DataObject(DataObject.VisibilityOptions.Public, localUser.ID.Value) }
         };
 
         CreateLobbyOptions createOptions = new CreateLobbyOptions
@@ -315,6 +321,9 @@ public class LobbyManager : IDisposable
 
                 if (changedKey == key_CurrentPlayerID)
                     localLobby.CurrentPlayerID.Value = "";
+
+                if (changedKey == key_HostData)
+                    localLobby.HostData.Value = null;
             }
         };
 
@@ -515,7 +524,8 @@ public class LobbyManager : IDisposable
         if (changedKey == key_HostData)
             localLobby.HostData.Value = HostData.Parse(changedValue.Value.Value);
 
-
+        if (changedKey == key_LeaderID)
+            localLobby.LeaderID.Value = changedValue.Value.Value;
     }
 
     public async Task LeaveLobbyAsync()

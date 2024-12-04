@@ -630,9 +630,9 @@ GameObject:
   - component: {fileID: 791670580168049884}
   - component: {fileID: 4095879225272391900}
   - component: {fileID: 4030733496232809796}
+  - component: {fileID: 8330030012285812486}
   - component: {fileID: 5768679611924234478}
   - component: {fileID: 4683652044027524568}
-  - component: {fileID: 8330030012285812486}
   m_Layer: 5
   m_Name: LobbyItemPrefab
   m_TagString: Untagged
@@ -703,48 +703,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5768679611924234478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3924347889190627060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3627ccab51d267546b6c46f3e4e1cb79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hostData_Panel: {fileID: 1997557198233637673}
-  _modeName_TMP: {fileID: 4215982285545697981}
-  _playersCount_TMP: {fileID: 8294024665426281091}
-  _buttonComponent: {fileID: 8330030012285812486}
---- !u!114 &4683652044027524568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3924347889190627060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!114 &8330030012285812486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -789,6 +747,48 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5768679611924234478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3924347889190627060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3627ccab51d267546b6c46f3e4e1cb79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hostData_Panel: {fileID: 1997557198233637673}
+  _modeName_TMP: {fileID: 4215982285545697981}
+  _playersCount_TMP: {fileID: 8294024665426281091}
+  _buttonComponent: {fileID: 8330030012285812486}
+--- !u!114 &4683652044027524568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3924347889190627060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &4964859513859123638
 GameObject:
   m_ObjectHideFlags: 0

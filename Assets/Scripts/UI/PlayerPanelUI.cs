@@ -6,6 +6,8 @@ public class PlayerPanelUI : MonoBehaviour
 {
     private LocalPlayer _localPlayer;
 
+    private LocalLobby _localLobby;
+
     [SerializeField] private TextMeshProUGUI _displayNameTMP;
     [SerializeField] private Image _nameBackImage;
     [SerializeField] private Image _avatarImage;
@@ -21,32 +23,66 @@ public class PlayerPanelUI : MonoBehaviour
         SetAvatarImage(localPlayer.AvatarID.Value);
         SetAvatarBackImage(localPlayer.AvatarBackID.Value);
 
-        Subscribe();
+        SubscribeOnPlayerChanges();
     }
 
-    private void Subscribe()
+    public void SetLocalLobby()
+    {
+        _localLobby = OnlineGameManager.Instance.LocalLobby;
+
+        if (_localLobby == null)
+        {
+            Debug.LogWarning("Local Lobby is NULL. Player is not in the lobby yet");
+            return;
+        }
+
+        Debug.Log($"Player ID: {_localPlayer.ID.Value} --- Leader ID: {_localLobby.LeaderID.Value}");
+
+        SetIsLeader(_localLobby.LeaderID.Value);
+
+        SubscribeOnLobbyChanges();
+    }
+
+    private void SubscribeOnLobbyChanges()
+    {
+        _localLobby.LeaderID.onChanged += SetIsLeader;
+    }
+
+    private void SubscribeOnPlayerChanges()
     {
         _localPlayer.DisplayName.onChanged += SetDisplayName;
         _localPlayer.AvatarID.onChanged += SetAvatarImage;
         _localPlayer.AvatarBackID.onChanged += SetAvatarBackImage;
         _localPlayer.NameBackID.onChanged += SetNameBack;
-        _localPlayer.Role.onChanged += SetPlayerRole;
     }
 
     private void OnDestroy()
     {
-        UnSubscribe();
+        Unsubscribe();
     }
 
-    private void UnSubscribe()
+    private void Unsubscribe()
     {
-        if (_localPlayer == null) return;
+        if (_localPlayer != null)
+        {
+            if (_localPlayer.DisplayName.onChanged != null)
+                _localPlayer.DisplayName.onChanged -= SetDisplayName;
 
-        _localPlayer.DisplayName.onChanged -= SetDisplayName;
-        _localPlayer.AvatarID.onChanged -= SetAvatarImage;
-        _localPlayer.AvatarBackID.onChanged -= SetAvatarBackImage;
-        _localPlayer.NameBackID.onChanged -= SetNameBack;
-        _localPlayer.Role.onChanged -= SetPlayerRole;
+            if (_localPlayer.AvatarID.onChanged != null)
+                _localPlayer.AvatarID.onChanged -= SetAvatarImage;
+
+            if (_localPlayer.AvatarBackID.onChanged != null)
+                _localPlayer.AvatarBackID.onChanged -= SetAvatarBackImage;
+
+            if (_localPlayer.NameBackID.onChanged != null)
+                _localPlayer.NameBackID.onChanged -= SetNameBack;
+        }
+
+        if (_localLobby != null)
+        {
+            if (_localLobby.LeaderID.onChanged != null)
+                _localLobby.LeaderID.onChanged -= SetIsLeader;
+        }
     }
 
     private void SetDisplayName(string displayName)
@@ -69,13 +105,8 @@ public class PlayerPanelUI : MonoBehaviour
         _avatarBackImage.sprite = AvatarManager.Instance.GetAvatarBackImage(index);
     }
 
-    private void SetPlayerRole(PlayerRole role)
+    private void SetIsLeader(string leaderID)
     {
-        _crownGO.SetActive(role == PlayerRole.Leader);
-    }
-
-    private void SetPlayerTurn(bool isPlayerTurn)
-    {
-
+        _crownGO.SetActive(leaderID == _localPlayer.ID.Value);
     }
 }

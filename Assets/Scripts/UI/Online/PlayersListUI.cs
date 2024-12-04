@@ -9,9 +9,7 @@ public class PlayersListUI : MonoBehaviour
     private ObjectPool<PlayerPanelUI> _itemPool;
     private List<PlayerPanelUI> _activeItems;
 
-    //private List<PlayerPanelUI> _playersPool = new List<PlayerPanelUI>();
-
-    //private LocalLobby _lobby;
+    private LocalLobby _localLobby;
 
     private void Awake()
     {
@@ -19,34 +17,17 @@ public class PlayersListUI : MonoBehaviour
         _activeItems = new List<PlayerPanelUI>();
     }
 
-    //private void Start()
-    //{
-    //    _lobby = GameManager.Instance.LocalLobby;
-
-    //    SetPlayersUI();
-    //}
-
-    //private void SetPlayersUI()
-    //{
-    //    //if (_playersPool.Count < _lobby.LocalPlayers.Count)
-    //    //{
-    //    //    InstantiatePlayers(_lobby.LocalPlayers.Count - _playersPool.Count);
-    //    //}
-
-    //    for (int i = 0; i < _lobby.LocalPlayers.Count; i++)
-    //    {
-    //        //_playersPool[i].gameObject.SetActive(true);
-    //        PlayerPanelUI item = _itemPool.GetObject();
-    //        _playersPool[i].SetLocalPlayer(_lobby.GetLocalPlayer(i));
-    //    }
-    //}
-
     public void AddPlayer(LocalPlayer player)
     {
         PlayerPanelUI panel = _itemPool.GetObject();
 
         panel.transform.SetParent(_container, false);
         panel.SetLocalPlayer(player);
+
+        if (_localLobby != null)
+        {
+            panel.SetLocalLobby();
+        }
 
         _activeItems.Add(panel);
     }
@@ -65,6 +46,8 @@ public class PlayersListUI : MonoBehaviour
 
     public void UpdateList(List<LocalPlayer> localPlayers)
     {
+        _localLobby = OnlineGameManager.Instance.LocalLobby;
+
         ClearList();
 
         foreach (var player in localPlayers)
@@ -82,20 +65,4 @@ public class PlayersListUI : MonoBehaviour
 
         _activeItems.Clear();
     }
-
-
-    //private void InstantiatePlayers(int count)
-    //{
-    //    for (int i = 0; i < count; i++)
-    //    {
-    //        InstantiatePlayer();
-    //    }
-    //}
-
-    //private void InstantiatePlayer()
-    //{
-    //    PlayerPanelUI playerPanel = Instantiate(_playerPrefab, transform);
-    //    playerPanel.gameObject.SetActive(false);
-    //    _playersPool.Add(playerPanel);
-    //}
 }

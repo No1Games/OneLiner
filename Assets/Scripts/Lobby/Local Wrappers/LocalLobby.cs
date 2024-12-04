@@ -42,6 +42,7 @@ public class LocalLobby
 
     public CallbackValue<string> Mode = new CallbackValue<string>();
 
+    public CallbackValue<string> LeaderID = new CallbackValue<string>("");
     public CallbackValue<List<int>> WordsList = new CallbackValue<List<int>>();
     public CallbackValue<int> LeaderWord = new CallbackValue<int>();
     public CallbackValue<string> CurrentPlayerID = new CallbackValue<string>("");
@@ -69,6 +70,8 @@ public class LocalLobby
         WordsList.Value = new List<int>();
         LeaderWord.Value = -1;
         CurrentPlayerID.Value = "";
+
+        LeaderID.Value = "";
     }
 
     public LocalLobby()
@@ -174,9 +177,12 @@ public class LocalLobby
         sb.AppendLine(LocalLobbyState.Value.ToString());
         sb.Append("Lobby LocalLobbyState Last Edit: ");
         sb.AppendLine(new DateTime(LastUpdated.Value).ToString());
-        sb.Append("LocalLobbyColor: ");
         sb.Append("RelayCode: ");
         sb.AppendLine(RelayCode.Value);
+        sb.Append("HostData: ");
+        sb.AppendLine(HostData.Value.ToString());
+        sb.Append("LeaderID: ");
+        sb.AppendLine(LeaderID.Value);
 
         return sb.ToString();
     }

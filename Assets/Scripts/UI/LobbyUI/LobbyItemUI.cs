@@ -68,6 +68,12 @@ public class LobbyItemUI : MonoBehaviour
 
     private void SetHostPanel(HostData newValue)
     {
+        if (newValue == null)
+        {
+            Debug.LogWarning("Host data is null");
+            return;
+        }
+
         _hostData_Panel.SetHostData(newValue);
     }
 

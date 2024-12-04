@@ -4,20 +4,46 @@ using UnityEngine.UI;
 
 public class WaitingRoomUI : MonoBehaviour
 {
+    [Header("Is Private UI")]
     [SerializeField] private Button _isPrivateButton;
     [SerializeField] private TextMeshProUGUI _isPrivateTMP;
+
+    [Header("Buttons")]
     [SerializeField] private Button _backButton;
     [SerializeField] private Button _createButton;
-    [SerializeField] private Button _readyButton;
 
+    [Header("Ready Menu")]
+    [SerializeField] private Button _readyButton;
+    [SerializeField] private TextMeshProUGUI _readyButtonTMP;
+    [SerializeField] private Countdown _countdown;
+    [SerializeField] private string _cancelStr = "CANCEL";
+    [SerializeField] private string _readyStr = "READY";
+
+    [Space]
     [SerializeField] private PlayersListUI _playersListUI;
+
+    [Header("Leader Settings")]
+    [SerializeField] private Button _chooseLeaderButton;
+    [SerializeField] private Button _randomLeaderButton;
+
+    [Header("Timer Settings")]
+    [SerializeField] private Button _enableTimerButton;
+    [SerializeField] private TextMeshProUGUI _timeTMP;
+    [SerializeField] private Slider _timerSlider;
+    [SerializeField] private Image _timerEnabledImage;
+    private float _timerValue;
+    private bool _isTimerEnabled;
+
+    [Header("Loading Screen Settings")]
+    [SerializeField] private string _creatingLobbyLoadingText = "Creating your room...";
 
     private LocalLobby _localLobby;
     private OnlineGameManager _gameManager;
 
     private bool _isPrivate = false;
-    private string _lobbyName = "";
     private int _maxPlayers = 4;
+
+    private PlayerStatus _status;
 
     private void Awake()
     {
@@ -25,18 +51,28 @@ public class WaitingRoomUI : MonoBehaviour
 
         _backButton.onClick.AddListener(OnClick_BackButton);
         _isPrivateButton.onClick.AddListener(OnClick_IsPrivateButton);
-        _createButton.onClick.AddListener(OnClick_CreateButton);
+        _createButton.onClick.AddListener(OnClick_CreateButtonAsync);
+        _readyButton.onClick.AddListener(OnClick_ReadyButton);
+
+        _randomLeaderButton.onClick.AddListener(OnClick_RandomLeaderButton);
+
+        _timerSlider.onValueChanged.AddListener(OnValueChanged_TimerSlider);
+        _enableTimerButton.onClick.AddListener(OnClick_EnableTimerButton);
     }
 
-    #region Click Handlers
+    #region UI Events Handlers
 
-    private void OnClick_CreateButton()
+    private async void OnClick_CreateButtonAsync()
     {
         // TODO: PRIVATE MAX PLAYERS
 
-        _gameManager.CreateLobby(_gameManager.LocalUser.DisplayName.Value, _isPrivate, _maxPlayers);
+        LoadingPanel.Instance.Show(_creatingLobbyLoadingText);
+
+        await _gameManager.CreateLobby(_gameManager.LocalUser.DisplayName.Value, _isPrivate, _maxPlayers);
 
         HostSetUp();
+
+        LoadingPanel.Instance.Hide();
     }
 
     private void OnClick_BackButton()
@@ -57,6 +93,51 @@ public class WaitingRoomUI : MonoBehaviour
         _isPrivate = !_isPrivate;
 
         _isPrivateTMP.text = _isPrivate ? "PRIVATE" : "PUBLIC";
+
+        _chooseLeaderButton.gameObject.SetActive(_isPrivate);
+
+        _enableTimerButton.gameObject.SetActive(_isPrivate);
+    }
+
+    private void OnClick_ReadyButton()
+    {
+        if (_status == PlayerStatus.Lobby)
+        {
+            _status = PlayerStatus.Ready;
+        }
+        else if (_status == PlayerStatus.Ready)
+        {
+            _status = PlayerStatus.Lobby;
+        }
+
+        _gameManager.SetLocalUserStatus(_status);
+
+        _readyButtonTMP.text = _status == PlayerStatus.Ready ? _cancelStr : _readyStr;
+    }
+
+    private void OnClick_ChooseLeaderButton()
+    {
+
+    }
+
+    private void OnClick_RandomLeaderButton()
+    {
+        string newLeaderID = LeaderPicker.PickRandomLeader();
+
+        _gameManager.SetLocalLobbyLeader(newLeaderID);
+    }
+
+    private void OnClick_EnableTimerButton()
+    {
+        _isTimerEnabled = !_isTimerEnabled;
+        _timerEnabledImage.gameObject.SetActive(_isTimerEnabled);
+        _timerSlider.interactable = _isTimerEnabled;
+    }
+
+    private void OnValueChanged_TimerSlider(float value)
+    {
+        _timerValue = value;
+        _timeTMP.text = _timerValue.ToString();
     }
 
     #endregion
@@ -77,15 +158,22 @@ public class WaitingRoomUI : MonoBehaviour
         }
     }
 
+    #region Set Ups
+
     private void CreateSetUp()
     {
-        _lobbyName = _gameManager.LocalUser.DisplayName.Value;
-
         _createButton.gameObject.SetActive(true);
 
         _isPrivateButton.gameObject.SetActive(true);
 
         _readyButton.gameObject.SetActive(false);
+
+        _chooseLeaderButton.gameObject.SetActive(false);
+        _chooseLeaderButton.interactable = false;
+
+        _randomLeaderButton.interactable = false;
+
+        _enableTimerButton.gameObject.SetActive(false);
 
         _playersListUI.AddPlayer(_gameManager.LocalUser);
     }
@@ -102,6 +190,17 @@ public class WaitingRoomUI : MonoBehaviour
 
         _readyButton.gameObject.SetActive(true);
 
+        _chooseLeaderButton.gameObject.SetActive(_isPrivate);
+        _chooseLeaderButton.interactable = true;
+
+        _randomLeaderButton.interactable = _isPrivate;
+
+        _enableTimerButton.interactable = false;
+
+        _timerSlider.interactable = false;
+
+        _status = _gameManager.LocalUser.UserStatus.Value;
+
         UpdatePlayersList();
     }
 
@@ -115,7 +214,26 @@ public class WaitingRoomUI : MonoBehaviour
         _readyButton.gameObject.SetActive(true);
         _createButton.gameObject.SetActive(false);
         _isPrivateButton.gameObject.SetActive(false);
+
+        _isPrivate = _localLobby.Private.Value;
+
+        _chooseLeaderButton.gameObject.SetActive(_isPrivate);
+        _chooseLeaderButton.interactable = false;
+
+        _randomLeaderButton.interactable = false;
+
+        _enableTimerButton.interactable = false;
+
+        _timerSlider.interactable = false;
+
+        _status = _gameManager.LocalUser.UserStatus.Value;
+
+        UpdatePlayersList();
     }
+
+    #endregion
+
+    #region Players List
 
     private void AddPlayer(LocalPlayer player)
     {
@@ -136,4 +254,6 @@ public class WaitingRoomUI : MonoBehaviour
     {
         _playersListUI.ClearList();
     }
+
+    #endregion
 }

@@ -1,8 +1,11 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OnlineGameManager : MonoBehaviour
 {
@@ -43,6 +46,12 @@ public class OnlineGameManager : MonoBehaviour
 
     #endregion
 
+    public event Action AllPlayersReadyEvent;
+    public event Action PlayerNotReadyEvent;
+
+    private const string _gameSceneName = "OnlineGameScene";
+    private const string _loadingGameText = "Starting your game...";
+
     private void Awake()
     {
         if (_instance == null)
@@ -54,6 +63,8 @@ public class OnlineGameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        Application.wantsToQuit += OnWantToQuit;
 
         _localUser = new LocalPlayer("", 0, false, "LocalPlayer");
         _localLobby = new LocalLobby { LocalLobbyState = { Value = LobbyState.Lobby } };
@@ -77,6 +88,52 @@ public class OnlineGameManager : MonoBehaviour
         SetLocalUserName(randomName);
     }
 
+    private void OnPlayersReady(int readyCount)
+    {
+        if (readyCount == _localLobby.PlayerCount &&
+            _localLobby.LocalLobbyState.Value != LobbyState.CountDown)
+        {
+            _localLobby.LocalLobbyState.Value = LobbyState.CountDown;
+            SendLocalLobbyData();
+        }
+        else if (_localLobby.LocalLobbyState.Value == LobbyState.CountDown)
+        {
+            _localLobby.LocalLobbyState.Value = LobbyState.Lobby;
+            SendLocalLobbyData();
+        }
+    }
+
+    private void OnLobbyStateChanged(LobbyState state)
+    {
+        switch (state)
+        {
+            case LobbyState.Lobby: PlayerNotReadyEvent?.Invoke(); break;
+            case LobbyState.CountDown: AllPlayersReadyEvent?.Invoke(); break;
+            case LobbyState.InGame: StartGame(); break;
+        }
+    }
+
+    private void StartGame()
+    {
+        LoadingPanel.Instance.Show(_loadingGameText);
+
+        SetLocalUserStatus(PlayerStatus.InGame);
+
+        if (_localUser.IsHost.Value)
+        {
+            _localLobby.Locked.Value = true;
+            SendLocalLobbyData();
+        }
+
+        ChangeScene();
+
+    }
+
+    private void ChangeScene()
+    {
+        SceneManager.LoadScene(_gameSceneName);
+    }
+
     #region Local Player Setters
 
     public void SetLocalUserName(string name)
@@ -97,23 +154,32 @@ public class OnlineGameManager : MonoBehaviour
         SendLocalUserData();
     }
 
-    private async void SendLocalUserData(LocalPlayer localPlayer = null, string id = null)
+    private async void SendLocalUserData()
     {
-        await LobbyManager.UpdatePlayerDataAsync(
-            LobbyConverters.LocalToRemoteUserData(localPlayer == null ? _localUser : localPlayer), id);
+        await LobbyManager.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localUser));
     }
 
     #endregion
 
     #region Local Lobby Setters
 
+    public void SetLocalLobbyLeader(string id)
+    {
+        _localLobby.LeaderID.Value = id;
 
+        SendLocalLobbyData();
+    }
+
+    private async void SendLocalLobbyData()
+    {
+        await LobbyManager.UpdateLobbyDataAsync(LobbyConverters.LocalToRemoteLobbyData(_localLobby));
+    }
 
     #endregion
 
     #region Lobby Commands
 
-    public async void CreateLobby(string name, bool isPrivate, int maxPlayers = 4)
+    public async Task CreateLobby(string name, bool isPrivate, int maxPlayers = 4)
     {
         try
         {
@@ -126,8 +192,6 @@ public class OnlineGameManager : MonoBehaviour
             LobbyConverters.RemoteToLocal(lobby, _localLobby);
 
             await CreateLobby();
-
-            // MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
         }
         catch (LobbyServiceException exception)
         {
@@ -135,20 +199,20 @@ public class OnlineGameManager : MonoBehaviour
         }
     }
 
-    public async void JoinLobby(string lobbyID, string lobbyCode)
+    public async Task JoinLobby(string lobbyID, string lobbyCode)
     {
         try
         {
             var lobby = await LobbyManager.JoinLobbyAsync(lobbyID, lobbyCode, _localUser);
 
             LobbyConverters.RemoteToLocal(lobby, _localLobby);
+
             await JoinLobby();
 
-            // SetLocalUserRole(PlayerRole.Player);
+            SetLocalUserStatus(PlayerStatus.Lobby);
         }
         catch (LobbyServiceException exception)
         {
-            MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
             Debug.Log($"Error joining lobby : ({exception.ErrorCode}) {exception.Message}");
         }
     }
@@ -156,14 +220,12 @@ public class OnlineGameManager : MonoBehaviour
     private async Task CreateLobby()
     {
         _localUser.IsHost.Value = true;
-        // _localLobby.onUserReadyChange += OnPlayersReady;
+        _localLobby.onUserReadyChange += OnPlayersReady;
         try
         {
             await BindLobby();
 
             SetLocalUserStatus(PlayerStatus.Lobby);
-
-            // SetLocalUserRole(PlayerRole.Leader);
         }
         catch (LobbyServiceException exception)
         {
@@ -175,31 +237,30 @@ public class OnlineGameManager : MonoBehaviour
     {
         _localUser.IsHost.ForceSet(false);
         await BindLobby();
-
-        // SetLocalUserRole(PlayerRole.Player);
     }
 
-    async Task BindLobby()
+    private async Task BindLobby()
     {
         await LobbyManager.BindLocalLobbyToRemote(_localLobby.LobbyID.Value, _localLobby);
 
-        //_localLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
+        _localLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
 
         //_localLobby.CurrentPlayerID.onChanged += OnCurrentTurnIDChanged;
 
         // _localLobby.onUserTurnChanged += OnAnyUserTurnChanged;
 
         //SetLobbyView();
-        //MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
     }
 
     public async void LeaveLobby()
     {
         if (_localLobby == null) return;
 
-        _localUser.ResetState();
         await LobbyManager.LeaveLobbyAsync();
+
+        _localUser.ResetState();
         _localLobby.ResetLobby();
+
         LobbyList.Clear();
     }
 
@@ -227,6 +288,41 @@ public class OnlineGameManager : MonoBehaviour
 
         LobbyList.CurrentLobbies = newLobbyDict;
         LobbyList.QueryState.Value = LobbyQueryState.Fetched;
+    }
+
+    #endregion
+
+    #region Teardown
+
+    bool OnWantToQuit()
+    {
+        bool canQuit = string.IsNullOrEmpty(_localLobby?.LobbyID.Value);
+        StartCoroutine(LeaveBeforeQuit());
+        return canQuit;
+    }
+
+    IEnumerator LeaveBeforeQuit()
+    {
+        ForceLeaveAttempt();
+        yield return null;
+        Application.Quit();
+    }
+
+    void OnDestroy()
+    {
+        ForceLeaveAttempt();
+        LobbyManager?.Dispose();
+    }
+
+    void ForceLeaveAttempt()
+    {
+        if (!string.IsNullOrEmpty(_localLobby?.LobbyID.Value))
+        {
+#pragma warning disable 4014
+            LobbyManager.LeaveLobbyAsync();
+#pragma warning restore 4014
+            _localLobby = null;
+        }
     }
 
     #endregion
