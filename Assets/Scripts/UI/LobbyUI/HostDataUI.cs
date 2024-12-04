@@ -18,8 +18,8 @@ public class HostDataUI : MonoBehaviour
         }
 
         _displayNameTMP.text = data.Name;
-        _nameBackImage.sprite = AvatarManager.Instance.GetNameBackImage(data.NameBackground);
-        _avatarImage.sprite = AvatarManager.Instance.GetAvatarImage(data.Avatar);
-        _avatarBackImage.sprite = AvatarManager.Instance.GetAvatarBackImage(data.AvatarBackground);
+        _nameBackImage.sprite = ItemManager.Instance.GetItemByCode(data.NameBackground).icon;
+        _avatarImage.sprite = ItemManager.Instance.GetItemByCode(data.Avatar).icon;
+        _avatarBackImage.sprite = ItemManager.Instance.GetItemByCode(data.AvatarBackground).icon;
     }
 }

@@ -19,9 +19,9 @@ public class PlayerPanelUI : MonoBehaviour
         _localPlayer = localPlayer;
 
         SetDisplayName(localPlayer.DisplayName.Value);
-        //SetNameBack(localPlayer.NameBackID.Value);
-        //SetAvatarImage(localPlayer.AvatarID.Value);
-        //SetAvatarBackImage(localPlayer.AvatarBackID.Value);
+        SetNameBack(localPlayer.NameBackID.Value);
+        SetAvatarImage(localPlayer.AvatarID.Value);
+        SetAvatarBackImage(localPlayer.AvatarBackID.Value);
 
         SubscribeOnPlayerChanges();
     }
@@ -51,10 +51,9 @@ public class PlayerPanelUI : MonoBehaviour
     private void SubscribeOnPlayerChanges()
     {
         _localPlayer.DisplayName.onChanged += SetDisplayName;
-        //_localPlayer.AvatarID.onChanged += SetAvatarImage;
-        //_localPlayer.AvatarBackID.onChanged += SetAvatarBackImage;
-        //_localPlayer.NameBackID.onChanged += SetNameBack;
-        _localPlayer.Role.onChanged += SetPlayerRole;
+        _localPlayer.AvatarID.onChanged += SetAvatarImage;
+        _localPlayer.AvatarBackID.onChanged += SetAvatarBackImage;
+        _localPlayer.NameBackID.onChanged += SetNameBack;
     }
 
     private void OnDestroy()
@@ -67,16 +66,16 @@ public class PlayerPanelUI : MonoBehaviour
         if (_localPlayer != null)
         {
             if (_localPlayer.DisplayName.onChanged != null)
-                //_localPlayer.DisplayName.onChanged -= SetDisplayName;
+                _localPlayer.DisplayName.onChanged -= SetDisplayName;
 
             if (_localPlayer.AvatarID.onChanged != null)
-               // _localPlayer.AvatarID.onChanged -= SetAvatarImage;
+                _localPlayer.AvatarID.onChanged -= SetAvatarImage;
 
             if (_localPlayer.AvatarBackID.onChanged != null)
-               // _localPlayer.AvatarBackID.onChanged -= SetAvatarBackImage;
+                _localPlayer.AvatarBackID.onChanged -= SetAvatarBackImage;
 
             if (_localPlayer.NameBackID.onChanged != null)
-                //_localPlayer.NameBackID.onChanged -= SetNameBack;
+                _localPlayer.NameBackID.onChanged -= SetNameBack;
         }
 
         if (_localLobby != null)
@@ -90,21 +89,21 @@ public class PlayerPanelUI : MonoBehaviour
     {
         _displayNameTMP.text = displayName;
     }
-    
-    //private void SetNameBack(int index)
-    //{
-    //    _nameBackImage.sprite = GameManager.Instance.AvatarManager.GetNameBackImage(index);
-    //}
 
-    //private void SetAvatarImage(int index)
-    //{
-    //    _avatarImage.sprite = GameManager.Instance.AvatarManager.GetAvatarImage(index);
-    //}
+    private void SetNameBack(int code)
+    {
+        _nameBackImage.sprite = ItemManager.Instance.GetItemByCode(code).icon;
+    }
 
-    //private void SetAvatarBackImage(int index)
-    //{
-    //    _avatarBackImage.sprite = GameManager.Instance.AvatarManager.GetAvatarBackImage(index);
-    //}
+    private void SetAvatarImage(int code)
+    {
+        _avatarImage.sprite = ItemManager.Instance.GetItemByCode(code).icon;
+    }
+
+    private void SetAvatarBackImage(int code)
+    {
+        _avatarBackImage.sprite = ItemManager.Instance.GetItemByCode(code).icon;
+    }
 
     private void SetIsLeader(string leaderID)
     {
