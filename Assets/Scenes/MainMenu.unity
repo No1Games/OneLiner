@@ -177,9 +177,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3627ccab51d267546b6c46f3e4e1cb79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lobbyNameText: {fileID: 1013443460}
-  _playersText: {fileID: 1585414211}
-  _joinButton: {fileID: 701547989}
+  _hostData_Panel: {fileID: 0}
+  _modeName_TMP: {fileID: 0}
+  _playersCount_TMP: {fileID: 0}
+  _buttonComponent: {fileID: 0}
 --- !u!114 &522416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5209,13 +5210,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e0e6362ada20140b60b976b74e772c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lobbyItemTemplate: {fileID: 522415}
+  _joiningText: Joining the room...
+  _lobbyItemPrefab: {fileID: 0}
   _container: {fileID: 1692078316}
   _backButton: {fileID: 1041811757}
-  _refreshButton: {fileID: 1314556023}
-  _createLobbyButton: {fileID: 335077456}
-  _joinCodeButton: {fileID: 1596774164}
-  _codeInput: {fileID: 297867989}
+  _createButton: {fileID: 0}
+  _quickJoinButton: {fileID: 0}
+  _joinPrivateButton: {fileID: 0}
+  _joinButton: {fileID: 0}
+  _updateEverySeconds: 10
 --- !u!224 &358858791
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15329,7 +15332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1d0994b526bf84c994fd9c0b4c526d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _countDownText: {fileID: 942309102}
+  _countDownTMP: {fileID: 0}
 --- !u!1 &942565973
 GameObject:
   m_ObjectHideFlags: 0
@@ -21538,7 +21541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1252108365
 RectTransform:
   m_ObjectHideFlags: 0
