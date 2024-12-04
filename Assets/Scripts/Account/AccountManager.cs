@@ -92,4 +92,10 @@ private void InitializeAccount(AccountData data)
             }
         }
     }
+
+    public void SetAccountStatus(AccountStatus newStatus)
+    {
+        accountData.accountStatus = newStatus;
+        SaveAccount();
+    }
 }

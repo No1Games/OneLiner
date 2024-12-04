@@ -35,6 +35,10 @@ public class CustomizationMenuUi : MenuBase
     [SerializeField] private Image nameBackImg;
     [SerializeField] private TMP_InputField playerNameInputField;
 
+    [SerializeField] private TextMeshProUGUI gems;
+
+    [SerializeField] private GemShop gemShop;
+
 
     public override MenuName Menu => MenuName.CustomizationScreen;
     private void Awake()
@@ -54,11 +58,13 @@ public class CustomizationMenuUi : MenuBase
         applyBtn.onClick.AddListener(OnClick_applyButton);
 
         negNoBtn.onClick.AddListener(OnClick_closePopUp);
-        negYesBtn.onClick.AddListener(OnClick_applyButton);
+        negYesBtn.onClick.AddListener(OnClick_negYesButton);
         sppYesBtn.onClick.AddListener(OnClick_sppYesButton);
         sppNoBtn.onClick.AddListener(OnClick_closePopUp);
 
         playerNameInputField.onEndEdit.AddListener(OnPlayerNameEditComplete);
+
+        
 
     }
     public override void Show()
@@ -141,8 +147,11 @@ public class CustomizationMenuUi : MenuBase
     }
     private void OnClick_negYesButton()
     {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        OnClick_closePopUp();
         //open gem shop screen
+        MainMenuManager.Instance.ChangeMenu(MenuName.GemShop);
+        gemShop.SetPreviousMenu(Menu);
+        
         
     }
     private void OnClick_closePopUp()
@@ -162,7 +171,7 @@ public class CustomizationMenuUi : MenuBase
         avatarBackSmall.sprite = ItemManager.Instance.GetItemByCode(player.avatarBackID).icon;
         nameBackImg.sprite = ItemManager.Instance.GetItemByCode(player.nameBackID).icon;
         playerNameInputField.text = player.name;
-
+        gems.text = GemManager.Instance.GetGems().ToString();
     }
 
     //оновлює тільки певну частину прев’ю (наприклад, аватар чи фон).

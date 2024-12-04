@@ -15,6 +15,8 @@ public class MainScreen : MenuBase
     [SerializeField] private Image avatarMainMenu;
     [SerializeField] private Image avatarBackMainMenu;
 
+    
+
     public override MenuName Menu => MenuName.MainScreen;
 
     private void Awake()
@@ -49,6 +51,7 @@ public class MainScreen : MenuBase
     private void OnClick_ShopBtn()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        MainMenuManager.Instance.ChangeMenu(MenuName.MainShop);
 
     }
     private void OnClick_CustomizationBtn()
