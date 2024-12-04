@@ -24,6 +24,10 @@ public class LocalLobby
     public Action<bool> onUserTurnChanged;
     public Action onLobbyDataChanged;
 
+    public Action<int> PlayersCountChangedEvent;
+
+    public CallbackValue<HostData> HostData = new CallbackValue<HostData>();
+
     public CallbackValue<string> LobbyID = new CallbackValue<string>();
     public CallbackValue<string> LobbyCode = new CallbackValue<string>();
     public CallbackValue<string> RelayCode = new CallbackValue<string>();
@@ -36,6 +40,9 @@ public class LocalLobby
     public CallbackValue<int> MaxPlayerCount = new CallbackValue<int>();
     public CallbackValue<long> LastUpdated = new CallbackValue<long>();
 
+    public CallbackValue<string> Mode = new CallbackValue<string>();
+
+    public CallbackValue<string> LeaderID = new CallbackValue<string>("");
     public CallbackValue<List<int>> WordsList = new CallbackValue<List<int>>();
     public CallbackValue<int> LeaderWord = new CallbackValue<int>();
     public CallbackValue<string> CurrentPlayerID = new CallbackValue<string>("");
@@ -63,6 +70,8 @@ public class LocalLobby
         WordsList.Value = new List<int>();
         LeaderWord.Value = -1;
         CurrentPlayerID.Value = "";
+
+        LeaderID.Value = "";
     }
 
     public LocalLobby()
@@ -116,6 +125,8 @@ public class LocalLobby
         onUserJoined?.Invoke(user);
         onLobbyDataChanged?.Invoke();
         Debug.Log($"Added User: {user.DisplayName.Value} - {user.ID.Value} to slot {index + 1}/{PlayerCount}");
+
+        PlayersCountChangedEvent?.Invoke(PlayerCount);
     }
 
     public void RemovePlayer(int playerIndex)
@@ -124,6 +135,8 @@ public class LocalLobby
         m_LocalPlayers.RemoveAt(playerIndex);
         onUserLeft?.Invoke(playerIndex);
         onLobbyDataChanged?.Invoke();
+
+        PlayersCountChangedEvent?.Invoke(PlayerCount);
     }
 
     private void OnUserChangedTurn(bool value)
@@ -164,9 +177,12 @@ public class LocalLobby
         sb.AppendLine(LocalLobbyState.Value.ToString());
         sb.Append("Lobby LocalLobbyState Last Edit: ");
         sb.AppendLine(new DateTime(LastUpdated.Value).ToString());
-        sb.Append("LocalLobbyColor: ");
         sb.Append("RelayCode: ");
         sb.AppendLine(RelayCode.Value);
+        sb.Append("HostData: ");
+        sb.AppendLine(HostData.Value.ToString());
+        sb.Append("LeaderID: ");
+        sb.AppendLine(LeaderID.Value);
 
         return sb.ToString();
     }

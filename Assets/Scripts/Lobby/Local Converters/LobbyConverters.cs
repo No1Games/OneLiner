@@ -1,15 +1,18 @@
-
 using System.Collections.Generic;
 using System.Text;
 using Unity.Services.Lobbies.Models;
-using Zenject;
+using UnityEngine;
 
 /// <summary>
 /// QueryToLocalList the lobby resulting from a request into a LocalLobby for use in the game logic.
 /// </summary>
 public static class LobbyConverters
 {
-    [Inject(Id = "RuntimeTMP")] private static readonly ILogger _logger;
+    #region Lobby Keys
+
+    const string key_HostData = nameof(LocalLobby.HostData);
+
+    const string key_LeaderID = nameof(LocalLobby.LeaderID);
 
     const string key_RelayCode = nameof(LocalLobby.RelayCode);
     const string key_LobbyState = nameof(LocalLobby.LocalLobbyState);
@@ -18,10 +21,16 @@ public static class LobbyConverters
     const string key_LeaderWord = nameof(LocalLobby.LeaderWord);
     const string key_CurrentPlayerID = nameof(LocalLobby.CurrentPlayerID);
 
+    #endregion
+
+    #region Player Keys
+
     const string key_Displayname = nameof(LocalPlayer.DisplayName);
     const string key_Userstatus = nameof(LocalPlayer.UserStatus);
     const string key_PlayerRole = nameof(LocalPlayer.Role);
     const string key_IsTurn = nameof(LocalPlayer.IsTurn);
+
+    #endregion
 
     public static Dictionary<string, string> LocalToRemoteLobbyData(LocalLobby lobby)
     {
@@ -33,6 +42,10 @@ public static class LobbyConverters
         data.Add(key_LeaderWord, lobby.LeaderWord.Value.ToString());
         data.Add(key_WordsList, ListToString(lobby.WordsList.Value));
         data.Add(key_CurrentPlayerID, lobby.CurrentPlayerID.Value);
+
+        data.Add(key_HostData, lobby.HostData.Value.ToString());
+
+        data.Add(key_LeaderID, lobby.LeaderID.Value);
 
         return data;
     }
@@ -79,13 +92,13 @@ public static class LobbyConverters
     {
         if (remoteLobby == null)
         {
-            _logger.Log("Remote lobby is null, cannot convert.");
+            Debug.Log("Remote lobby is null, cannot convert.");
             return;
         }
 
         if (localLobby == null)
         {
-            _logger.Log("Local Lobby is null, cannot convert");
+            Debug.Log("Local Lobby is null, cannot convert");
             return;
         }
 
@@ -113,6 +126,12 @@ public static class LobbyConverters
             : new List<int>();
         localLobby.CurrentPlayerID.Value = remoteLobby.Data?.ContainsKey(key_CurrentPlayerID) == true
             ? remoteLobby.Data[key_CurrentPlayerID].Value
+            : "";
+        localLobby.HostData.Value = remoteLobby.Data?.ContainsKey(key_HostData) == true
+            ? HostData.Parse(remoteLobby.Data[key_HostData].Value)
+            : null;
+        localLobby.LeaderID.Value = remoteLobby.Data?.ContainsKey(key_LeaderID) == true
+            ? remoteLobby.Data[key_LeaderID].Value
             : "";
 
         //Custom User Data Conversions
@@ -165,7 +184,6 @@ public static class LobbyConverters
         return retLst;
     }
 
-    //This might be heavy handed,
     public static LocalLobby RemoteToNewLocal(Lobby lobby)
     {
         LocalLobby data = new LocalLobby();

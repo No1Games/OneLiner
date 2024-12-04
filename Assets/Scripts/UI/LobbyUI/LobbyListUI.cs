@@ -1,154 +1,189 @@
-using ModestTree;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Zenject;
 
 public class LobbyListUI : MenuBase
 {
-    [Inject(Id = "RuntimeTMP")] ILogger _logger;
-
     public override MenuName Menu => MenuName.LobbyList;
 
+    [Header("Loading Settings")]
+    [SerializeField] private string _joiningText = "Joining the room...";
+
     [Header("Lobby List Fields")]
-    [SerializeField] private LobbyItemUI _lobbyItemTemplate;
+    [SerializeField] private LobbyItemUI _lobbyItemPrefab;
     [SerializeField] private Transform _container;
 
     [Header("Buttons")]
     [SerializeField] private Button _backButton;
-    [SerializeField] private Button _refreshButton;
-    [SerializeField] private Button _createLobbyButton;
-    [SerializeField] private Button _joinCodeButton;
+    [SerializeField] private Button _createButton;
+    [SerializeField] private Button _quickJoinButton;
+    [SerializeField] private Button _joinPrivateButton;
+    [SerializeField] private Button _joinButton;
 
-    [Space]
-    [SerializeField] private TMP_InputField _codeInput;
+    [Header("Update List Timer")]
+    [SerializeField] private float _updateEverySeconds = 10f;
+    private float _updateTimer;
 
-    private string _codeStr;
+    private ObjectPool<LobbyItemUI> _itemPool;
+    private List<LobbyItemUI> _activeItems;
 
-    private List<LobbyItemUI> _lobbyItemPool = new List<LobbyItemUI>();
+    private OnlineGameManager _gameManager;
+
+    private LocalLobby _selectedLobby;
 
     private void Awake()
     {
         Init();
     }
 
+    public override void Init()
+    {
+        base.Init();
+
+        _itemPool = new ObjectPool<LobbyItemUI>(_lobbyItemPrefab);
+        _activeItems = new List<LobbyItemUI>();
+
+        _backButton.onClick.AddListener(OnClick_BackButton);
+        _quickJoinButton.onClick.AddListener(OnClick_QuickJoinButton);
+        _createButton.onClick.AddListener(OnClick_CreateButton);
+        _joinPrivateButton.onClick.AddListener(OnClick_JoinPrivateButton);
+        _joinButton.onClick.AddListener(OnClick_JoinButtonAsync);
+
+        _gameManager = OnlineGameManager.Instance;
+    }
+
+    public override void Show()
+    {
+        base.Show();
+
+        _updateTimer = _updateEverySeconds;
+    }
+
+    public override void Hide()
+    {
+        base.Hide();
+
+        ClearLobbyList();
+    }
+
     private void Start()
     {
-        GameManager.Instance.LobbyList.onLobbyListChanged += OnLobbyListChanged;
+        _gameManager.LobbyList.onLobbyListChanged += OnLobbyListChanged;
+    }
+
+    private void Update()
+    {
+        HandleUpdate();
     }
 
     private void OnDestroy()
     {
-        GameManager.Instance.LobbyList.onLobbyListChanged += OnLobbyListChanged;
+        _gameManager.LobbyList.onLobbyListChanged -= OnLobbyListChanged;
+    }
+
+    #region List Update Methods
+
+    private void HandleUpdate()
+    {
+        _updateTimer -= Time.deltaTime;
+
+        if (_updateTimer <= 0)
+        {
+            _updateTimer = _updateEverySeconds;
+            _gameManager.QueryLobbies();
+        }
     }
 
     private void UpdateLobbyList(Dictionary<string, LocalLobby> lobbies)
     {
         ClearLobbyList();
 
-        if (lobbies.Count > _lobbyItemPool.Count)
+        foreach (var lobby in lobbies)
         {
-            InstantiateLobbyItems(lobbies.Count - _lobbyItemPool.Count);
-        }
-
-        List<LocalLobby> localLobbiesList = lobbies.Values.ToList();
-
-        for (int i = 0; i < lobbies.Count; i++)
-        {
-            _lobbyItemPool[i].gameObject.SetActive(true);
-            _lobbyItemPool[i].SetLocalLobby(localLobbiesList[i]);
+            AddLobbyItem(lobby.Value);
         }
     }
 
-    private void InstantiateLobbyItems(int count)
+    private void AddLobbyItem(LocalLobby lobby)
     {
-        for (int i = 0; i < count; i++)
-        {
-            InstantiateLobbyItem();
-        }
-    }
+        LobbyItemUI item = _itemPool.GetObject();
+        item.gameObject.transform.SetParent(_container, false);
+        item.SetLocalLobby(lobby);
+        item.LobbySelectedEvent += OnLobbySelected;
 
-    private void InstantiateLobbyItem()
-    {
-        LobbyItemUI item = Instantiate(_lobbyItemTemplate, _container);
-        item.gameObject.SetActive(false);
-        _lobbyItemPool.Add(item);
+        _activeItems.Add(item);
     }
 
     private void ClearLobbyList()
     {
-        List<int> indexToRemove = new List<int>();
-        for (int i = 0; i < _lobbyItemPool.Count; i++)
+        foreach (var item in _activeItems)
         {
-            if (_lobbyItemPool[i] != null)
-            {
-                _lobbyItemPool[i].gameObject.SetActive(false);
-            }
-            else
-            {
-                indexToRemove.Add(i);
-            }
+            _itemPool.ReturnObject(item);
         }
 
-        foreach (var index in indexToRemove)
-        {
-            _lobbyItemPool.RemoveAt(index);
-        }
+        _activeItems.Clear();
     }
+
+    #endregion
+
+    #region Events Handlers
 
     private void OnLobbyListChanged(Dictionary<string, LocalLobby> lobbies)
     {
         UpdateLobbyList(lobbies);
     }
 
+    private void OnLobbySelected(LocalLobby lobby)
+    {
+        _selectedLobby = lobby;
+        _joinButton.gameObject.SetActive(true);
+    }
+
+    #endregion
+
     #region Click Handlers
 
     private void OnClick_BackButton()
     {
-        MainMenuManager.Instance.ChangeMenu(MenuName.LocalOnline);
+        //MainMenuManager.Instance.ChangeMenu(MenuName.LocalOnline);
+
+        SceneManager.UnloadSceneAsync("OnlineMenu");
     }
 
-    private void OnClick_RefreshButton()
+    private void OnClick_QuickJoinButton()
     {
-        GameManager.Instance.QueryLobbies();
+
+    }
+
+    private void OnClick_JoinPrivateButton()
+    {
+
     }
 
     private void OnClick_CreateButton()
     {
-        MainMenuManager.Instance.ChangeMenu(MenuName.LobbyCreate);
+        OnlineMenuManager.Instance.OpenRoomPanel(true);
+
     }
 
-    private void OnClick_JoinCodeButton()
+    private async void OnClick_JoinButtonAsync()
     {
-        GameManager.Instance.JoinLobby(null, _codeStr);
+        if (_selectedLobby == null)
+        {
+            Debug.LogWarning("No lobby selected!");
+            return;
+        }
+
+        LoadingPanel.Instance.Show(_joiningText);
+
+        await _gameManager.JoinLobby(_selectedLobby.LobbyID.Value, _selectedLobby.LobbyCode.Value);
+
+        OnlineMenuManager.Instance.OpenRoomPanel(false);
+
+        LoadingPanel.Instance.Hide();
     }
 
     #endregion
 
-    private void OnValueChanged_CodeInput(string value)
-    {
-        _codeStr = value;
-
-        _joinCodeButton.interactable = !_codeStr.IsEmpty();
-    }
-
-    #region Base Methods
-
-    public override void Init()
-    {
-        _lobbyItemTemplate.gameObject.SetActive(false);
-
-        _refreshButton.onClick.AddListener(OnClick_RefreshButton);
-        _createLobbyButton.onClick.AddListener(OnClick_CreateButton);
-        _backButton.onClick.AddListener(OnClick_BackButton);
-        _joinCodeButton.onClick.AddListener(OnClick_JoinCodeButton);
-
-        _joinCodeButton.interactable = false;
-
-        _codeInput.onValueChanged.AddListener(OnValueChanged_CodeInput);
-    }
-
-    #endregion
 }

@@ -28,9 +28,9 @@ public class LocalPlayer
     public CallbackValue<string> ID = new CallbackValue<string>("");
     public CallbackValue<int> Index = new CallbackValue<int>(0);
 
-    public CallbackValue<int> AvatarID = new CallbackValue<int>(0);
-    public CallbackValue<int> NameBackID = new CallbackValue<int>(0);
-    public CallbackValue<int> AvatarBackID = new CallbackValue<int>(0);
+    public CallbackValue<int> AvatarID = new CallbackValue<int>(1001);
+    public CallbackValue<int> AvatarBackID = new CallbackValue<int>(2001);
+    public CallbackValue<int> NameBackID = new CallbackValue<int>(3001);
 
     public CallbackValue<PlayerRole> Role = new CallbackValue<PlayerRole>((PlayerRole)0);
 

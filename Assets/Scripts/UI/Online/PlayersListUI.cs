@@ -4,44 +4,65 @@ using UnityEngine;
 public class PlayersListUI : MonoBehaviour
 {
     [SerializeField] private PlayerPanelUI _playerPrefab;
+    [SerializeField] private Transform _container;
 
-    private List<PlayerPanelUI> _playersPool = new List<PlayerPanelUI>();
+    private ObjectPool<PlayerPanelUI> _itemPool;
+    private List<PlayerPanelUI> _activeItems;
 
-    private LocalLobby _lobby;
+    private LocalLobby _localLobby;
 
-    private void Start()
+    private void Awake()
     {
-        _lobby = GameManager.Instance.LocalLobby;
-
-        SetPlayersUI();
+        _itemPool = new ObjectPool<PlayerPanelUI>(_playerPrefab);
+        _activeItems = new List<PlayerPanelUI>();
     }
 
-    private void SetPlayersUI()
+    public void AddPlayer(LocalPlayer player)
     {
-        if (_playersPool.Count < _lobby.LocalPlayers.Count)
+        PlayerPanelUI panel = _itemPool.GetObject();
+
+        panel.transform.SetParent(_container, false);
+        panel.SetLocalPlayer(player);
+
+        if (_localLobby != null)
         {
-            InstantiatePlayers(_lobby.LocalPlayers.Count - _playersPool.Count);
+            panel.SetLocalLobby();
         }
 
-        for (int i = 0; i < _lobby.LocalPlayers.Count; i++)
+        _activeItems.Add(panel);
+    }
+
+    public void RemovePlayer(int index)
+    {
+        if (index < 0 || index >= _activeItems.Count)
         {
-            _playersPool[i].gameObject.SetActive(true);
-            _playersPool[i].SetLocalPlayer(_lobby.GetLocalPlayer(i));
+            Debug.Log("Index out of bounds.");
+        }
+
+        _itemPool.ReturnObject(_activeItems[index]);
+
+        _activeItems.RemoveAt(index);
+    }
+
+    public void UpdateList(List<LocalPlayer> localPlayers)
+    {
+        _localLobby = OnlineGameManager.Instance.LocalLobby;
+
+        ClearList();
+
+        foreach (var player in localPlayers)
+        {
+            AddPlayer(player);
         }
     }
 
-    private void InstantiatePlayers(int count)
+    public void ClearList()
     {
-        for (int i = 0; i < count; i++)
+        foreach (var item in _activeItems)
         {
-            InstantiatePlayer();
+            _itemPool.ReturnObject(item);
         }
-    }
 
-    private void InstantiatePlayer()
-    {
-        PlayerPanelUI playerPanel = Instantiate(_playerPrefab, transform);
-        playerPanel.gameObject.SetActive(false);
-        _playersPool.Add(playerPanel);
+        _activeItems.Clear();
     }
 }

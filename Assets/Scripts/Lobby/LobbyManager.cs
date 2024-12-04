@@ -8,16 +8,27 @@ using UnityEngine;
 
 public class LobbyManager : IDisposable
 {
+    #region Lobby Keys
+
+    const string key_HostData = nameof(LocalLobby.HostData);
+    const string key_LeaderID = nameof(LocalLobby.LeaderID);
+
     const string key_RelayCode = nameof(LocalLobby.RelayCode);
     const string key_LobbyState = nameof(LocalLobby.LocalLobbyState);
     const string key_LeaderWord = nameof(LocalLobby.LeaderWord);
     const string key_WordsList = nameof(LocalLobby.WordsList);
     const string key_CurrentPlayerID = nameof(LocalLobby.CurrentPlayerID);
 
+    #endregion
+
+    #region Player Keys
+
     const string key_Displayname = nameof(LocalPlayer.DisplayName);
     const string key_Userstatus = nameof(LocalPlayer.UserStatus);
     const string key_PlayerRole = nameof(LocalPlayer.Role);
     const string key_IsTurn = nameof(LocalPlayer.IsTurn);
+
+    #endregion
 
     private Task _heartBeatTask;
 
@@ -134,10 +145,25 @@ public class LobbyManager : IDisposable
 
         string uasId = AuthenticationService.Instance.PlayerId;
 
+        HostData hostData = new()
+        {
+            Name = localUser.DisplayName.Value,
+            Avatar = localUser.AvatarID.Value,
+            AvatarBackground = localUser.AvatarBackID.Value,
+            NameBackground = localUser.NameBackID.Value
+        };
+
+        var customData = new Dictionary<string, DataObject>()
+        {
+            { key_HostData, new DataObject(DataObject.VisibilityOptions.Public, hostData.ToString()) },
+            { key_LeaderID, new DataObject(DataObject.VisibilityOptions.Public, localUser.ID.Value) }
+        };
+
         CreateLobbyOptions createOptions = new CreateLobbyOptions
         {
             IsPrivate = isPrivate,
-            Player = new Player(id: uasId, data: CreateInitialPlayerData(localUser))
+            Player = new Player(id: uasId, data: CreateInitialPlayerData(localUser)),
+            Data = customData
         };
 
         _joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createOptions);
@@ -262,20 +288,7 @@ public class LobbyManager : IDisposable
                 var changedValue = change.Value;
                 var changedKey = change.Key;
 
-                if (changedKey == key_LeaderWord)
-                    localLobby.LeaderWord.Value = int.Parse(changedValue.Value.Value);
-
-                if (changedKey == key_WordsList)
-                    localLobby.WordsList.Value = LobbyConverters.ParseWordsIndexes(changedValue.Value.Value);
-
-                if (changedKey == key_RelayCode)
-                    localLobby.RelayCode.Value = changedValue.Value.Value;
-
-                if (changedKey == key_LobbyState)
-                    localLobby.LocalLobbyState.Value = (LobbyState)int.Parse(changedValue.Value.Value);
-
-                if (changedKey == key_CurrentPlayerID)
-                    localLobby.CurrentPlayerID.Value = changedValue.Value.Value;
+                ParseCustomLobbyData(localLobby, changedValue, changedKey);
             }
         };
 
@@ -286,20 +299,7 @@ public class LobbyManager : IDisposable
                 var changedValue = change.Value;
                 var changedKey = change.Key;
 
-                if (changedKey == key_LeaderWord)
-                    localLobby.LeaderWord.Value = int.Parse(changedValue.Value.Value);
-
-                if (changedKey == key_WordsList)
-                    localLobby.WordsList.Value = LobbyConverters.ParseWordsIndexes(changedValue.Value.Value);
-
-                if (changedKey == key_RelayCode)
-                    localLobby.RelayCode.Value = changedValue.Value.Value;
-
-                if (changedKey == key_LobbyState)
-                    localLobby.LocalLobbyState.Value = (LobbyState)int.Parse(changedValue.Value.Value);
-
-                if (changedKey == key_CurrentPlayerID)
-                    localLobby.CurrentPlayerID.Value = changedValue.Value.Value;
+                ParseCustomLobbyData(localLobby, changedValue, changedKey);
             }
         };
 
@@ -321,6 +321,9 @@ public class LobbyManager : IDisposable
 
                 if (changedKey == key_CurrentPlayerID)
                     localLobby.CurrentPlayerID.Value = "";
+
+                if (changedKey == key_HostData)
+                    localLobby.HostData.Value = null;
             }
         };
 
@@ -447,20 +450,7 @@ public class LobbyManager : IDisposable
                     var changedValue = change.Value;
                     var changedKey = change.Key;
 
-                    if (changedKey == key_LeaderWord)
-                        localLobby.LeaderWord.Value = int.Parse(changedValue.Value.Value);
-
-                    if (changedKey == key_WordsList)
-                        localLobby.WordsList.Value = LobbyConverters.ParseWordsIndexes(changedValue.Value.Value);
-
-                    if (changedKey == key_RelayCode)
-                        localLobby.RelayCode.Value = changedValue.Value.Value;
-
-                    if (changedKey == key_LobbyState)
-                        localLobby.LocalLobbyState.Value = (LobbyState)int.Parse(changedValue.Value.Value);
-
-                    if (changedKey == key_CurrentPlayerID)
-                        localLobby.CurrentPlayerID.Value = changedValue.Value.Value;
+                    ParseCustomLobbyData(localLobby, changedValue, changedKey);
                 }
             }
 
@@ -512,6 +502,30 @@ public class LobbyManager : IDisposable
         };
 
         await LobbyService.Instance.SubscribeToLobbyEventsAsync(lobbyID, _lobbyEventCallbacks);
+    }
+
+    private static void ParseCustomLobbyData(LocalLobby localLobby, ChangedOrRemovedLobbyValue<DataObject> changedValue, string changedKey)
+    {
+        if (changedKey == key_LeaderWord)
+            localLobby.LeaderWord.Value = int.Parse(changedValue.Value.Value);
+
+        if (changedKey == key_WordsList)
+            localLobby.WordsList.Value = LobbyConverters.ParseWordsIndexes(changedValue.Value.Value);
+
+        if (changedKey == key_RelayCode)
+            localLobby.RelayCode.Value = changedValue.Value.Value;
+
+        if (changedKey == key_LobbyState)
+            localLobby.LocalLobbyState.Value = (LobbyState)int.Parse(changedValue.Value.Value);
+
+        if (changedKey == key_CurrentPlayerID)
+            localLobby.CurrentPlayerID.Value = changedValue.Value.Value;
+
+        if (changedKey == key_HostData)
+            localLobby.HostData.Value = HostData.Parse(changedValue.Value.Value);
+
+        if (changedKey == key_LeaderID)
+            localLobby.LeaderID.Value = changedValue.Value.Value;
     }
 
     public async Task LeaveLobbyAsync()

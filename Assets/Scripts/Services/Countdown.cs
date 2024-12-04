@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -12,17 +13,40 @@ public class Countdown : MonoBehaviour
     private CountdownUI _ui;
     private const int _countdownTime = 4;
 
-    public void OnEnable()
+    public event Action CountdownFinishedEvent;
+
+    private OnlineGameManager _gameManager;
+
+    public void Start()
     {
         if (_ui == null)
+        {
             _ui = GetComponent<CountdownUI>();
+        }
+
+        _gameManager = OnlineGameManager.Instance;
+
+        _gameManager.AllPlayersReadyEvent += StartCountDown;
+        _gameManager.PlayerNotReadyEvent += CancelCountDown;
+
         TimeLeft.onChanged += _ui.OnTimeChanged;
         TimeLeft.Value = -1;
+
+        _ui.Hide();
+    }
+
+    private void OnDestroy()
+    {
+        TimeLeft.onChanged -= _ui.OnTimeChanged;
+
+        _gameManager.AllPlayersReadyEvent -= StartCountDown;
+        _gameManager.PlayerNotReadyEvent -= CancelCountDown;
     }
 
     public void StartCountDown()
     {
         TimeLeft.Value = _countdownTime;
+        _ui.Show();
     }
 
     public void CancelCountDown()
@@ -33,9 +57,15 @@ public class Countdown : MonoBehaviour
     public void Update()
     {
         if (TimeLeft.Value < 0)
+        {
             return;
+        }
+
         TimeLeft.Value -= Time.deltaTime;
+
         if (TimeLeft.Value < 0)
-            GameManager.Instance.FinishedCountDown();
+        {
+            CountdownFinishedEvent?.Invoke();
+        }
     }
 }

@@ -6,41 +6,101 @@ using UnityEngine.UI;
 public class LobbyItemUI : MonoBehaviour
 {
     [Header("UI Components")]
-    [SerializeField] private TextMeshProUGUI _lobbyNameText;
-    [SerializeField] private TextMeshProUGUI _playersText;
+    [SerializeField] private HostDataUI _hostData_Panel;
+    [SerializeField] private TextMeshProUGUI _modeName_TMP;
+    [SerializeField] private TextMeshProUGUI _playersCount_TMP;
+    [SerializeField] private Button _buttonComponent;
 
-    [Space]
-    [SerializeField] private Button _joinButton;
+    public event Action<LocalLobby> LobbySelectedEvent;
 
     private LocalLobby _localLobby;
 
     private void Awake()
     {
-        _joinButton.onClick.AddListener(OnClick_JoinButton);
+        _buttonComponent.onClick.AddListener(() =>
+        {
+            if (_localLobby != null)
+                LobbySelectedEvent?.Invoke(_localLobby);
+        });
     }
 
     public void SetLocalLobby(LocalLobby lobby)
     {
+        Unsubscribe();
+
         _localLobby = lobby;
+
+        Subscribe();
 
         UpdateUI();
     }
 
     private void UpdateUI()
     {
-        _lobbyNameText.text = _localLobby.LobbyName.Value;
-        _playersText.text = $"{_localLobby.PlayerCount}/{_localLobby.MaxPlayerCount.Value}";
+        SetHostPanel(_localLobby.HostData.Value);
+        SetModeTMP(_localLobby.Mode.Value);
+        SetPlayersCountTMP(_localLobby.PlayerCount);
     }
 
-    private void OnClick_JoinButton()
+    private void Subscribe()
     {
-        try
-        {
-            GameManager.Instance.JoinLobby(_localLobby.LobbyID.Value, _localLobby.LobbyCode.Value);
-        }
-        catch (Exception e)
-        {
-            Debug.LogException(e);
-        }
+        _localLobby.HostData.onChanged += SetHostPanel;
+        _localLobby.Mode.onChanged += SetModeTMP;
+        _localLobby.PlayersCountChangedEvent += SetPlayersCountTMP;
     }
+
+    private void Unsubscribe()
+    {
+        if (_localLobby == null)
+            return;
+
+        if (_localLobby.HostData.onChanged != null)
+            _localLobby.HostData.onChanged -= SetHostPanel;
+
+        if (_localLobby.Mode.onChanged != null)
+            _localLobby.Mode.onChanged -= SetModeTMP;
+
+        if (_localLobby.PlayersCountChangedEvent != null)
+            _localLobby.PlayersCountChangedEvent -= SetPlayersCountTMP;
+
+        _localLobby = null;
+    }
+
+    private void SetHostPanel(HostData newValue)
+    {
+        if (newValue == null)
+        {
+            Debug.LogWarning("Host data is null");
+            return;
+        }
+
+        _hostData_Panel.SetHostData(newValue);
+    }
+
+    private void SetModeTMP(string newValue)
+    {
+        _modeName_TMP.text = newValue;
+    }
+
+    private void SetPlayersCountTMP(int newValue)
+    {
+        _playersCount_TMP.text = $"{newValue}/{_localLobby.MaxPlayerCount.Value}";
+    }
+
+    private void OnDestroy()
+    {
+        Unsubscribe();
+    }
+
+    //private void OnClick_JoinButton()
+    //{
+    //    try
+    //    {
+    //        GameManager.Instance.JoinLobby(_localLobby.LobbyID.Value, _localLobby.LobbyCode.Value);
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Debug.LogException(e);
+    //    }
+    //}
 }

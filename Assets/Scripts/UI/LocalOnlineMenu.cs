@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LocalOnlineMenu : MenuBase
@@ -26,7 +27,14 @@ public class LocalOnlineMenu : MenuBase
     private void OnClick_OnlineButton()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+
+        Hide();
+
+        SceneManager.LoadScene("OnlineMenu", LoadSceneMode.Additive);
+
+        //SceneManager.SetActiveScene(SceneManager.GetSceneByName("OnlineMenu"));
+
+        // MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
     }
 
     private void OnClick_BackButton()

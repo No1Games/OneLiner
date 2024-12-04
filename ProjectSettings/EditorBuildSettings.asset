@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/LocalGameScene.unity
     guid: ac02fccf2c057d7409bcd24054041179
   - enabled: 1
+    path: Assets/Scenes/OnlineMenu.unity
+    guid: d0c538c2c50227246abd3842a992acf2
+  - enabled: 1
     path: Assets/Scenes/OnlineGameScene.unity
     guid: 20271938ffd606a49afc7b500203125d
   m_configObjects:
