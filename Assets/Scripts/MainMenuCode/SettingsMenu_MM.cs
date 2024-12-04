@@ -12,6 +12,10 @@ public class SettingsMenu_MM : MenuBase
     [SerializeField] private Button back;
     //[SerializeField] private Dropdown languageChange;
 
+    [SerializeField] private Animator musicBtnAnimator;
+    [SerializeField] private Animator sfxBtnAnimator;
+    [SerializeField] private Animator vibrationBtnAnimator;
+
     public override MenuName Menu => MenuName.OptionScreen;
 
     private void Awake()
@@ -27,6 +31,8 @@ public class SettingsMenu_MM : MenuBase
         messageUs.onClick.AddListener(OnClick_messageUs);
         confidentialPolicy.onClick.AddListener(OnClick_confidentialPolicy);
         back.onClick.AddListener(OnClick_back);
+
+        
     }
 
     private void OnClick_musicVolumeChange()
@@ -35,10 +41,12 @@ public class SettingsMenu_MM : MenuBase
         if(AudioManager.Instance.GetMusicVolume() <= -80)
         {
             AudioManager.Instance.TurnMusicOn();
+            musicBtnAnimator.SetTrigger("ClickOn");
         }
         else
         {
             AudioManager.Instance.TurnMusicOff();
+            musicBtnAnimator.SetTrigger("ClickOff");
         }
 
     }
@@ -48,10 +56,12 @@ public class SettingsMenu_MM : MenuBase
         if (AudioManager.Instance.GetSFXVolume() <= -80)
         {
             AudioManager.Instance.TurnSFXOn();
+            sfxBtnAnimator.SetTrigger("ClickOn");
         }
         else
         {
             AudioManager.Instance.TurnSFXOff();
+            sfxBtnAnimator.SetTrigger("ClickOff");
         }
     }
         private void OnClick_vibrationChange()
