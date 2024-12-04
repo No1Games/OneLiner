@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,12 +8,14 @@ public class LocalGameSetup_Func : MonoBehaviour
 {
     private GameObject platePrefab;
     private GameObject playerPanel;
+    private AccountManager accountManager;
 
 
-    public void Initialize(GameObject platePrefab, GameObject playerPanel)
+    public void Initialize(GameObject platePrefab, GameObject playerPanel, AccountManager accountManager)
     {
         this.platePrefab = platePrefab;
         this.playerPanel = playerPanel;
+        this.accountManager = accountManager;
 
     }
 
@@ -22,14 +25,49 @@ public class LocalGameSetup_Func : MonoBehaviour
         string newPlayerName = "Player " + players.Count;
         int newPlayerID = Random.Range(1, 1000);
         PlayerScript newPlayer = new PlayerScript(newPlayerName, newPlayerID);
-        AvatarManager.Instance.SetRandomPlayerSettings(newPlayer);
+        SetRandomPlayerCustomization(newPlayer);
         return newPlayer;
     }
+
+    private void SetRandomPlayerCustomization(PlayerScript player)
+    {
+        // Отримання доступних кодів айтемів для кожної категорії
+        List<int> availableAvatars = ItemManager.Instance.GetItemCodesByCategory(ItemCategory.Avatars);
+        List<int> availableAvatarBackgrounds = ItemManager.Instance.GetItemCodesByCategory(ItemCategory.AvatarBackgrounds);
+        List<int> availableNameBackgrounds = ItemManager.Instance.GetItemCodesByCategory(ItemCategory.NameBackgrounds);
+
+        // Отримання косметичних кодів акаунта
+        List<int> accountCosmeticCodes = accountManager.GetAccountData().cosmeticCodes;
+
+        // Використання LINQ для фільтрації тільки тих айтемів, які є в списку акаунта
+        List<int> filteredAvatars = availableAvatars.Where(code => accountCosmeticCodes.Contains(code)).ToList();
+        List<int> filteredAvatarBackgrounds = availableAvatarBackgrounds.Where(code => accountCosmeticCodes.Contains(code)).ToList();
+        List<int> filteredNameBackgrounds = availableNameBackgrounds.Where(code => accountCosmeticCodes.Contains(code)).ToList();
+
+        // Перевірка, чи є доступні айтеми для вибору
+        if (filteredAvatars.Count == 0 || filteredAvatarBackgrounds.Count == 0 || filteredNameBackgrounds.Count == 0)
+        {
+            Debug.LogError("Not enough items in account's cosmetic codes for random customization.");
+            return;
+        }
+
+        // Вибір випадкових айтемів
+        System.Random random = new System.Random();
+        int randomAvatar = filteredAvatars[random.Next(filteredAvatars.Count)];
+        int randomAvatarBackground = filteredAvatarBackgrounds[random.Next(filteredAvatarBackgrounds.Count)];
+        int randomNameBackground = filteredNameBackgrounds[random.Next(filteredNameBackgrounds.Count)];
+
+        // Присвоєння вибраних кодів гравцю
+        player.avatarID = randomAvatar;
+        player.avatarBackID = randomAvatarBackground;
+        player.nameBackID = randomNameBackground;
+    }
+
 
     public GameObject GeneratePlayerPlate(PlayerScript player)
     {
         GameObject newPlate = Instantiate(platePrefab, playerPanel.transform);
-        newPlate.GetComponent<PlateCustomization>().CustomizePlate(AvatarManager.Instance, player);
+        newPlate.GetComponent<PlateCustomization>().CustomizePlate(player);
         newPlate.GetComponent<PlateCustomization>().SetPlayer(player);
         return newPlate;
     }

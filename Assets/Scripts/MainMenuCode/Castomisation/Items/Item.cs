@@ -8,5 +8,12 @@ public class Item : ScriptableObject
     public int itemCode; // Унікальний код для кожного елемента
     public int requiredLevel; // Мінімальний рівень для доступу до елемента
     public int cost; // Вартість в ігровій валюті
-    public bool isAvailableByDefault; // Чи доступний елемент відразу без розблокування
+   public ItemCategory category; // Тип кастомізації 
+}
+public enum ItemCategory
+{
+    Avatars,
+    AvatarBackgrounds,
+    NameBackgrounds,
+    Other // Для розширення
 }

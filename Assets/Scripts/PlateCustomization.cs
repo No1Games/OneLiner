@@ -52,14 +52,14 @@ public class PlateCustomization : MonoBehaviour
         this.player = player;
     }
 
-    public void CustomizePlate(AvatarManager avatarManager, PlayerScript player)
+    public void CustomizePlate(PlayerScript player)
     {
         
 
         SetName(player.name);
-        SetAvatar(avatarManager.GetAvatarImage(player.avatarID));
-        SetBack(avatarManager.GetNameBackImage(player.nameBackID));
-        SetAvatarBack(avatarManager.GetAvatarBackImage(player.avatarBackID));
+        SetAvatar(ItemManager.Instance.GetItemByCode(player.avatarID).icon);
+        SetBack(ItemManager.Instance.GetItemByCode(player.nameBackID).icon);
+        SetAvatarBack(ItemManager.Instance.GetItemByCode(player.avatarBackID).icon);
     }   
     
     

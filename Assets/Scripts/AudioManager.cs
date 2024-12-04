@@ -44,6 +44,11 @@ public class AudioManager : MonoBehaviour
         audioSourceMain.loop = s.loop;
         audioSourceMain.Play();
     }
+    public void StopSoundInMain()
+    {
+        audioSourceMain.Stop();
+    }
+
     public void PlaySoundInBack(GameSounds name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -56,6 +61,7 @@ public class AudioManager : MonoBehaviour
         audioSourceBack.loop = s.loop;
         audioSourceBack.Play();
     }
+
     public void PlaySoundInAdditional(GameSounds name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -67,6 +73,10 @@ public class AudioManager : MonoBehaviour
         audioSourceAdditional.clip = s.clip;
         audioSourceAdditional.loop = s.loop;
         audioSourceAdditional.Play();
+    }
+    public void StopSoundInAdditional()
+    {
+        audioSourceAdditional.Stop();
     }
 
     public void TurnMusicOn()
@@ -104,5 +114,7 @@ public class AudioManager : MonoBehaviour
 
 public enum GameSounds
 {
-MainTheme, Menu_Click, Menu_Play, Menu_edit
+MainTheme, Menu_Click, Menu_Play, Menu_edit,
+Game_WordMenu, Game_DrawMenu, Game_Settings, Game_TurnChange, Game_WrongWord, Game_WrongDrawing, 
+Timer_LastSeconds, Game_Victory, Game_Lose
 }
