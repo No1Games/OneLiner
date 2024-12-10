@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: BasicLocalization_es
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: cc4036fb4339b03479ebb38b9e442be4, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 13461258240
+    m_Localized: IDIOMA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357264162816
+    m_Localized: "M\xDASICA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361349414912
+    m_Localized: EFECTOS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367695396864
+    m_Localized: "VIBRACI\xD3N"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 372757921792
+    m_Localized: "CONT\xC1CTANOS"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466433507328
+    m_Localized: "POL\xCDTICA DE CONFIDENCIALIDAD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79669011054592
+    m_Localized: "- \xA1Sin anuncios!\n- Ganancia acelerada de puntos de experiencia\n-
+      M\xE1s modos de juego\n- Posibilidad de crear salas privadas\n- Dest\xE1cate
+      entre otros jugadores"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79680516030464
+    m_Localized: mes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373101642285056
+    m_Localized: meses
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373104595075072
+    m_Localized: meses
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373150170382336
+    m_Localized: ilimitado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79678708285440
+    m_Localized: "Gasta diamantes y crea el perfil m\xE1s hermoso de todos los tiempos!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 387147472994304
+    m_Localized: COMPRAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811854747402240
+    m_Localized: "En este modo, todos los jugadores est\xE1n unidos por un objetivo:
+      adivinar la palabra elegida por el l\xEDder. Los dem\xE1s jugadores no saben
+      qu\xE9 palabra fue elegida. El l\xEDder comienza el juego primero y dibuja
+      una l\xEDnea. Despu\xE9s, el turno pasa al siguiente jugador en la lista, quien
+      dibuja una l\xEDnea conectada a la existente. Despu\xE9s de cada turno del
+      jugador, el turno regresa al l\xEDder. El objetivo es adivinar la palabra basada
+      en el dibujo. Cuantas menos jugadas haya, m\xE1s puntos gana el equipo. El
+      n\xFAmero de turnos es ilimitado. Los corazones solo se pueden usar para adivinar
+      palabras."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811849206726656
+    m_Localized: "L\xCDDERES"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811847801634816
+    m_Localized: EQUIPOS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811846224576512
+    m_Localized: JUGADORES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811718302498816
+    m_Localized: "L\xCDDER"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811721133654016
+    m_Localized: ELEGIR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811726384922624
+    m_Localized: ALEATORIO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811850850893824
+    m_Localized: COOPERATIVO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811736052793344
+    m_Localized: TEMPORIZADOR
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

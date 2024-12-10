@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: BasicLocalization Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: BasicLocalization
+  m_TableCollectionNameGuidString: cc4036fb4339b03479ebb38b9e442be4
+  m_Entries:
+  - m_Id: 79680516030464
+    m_Key: GemShop_M1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373101642285056
+    m_Key: GemShop_M3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373104595075072
+    m_Key: GemShop_M6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373150170382336
+    m_Key: GemShop_Unlim
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811721133654016
+    m_Key: LGS_Choose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811718302498816
+    m_Key: LGS_Leader
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811849206726656
+    m_Key: LGS_LeadersCount
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811854747402240
+    m_Key: LGS_MainModeInfo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811850850893824
+    m_Key: LGS_MainModeName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811846224576512
+    m_Key: LGS_Players
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811726384922624
+    m_Key: LGS_Random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811847801634816
+    m_Key: LGS_Teams
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811736052793344
+    m_Key: LGS_Timer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466433507328
+    m_Key: MM_Set_ConfPol
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361349414912
+    m_Key: MM_Set_Effects
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13461258240
+    m_Key: MM_Set_Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 372757921792
+    m_Key: MM_Set_MSGus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357264162816
+    m_Key: MM_Set_Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367695396864
+    m_Key: MM_Set_Vibration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 387147472994304
+    m_Key: MShop_Bue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79678708285440
+    m_Key: MShop_GemDiscription
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79669011054592
+    m_Key: MShop_PremDiscription
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 8473266633065889794
+  references:
+    version: 2
+    RefIds:
+    - rid: 8473266633065889794
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1733392531215

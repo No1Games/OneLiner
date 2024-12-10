@@ -1,6 +1,8 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System;
 
 public class SettingsMenu_MM : MenuBase
 {
@@ -10,11 +12,13 @@ public class SettingsMenu_MM : MenuBase
     [SerializeField] private Button messageUs;
     [SerializeField] private Button confidentialPolicy;
     [SerializeField] private Button back;
-    //[SerializeField] private Dropdown languageChange;
+    [SerializeField] private TMP_Dropdown languageChange;
 
     [SerializeField] private Animator musicBtnAnimator;
     [SerializeField] private Animator sfxBtnAnimator;
     [SerializeField] private Animator vibrationBtnAnimator;
+
+    [SerializeField] private LocalSelector localSelector;
 
     public override MenuName Menu => MenuName.OptionScreen;
 
@@ -31,8 +35,8 @@ public class SettingsMenu_MM : MenuBase
         messageUs.onClick.AddListener(OnClick_messageUs);
         confidentialPolicy.onClick.AddListener(OnClick_confidentialPolicy);
         back.onClick.AddListener(OnClick_back);
+        languageChange.onValueChanged.AddListener(OnLanguageChanged);
 
-        
     }
 
     private void OnClick_musicVolumeChange()
@@ -72,6 +76,7 @@ public class SettingsMenu_MM : MenuBase
     private void OnClick_messageUs()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        localSelector.ChooseLocal(3);
 
     }
     private void OnClick_confidentialPolicy()
@@ -82,6 +87,12 @@ public class SettingsMenu_MM : MenuBase
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         MainMenuManager.Instance.ChangeMenu(MenuName.MainScreen);
+    }
+
+    private void OnLanguageChanged(int index)
+    {
+        //index = languageChange.value;
+        localSelector.ChooseLocal(index);
     }
 
 }

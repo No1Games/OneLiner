@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: BasicLocalization_de
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: de
+  m_SharedData: {fileID: 11400000, guid: cc4036fb4339b03479ebb38b9e442be4, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 13461258240
+    m_Localized: SPRACHE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357264162816
+    m_Localized: MUSIK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361349414912
+    m_Localized: EFFEKTE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367695396864
+    m_Localized: VIBRATION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 372757921792
+    m_Localized: SCHREIBEN SIE UNS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466433507328
+    m_Localized: DATENSCHUTZRICHTLINIE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79669011054592
+    m_Localized: "- Keine Werbung!\n- Beschleunigter Erfahrungspunktegewinn\n- Mehr
+      Spielmodi\n- M\xF6glichkeit, private R\xE4ume zu erstellen\n- Hebe dich von
+      anderen Spielern ab"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79680516030464
+    m_Localized: monat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373101642285056
+    m_Localized: monate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373104595075072
+    m_Localized: monate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373150170382336
+    m_Localized: unbegrenzt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79678708285440
+    m_Localized: "Gib Diamanten aus und erstelle das sch\xF6nste Profil aller Zeiten!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 387147472994304
+    m_Localized: KAUFEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811854747402240
+    m_Localized: "In diesem Modus sind alle Spieler durch ein Ziel vereint \u2013
+      das vom Spielleiter gew\xE4hlte Wort zu erraten. Die anderen Spieler wissen
+      nicht, welches Wort gew\xE4hlt wurde. Der Spielleiter beginnt das Spiel und
+      zeichnet als Erster eine Linie. Danach geht der Zug an den n\xE4chsten Spieler
+      in der Liste, der eine Linie zeichnet, die mit der bestehenden verbunden ist.
+      Nach jedem Zug eines Spielers ist wieder der Spielleiter an der Reihe. Das
+      Ziel ist es, das Wort anhand der Zeichnung zu erraten. Je weniger Z\xFCge,
+      desto mehr Punkte erh\xE4lt das Team. Die Anzahl der Z\xFCge ist unbegrenzt.
+      Herzen k\xF6nnen nur verwendet werden, um W\xF6rter zu erraten."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811849206726656
+    m_Localized: SPIELLEITER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811847801634816
+    m_Localized: TEAMS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811846224576512
+    m_Localized: SPIELER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811718302498816
+    m_Localized: SPIELLEITER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811721133654016
+    m_Localized: "W\xC4HLEN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811726384922624
+    m_Localized: "ZUF\xC4LLIG"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811736052793344
+    m_Localized: TIMER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811850850893824
+    m_Localized: KOOPERATIV
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

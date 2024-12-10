@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: BasicLocalization_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: cc4036fb4339b03479ebb38b9e442be4, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 13461258240
+    m_Localized: LANGUE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357264162816
+    m_Localized: MUSIQUE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361349414912
+    m_Localized: EFFETS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367695396864
+    m_Localized: VIBRATION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 372757921792
+    m_Localized: CONTACTEZ-NOUS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466433507328
+    m_Localized: "POLITIQUE DE CONFIDENTIALIT\xC9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79669011054592
+    m_Localized: "- Pas de publicit\xE9s !\n- Gain acc\xE9l\xE9r\xE9 de points d'exp\xE9rience\n-
+      Plus de modes de jeu\n- Possibilit\xE9 de cr\xE9er des salles priv\xE9es\n-
+      D\xE9marquez-vous parmi les autres joueurs"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79680516030464
+    m_Localized: mois
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373101642285056
+    m_Localized: mois
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373104595075072
+    m_Localized: mois
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373150170382336
+    m_Localized: "illimit\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79678708285440
+    m_Localized: "D\xE9pense des diamants et cr\xE9e le profil le plus beau de tous
+      les temps !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 387147472994304
+    m_Localized: ACHETER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811854747402240
+    m_Localized: "Dans ce mode, tous les joueurs sont unis par un objectif : deviner
+      le mot choisi par le meneur. Les autres joueurs ne savent pas quel mot a \xE9t\xE9
+      choisi. Le meneur commence le jeu en premier et dessine une ligne. Ensuite,
+      le tour passe au joueur suivant dans la liste, qui dessine une ligne reli\xE9e
+      \xE0 celle existante. Apr\xE8s chaque tour d'un joueur, le tour revient au
+      meneur. L'objectif est de deviner le mot \xE0 partir du dessin. Moins il y
+      a de tours, plus l'\xE9quipe gagne de points. Le nombre de tours est illimit\xE9.
+      Les c\u0153urs peuvent \xEAtre utilis\xE9s uniquement pour deviner des mots."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811849206726656
+    m_Localized: ANIMATEURS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811847801634816
+    m_Localized: "\xC9QUIPES"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811846224576512
+    m_Localized: JOUEURS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811718302498816
+    m_Localized: ANIMATEUR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811721133654016
+    m_Localized: CHOISIR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811726384922624
+    m_Localized: "AL\xC9ATOIRE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811850850893824
+    m_Localized: "COOP\xC9RATIF"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811736052793344
+    m_Localized: MINUTEUR
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
