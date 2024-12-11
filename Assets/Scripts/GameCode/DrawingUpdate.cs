@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DrawingUpdate : MonoBehaviour
 {
     [SerializeField] private Camera drawingCamera;
-    [SerializeField] GameObject objectToHide;
+    [SerializeField] List<GameObject> objectsToHide;
     public event Action<Texture2D> OnScreenshotTaken;
 
     public int screenshotWidth = 1920;   // Ширина скріншота
@@ -13,7 +14,11 @@ public class DrawingUpdate : MonoBehaviour
     public void TakeScreenshot()
     {
         // Сховати UI перед скріншотом
-        objectToHide.SetActive(false);
+        foreach(GameObject obj in objectsToHide)
+        {
+            obj.SetActive(false);
+        }
+        
 
         // Створюємо RenderTexture з потрібною роздільною здатністю
         RenderTexture renderTexture = new RenderTexture(screenshotWidth, screenshotHeight, 24);
@@ -40,7 +45,10 @@ public class DrawingUpdate : MonoBehaviour
         Destroy(renderTexture);
 
         // Вмикаємо UI назад
-        objectToHide.SetActive(true);
+        foreach (GameObject obj in objectsToHide)
+        {
+            obj.SetActive(true);
+        }
 
         // Викликаємо подію, якщо скріншот зроблено
         if (screenshot != null)

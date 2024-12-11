@@ -27,8 +27,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text drawenLines;    
     [SerializeField] private TMP_Text playerNameOnPlayerScreen;
 
-    [SerializeField] private TMP_Text endgameText;
-    [SerializeField] private TMP_Text finaleScoreText;
+    
     [SerializeField] private TMP_Text warningText;
 
 
@@ -45,8 +44,7 @@ public class UIManager : MonoBehaviour
     private Coroutine warningCoroutine = null;
     private bool isWarningActive = false;
 
-    private List<Rank> ranks;
-    [SerializeField] private Image rankImage;
+    
     [SerializeField] private GameObject mainCam;
 
     
@@ -55,10 +53,6 @@ public class UIManager : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private GameObject wordButtonPrefab;
     private List<GameObject> wordsButtons = new();
-
-    [SerializeField] private GameObject replayButton;
-    [SerializeField] private GameObject menuButton;
-
 
     public event Action OnActionConfirmed;
     public event Func<int> OnGameEnded;
@@ -78,10 +72,7 @@ public class UIManager : MonoBehaviour
     {
         drawenLines.text = drawing.drawenLines.ToString();
     }
-    public void RanksSet(List<Rank> ranks)
-    {
-        this.ranks = ranks;
-    }
+    
     public void GenerateWordButtons(List<string> words)
     {
         for (int i = 0; i < words.Count; i++)
@@ -196,21 +187,17 @@ public class UIManager : MonoBehaviour
     private void CheckTheWord(WordButton_new word)
     {
 
-        string winingText = "Вітаю з перемогою";
-        string losingText = "Нажаль, цього разу ви програли";
-
-
         if (playerToTrack.role != PlayerRole.Leader)
         {
             wordPanel.SetActive(false);
             if (word.gameObject.GetComponentInChildren<TMP_Text>().text == leaderWordText)
             {
 
-                endgameText.text = winingText;
+                
                 endgamePanel.SetActive(true);
-                AudioManager.Instance.TurnMusicOff();
-                AudioManager.Instance.PlaySoundInMain(GameSounds.Game_Victory);
-                StartCoroutine(StartScoring(OnGameEnded.Invoke()));
+                int _score = OnGameEnded.Invoke();
+                endgamePanel.GetComponent<EndGameScreen>().SetFinaleScreen(leaderWordText, true, _score);
+                
 
             }
             else
@@ -229,11 +216,11 @@ public class UIManager : MonoBehaviour
                 }
                 else
                 {
-                    endgameText.text = losingText;
+                    
                     endgamePanel.SetActive(true);
-                    AudioManager.Instance.TurnMusicOff();
-                    AudioManager.Instance.PlaySoundInMain(GameSounds.Game_Lose);
-                    StartCoroutine(StartScoring(0));
+                    endgamePanel.GetComponent<EndGameScreen>().SetFinaleScreen(leaderWordText, false);
+
+                    //StartCoroutine(StartScoring(0));
 
                 }
 
@@ -242,55 +229,6 @@ public class UIManager : MonoBehaviour
         }
 
 
-    }
-
-    public void BackToMainMenu()
-    {
-        AudioManager.Instance.TurnMusicOn();
-        AudioManager.Instance.StopSoundInAdditional();
-        SceneManager.LoadScene(0);
-    }
-
-    public void PlayAgain()
-    {
-        AudioManager.Instance.TurnMusicOn();
-        AudioManager.Instance.StopSoundInAdditional();
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.buildIndex);
-
-    }
-
-
-    private IEnumerator StartScoring(int finaleScore)
-    {
-        int scoreNow = 0;
-        int rankIndex = 0;
-        Rank currentRank = ranks[0];  // Початковий ранг
-        rankImage.gameObject.SetActive(true);  // Відображаємо зображення рангу
-        rankImage.sprite = currentRank.rankImage;  // Встановлюємо початковий спрайт
-
-        while (scoreNow < finaleScore)
-        {
-            scoreNow += 10;  // Збільшуємо очки поступово
-
-            // Оновлюємо текст без окремого методу
-            finaleScoreText.text = scoreNow.ToString();  // Оновлюємо текст з очками
-
-            // Перевіряємо, чи досягнуто порогове значення для наступного рангу
-            if (rankIndex < ranks.Count - 1 && scoreNow >= ranks[rankIndex + 1].threshold)
-            {
-                rankIndex++;  // Змінюємо індекс рангу
-                currentRank = ranks[rankIndex];  // Оновлюємо поточний ранг
-                rankImage.sprite = currentRank.rankImage;  // Міняємо зображення рангу
-                yield return new WaitForSeconds(0.5f);  // Затримка для візуалізації зміни рангу
-            }
-
-            yield return null;  // Перерва на один кадр перед продовженням
-        }
-
-
-        replayButton.SetActive(true);
-        menuButton.SetActive(true);
     }
 
     private IEnumerator PushWarning(string message)

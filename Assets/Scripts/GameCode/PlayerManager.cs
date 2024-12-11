@@ -90,12 +90,12 @@ public class PlayerManager : MonoBehaviour
         foreach (PlayerScript player in players)
         {
             GameObject playerPlate = Instantiate(platePrefab, playersPanel.transform);
-            playerPlate.GetComponent<PlateCustomization>().CustomizePlate(player);
+            PlateCustomization customization = playerPlate.GetComponent<PlateCustomization>();
+            customization.CustomizePlate(player);
 
             if (player.role == PlayerRole.Leader)
             {
-                Transform crown = playerPlate.transform.Find("Crown");
-                crown.gameObject.SetActive(true);
+             customization.leaderCrown.SetActive(true);
             }
 
 

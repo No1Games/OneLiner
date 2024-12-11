@@ -17,8 +17,7 @@ public class MainManager : MonoBehaviour
     [SerializeField] private Timer timer;
 
 
-    [Header("Підрахунок ПО")]
-    [SerializeField] private List<Rank> gameRanks;
+    
 
 
     private void Awake()
@@ -39,7 +38,7 @@ public class MainManager : MonoBehaviour
 
         playerManager.OnPlayerChange += UpdateCurrentPlayer;
 
-        uIManager.RanksSet(gameRanks);
+        
 
         uIManager.OnTurnStarted += timer.TimerStrat;
         timer.OnTimerEnds += playerManager.ChangeTurn;
