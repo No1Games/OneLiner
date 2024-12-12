@@ -10,11 +10,11 @@ public class PlateAnimationController : MonoBehaviour
 
     public void OnTurnStart()
     {
-        animator.SetTrigger("StartTurn") ;
+        animator.Play("StartTurnAnimation");
     }
     public void OnTurnEnd()
     {
-        animator.SetTrigger("EndTurn");
+        animator.Play("EndTurnAnimation");
     }
 }
 

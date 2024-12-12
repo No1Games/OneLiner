@@ -41,6 +41,7 @@ public class MainManager : MonoBehaviour
         
 
         uIManager.OnTurnStarted += timer.TimerStrat;
+        
         timer.OnTimerEnds += playerManager.ChangeTurn;
         timer.OnTimerEnds += uIManager.OpenPlayerScreen;
 
@@ -56,6 +57,7 @@ public class MainManager : MonoBehaviour
 
     private int CountScore()
     {
+        timer.PauseTimer();
         int maxPoints = 1000;
         int heartPoints = 100;
         int linePoints = 20;

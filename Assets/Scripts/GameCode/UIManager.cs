@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header("Panels")]
-    [SerializeField] private GameObject startPanel;
+    //[SerializeField] private GameObject startPanel;
     [SerializeField] private GameObject endPanel;
     [SerializeField] private GameObject wordPanel;
     [SerializeField] private GameObject settingsPanel;
@@ -24,10 +24,10 @@ public class UIManager : MonoBehaviour
 
 
     [Header("Texts")]
-    [SerializeField] private TMP_Text drawenLines;    
-    [SerializeField] private TMP_Text playerNameOnPlayerScreen;
-
+    [SerializeField] private TMP_Text drawenLines;
     
+
+
     [SerializeField] private TMP_Text warningText;
 
 
@@ -110,26 +110,17 @@ public class UIManager : MonoBehaviour
 
     public void OpenPlayerScreen() //коли вгадували слово чи п≥дтвердили л≥н≥ю чи вийшов час
     {
-        
-        //playerNameOnGameScreen.text = playerToTrack.name;
-        playerNameOnPlayerScreen.text = playerToTrack.name;
+
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Game_TurnChange);
         if (drawingPanel.activeSelf)
         {
 
             StopDrawing();
         }
-        startPanel.SetActive(true);
-        
-
-
-    }
-
-    public void StartTurn() //коли п≥дтвердили що телефон у гравц€
-    {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Game_TurnChange);
-        startPanel.SetActive(false);
-        
         OnTurnStarted?.Invoke();
+
+
+
     }
 
     public void CallCheckUpMenu() //коли намалювали л≥н≥ю
@@ -220,7 +211,6 @@ public class UIManager : MonoBehaviour
                     endgamePanel.SetActive(true);
                     endgamePanel.GetComponent<EndGameScreen>().SetFinaleScreen(leaderWordText, false);
 
-                    //StartCoroutine(StartScoring(0));
 
                 }
 

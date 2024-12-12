@@ -298,56 +298,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &13752977
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 13752978}
-  - component: {fileID: 13752980}
-  m_Layer: 0
-  m_Name: AvatarManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &13752978
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 13752977}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1482894399}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &13752980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 13752977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4777a177d5d37114b89db6c592e92fae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  avatars: {fileID: 11400000, guid: b435220570458c145ad698b14f4876b2, type: 2}
-  avatarsBack: {fileID: 11400000, guid: 8b62734cb01b1df4ca8ed178307fd4db, type: 2}
-  nameBack: {fileID: 11400000, guid: 44f433f1c4554e24582f43179eac0495, type: 2}
-  avatarItems: []
-  avatarBackItems: []
-  nameBackItems: []
 --- !u!1 &36065846
 GameObject:
   m_ObjectHideFlags: 0
@@ -4708,7 +4658,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99aa80bcefc74aa4e8a5a7151a13054f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPanel: {fileID: 368842262}
   endPanel: {fileID: 889509361}
   wordPanel: {fileID: 597228371}
   settingsPanel: {fileID: 1045698344}
@@ -4718,7 +4667,6 @@ MonoBehaviour:
   warningPanel: {fileID: 615336098}
   confirmedDrawing: {fileID: 2055995422}
   drawenLines: {fileID: 49886116}
-  playerNameOnPlayerScreen: {fileID: 1290597272}
   warningText: {fileID: 1269279391}
   lives: 2
   livesImage:
@@ -6740,7 +6688,6 @@ Transform:
   - {fileID: 2078672917}
   - {fileID: 687146519}
   - {fileID: 1515023614}
-  - {fileID: 13752978}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1483874727
@@ -6861,7 +6808,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb53b50aa4158704f910ca04117e2ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnsQueue: []
   platePrefab: {fileID: 7502305452117697319, guid: f74dc3a1bc653214684d47341a2eb82a, type: 3}
   playersPanel: {fileID: 311678732}
 --- !u!1 &1544636343
@@ -7745,8 +7691,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4282461969
+  m_fontColor: {r: 0.06666667, g: 0.18431373, b: 0.25490198, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

@@ -43,7 +43,7 @@ public class Timer : MonoBehaviour
     }
     private void RunTimer()
     {
-        if (currentTime > 0)
+        if (currentTime >= 1)
         {
             currentTime -= Time.deltaTime;
         }
@@ -61,7 +61,7 @@ public class Timer : MonoBehaviour
         timeText.text = timeToShow.ToString();
 
     }
-    private void PauseTimer()
+    public void PauseTimer()
     {
         if (!isPaused)
         {
@@ -72,7 +72,7 @@ public class Timer : MonoBehaviour
 
     }
 
-    private void ContinueTimer()
+    public void ContinueTimer()
     {
         if (isPaused)
         {

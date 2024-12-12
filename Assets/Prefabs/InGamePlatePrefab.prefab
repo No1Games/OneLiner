@@ -417,7 +417,6 @@ GameObject:
   - component: {fileID: 3770956141881586539}
   - component: {fileID: 3507269584716965043}
   - component: {fileID: 4112217007800961364}
-  - component: {fileID: 7480090763240463502}
   m_Layer: 2
   m_Name: InGamePlatePrefab
   m_TagString: Untagged
@@ -474,19 +473,6 @@ MonoBehaviour:
     avatarBackID: 0
     nameBackID: 0
 --- !u!114 &4112217007800961364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7502305452117697319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff53a5832b3f02047ab630525d6fb60d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 6056309297259876256}
---- !u!114 &7480090763240463502
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
