@@ -76,7 +76,7 @@ public class CustomizationMenuUi : MenuBase
     private void OnClick_backButton()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        MainMenuManager.Instance.ChangeMenu(MenuName.MainScreen);
+        MainMenuManager.Instance.ChangeMenu(customizationDataManager.GetPreviousMenuName());
     }
     private void OnClick_applyButton()
     {
