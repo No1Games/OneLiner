@@ -32534,7 +32534,7 @@ MonoBehaviour:
   - {fileID: 577449979}
   - {fileID: 1328375465}
   - {fileID: 2093772915}
-  _bgController: {fileID: 0}
+  _bgController: {fileID: 279705184}
 --- !u!1 &1799736151
 GameObject:
   m_ObjectHideFlags: 0
