@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LobbyListUI : MenuBase
+public class RoomsListUI : MenuBase
 {
-    public override MenuName Menu => MenuName.LobbyList;
+    public override MenuName Menu => MenuName.RoomsList;
 
     [Header("Loading Settings")]
     [SerializeField] private string _joiningText = "Joining the room...";
 
-    [Header("Lobby List Fields")]
-    [SerializeField] private LobbyItemUI _lobbyItemPrefab;
+    [Header("Rooms List Fields")]
+    [SerializeField] private RoomItemUI _roomItemPrefab;
     [SerializeField] private Transform _container;
+    [SerializeField] private Image _separatorImage;
 
     [Header("Buttons")]
     [SerializeField] private Button _backButton;
@@ -25,46 +25,16 @@ public class LobbyListUI : MenuBase
     [SerializeField] private float _updateEverySeconds = 10f;
     private float _updateTimer;
 
-    private ObjectPool<LobbyItemUI> _itemPool;
-    private List<LobbyItemUI> _activeItems;
+    private ObjectPool<RoomItemUI> _itemPool;
+    private List<RoomItemUI> _activeItems;
 
-    private OnlineGameManager _gameManager;
+    private OnlineController _gameManager;
 
     private LocalLobby _selectedLobby;
 
     private void Awake()
     {
         Init();
-    }
-
-    public override void Init()
-    {
-        base.Init();
-
-        _itemPool = new ObjectPool<LobbyItemUI>(_lobbyItemPrefab);
-        _activeItems = new List<LobbyItemUI>();
-
-        _backButton.onClick.AddListener(OnClick_BackButton);
-        _quickJoinButton.onClick.AddListener(OnClick_QuickJoinButton);
-        _createButton.onClick.AddListener(OnClick_CreateButton);
-        _joinPrivateButton.onClick.AddListener(OnClick_JoinPrivateButton);
-        _joinButton.onClick.AddListener(OnClick_JoinButtonAsync);
-
-        _gameManager = OnlineGameManager.Instance;
-    }
-
-    public override void Show()
-    {
-        base.Show();
-
-        _updateTimer = _updateEverySeconds;
-    }
-
-    public override void Hide()
-    {
-        base.Hide();
-
-        //ClearLobbyList();
     }
 
     private void Start()
@@ -107,7 +77,7 @@ public class LobbyListUI : MenuBase
 
     private void AddLobbyItem(LocalLobby lobby)
     {
-        LobbyItemUI item = _itemPool.GetObject();
+        RoomItemUI item = _itemPool.GetObject();
         item.gameObject.transform.SetParent(_container, false);
         item.SetLocalLobby(lobby);
         item.LobbySelectedEvent += OnLobbySelected;
@@ -146,9 +116,7 @@ public class LobbyListUI : MenuBase
 
     private void OnClick_BackButton()
     {
-        //MainMenuManager.Instance.ChangeMenu(MenuName.LocalOnline);
-
-        SceneManager.UnloadSceneAsync("OnlineMenu");
+        MainMenuManager.Instance.ChangeMenu(MenuName.LocalOnline);
     }
 
     private void OnClick_QuickJoinButton()
@@ -164,7 +132,6 @@ public class LobbyListUI : MenuBase
     private void OnClick_CreateButton()
     {
         OnlineMenuManager.Instance.OpenRoomPanel(true);
-
     }
 
     private async void OnClick_JoinButtonAsync()
@@ -182,6 +149,38 @@ public class LobbyListUI : MenuBase
         OnlineMenuManager.Instance.OpenRoomPanel(false);
 
         LoadingPanel.Instance.Hide();
+    }
+
+    #endregion
+
+    #region Menu Methods
+
+    public override void Init()
+    {
+        base.Init();
+
+        _itemPool = new ObjectPool<RoomItemUI>(_roomItemPrefab);
+        _activeItems = new List<RoomItemUI>();
+
+        _backButton.onClick.AddListener(OnClick_BackButton);
+        _quickJoinButton.onClick.AddListener(OnClick_QuickJoinButton);
+        _createButton.onClick.AddListener(OnClick_CreateButton);
+        _joinPrivateButton.onClick.AddListener(OnClick_JoinPrivateButton);
+        _joinButton.onClick.AddListener(OnClick_JoinButtonAsync);
+
+        _gameManager = OnlineController.Instance;
+    }
+
+    public override void Show()
+    {
+        base.Show();
+
+        _updateTimer = _updateEverySeconds;
+    }
+
+    public override void Hide()
+    {
+        base.Hide();
     }
 
     #endregion

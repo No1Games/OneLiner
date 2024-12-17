@@ -15,7 +15,7 @@ public class Countdown : MonoBehaviour
 
     public event Action CountdownFinishedEvent;
 
-    private OnlineGameManager _gameManager;
+    private OnlineController _gameManager;
 
     public void Start()
     {
@@ -24,7 +24,7 @@ public class Countdown : MonoBehaviour
             _ui = GetComponent<CountdownUI>();
         }
 
-        _gameManager = OnlineGameManager.Instance;
+        _gameManager = OnlineController.Instance;
 
         _gameManager.AllPlayersReadyEvent += StartCountDown;
         _gameManager.PlayerNotReadyEvent += CancelCountDown;

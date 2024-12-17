@@ -58,7 +58,7 @@ public class LobbyCreateUI : MenuBase
 
     private void OnClick_BackButton()
     {
-        MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+        MainMenuManager.Instance.ChangeMenu(MenuName.RoomsList);
     }
 
     #region Menu Methods

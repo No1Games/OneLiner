@@ -123,6 +123,26 @@ MonoBehaviour:
     m_Localized: COOPERATIVE
     m_Metadata:
       m_Items: []
+  - m_Id: 4354233650212864
+    m_Localized: CREATE ROOM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Localized: JOIN PRIVATE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Localized: Quick Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Localized: ROOM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Localized: MODE
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

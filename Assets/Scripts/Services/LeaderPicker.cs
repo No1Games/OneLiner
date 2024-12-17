@@ -4,7 +4,7 @@ public class LeaderPicker
 {
     public static string PickRandomLeader()
     {
-        LocalLobby localLobby = OnlineGameManager.Instance.LocalLobby;
+        LocalLobby localLobby = OnlineController.Instance.LocalLobby;
 
         string id = "";
 

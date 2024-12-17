@@ -497,7 +497,7 @@ public class LobbyManager : IDisposable
         _lobbyEventCallbacks.KickedFromLobby += () =>
         {
             Debug.Log("Left Lobby");
-            MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+            MainMenuManager.Instance.ChangeMenu(MenuName.RoomsList);
             Dispose();
         };
 

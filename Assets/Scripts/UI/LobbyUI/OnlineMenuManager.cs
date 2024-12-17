@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class OnlineMenuManager : MonoBehaviour
 {
-    [SerializeField] private LobbyListUI _lobbyList;
+    private Canvas _onlineMenuCanvas;
+
+    [SerializeField] private RoomsListUI _lobbyList;
     [SerializeField] private WaitingRoomUI _roomPanel;
 
     private static OnlineMenuManager _instance;
@@ -11,6 +13,12 @@ public class OnlineMenuManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+
+        _onlineMenuCanvas = GetComponent<Canvas>();
+
+        _onlineMenuCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+
+        _onlineMenuCanvas.worldCamera = Camera.main;
     }
 
     public void OpenRoomPanel(bool isCreate)

@@ -7,21 +7,21 @@ using Unity.Services.Lobbies;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class OnlineGameManager : MonoBehaviour
+public class OnlineController : MonoBehaviour
 {
-    static OnlineGameManager _instance;
-    public static OnlineGameManager Instance
+    static OnlineController _instance;
+    public static OnlineController Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<OnlineGameManager>();
+                _instance = FindObjectOfType<OnlineController>();
 
                 if (_instance == null)
                 {
                     GameObject singletonObj = new GameObject("OnlineGameManager");
-                    _instance = singletonObj.AddComponent<OnlineGameManager>();
+                    _instance = singletonObj.AddComponent<OnlineController>();
                 }
 
                 DontDestroyOnLoad(_instance.gameObject);
@@ -52,6 +52,8 @@ public class OnlineGameManager : MonoBehaviour
     private const string _gameSceneName = "OnlineGameScene";
     private const string _loadingGameText = "Starting your game...";
 
+    [SerializeField] private Countdown _countdown;
+
     private void Awake()
     {
         if (_instance == null)
@@ -69,6 +71,8 @@ public class OnlineGameManager : MonoBehaviour
         _localUser = new LocalPlayer("", 0, false, "LocalPlayer");
         _localLobby = new LocalLobby { LocalLobbyState = { Value = LobbyState.Lobby } };
         LobbyManager = new LobbyManager();
+
+        _countdown.CountdownFinishedEvent += OnCountdownFinished;
 
         AuthenticatePlayer();
 
@@ -113,8 +117,15 @@ public class OnlineGameManager : MonoBehaviour
         }
     }
 
+    private void OnCountdownFinished()
+    {
+        StartGame();
+    }
+
     private void StartGame()
     {
+        //if(_localLobby)
+
         LoadingPanel.Instance.Show(_loadingGameText);
 
         SetLocalUserStatus(PlayerStatus.InGame);

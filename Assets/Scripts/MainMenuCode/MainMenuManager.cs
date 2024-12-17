@@ -1,15 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [Inject(Id = "RuntimeTMP")] private ILogger _logger;
 
     private static MainMenuManager _instance;
     public static MainMenuManager Instance => _instance;
 
     [SerializeField] private List<MenuBase> _menus;
+
+    [Space]
+    [SerializeField] private BGImageController _bgController;
 
     private void Awake()
     {
@@ -29,21 +30,32 @@ public class MainMenuManager : MonoBehaviour
                 m.Hide();
             }
         }
+
+        // Special Case: Local Online menu opens on top of main screen.
+        if (menu == MenuName.LocalOnline)
+        {
+            OpenMenu(MenuName.MainScreen);
+        }
+
+        // Set Background Color here
+        if (menu == MenuName.RoomsList)
+        {
+            _bgController.SetBackground(BGType.Blue);
+        }
+        else
+        {
+            _bgController.SetBackground(BGType.White);
+        }
     }
 
     public void OpenMenu(MenuName menu)
     {
         _menus.Find(m => m.Menu == menu).Show();
     }
-
-    void StartLocalGame()
-    {
-
-    }
 }
 
 public enum MenuName
 {
-    LocalOnline, LobbyList, Lobby, LobbyCreate,
+    LocalOnline, RoomsList, Lobby, LobbyCreate,
     MainScreen, LocalSetup, CustomizationScreen, ModeScreen, OptionScreen, MainShop, GemShop, PremiumShop
 }

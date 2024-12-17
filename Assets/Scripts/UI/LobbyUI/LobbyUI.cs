@@ -117,7 +117,7 @@ public class LobbyUI : MenuBase
     private void OnClick_LeaveLobbyButton()
     {
         GameManager.Instance.LeaveLobby();
-        MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+        MainMenuManager.Instance.ChangeMenu(MenuName.RoomsList);
     }
 
     private void OnClick_ReadyButton()

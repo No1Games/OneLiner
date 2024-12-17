@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LocalOnlineMenu : MenuBase
@@ -30,11 +29,11 @@ public class LocalOnlineMenu : MenuBase
 
         Hide();
 
-        SceneManager.LoadScene("OnlineMenu", LoadSceneMode.Additive);
+        // SceneManager.LoadScene("OnlineMenu", LoadSceneMode.Additive);
 
-        //SceneManager.SetActiveScene(SceneManager.GetSceneByName("OnlineMenu"));
+        // SceneManager.SetActiveScene(SceneManager.GetSceneByName("OnlineMenu"));
 
-        // MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+        MainMenuManager.Instance.ChangeMenu(MenuName.RoomsList);
     }
 
     private void OnClick_BackButton()

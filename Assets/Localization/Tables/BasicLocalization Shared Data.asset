@@ -103,6 +103,26 @@ MonoBehaviour:
     m_Key: MShop_PremDiscription
     m_Metadata:
       m_Items: []
+  - m_Id: 4354233650212864
+    m_Key: ORL_CreateRoomButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Key: ORL_JoinPrivateButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Key: ORL_QuickStartButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Key: ORL_RoomNameHeader
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Key: ORL_RoomModeHeader
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

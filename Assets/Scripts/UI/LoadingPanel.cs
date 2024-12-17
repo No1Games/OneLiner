@@ -6,6 +6,7 @@ public class LoadingPanel : MonoBehaviour
     private static LoadingPanel _instance;
     public static LoadingPanel Instance => _instance;
 
+    [SerializeField] private GameObject _panelGO;
     [SerializeField] private TextMeshProUGUI _loadingText;
 
     private void Awake()
@@ -25,12 +26,12 @@ public class LoadingPanel : MonoBehaviour
     {
         _loadingText.text = text;
 
-        gameObject.SetActive(true);
+        _panelGO.SetActive(true);
     }
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        _panelGO.SetActive(false);
     }
 
 }

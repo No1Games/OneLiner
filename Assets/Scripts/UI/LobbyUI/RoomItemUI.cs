@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyItemUI : MonoBehaviour
+public class RoomItemUI : MonoBehaviour
 {
     [Header("UI Components")]
     [SerializeField] private HostDataUI _hostData_Panel;

@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
         }
         catch (LobbyServiceException exception)
         {
-            MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+            MainMenuManager.Instance.ChangeMenu(MenuName.RoomsList);
             Debug.Log($"Error creating lobby : ({exception.ErrorCode}) {exception.Message}");
         }
     }
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
         }
         catch (LobbyServiceException exception)
         {
-            MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+            MainMenuManager.Instance.ChangeMenu(MenuName.RoomsList);
             Debug.Log($"Error joining lobby : ({exception.ErrorCode}) {exception.Message}");
         }
     }
@@ -362,7 +362,7 @@ public class GameManager : MonoBehaviour
 
         LeaveLobby();
 
-        MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+        MainMenuManager.Instance.ChangeMenu(MenuName.RoomsList);
     }
 
     public async void ExitToLobby()
@@ -398,7 +398,7 @@ public class GameManager : MonoBehaviour
         }
         catch (LobbyServiceException exception)
         {
-            MainMenuManager.Instance.ChangeMenu(MenuName.LobbyList);
+            MainMenuManager.Instance.ChangeMenu(MenuName.RoomsList);
             Debug.Log($"Couldn't join Lobby : ({exception.ErrorCode}) {exception.Message}");
         }
     }

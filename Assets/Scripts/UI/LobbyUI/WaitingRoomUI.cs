@@ -38,7 +38,7 @@ public class WaitingRoomUI : MonoBehaviour
     [SerializeField] private string _creatingLobbyLoadingText = "Creating your room...";
 
     private LocalLobby _localLobby;
-    private OnlineGameManager _gameManager;
+    private OnlineController _gameManager;
 
     private bool _isPrivate = false;
     private int _maxPlayers = 4;
@@ -47,7 +47,7 @@ public class WaitingRoomUI : MonoBehaviour
 
     private void Awake()
     {
-        _gameManager = OnlineGameManager.Instance;
+        _gameManager = OnlineController.Instance;
 
         _backButton.onClick.AddListener(OnClick_BackButton);
         _isPrivateButton.onClick.AddListener(OnClick_IsPrivateButton);
@@ -146,7 +146,7 @@ public class WaitingRoomUI : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        _gameManager = OnlineGameManager.Instance;
+        _gameManager = OnlineController.Instance;
 
         if (isCreate)
         {

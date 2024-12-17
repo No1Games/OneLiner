@@ -46,7 +46,7 @@ public class PlayersListUI : MonoBehaviour
 
     public void UpdateList(List<LocalPlayer> localPlayers)
     {
-        _localLobby = OnlineGameManager.Instance.LocalLobby;
+        _localLobby = OnlineController.Instance.LocalLobby;
 
         ClearList();
 

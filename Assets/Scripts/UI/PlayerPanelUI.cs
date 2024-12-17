@@ -28,7 +28,7 @@ public class PlayerPanelUI : MonoBehaviour
 
     public void SetLocalLobby()
     {
-        _localLobby = OnlineGameManager.Instance.LocalLobby;
+        _localLobby = OnlineController.Instance.LocalLobby;
 
         if (_localLobby == null)
         {
