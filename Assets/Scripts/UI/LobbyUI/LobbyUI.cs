@@ -27,7 +27,6 @@ public class LobbyUI : MenuBase
 
     private PlayerStatus _playerReady = PlayerStatus.Lobby;
 
-    public override MenuName Menu => MenuName.Lobby;
 
     private void Awake()
     {

@@ -10,29 +10,19 @@ public class RoomItemUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _modeName_TMP;
     [SerializeField] private TextMeshProUGUI _playersCount_TMP;
     [SerializeField] private Button _buttonComponent;
+    [SerializeField] private GameObject _joinBtnParent;
+    [SerializeField] private Button _join_Btn;
 
     public event Action<LocalLobby> LobbySelectedEvent;
+    public event Action<LocalLobby> JoinLobbyEvent;
 
     private LocalLobby _localLobby;
+    public LocalLobby LocalLobby => _localLobby;
 
     private void Awake()
     {
-        _buttonComponent.onClick.AddListener(() =>
-        {
-            if (_localLobby != null)
-                LobbySelectedEvent?.Invoke(_localLobby);
-        });
-    }
-
-    public void SetLocalLobby(LocalLobby lobby)
-    {
-        Unsubscribe();
-
-        _localLobby = lobby;
-
-        Subscribe();
-
-        UpdateUI();
+        _buttonComponent.onClick.AddListener(OnClick_SelfButton);
+        _join_Btn.onClick.AddListener(OnClick_JoinButton);
     }
 
     private void UpdateUI()
@@ -66,6 +56,19 @@ public class RoomItemUI : MonoBehaviour
         _localLobby = null;
     }
 
+    #region Setters
+
+    public void SetLocalLobby(LocalLobby lobby)
+    {
+        Unsubscribe();
+
+        _localLobby = lobby;
+
+        Subscribe();
+
+        UpdateUI();
+    }
+
     private void SetHostPanel(HostData newValue)
     {
         if (newValue == null)
@@ -87,20 +90,35 @@ public class RoomItemUI : MonoBehaviour
         _playersCount_TMP.text = $"{newValue}/{_localLobby.MaxPlayerCount.Value}";
     }
 
+    #endregion
+
+    public void Deselect()
+    {
+        _joinBtnParent.SetActive(false);
+    }
+
+    private void Select()
+    {
+        LobbySelectedEvent?.Invoke(_localLobby);
+        _joinBtnParent.SetActive(true);
+    }
+
+    #region Click Handlers
+
+    private void OnClick_SelfButton()
+    {
+        Select();
+    }
+
+    private void OnClick_JoinButton()
+    {
+        JoinLobbyEvent?.Invoke(_localLobby);
+    }
+
+    #endregion
+
     private void OnDestroy()
     {
         Unsubscribe();
     }
-
-    //private void OnClick_JoinButton()
-    //{
-    //    try
-    //    {
-    //        GameManager.Instance.JoinLobby(_localLobby.LobbyID.Value, _localLobby.LobbyCode.Value);
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        Debug.LogException(e);
-    //    }
-    //}
 }

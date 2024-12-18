@@ -14,7 +14,6 @@ public class LobbyCreateUI : MenuBase
     [SerializeField] private Button _createButton;
     [SerializeField] private Button _backButton;
 
-    public override MenuName Menu => MenuName.LobbyCreate;
 
     private string _lobbyName;
     private bool _isPrivate;

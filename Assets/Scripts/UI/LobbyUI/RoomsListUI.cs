@@ -19,7 +19,6 @@ public class RoomsListUI : MenuBase
     [SerializeField] private Button _createButton;
     [SerializeField] private Button _quickJoinButton;
     [SerializeField] private Button _joinPrivateButton;
-    [SerializeField] private Button _joinButton;
 
     [Header("Update List Timer")]
     [SerializeField] private float _updateEverySeconds = 10f;
@@ -106,8 +105,27 @@ public class RoomsListUI : MenuBase
 
     private void OnLobbySelected(LocalLobby lobby)
     {
+        foreach (var item in _activeItems)
+        {
+            if (item.LocalLobby != lobby)
+            {
+                item.Deselect();
+            }
+        }
+
         _selectedLobby = lobby;
-        _joinButton.gameObject.SetActive(true);
+        // _joinButton.gameObject.SetActive(true);
+    }
+
+    private async void OnJoinLobbyClicked(LocalLobby lobby)
+    {
+        LoadingPanel.Instance.Show(_joiningText);
+
+        await _gameManager.JoinLobby(_selectedLobby.LobbyID.Value, _selectedLobby.LobbyCode.Value);
+
+        MainMenuManager.Instance.OpenRoomPanel(false);
+
+        LoadingPanel.Instance.Hide();
     }
 
     #endregion
@@ -131,27 +149,18 @@ public class RoomsListUI : MenuBase
 
     private void OnClick_CreateButton()
     {
-        OnlineMenuManager.Instance.OpenRoomPanel(true);
-    }
-
-    private async void OnClick_JoinButtonAsync()
-    {
-        if (_selectedLobby == null)
-        {
-            Debug.LogWarning("No lobby selected!");
-            return;
-        }
-
-        LoadingPanel.Instance.Show(_joiningText);
-
-        await _gameManager.JoinLobby(_selectedLobby.LobbyID.Value, _selectedLobby.LobbyCode.Value);
-
-        OnlineMenuManager.Instance.OpenRoomPanel(false);
-
-        LoadingPanel.Instance.Hide();
+        MainMenuManager.Instance.OpenRoomPanel(true);
     }
 
     #endregion
+
+    private void DeselectAll()
+    {
+        foreach (var item in _activeItems)
+        {
+            item.Deselect();
+        }
+    }
 
     #region Menu Methods
 
@@ -166,7 +175,6 @@ public class RoomsListUI : MenuBase
         _quickJoinButton.onClick.AddListener(OnClick_QuickJoinButton);
         _createButton.onClick.AddListener(OnClick_CreateButton);
         _joinPrivateButton.onClick.AddListener(OnClick_JoinPrivateButton);
-        _joinButton.onClick.AddListener(OnClick_JoinButtonAsync);
 
         _gameManager = OnlineController.Instance;
     }
@@ -180,6 +188,8 @@ public class RoomsListUI : MenuBase
 
     public override void Hide()
     {
+        DeselectAll();
+
         base.Hide();
     }
 

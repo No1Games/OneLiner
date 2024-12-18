@@ -52,10 +52,16 @@ public class MainMenuManager : MonoBehaviour
     {
         _menus.Find(m => m.Menu == menu).Show();
     }
+
+    public void OpenRoomPanel(bool isCreate)
+    {
+        _menus.Find(m => m.Menu == MenuName.RoomsList).Hide();
+        (_menus.Find(m => m.Menu == MenuName.WaitingRoom) as WaitingRoomUI).Show(isCreate);
+    }
 }
 
 public enum MenuName
 {
-    LocalOnline, RoomsList, Lobby, LobbyCreate,
+    LocalOnline, RoomsList, WaitingRoom,
     MainScreen, LocalSetup, CustomizationScreen, ModeScreen, OptionScreen, MainShop, GemShop, PremiumShop
 }

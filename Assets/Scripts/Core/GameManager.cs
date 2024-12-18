@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
 
             await CreateLobby();
 
-            MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
+            //MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
         }
         catch (LobbyServiceException exception)
         {
@@ -375,7 +375,7 @@ public class GameManager : MonoBehaviour
 
         await SendLocalLobbyData();
 
-        MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
+        //MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
     }
 
     private async Task JoinLobby()
@@ -414,7 +414,7 @@ public class GameManager : MonoBehaviour
         _localLobby.onUserTurnChanged += OnAnyUserTurnChanged;
 
         SetLobbyView();
-        MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
+        //MainMenuManager.Instance.ChangeMenu(MenuName.Lobby);
     }
 
     public async void LeaveLobby()

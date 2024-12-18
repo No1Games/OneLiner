@@ -124,8 +124,6 @@ public class OnlineController : MonoBehaviour
 
     private void StartGame()
     {
-        //if(_localLobby)
-
         LoadingPanel.Instance.Show(_loadingGameText);
 
         SetLocalUserStatus(PlayerStatus.InGame);

@@ -2,8 +2,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WaitingRoomUI : MonoBehaviour
+public class WaitingRoomUI : MenuBase
 {
+    public override MenuName Menu => MenuName.WaitingRoom;
+
     [Header("Is Private UI")]
     [SerializeField] private Button _isPrivateButton;
     [SerializeField] private TextMeshProUGUI _isPrivateTMP;
