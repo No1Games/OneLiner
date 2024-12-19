@@ -7,8 +7,10 @@ public class WaitingRoomUI : MenuBase
     public override MenuName Menu => MenuName.WaitingRoom;
 
     [Header("Is Private UI")]
-    [SerializeField] private Button _isPrivateButton;
-    [SerializeField] private TextMeshProUGUI _isPrivateTMP;
+    [SerializeField] private Button _privateButton;
+    [SerializeField] private Button _publicButton;
+    [SerializeField] private Animator _privateButtonAnimator;
+    [SerializeField] private Animator _publicButtonAnimator;
 
     [Header("Buttons")]
     [SerializeField] private Button _backButton;
@@ -52,7 +54,10 @@ public class WaitingRoomUI : MenuBase
         _gameManager = OnlineController.Instance;
 
         _backButton.onClick.AddListener(OnClick_BackButton);
-        _isPrivateButton.onClick.AddListener(OnClick_IsPrivateButton);
+
+        _privateButton.onClick.AddListener(OnClick_PrivateButton);
+        _publicButton.onClick.AddListener(OnClick_PublicButton);
+
         _createButton.onClick.AddListener(OnClick_CreateButtonAsync);
         _readyButton.onClick.AddListener(OnClick_ReadyButton);
 
@@ -85,19 +90,30 @@ public class WaitingRoomUI : MenuBase
 
         ClearPlayersList();
 
-        OnlineMenuManager.Instance.OpenLobbyList();
+        MainMenuManager.Instance.ChangeMenu(MenuName.RoomsList);
     }
 
-    private void OnClick_IsPrivateButton()
+    private void OnClick_PrivateButton()
     {
-        // TODO: CHECK FOR PREMIUM
+        // TODO: Check for PREM
 
-        _isPrivate = !_isPrivate;
+        _privateButtonAnimator.SetBool("Selected", true);
+        _publicButtonAnimator.SetBool("Selected", false);
 
-        _isPrivateTMP.text = _isPrivate ? "PRIVATE" : "PUBLIC";
+        _isPrivate = true;
 
         _chooseLeaderButton.gameObject.SetActive(_isPrivate);
+        _enableTimerButton.gameObject.SetActive(_isPrivate);
+    }
 
+    private void OnClick_PublicButton()
+    {
+        _publicButtonAnimator.SetBool("Selected", true);
+        _privateButtonAnimator.SetBool("Selected", false);
+
+        _isPrivate = false;
+
+        _chooseLeaderButton.gameObject.SetActive(_isPrivate);
         _enableTimerButton.gameObject.SetActive(_isPrivate);
     }
 
@@ -166,8 +182,6 @@ public class WaitingRoomUI : MenuBase
     {
         _createButton.gameObject.SetActive(true);
 
-        _isPrivateButton.gameObject.SetActive(true);
-
         _readyButton.gameObject.SetActive(false);
 
         _chooseLeaderButton.gameObject.SetActive(false);
@@ -178,6 +192,11 @@ public class WaitingRoomUI : MenuBase
         _enableTimerButton.gameObject.SetActive(false);
 
         _playersListUI.AddPlayer(_gameManager.LocalUser);
+
+        _privateButtonAnimator.SetBool("Selected", false);
+        _publicButtonAnimator.SetBool("Selected", true);
+
+        _isPrivate = false;
     }
 
     private void HostSetUp()
@@ -187,7 +206,9 @@ public class WaitingRoomUI : MenuBase
         _localLobby.onUserJoined += AddPlayer;
         _localLobby.onUserLeft += RemovePlayer;
 
-        _isPrivateButton.interactable = false;
+        _privateButton.interactable = false;
+        _publicButton.interactable = false;
+
         _createButton.gameObject.SetActive(false);
 
         _readyButton.gameObject.SetActive(true);
@@ -203,6 +224,9 @@ public class WaitingRoomUI : MenuBase
 
         _status = _gameManager.LocalUser.UserStatus.Value;
 
+        _privateButtonAnimator.SetBool("Selected", _isPrivate);
+        _publicButtonAnimator.SetBool("Selected", !_isPrivate);
+
         UpdatePlayersList();
     }
 
@@ -215,9 +239,14 @@ public class WaitingRoomUI : MenuBase
 
         _readyButton.gameObject.SetActive(true);
         _createButton.gameObject.SetActive(false);
-        _isPrivateButton.gameObject.SetActive(false);
+
+        _privateButton.interactable = false;
+        _publicButton.interactable = false;
 
         _isPrivate = _localLobby.Private.Value;
+
+        _privateButtonAnimator.SetBool("Selected", _isPrivate);
+        _publicButtonAnimator.SetBool("Selected", !_isPrivate);
 
         _chooseLeaderButton.gameObject.SetActive(_isPrivate);
         _chooseLeaderButton.interactable = false;

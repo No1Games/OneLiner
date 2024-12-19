@@ -143,6 +143,22 @@ MonoBehaviour:
     m_Localized: MODE
     m_Metadata:
       m_Items: []
+  - m_Id: 5155353477869568
+    m_Localized: PRIVATE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Localized: PUBLIC
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Localized: READY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5165164743454720
+    m_Localized: CREATE
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

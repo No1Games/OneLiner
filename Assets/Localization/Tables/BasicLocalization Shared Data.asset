@@ -123,6 +123,22 @@ MonoBehaviour:
     m_Key: ORL_RoomModeHeader
     m_Metadata:
       m_Items: []
+  - m_Id: 5155353477869568
+    m_Key: OWR_PrivateRoomButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Key: OWR_PublicRoomButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Key: OWR_ReadyButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5165164743454720
+    m_Key: OWR_CreateButton
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
