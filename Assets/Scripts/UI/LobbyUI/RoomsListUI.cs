@@ -156,6 +156,12 @@ public class RoomsListUI : MenuBase
 
     private void DeselectAll()
     {
+        if (_activeItems == null)
+        {
+            Debug.LogWarning("RoomsList active items is null");
+            return;
+        }
+
         foreach (var item in _activeItems)
         {
             item.Deselect();
