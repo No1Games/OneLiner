@@ -26,13 +26,13 @@ public class EndGameScreen : MonoBehaviour
         
         if (!teamWin)
         {
-            AudioManager.Instance.PlaySoundInMain(GameSounds.Game_Lose);
+            AudioManager.Instance.PlaySoundInAdditional(GameSounds.Game_Lose);
             loseContent.SetActive(true);
             winContent.SetActive(false);
         }
         else
         {
-            AudioManager.Instance.PlaySoundInMain(GameSounds.Game_Victory);
+            AudioManager.Instance.PlaySoundInAdditional(GameSounds.Game_Victory);
             winContent.SetActive(true);
             loseContent.SetActive(false);
             if (score <= 600) 

@@ -1618,7 +1618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -75, y: -30.000061}
+  m_AnchoredPosition: {x: -75, y: -30.000122}
   m_SizeDelta: {x: 985, y: 986}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &305548764
@@ -3097,10 +3097,10 @@ RectTransform:
   - {fileID: 1269279390}
   m_Father: {fileID: 239373831}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -408, y: -151.02}
-  m_SizeDelta: {x: 515.43, y: 138.37}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 559.66, y: 388.97998}
+  m_SizeDelta: {x: 529.14, y: 138.37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &615336101
 CanvasRenderer:
@@ -4669,7 +4669,7 @@ MonoBehaviour:
   drawenLines: {fileID: 49886116}
   warningText: {fileID: 1269279391}
   lives: 2
-  livesImage:
+  hearths:
   - {fileID: 1065003384}
   - {fileID: 1956860248}
   drawing: {fileID: 149930181}
@@ -5907,7 +5907,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 125, y: -30.000061}
+  m_AnchoredPosition: {x: 125, y: -30.000122}
   m_SizeDelta: {x: 985, y: 986}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1270525940

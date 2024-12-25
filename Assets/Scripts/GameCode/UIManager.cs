@@ -10,7 +10,6 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header("Panels")]
-    //[SerializeField] private GameObject startPanel;
     [SerializeField] private GameObject endPanel;
     [SerializeField] private GameObject wordPanel;
     [SerializeField] private GameObject settingsPanel;
@@ -35,7 +34,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Other")]
     public int lives = 2;
-    [SerializeField] private Animator[] livesImage;
+    [SerializeField] private List<GameObject> hearths;
+
     [SerializeField] private DrawingManager drawing;
     public PlayerScript playerToTrack;
     private string leaderWordText;
@@ -111,14 +111,14 @@ public class UIManager : MonoBehaviour
     public void OpenPlayerScreen() //коли вгадували слово чи підтвердили лінію чи вийшов час
     {
 
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Game_TurnChange);
+        
         if (drawingPanel.activeSelf)
         {
 
             StopDrawing();
         }
         OnTurnStarted?.Invoke();
-
+        AudioManager.Instance.PlaySoundInAdditional(GameSounds.Game_TurnChange);
 
 
     }
@@ -193,14 +193,15 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                if (lives > 1)
+                lives--;
+                hearths[lives].GetComponent<Animator>().Play("EmptyHeartAnimation");
+                
+                if (lives >= 1)
                 {
-                    AudioManager.Instance.PlaySoundInMain(GameSounds.Game_WrongWord);
-                    lives--;
-                    word.ShowWordAsWrong();
+                    AudioManager.Instance.PlaySoundInMain(GameSounds.Game_WrongWord);                   
+                   
+                    word.ShowWordAsWrong();           
 
-                   //livesImage[0].SetTrigger("BeGray"); //exception null ref
-                    
                     OnActionConfirmed.Invoke();
                     OpenPlayerScreen();
 
@@ -209,6 +210,7 @@ public class UIManager : MonoBehaviour
                 {
                     
                     endgamePanel.SetActive(true);
+                    int _score = OnGameEnded.Invoke();
                     endgamePanel.GetComponent<EndGameScreen>().SetFinaleScreen(leaderWordText, false);
 
 
