@@ -98,4 +98,18 @@ private void InitializeAccount(AccountData data)
         accountData.accountStatus = newStatus;
         SaveAccount();
     }
+
+    public void AddItemsToAccount(List<Item> items)
+    {
+        foreach(Item item in items)
+        {
+           
+                accountData.cosmeticCodes.Add(item.itemCode);
+            
+            
+        }
+        
+        SaveAccount();
+
+    }
 }

@@ -73,7 +73,7 @@ public class ShopPageManager : MonoBehaviour
     private void BueItem(Item item)
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        uiMenu.ShowPopup(item);
+        uiMenu.StartSinglePurchase(item);
     }
 
 

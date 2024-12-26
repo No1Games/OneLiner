@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -17,14 +18,7 @@ public class CustomizationMenuUi : MenuBase
     
     [SerializeField] private List<Tab> tabs;
 
-    [Header("Purchase PopUp")]
-    [SerializeField] private GameObject smallPurchasePanel;
-    [SerializeField] private Button sppYesBtn;
-    [SerializeField] private Button sppNoBtn;
-
-    [SerializeField] private GameObject notEnoughGemsPanel;
-    [SerializeField] private Button negNoBtn;
-    [SerializeField] private Button negYesBtn;
+    
 
     [Header("Preview")]
     [SerializeField] CustomizationDataManager customizationDataManager;
@@ -37,8 +31,9 @@ public class CustomizationMenuUi : MenuBase
 
     [SerializeField] private TextMeshProUGUI gems;
 
-    [SerializeField] private GemShop gemShop;
-
+    
+    
+    
 
     public override MenuName Menu => MenuName.CustomizationScreen;
     private void Awake()
@@ -46,7 +41,6 @@ public class CustomizationMenuUi : MenuBase
         Init();
         
     }
-
     public override void Init()
     {
         base.Init();
@@ -57,14 +51,12 @@ public class CustomizationMenuUi : MenuBase
         backBtn.onClick.AddListener(OnClick_backButton);
         applyBtn.onClick.AddListener(OnClick_applyButton);
 
-        negNoBtn.onClick.AddListener(OnClick_closePopUp);
-        negYesBtn.onClick.AddListener(OnClick_negYesButton);
-        sppYesBtn.onClick.AddListener(OnClick_sppYesButton);
-        sppNoBtn.onClick.AddListener(OnClick_closePopUp);
+        
 
         playerNameInputField.onEndEdit.AddListener(OnPlayerNameEditComplete);
-
         
+
+
 
     }
     public override void Show()
@@ -72,17 +64,26 @@ public class CustomizationMenuUi : MenuBase
         base.Show();
         UpdatePreview(customizationDataManager.GetPlayer());
     }
-
     private void OnClick_backButton()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        MainMenuManager.Instance.ChangeMenu(customizationDataManager.GetPreviousMenuName());
+
+        
+        if (customizationDataManager.CheckExitAbility())
+        {
+
+            customizationDataManager.ReturnDataToPreviousMenu();
+            MainMenuManager.Instance.ChangeMenu(customizationDataManager.GetPreviousMenuName());
+
+        }
+
+        
     }
+   
     private void OnClick_applyButton()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        customizationDataManager.ReturnDataToPreviousMenu();
-        MainMenuManager.Instance.ChangeMenu(customizationDataManager.GetPreviousMenuName());
+        customizationDataManager.ApplyCustomization();
         
     }
     private void OnClick_avatarShopBtn()
@@ -100,8 +101,6 @@ public class CustomizationMenuUi : MenuBase
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         SetActiveTab(3);
     }
-
-
     public void SetActiveTab(int tabIndex)
     {
         
@@ -122,45 +121,7 @@ public class CustomizationMenuUi : MenuBase
                 tab.contentPanel.SetActive(false);    
             }
         }
-    }
-
-    public void ShowPopup(Item item)
-    {
-        // Логіка відображення попапу
-        
-        if (GemManager.Instance.GetGems() >= item.cost)
-        {
-            smallPurchasePanel.SetActive(true);
-        }
-        else
-        {
-            notEnoughGemsPanel.SetActive(true);
-        }
-
-    }
-
-    private void OnClick_sppYesButton()
-    {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        //remove gems
-        //update shop icons
-    }
-    private void OnClick_negYesButton()
-    {
-        OnClick_closePopUp();
-        //open gem shop screen
-        MainMenuManager.Instance.ChangeMenu(MenuName.GemShop);
-        gemShop.SetPreviousMenu(Menu);
-        
-        
-    }
-    private void OnClick_closePopUp()
-    {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        smallPurchasePanel.SetActive(false);
-        notEnoughGemsPanel.SetActive(false);
-
-    }
+    }    
 
     // оновлює вигляд всіх компонентів на основі даних гравця.
     void UpdatePreview(PlayerScript player) 
@@ -197,7 +158,6 @@ public class CustomizationMenuUi : MenuBase
             }
         customizationDataManager.AddItems(item);
         }
-
     private void OnPlayerNameEditComplete(string inputName)
     {
         // Перевіряємо, чи введення є валідним
@@ -222,4 +182,11 @@ public class CustomizationMenuUi : MenuBase
             Debug.Log($"Name successfully updated to: {inputName}");
         }
     }
+
+    public void StartSinglePurchase(Item item) 
+    {
+        customizationDataManager.SigleBuy(item);
+    }
+
+
 }
