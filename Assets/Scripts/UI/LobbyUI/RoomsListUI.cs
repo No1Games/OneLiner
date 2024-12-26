@@ -12,7 +12,6 @@ public class RoomsListUI : MenuBase
     [Header("Rooms List Fields")]
     [SerializeField] private RoomItemUI _roomItemPrefab;
     [SerializeField] private Transform _container;
-    [SerializeField] private Image _separatorImage;
 
     [Header("Buttons")]
     [SerializeField] private Button _backButton;
@@ -80,6 +79,7 @@ public class RoomsListUI : MenuBase
         item.gameObject.transform.SetParent(_container, false);
         item.SetLocalLobby(lobby);
         item.LobbySelectedEvent += OnLobbySelected;
+        item.JoinLobbyEvent += OnJoinLobbyClicked;
 
         _activeItems.Add(item);
     }
@@ -88,6 +88,8 @@ public class RoomsListUI : MenuBase
     {
         foreach (var item in _activeItems)
         {
+            item.LobbySelectedEvent -= OnLobbySelected;
+            item.JoinLobbyEvent -= OnJoinLobbyClicked;
             _itemPool.ReturnObject(item);
         }
 

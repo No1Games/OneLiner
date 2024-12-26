@@ -159,6 +159,10 @@ MonoBehaviour:
     m_Localized: CREATE
     m_Metadata:
       m_Items: []
+  - m_Id: 7581146829123584
+    m_Localized: UNREADY
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

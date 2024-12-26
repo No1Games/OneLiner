@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using UnityEngine;
 
@@ -9,12 +10,22 @@ public class Initializer : MonoBehaviour
     {
         LoadingPanel.Instance.Show("Loading...");
 
-        await InitializeServices();
+        await TryInitServices();
+
+        await TrySignIn();
 
         LoadingPanel.Instance.Hide();
     }
 
-    public async Task InitializeServices()
+    public static async Task TryInitServices()
+    {
+        if (UnityServices.State == ServicesInitializationState.Uninitialized)
+        {
+            await UnityServices.InitializeAsync();
+        }
+    }
+
+    public static async Task TrySignIn()
     {
         string serviceProfileName = $"player{Guid.NewGuid()}";
 

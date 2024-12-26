@@ -265,6 +265,8 @@ public class LobbyManager : IDisposable
         try
         {
             _joinedLobby = await LobbyService.Instance.UpdatePlayerAsync(_joinedLobby.Id, playerId, updateOptions);
+
+            Debug.Log("User Data Updated");
         }
         catch (Exception ex)
         {
@@ -373,6 +375,7 @@ public class LobbyManager : IDisposable
                     var changedValue = playerChange.Value;
 
                     //There are changes on some of the changes in the player list of changes
+
                     var playerDataObject = changedValue.Value;
                     ParseCustomPlayerData(localPlayer, playerChange.Key, playerDataObject.Value);
                 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 /// <summary>
@@ -12,8 +11,6 @@ public class Countdown : MonoBehaviour
 
     private CountdownUI _ui;
     private const int _countdownTime = 4;
-
-    public event Action CountdownFinishedEvent;
 
     private OnlineController _gameManager;
 
@@ -65,7 +62,7 @@ public class Countdown : MonoBehaviour
 
         if (TimeLeft.Value < 0)
         {
-            CountdownFinishedEvent?.Invoke();
+            _gameManager.OnCountdownFinished();
         }
     }
 }

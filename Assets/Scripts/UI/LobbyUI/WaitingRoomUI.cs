@@ -18,10 +18,8 @@ public class WaitingRoomUI : MenuBase
 
     [Header("Ready Menu")]
     [SerializeField] private Button _readyButton;
-    [SerializeField] private TextMeshProUGUI _readyButtonTMP;
+    [SerializeField] private Button _unreadyButton;
     [SerializeField] private Countdown _countdown;
-    [SerializeField] private string _cancelStr = "CANCEL";
-    [SerializeField] private string _readyStr = "READY";
 
     [Space]
     [SerializeField] private PlayersListUI _playersListUI;
@@ -60,11 +58,15 @@ public class WaitingRoomUI : MenuBase
 
         _createButton.onClick.AddListener(OnClick_CreateButtonAsync);
         _readyButton.onClick.AddListener(OnClick_ReadyButton);
+        _unreadyButton.onClick.AddListener(OnClick_UnreadyButton);
 
         _randomLeaderButton.onClick.AddListener(OnClick_RandomLeaderButton);
 
         _timerSlider.onValueChanged.AddListener(OnValueChanged_TimerSlider);
         _enableTimerButton.onClick.AddListener(OnClick_EnableTimerButton);
+
+        _gameManager.AllPlayersReadyEvent += OnPlayersReady;
+        _gameManager.PlayerNotReadyEvent += OnPlayerUnready;
     }
 
     #region UI Events Handlers
@@ -119,18 +121,24 @@ public class WaitingRoomUI : MenuBase
 
     private void OnClick_ReadyButton()
     {
-        if (_status == PlayerStatus.Lobby)
-        {
-            _status = PlayerStatus.Ready;
-        }
-        else if (_status == PlayerStatus.Ready)
-        {
-            _status = PlayerStatus.Lobby;
-        }
+        _status = PlayerStatus.Ready;
 
         _gameManager.SetLocalUserStatus(_status);
 
-        _readyButtonTMP.text = _status == PlayerStatus.Ready ? _cancelStr : _readyStr;
+        _unreadyButton.gameObject.SetActive(true);
+
+        _readyButton.gameObject.SetActive(false);
+    }
+
+    private void OnClick_UnreadyButton()
+    {
+        _status = PlayerStatus.Lobby;
+
+        _gameManager.SetLocalUserStatus(_status);
+
+        _readyButton.gameObject.SetActive(true);
+
+        _unreadyButton.gameObject.SetActive(false);
     }
 
     private void OnClick_ChooseLeaderButton()
@@ -159,6 +167,19 @@ public class WaitingRoomUI : MenuBase
     }
 
     #endregion
+
+    private void OnPlayersReady()
+    {
+        _unreadyButton.gameObject.SetActive(false);
+
+        _countdown.gameObject.SetActive(true);
+    }
+
+    private void OnPlayerUnready()
+    {
+        _unreadyButton.gameObject.SetActive(true);
+        _countdown.gameObject.SetActive(false);
+    }
 
     public void Show(bool isCreate)
     {

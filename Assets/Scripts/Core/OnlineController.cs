@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
+using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -52,8 +53,6 @@ public class OnlineController : MonoBehaviour
     private const string _gameSceneName = "OnlineGameScene";
     private const string _loadingGameText = "Starting your game...";
 
-    [SerializeField] private Countdown _countdown;
-
     private void Awake()
     {
         if (_instance == null)
@@ -72,15 +71,19 @@ public class OnlineController : MonoBehaviour
         _localLobby = new LocalLobby { LocalLobbyState = { Value = LobbyState.Lobby } };
         LobbyManager = new LobbyManager();
 
-        _countdown.CountdownFinishedEvent += OnCountdownFinished;
-
         AuthenticatePlayer();
 
         QueryLobbies();
     }
 
-    void AuthenticatePlayer()
+    async void AuthenticatePlayer()
     {
+        if (UnityServices.State == ServicesInitializationState.Uninitialized)
+        {
+            await Initializer.TryInitServices();
+            await Initializer.TrySignIn();
+        }
+
         var localId = AuthenticationService.Instance.PlayerId;
 
         // TODO: GET NAME FROM PLAYER PREFS OR ACCOUNT
@@ -94,21 +97,23 @@ public class OnlineController : MonoBehaviour
 
     private void OnPlayersReady(int readyCount)
     {
+        Debug.Log($"Players Ready Changed. Ready Count: {readyCount}");
+
         if (readyCount == _localLobby.PlayerCount &&
             _localLobby.LocalLobbyState.Value != LobbyState.CountDown)
         {
-            _localLobby.LocalLobbyState.Value = LobbyState.CountDown;
-            SendLocalLobbyData();
+            SetLocalLobbyState(LobbyState.CountDown);
         }
         else if (_localLobby.LocalLobbyState.Value == LobbyState.CountDown)
         {
-            _localLobby.LocalLobbyState.Value = LobbyState.Lobby;
-            SendLocalLobbyData();
+            SetLocalLobbyState(LobbyState.Lobby);
         }
     }
 
     private void OnLobbyStateChanged(LobbyState state)
     {
+        Debug.Log($"Lobby state have been changed to {state}");
+
         switch (state)
         {
             case LobbyState.Lobby: PlayerNotReadyEvent?.Invoke(); break;
@@ -117,7 +122,7 @@ public class OnlineController : MonoBehaviour
         }
     }
 
-    private void OnCountdownFinished()
+    public void OnCountdownFinished()
     {
         StartGame();
     }
@@ -136,6 +141,7 @@ public class OnlineController : MonoBehaviour
 
         ChangeScene();
 
+        LoadingPanel.Instance.Hide();
     }
 
     private void ChangeScene()
@@ -158,6 +164,8 @@ public class OnlineController : MonoBehaviour
 
     public void SetLocalUserStatus(PlayerStatus status)
     {
+        Debug.Log($"User {_localUser.DisplayName.Value} changed status to {status}");
+
         _localUser.UserStatus.Value = status;
 
         SendLocalUserData();
@@ -171,6 +179,13 @@ public class OnlineController : MonoBehaviour
     #endregion
 
     #region Local Lobby Setters
+
+    public void SetLocalLobbyState(LobbyState state)
+    {
+        _localLobby.LocalLobbyState.Value = state;
+
+        SendLocalLobbyData();
+    }
 
     public void SetLocalLobbyLeader(string id)
     {
@@ -229,7 +244,9 @@ public class OnlineController : MonoBehaviour
     private async Task CreateLobby()
     {
         _localUser.IsHost.Value = true;
+
         _localLobby.onUserReadyChange += OnPlayersReady;
+
         try
         {
             await BindLobby();
