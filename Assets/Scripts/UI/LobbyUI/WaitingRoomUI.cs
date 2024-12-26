@@ -67,6 +67,8 @@ public class WaitingRoomUI : MenuBase
 
         _gameManager.AllPlayersReadyEvent += OnPlayersReady;
         _gameManager.PlayerNotReadyEvent += OnPlayerUnready;
+
+        _countdown.CountdownFinishedEvent += OnCountdownFinished;
     }
 
     #region UI Events Handlers
@@ -173,12 +175,20 @@ public class WaitingRoomUI : MenuBase
         _unreadyButton.gameObject.SetActive(false);
 
         _countdown.gameObject.SetActive(true);
+        _countdown.StartCountDown();
     }
 
     private void OnPlayerUnready()
     {
         _unreadyButton.gameObject.SetActive(true);
+
+        _countdown.CancelCountDown();
         _countdown.gameObject.SetActive(false);
+    }
+
+    private void OnCountdownFinished()
+    {
+        _gameManager.OnCountdownFinished();
     }
 
     public void Show(bool isCreate)

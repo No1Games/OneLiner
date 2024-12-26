@@ -17,9 +17,6 @@ public class CountdownUI : MonoBehaviour
 
     public void OnTimeChanged(float time)
     {
-        if (time <= 0)
-            _countDownTMP.SetText("Waiting for all players...");
-        else
-            _countDownTMP.SetText($"Starting in: {time:0}");
+        _countDownTMP.SetText($"{time:0}");
     }
 }

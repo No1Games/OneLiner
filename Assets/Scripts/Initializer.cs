@@ -22,6 +22,8 @@ public class Initializer : MonoBehaviour
         if (UnityServices.State == ServicesInitializationState.Uninitialized)
         {
             await UnityServices.InitializeAsync();
+
+            (LobbyService.Instance as ILobbyServiceSDKConfiguration).EnableLocalPlayerLobbyEvents(true);
         }
     }
 
@@ -30,8 +32,6 @@ public class Initializer : MonoBehaviour
         string serviceProfileName = $"player{Guid.NewGuid()}";
 
         var result = await UnityServiceAuthenticator.TrySignInAsync(serviceProfileName.Substring(0, 30));
-
-        (LobbyService.Instance as ILobbyServiceSDKConfiguration).EnableLocalPlayerLobbyEvents(true);
 
         Debug.Log($"Services Authentification Result: {result}");
     }

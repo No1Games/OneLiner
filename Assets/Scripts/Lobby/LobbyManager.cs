@@ -265,8 +265,6 @@ public class LobbyManager : IDisposable
         try
         {
             _joinedLobby = await LobbyService.Instance.UpdatePlayerAsync(_joinedLobby.Id, playerId, updateOptions);
-
-            Debug.Log("User Data Updated");
         }
         catch (Exception ex)
         {

@@ -97,8 +97,6 @@ public class OnlineController : MonoBehaviour
 
     private void OnPlayersReady(int readyCount)
     {
-        Debug.Log($"Players Ready Changed. Ready Count: {readyCount}");
-
         if (readyCount == _localLobby.PlayerCount &&
             _localLobby.LocalLobbyState.Value != LobbyState.CountDown)
         {
@@ -112,8 +110,6 @@ public class OnlineController : MonoBehaviour
 
     private void OnLobbyStateChanged(LobbyState state)
     {
-        Debug.Log($"Lobby state have been changed to {state}");
-
         switch (state)
         {
             case LobbyState.Lobby: PlayerNotReadyEvent?.Invoke(); break;
@@ -164,8 +160,6 @@ public class OnlineController : MonoBehaviour
 
     public void SetLocalUserStatus(PlayerStatus status)
     {
-        Debug.Log($"User {_localUser.DisplayName.Value} changed status to {status}");
-
         _localUser.UserStatus.Value = status;
 
         SendLocalUserData();
