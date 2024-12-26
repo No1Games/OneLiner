@@ -12,6 +12,7 @@ public class PlayerPanelUI : MonoBehaviour
     [SerializeField] private Image _nameBackImage;
     [SerializeField] private Image _avatarImage;
     [SerializeField] private Image _avatarBackImage;
+    [SerializeField] private Animator _readyImageAnimator;
     [SerializeField] private GameObject _crownGO;
 
     public void SetLocalPlayer(LocalPlayer localPlayer)
@@ -22,6 +23,7 @@ public class PlayerPanelUI : MonoBehaviour
         SetNameBack(localPlayer.NameBackID.Value);
         SetAvatarImage(localPlayer.AvatarID.Value);
         SetAvatarBackImage(localPlayer.AvatarBackID.Value);
+        SetStatus(localPlayer.UserStatus.Value);
 
         SubscribeOnPlayerChanges();
     }
@@ -54,6 +56,7 @@ public class PlayerPanelUI : MonoBehaviour
         _localPlayer.AvatarID.onChanged += SetAvatarImage;
         _localPlayer.AvatarBackID.onChanged += SetAvatarBackImage;
         _localPlayer.NameBackID.onChanged += SetNameBack;
+        _localPlayer.UserStatus.onChanged += SetStatus;
     }
 
     private void OnDestroy()
@@ -76,6 +79,9 @@ public class PlayerPanelUI : MonoBehaviour
 
             if (_localPlayer.NameBackID.onChanged != null)
                 _localPlayer.NameBackID.onChanged -= SetNameBack;
+
+            if (_localPlayer.UserStatus.onChanged != null)
+                _localPlayer.UserStatus.onChanged -= SetStatus;
         }
 
         if (_localLobby != null)
@@ -108,5 +114,10 @@ public class PlayerPanelUI : MonoBehaviour
     private void SetIsLeader(string leaderID)
     {
         _crownGO.SetActive(leaderID == _localPlayer.ID.Value);
+    }
+
+    private void SetStatus(PlayerStatus status)
+    {
+        _readyImageAnimator.SetBool("IsReady", status == PlayerStatus.Ready);
     }
 }

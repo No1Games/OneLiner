@@ -373,6 +373,7 @@ public class LobbyManager : IDisposable
                     var changedValue = playerChange.Value;
 
                     //There are changes on some of the changes in the player list of changes
+
                     var playerDataObject = changedValue.Value;
                     ParseCustomPlayerData(localPlayer, playerChange.Key, playerDataObject.Value);
                 }

@@ -7,19 +7,18 @@ public class CountdownUI : MonoBehaviour
 
     public void Show()
     {
+        Debug.Log("Countdown ui show");
         _countDownTMP.enabled = true;
     }
 
     public void Hide()
     {
+        Debug.Log("Countdown ui hide");
         _countDownTMP.enabled = false;
     }
 
     public void OnTimeChanged(float time)
     {
-        if (time <= 0)
-            _countDownTMP.SetText("Waiting for all players...");
-        else
-            _countDownTMP.SetText($"Starting in: {time:0}");
+        _countDownTMP.SetText($"{time:0}");
     }
 }
