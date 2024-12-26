@@ -69,6 +69,8 @@ public class WaitingRoomUI : MenuBase
         _gameManager.PlayerNotReadyEvent += OnPlayerUnready;
 
         _countdown.CountdownFinishedEvent += OnCountdownFinished;
+
+        _countdown.gameObject.SetActive(true);
     }
 
     #region UI Events Handlers

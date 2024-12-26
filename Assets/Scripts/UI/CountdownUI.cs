@@ -7,11 +7,13 @@ public class CountdownUI : MonoBehaviour
 
     public void Show()
     {
+        Debug.Log("Countdown ui show");
         _countDownTMP.enabled = true;
     }
 
     public void Hide()
     {
+        Debug.Log("Countdown ui hide");
         _countDownTMP.enabled = false;
     }
 

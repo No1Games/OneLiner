@@ -19,7 +19,7 @@ public class Countdown : MonoBehaviour
         TimeLeft.onChanged += _ui.OnTimeChanged;
         TimeLeft.Value = -1;
 
-        //_ui.Hide();
+        _ui.Hide();
     }
 
     private void OnDestroy()
@@ -37,6 +37,7 @@ public class Countdown : MonoBehaviour
 
     public void CancelCountDown()
     {
+        Debug.Log("Cancel countdown");
         TimeLeft.Value = -1;
 
         _ui.Hide();
