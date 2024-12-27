@@ -76,7 +76,7 @@ public class SettingsMenu_MM : MenuBase
     private void OnClick_messageUs()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        localSelector.ChooseLocal(3);
+        
 
     }
     private void OnClick_confidentialPolicy()

@@ -12,7 +12,7 @@ public class GemShop : MenuBase
     [SerializeField] private Button thirdTierBtn;
     [SerializeField] private Button maxTierBtn;
 
-    private MenuName previousMenu;
+    
     public override MenuName Menu => MenuName.GemShop;
 
     private void Start()
@@ -38,15 +38,12 @@ public class GemShop : MenuBase
         Debug.Log("Total gems now " + GemManager.Instance.GetGems());
     }
 
-    public void SetPreviousMenu(MenuName menu)
-    {
-        previousMenu = menu;
-    }
+    
 
     private void OnClick_BackButton()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        MainMenuManager.Instance.ChangeMenu(previousMenu);
+        MainMenuManager.Instance.ChangeMenuToPrevious();
     }
 
 

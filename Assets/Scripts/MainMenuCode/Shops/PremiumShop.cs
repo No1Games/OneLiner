@@ -39,7 +39,7 @@ public class PremiumShop : MenuBase
     private void OnClick_BackButton()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        MainMenuManager.Instance.ChangeMenu(MenuName.MainShop);
+        MainMenuManager.Instance.ChangeMenuToPrevious();
     }
 
 }

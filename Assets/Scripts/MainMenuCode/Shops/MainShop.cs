@@ -47,7 +47,7 @@ public class MainShop : MenuBase
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         InfoScreenController(false);
         MainMenuManager.Instance.ChangeMenu(MenuName.GemShop);
-        gemShop.SetPreviousMenu(Menu);
+        
     }
     private void OnClick_PremiumShopButton()
     {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class MainMenuManager : MonoBehaviour
@@ -9,16 +10,22 @@ public class MainMenuManager : MonoBehaviour
 
     [SerializeField] private List<MenuBase> _menus;
 
+    private MenuName _currentMenu;
+    private Stack<MenuName> _stackMenus = new();
+
     [Space]
     [SerializeField] private BGImageController _bgController;
 
     private void Awake()
     {
         _instance = this;
+        _currentMenu = MenuName.MainScreen;
     }
 
     public void ChangeMenu(MenuName menu)
     {
+        _stackMenus.Push(_currentMenu);
+        _currentMenu = menu;
         foreach (var m in _menus)
         {
             if (m.Menu == menu)
@@ -48,8 +55,19 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
+    public void ChangeMenuToPrevious()
+    {
+      
+                ChangeMenu(_stackMenus.Peek());
+            
+            
+        
+    }
+
     public void OpenMenu(MenuName menu)
     {
+        _stackMenus.Push(_currentMenu);
+        _currentMenu = menu;
         _menus.Find(m => m.Menu == menu).Show();
     }
 
