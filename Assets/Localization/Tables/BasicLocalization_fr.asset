@@ -116,6 +116,114 @@ MonoBehaviour:
     m_Localized: MINUTEUR
     m_Metadata:
       m_Items: []
+  - m_Id: 10223252384940032
+    m_Localized: Il semble que vous ayez choisi une ou plusieurs choses qui ne sont
+      pas encore disponibles pour vous.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223255107043328
+    m_Localized: "Mais il y a une bonne nouvelle ! Vous avez suffisamment de pierres
+      pour les d\xE9bloquer !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223257585876992
+    m_Localized: Voulez-vous acheter de nouveaux objets ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223259603337216
+    m_Localized: 'Montant total :'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223261851484160
+    m_Localized: "Malheureusement, vous n'avez pas assez de gemmes pour les d\xE9bloquer
+      !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223263323684864
+    m_Localized: Voulez-vous visiter la boutique pour acheter plus de gemmes ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223264196100096
+    m_Localized: 'Manquant :'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265034960896
+    m_Localized: "Malheureusement, certains d'entre eux n\xE9cessitent un niveau
+      de profil plus \xE9lev\xE9 pour \xEAtre d\xE9bloqu\xE9s."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265806712832
+    m_Localized: "Continuez \xE0 jouer et vous pourrez bient\xF4t tous les d\xE9bloquer
+      !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223266586853376
+    m_Localized: "Les joueurs Premium gagnent trois fois plus d'exp\xE9rience ! Souhaitez-vous
+      acheter Premium ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223267417325568
+    m_Localized: "Malheureusement, certains d'entre eux n\xE9cessitent un niveau
+      de profil plus \xE9lev\xE9 et n'ont pas encore \xE9t\xE9 achet\xE9s."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223268256186368
+    m_Localized: "Essayez de s\xE9lectionner une combinaison diff\xE9rente de d\xE9corations
+      de profil."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223269904547840
+    m_Localized: "Vous \xEAtes sur le point de quitter la personnalisation."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223270936346624
+    m_Localized: "Mais vous avez des modifications non enregistr\xE9es."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223271875870720
+    m_Localized: "Voulez-vous quand m\xEAme quitter ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4354233650212864
+    m_Localized: "CR\xC9ER UNE PI\xC8CE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Localized: "REJOINDRE PRIV\xC9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Localized: "D\xE9marrage rapide"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Localized: "PI\xC8CE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Localized: MODE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155353477869568
+    m_Localized: "PRIV\xC9E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Localized: PUBLIC
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Localized: "PR\xCAT"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5165164743454720
+    m_Localized: "CR\xC9ER"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7581146829123584
+    m_Localized: "PAS PR\xCAT"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

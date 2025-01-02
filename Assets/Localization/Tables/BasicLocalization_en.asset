@@ -163,6 +163,69 @@ MonoBehaviour:
     m_Localized: UNREADY
     m_Metadata:
       m_Items: []
+  - m_Id: 10223252384940032
+    m_Localized: "It looks like you\u2019ve selected one or more items that are currently
+      locked.\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223255107043328
+    m_Localized: "But here\u2019s the good news! You have enough gems to unlock them!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223257585876992
+    m_Localized: Would you like to purchase the new items?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223259603337216
+    m_Localized: 'Total cost:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223261851484160
+    m_Localized: "Unfortunately, you don\u2019t have enough gems to unlock them! "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223263323684864
+    m_Localized: Would you like to visit the store to purchase more gems?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223264196100096
+    m_Localized: 'Missing:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265034960896
+    m_Localized: Unfortunately, some of them require a higher profile level to unlock.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265806712832
+    m_Localized: "Keep playing, and you\u2019ll be able to unlock them all soon!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223266586853376
+    m_Localized: Premium players earn three times more experience! Would you like
+      to purchase Premium?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223267417325568
+    m_Localized: "Unfortunately, some of them require a higher profile level and
+      haven\u2019t been purchased yet."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223268256186368
+    m_Localized: Try selecting a different combination of profile decorations.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223269904547840
+    m_Localized: You are about to exit customization.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223270936346624
+    m_Localized: But you have unsaved changes.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223271875870720
+    m_Localized: Do you still want to exit?
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

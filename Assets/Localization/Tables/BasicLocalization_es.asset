@@ -116,6 +116,112 @@ MonoBehaviour:
     m_Localized: TEMPORIZADOR
     m_Metadata:
       m_Items: []
+  - m_Id: 10223252384940032
+    m_Localized: "Parece que has seleccionado una o varias cosas que a\xFAn no est\xE1n
+      disponibles para ti."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223255107043328
+    m_Localized: "\xA1Pero hay buenas noticias! \xA1Tienes suficientes piedras para
+      desbloquearlas!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223257585876992
+    m_Localized: "\xBFQuieres comprar cosas nuevas?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223259603337216
+    m_Localized: 'Cantidad total:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223261851484160
+    m_Localized: "\xA1Desafortunadamente, no tienes suficientes gemas para desbloquearlas!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223263323684864
+    m_Localized: "\xBFTe gustar\xEDa visitar la tienda para comprar m\xE1s gemas?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265034960896
+    m_Localized: "Desafortunadamente, algunos de ellos requieren un nivel de perfil
+      m\xE1s alto para desbloquearlos."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223264196100096
+    m_Localized: 'Faltante:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265806712832
+    m_Localized: "\xA1Sigue jugando y pronto podr\xE1s desbloquearlos todos!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223266586853376
+    m_Localized: "\xA1Los jugadores Premium ganan tres veces m\xE1s experiencia!
+      \xBFTe gustar\xEDa comprar Premium?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223267417325568
+    m_Localized: "Desafortunadamente, algunos de ellos requieren un nivel de perfil
+      m\xE1s alto y a\xFAn no han sido comprados."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223268256186368
+    m_Localized: "Intenta seleccionar una combinaci\xF3n diferente de decoraciones
+      de perfil."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223269904547840
+    m_Localized: "Est\xE1s a punto de salir de la personalizaci\xF3n."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223270936346624
+    m_Localized: Pero tienes cambios no guardados.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223271875870720
+    m_Localized: "\xBFQuieres salir de todos modos?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4354233650212864
+    m_Localized: "CREAR UNA HABITACI\xD3N"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Localized: UNIRSE A PRIVADO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Localized: "Inicio r\xE1pido"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Localized: "HABITACI\xD3N"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Localized: MODO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155353477869568
+    m_Localized: PRIVADO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Localized: "P\xDABLICO"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Localized: LISTO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5165164743454720
+    m_Localized: CREAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7581146829123584
+    m_Localized: NO LISTO
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

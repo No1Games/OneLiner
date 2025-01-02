@@ -118,6 +118,114 @@ MonoBehaviour:
     m_Localized: TIMER
     m_Metadata:
       m_Items: []
+  - m_Id: 10223252384940032
+    m_Localized: "Wygl\u0105da na to, \u017Ce wybra\u0142e\u015B jedn\u0105 lub kilka
+      rzeczy, kt\xF3re s\u0105 obecnie dla ciebie niedost\u0119pne."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223255107043328
+    m_Localized: "Ale s\u0105 dobre wie\u015Bci! Masz wystarczaj\u0105co du\u017Co
+      kamieni, aby je odblokowa\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223257585876992
+    m_Localized: "Chcesz kupi\u0107 nowe rzeczy?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223259603337216
+    m_Localized: "Kwota ca\u0142kowita:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223261851484160
+    m_Localized: "Niestety, nie masz wystarczaj\u0105co du\u017Co kamieni szlachetnych,
+      aby je odblokowa\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223263323684864
+    m_Localized: "Chcesz odwiedzi\u0107 sklep, aby kupi\u0107 wi\u0119cej kamieni
+      szlachetnych?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223264196100096
+    m_Localized: 'Brakuje:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265034960896
+    m_Localized: "Niestety, niekt\xF3re z nich wymagaj\u0105 wy\u017Cszego poziomu
+      profilu, aby je odblokowa\u0107."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265806712832
+    m_Localized: "Graj dalej, a wkr\xF3tce b\u0119dziesz m\xF3g\u0142 je wszystkie
+      odblokowa\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223266586853376
+    m_Localized: "Gracze Premium zdobywaj\u0105 trzy razy wi\u0119cej do\u015Bwiadczenia!
+      Chcesz kupi\u0107 Premium?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223267417325568
+    m_Localized: "Niestety, niekt\xF3re z nich wymagaj\u0105 wy\u017Cszego poziomu
+      profilu i nie zosta\u0142y jeszcze zakupione."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223268256186368
+    m_Localized: "Spr\xF3buj wybra\u0107 inn\u0105 kombinacj\u0119 dekoracji profilu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223269904547840
+    m_Localized: Zaraz wyjdziesz z personalizacji.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223270936346624
+    m_Localized: Ale masz niezapisane zmiany.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223271875870720
+    m_Localized: "Chcesz mimo to wyj\u015B\u0107?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4354233650212864
+    m_Localized: "STW\xD3RZ POK\xD3J"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Localized: "DO\u0141\u0104CZ DO PRYWATNEGO"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Localized: Szybki start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Localized: "POK\xD3J"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Localized: TRYB
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155353477869568
+    m_Localized: PRYWATNY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Localized: PUBLICZNY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Localized: GOTOWY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5165164743454720
+    m_Localized: "STWORZY\u0106"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7581146829123584
+    m_Localized: NIE GOTOWY
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
