@@ -1,49 +1,85 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class IngameData : MonoBehaviour
 {
 
-    
+    // Singleton instance
+    public static IngameData Instance { get; private set; }
 
-    public static IngameData Instance;
+    // Players list
+    private List<PlayerScript> players = new List<PlayerScript>();
+    public List<PlayerScript> Players
+    {
+        get => players;
+        set => players = value;
+    }
 
-    public List<PlayerScript> players = new List<PlayerScript>();
+    // Timer settings
+    private bool isTimerOn;
+    public bool IsTimerOn
+    {
+        get => isTimerOn;
+        set => isTimerOn = value;
 
-    private GameModes selectedMode = GameModes.Coop;
-    
-    
+    }
+
+    private int timerDuration;
+    public int TimerDuration
+    {
+        get => timerDuration;
+        set => timerDuration = value;
+    }
+
+    // Role-specific settings
+    private PlayerRole roleKnowsWord;
+    public PlayerRole RoleKnowsWord
+    {
+        get => roleKnowsWord;
+        set => roleKnowsWord = value;
+    }
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // «бер≥гаЇмо об'Їкт м≥ж сценами
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    public void SetGameMode(GameModes mode)
+    // Method to reset IngameData when returning to the main menu
+    public void ResetData()
     {
-        selectedMode = mode;
+        players.Clear();
+        isTimerOn = true;
+        timerDuration = 60;
+        roleKnowsWord = PlayerRole.NotSetYet;
     }
 
-    public GameModes GetGameMode()
+    // Method to initialize players
+    public void InitializePlayers(List<PlayerScript> newPlayers)
     {
-        return selectedMode;
+        Players = newPlayers;
     }
 
+    // Method to initialize timer
+    public void InitializeTimer(bool timerOn, int duration)
+    {
+        IsTimerOn = timerOn;
+        TimerDuration = duration;
+    }
+
+    // Method to set role information
+    public void SetRoleKnowsWord(PlayerRole role)
+    {
+        RoleKnowsWord = role;
+    }
 
 }
 
-public enum GameModes
-{
-    Coop,
-    ReversCoop,
 
-
-}

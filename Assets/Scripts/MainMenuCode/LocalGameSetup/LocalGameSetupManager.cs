@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LocalGameSetupManager : MonoBehaviour
 {
@@ -16,8 +19,15 @@ public class LocalGameSetupManager : MonoBehaviour
     private List<GameObject> playersPlates = new();
     [SerializeField] private AccountManager accountManager;
     [SerializeField] private CustomizationDataManager customizationDataManager;
+    [SerializeField] private LGS_TimerController timerController;
 
     private LocalGameSetup_Func lgsFunc;
+
+    
+    private PlayerRole roleKnowsTheWord;
+
+    private event Action OnLevelStarts; 
+
     
 
     private void Awake()
@@ -30,6 +40,7 @@ public class LocalGameSetupManager : MonoBehaviour
         localSetupUI.OnChooseLeaderBtnClick += SelectLeader;
 
         customizationDataManager.OnCustomizationEnds += PlateVisualUpdate;
+        OnLevelStarts += timerController.UpdateIngameData;
     }
 
     private void AddPlayer()
@@ -115,6 +126,7 @@ public class LocalGameSetupManager : MonoBehaviour
         if (players.Count >= minPlayers)
         {
             AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Play);
+            OnLevelStarts?.Invoke();
             lgsFunc.NextLevel(players);
 
         }
