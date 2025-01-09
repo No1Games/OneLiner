@@ -18,12 +18,13 @@ public class ModeMenu : MonoBehaviour
 
     private bool modeSelectionIsActive;
 
-    public event Action<ModeInfo> OnModeSelected;
+    public event Action OnModeSelected;
 
     private void Awake()
     {
         Init();
     }
+   
 
     private void Init()
     {
@@ -33,6 +34,12 @@ public class ModeMenu : MonoBehaviour
         rightButton.onClick.AddListener(MoveRight);
         confirmButton.onClick.AddListener(ConfirmSelection);
 
+        Debug.Log($"Mode Params: Current Mode = {modePanels[currentIndex].GetComponent<ModeInfo>().modeName}, Min Players = {modePanels[currentIndex].GetComponent<ModeInfo>().playersMin}");
+
+    }
+    public ModeInfo GetCurrentModeInfo()
+    {
+        return modePanels[currentIndex].GetComponent<ModeInfo>();
     }
 
     private void ActivateGameModePanel(GameModes mode)
@@ -135,14 +142,19 @@ public class ModeMenu : MonoBehaviour
             modeSelectAnimator.Play("ModeScreenUpAnimation");
 
             // Надсилаємо подію про обраний режим
-            ModeInfo selectedModeInfo = modePanels[currentIndex].GetComponent<ModeInfo>();
-            if (selectedModeInfo != null && OnModeSelected != null)
-            {
-                OnModeSelected.Invoke(selectedModeInfo);
-            }
+            OnModeSelected?.Invoke();
+            
+
+
+
         }
     }
 
+    public ModeInfo GetModeInfo()
+    {
+         
+        return modePanels[currentIndex].GetComponent<ModeInfo>();
+    }
 
 }
 

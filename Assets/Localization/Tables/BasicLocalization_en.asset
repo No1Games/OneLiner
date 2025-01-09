@@ -226,6 +226,22 @@ MonoBehaviour:
     m_Localized: Do you still want to exit?
     m_Metadata:
       m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: ' REVERSE'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "In this mode, all players are united with a single goal \u2013
+      to guess the word chosen by the game. All players except the host know which
+      word was chosen. The game begins with the player next in line after the host,
+      who draws a line. After that, the turn passes to the host, who draws a line
+      connected to the existing one. After each host's turn, the next player takes
+      their turn. The host's goal is to guess the word based on the drawing. The
+      fewer moves, the more points the team earns. There is no limit to the number
+      of moves. Hearts can only be used for guessing words and are shared among all
+      players."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

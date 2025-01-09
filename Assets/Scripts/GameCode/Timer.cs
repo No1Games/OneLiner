@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] private float maxTime;
+    private float maxTime;
     private float currentTime;
     [SerializeField] private TMP_Text timeText;
     private bool switcher = false;
@@ -53,7 +53,7 @@ public class Timer : MonoBehaviour
             TimerEnds();
         }
         
-        int timeToShow = Mathf.FloorToInt(currentTime % 60);
+        int timeToShow = Mathf.FloorToInt(currentTime % maxTime);
         if (timeToShow <= 10 && timeToShow > 0)
         {
             StartAlarm();
@@ -93,5 +93,10 @@ public class Timer : MonoBehaviour
     {
         AudioManager.Instance.StopSoundInAdditional();
         alarmIsRunning = false;
+    }
+
+    public void SetMaxTime(int maxTime)
+    {
+        this.maxTime = (float)maxTime;
     }
 }

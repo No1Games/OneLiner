@@ -22,12 +22,16 @@ public class LocalSetup : MenuBase
     public event Action OnStartGameBtnClick;
     public event Action OnRandomLeaderBtnClick;
     public event Action OnChooseLeaderBtnClick;
+
+    
     
 
     private void Awake()
     {
         Init();
     }
+
+    
     public override void Init()
     {
         addPlayer.onClick.AddListener(OnClick_AddPlayerBtn);        

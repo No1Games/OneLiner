@@ -222,6 +222,23 @@ MonoBehaviour:
     m_Localized: NO LISTO
     m_Metadata:
       m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: INVERSO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "En este modo, todos los jugadores est\xE1n unidos por un \xFAnico
+      objetivo: adivinar la palabra elegida por el juego. Todos los jugadores, excepto
+      el anfitri\xF3n, saben qu\xE9 palabra fue elegida. El juego comienza con el
+      jugador que sigue en turno despu\xE9s del anfitri\xF3n, quien dibuja una l\xEDnea.
+      Luego, el turno pasa al anfitri\xF3n, quien dibuja una l\xEDnea conectada a
+      la existente. Despu\xE9s de cada turno del anfitri\xF3n, el siguiente jugador
+      toma su turno. El objetivo del anfitri\xF3n es adivinar la palabra bas\xE1ndose
+      en el dibujo. Cuantos menos movimientos haya, m\xE1s puntos gana el equipo.
+      No hay l\xEDmite en la cantidad de movimientos. Los corazones solo pueden usarse
+      para adivinar palabras y son compartidos entre todos los jugadores."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

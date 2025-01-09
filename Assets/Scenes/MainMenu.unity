@@ -5383,7 +5383,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:cc4036fb4339b03479ebb38b9e442be4
     m_TableEntryReference:
-      m_KeyId: 1811850850893824
+      m_KeyId: 12693945726959616
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -11867,6 +11867,7 @@ MonoBehaviour:
   accountManager: {fileID: 1742775555}
   customizationDataManager: {fileID: 2043378402}
   timerController: {fileID: 1676120846}
+  modeMenu: {fileID: 1815486918}
 --- !u!224 &594444501 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2829024556192244196, guid: 9259d99cf75e9a145a31f991a4713e00, type: 3}
@@ -37161,7 +37162,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:cc4036fb4339b03479ebb38b9e442be4
     m_TableEntryReference:
-      m_KeyId: 1811854747402240
+      m_KeyId: 12693948574892032
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -46354,7 +46355,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2-8
+  m_text: 3-8
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227a03511d1e15640bffacf1e222873c, type: 2}
   m_sharedMaterial: {fileID: 5706422935439615690, guid: 227a03511d1e15640bffacf1e222873c, type: 2}

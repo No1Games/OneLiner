@@ -224,6 +224,23 @@ MonoBehaviour:
     m_Localized: "PAS PR\xCAT"
     m_Metadata:
       m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: INVERSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "Dans ce mode, tous les joueurs sont unis par un objectif commun
+      : deviner le mot choisi par le jeu. Tous les joueurs, sauf l'h\xF4te, savent
+      quel mot a \xE9t\xE9 choisi. Le jeu commence avec le joueur suivant dans l'ordre
+      apr\xE8s l'h\xF4te, qui trace une ligne. Ensuite, c'est au tour de l'h\xF4te,
+      qui dessine une ligne connect\xE9e \xE0 l'existante. Apr\xE8s chaque tour de
+      l'h\xF4te, le joueur suivant prend son tour. L'objectif de l'h\xF4te est de
+      deviner le mot en fonction du dessin. Moins il y a de mouvements, plus l'\xE9quipe
+      gagne de points. Il n'y a pas de limite au nombre de mouvements. Les c\u0153urs
+      ne peuvent \xEAtre utilis\xE9s que pour deviner des mots et sont partag\xE9s
+      entre tous les joueurs."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

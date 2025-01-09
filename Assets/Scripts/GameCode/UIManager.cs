@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject warningPanel;
     [SerializeField] private GameObject confirmedDrawing;
 
-
+    private PlayerRole roleKnowTheWord;
 
 
     [Header("Texts")]
@@ -63,7 +63,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-
+        roleKnowTheWord = IngameData.Instance.RoleKnowsWord;
         OpenPlayerScreen();
         InitiateLeaderWordButton();
 
@@ -152,7 +152,7 @@ public class UIManager : MonoBehaviour
         drawing.DrawingAllowed = false;
         wordPanel.SetActive(true);
 
-        if (playerToTrack.role == PlayerRole.Leader)
+        if (playerToTrack.role == roleKnowTheWord)
         {
             leaderWord.GetComponent<WordButton_new>().ShowLeaderWord();
         }
@@ -167,7 +167,7 @@ public class UIManager : MonoBehaviour
         
 
         //drawing.DrawingAllowed = true;
-        if (playerToTrack.role == PlayerRole.Leader)
+        if (playerToTrack.role == roleKnowTheWord)
         {
             leaderWord.GetComponent<WordButton_new>().HideLeaderWord();
 
@@ -178,8 +178,9 @@ public class UIManager : MonoBehaviour
     private void CheckTheWord(WordButton_new word)
     {
 
-        if (playerToTrack.role != PlayerRole.Leader)
+        if (playerToTrack.role != roleKnowTheWord)
         {
+            
             wordPanel.SetActive(false);
             if (word.gameObject.GetComponentInChildren<TMP_Text>().text == leaderWordText)
             {

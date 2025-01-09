@@ -33,22 +33,28 @@ public class MainManager : MonoBehaviour
         drawingManager.OnLineUnavailable += uIManager.WarningActivate;
         drawingManager.OnDrawingComplete += uIManager.CallCheckUpMenu;
 
-        
+
         uIManager.OnActionConfirmed += playerManager.ChangeTurn;
 
         playerManager.OnPlayerChange += UpdateCurrentPlayer;
-
-        
-
-        uIManager.OnTurnStarted += timer.TimerStrat;
-        
-        timer.OnTimerEnds += playerManager.ChangeTurn;
-        timer.OnTimerEnds += uIManager.OpenPlayerScreen;
-
+        EnablingTimer();
 
     }
 
-
+    private void EnablingTimer()
+    {
+        if (IngameData.Instance.IsTimerOn)
+        {
+            timer.SetMaxTime(IngameData.Instance.TimerDuration);
+            uIManager.OnTurnStarted += timer.TimerStrat;
+            timer.OnTimerEnds += playerManager.ChangeTurn;
+            timer.OnTimerEnds += uIManager.OpenPlayerScreen;
+        }
+        else
+        {
+            timer.gameObject.SetActive(false);
+        }
+    }
 
     private void UpdateCurrentPlayer(PlayerScript currentPlayer)
     {
