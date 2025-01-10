@@ -305,7 +305,7 @@ public class GameManager : MonoBehaviour
         await SendLocalLobbyData();
     }
 
-    NetworkEndPoint GetEndpointForAllocation(List<RelayServerEndpoint> endpoints, string ip, int port, out bool isSecure)
+    NetworkEndpoint GetEndpointForAllocation(List<RelayServerEndpoint> endpoints, string ip, int port, out bool isSecure)
     {
 #if ENABLE_MANAGED_UNITYTLS
         foreach (RelayServerEndpoint endpoint in endpoints)
@@ -313,15 +313,15 @@ public class GameManager : MonoBehaviour
             if (endpoint.Secure && endpoint.Network == RelayServerEndpoint.NetworkOptions.Udp)
             {
                 isSecure = true;
-                return NetworkEndPoint.Parse(endpoint.Host, (ushort)endpoint.Port);
+                return NetworkEndpoint.Parse(endpoint.Host, (ushort)endpoint.Port);
             }
         }
 #endif
         isSecure = false;
-        return NetworkEndPoint.Parse(ip, (ushort)port);
+        return NetworkEndpoint.Parse(ip, (ushort)port);
     }
 
-    string AddressFromEndpoint(NetworkEndPoint endpoint)
+    string AddressFromEndpoint(NetworkEndpoint endpoint)
     {
         return endpoint.Address.Split(':')[0];
     }
