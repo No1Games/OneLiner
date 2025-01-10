@@ -3,52 +3,29 @@ using UnityEngine;
 
 public class HeartsUI : MonoBehaviour
 {
-    [SerializeField] HeartUI _heartPrefab;
+    [SerializeField] private HeartUI m_HeartPrefab;
 
-    private int _count;
+    private int m_Count = 2;
 
-    private List<HeartUI> _hearts;
+    private List<HeartUI> m_Hearts;
 
     public void Init(int count)
     {
-        _count = count;
-        _hearts = new List<HeartUI>();
+        m_Count = count;
+        m_Hearts = new List<HeartUI>();
 
-        for (int i = 0; i < _count; i++)
+        for (int i = 0; i < m_Count; i++)
         {
-            HeartUI heartUI = Instantiate(_heartPrefab, transform);
-            heartUI.Show();
-            _hearts.Add(heartUI);
+            var heart = Instantiate(m_HeartPrefab, transform);
+            heart.SetFull(true);
         }
     }
 
-    public void UpdateHearts(int count)
+    public void UpdateHearts(int fullCount)
     {
-        if (_hearts.Count < count)
+        for (int i = 0; i < m_Hearts.Count; i++)
         {
-            InstantiateHearts(count - _hearts.Count);
-        }
-
-        foreach (var heart in _hearts)
-        {
-            heart.Hide();
-        }
-
-        _count = count;
-
-        for (int i = 0; i < _count; i++)
-        {
-            _hearts[i].Show();
-        }
-    }
-
-    private void InstantiateHearts(int count)
-    {
-        for (int i = 0; i < _count; i++)
-        {
-            HeartUI heartUI = Instantiate(_heartPrefab, transform);
-            heartUI.Hide();
-            _hearts.Add(heartUI);
+            m_Hearts[i].SetFull(i <= fullCount);
         }
     }
 }

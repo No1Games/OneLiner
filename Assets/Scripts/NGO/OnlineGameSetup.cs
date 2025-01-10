@@ -1,103 +1,172 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 public class OnlineGameSetup : MonoBehaviour
 {
-    [Inject(Id = "RuntimeTMP")] ILogger _logger;
+    #region Hearts Fields
 
-    private int _maxHearts = 2;
-    private int _currentHearts;
+    [Header("Hearts Fields")]
+    [SerializeField] private HeartsUI m_HeartsUI;
+    [SerializeField] private int m_MaxHearts = 2;
+    private int m_CurrentHearts;
 
+    #endregion
+
+    #region Turn Handle Fields
+
+    [Header("Turn Handle Fields")]
     [SerializeField] private StartTurnPanelUI _startTurnPanel;
     [SerializeField] private TurnHandler _turnHandler;
 
-    [SerializeField] private WordsPanel _wordsPanel;
-    [SerializeField] private WordManager _wordManager;
-    private List<string> _words = new List<string>();
-    private List<int> _wordsIndexes = new List<int>();
-    private int _leaderWord;
+    #endregion
 
-    [SerializeField] private NGODrawManager _drawingManager;
-    [SerializeField] private DrawingUpdate _drawingUpdate;
+    #region Words Fields
+
+    [Header("Words Fields")]
+    [SerializeField] private WordsPanel m_WordsPanel;
+    [SerializeField] private WordManager m_WordManager;
+    private List<string> m_WordsList = new List<string>();
+    private List<int> m_WordsIndexes = new List<int>();
+    private int m_LeaderWordIndex;
+
+    #endregion
+
+    #region Drawing Fields
+
+    [Header("Drawing Fields")]
+    [SerializeField] private NGODrawManager m_DrawingManager;
+    [SerializeField] private DrawingUpdate m_DrawingUpdate;
     [SerializeField] private Image _drawnImage;
 
-    [SerializeField] private Camera _mainCamera;
+    #endregion
 
+    [Space]
+    [SerializeField] private Camera m_MainCamera;
+
+    [Space]
     [SerializeField] private GameOverUI _gameOverUI;
 
-    [SerializeField] private HeartsUI _heartsUI;
+    private RpcHandler m_RpcHandler;
+    private OnlineController m_OnlineController;
 
-    private NetworkGameManager _networkGameManager;
+    private LocalLobby m_LocalLobby;
+    private LocalPlayer m_LocalPlayer;
 
-    private LocalLobby _localLobby;
-    private LocalPlayer _localPlayer;
+    private void Awake()
+    {
+        m_OnlineController = OnlineController.Instance;
+
+        m_LocalLobby = m_OnlineController.LocalLobby;
+        m_LocalPlayer = m_OnlineController.LocalPlayer;
+    }
 
     private void Start()
     {
-        _currentHearts = _maxHearts;
-        _heartsUI.Init(_currentHearts);
+        m_CurrentHearts = m_MaxHearts;
+        m_HeartsUI.Init(m_CurrentHearts);
 
-        _localLobby = GameManager.Instance.LocalLobby;
-        _localPlayer = GameManager.Instance.LocalUser;
+        m_RpcHandler = FindAnyObjectByType<RpcHandler>();
 
-        _networkGameManager = FindAnyObjectByType<NetworkGameManager>();
+        SubscribeOnRpcEvents();
 
-        _localLobby.WordsList.onChanged += OnWordsChanged;
-        _localLobby.LeaderWord.onChanged += OnLeaderWordChanged;
+        m_LocalLobby.WordsList.onChanged += OnWordsChanged;
+        m_LocalLobby.LeaderWord.onChanged += OnLeaderWordChanged;
 
-        if (_localPlayer.Role.Value == PlayerRole.Leader)
+        // Host generates words
+        if (m_LocalPlayer.IsHost.Value)
         {
-            _words = _wordManager.FormWordListForRound();
-            _wordsIndexes = _wordManager.GetWordsIndexes(_words);
-            _leaderWord = _wordManager.GetLeaderWordIndex(_words);
-            GameManager.Instance.SetWordsList(_wordsIndexes, _leaderWord);
+            m_WordsList = m_WordManager.FormWordListForRound();
+            m_WordsIndexes = m_WordManager.GetWordsIndexes(m_WordsList);
+            m_LeaderWordIndex = m_WordManager.GetLeaderWordIndex(m_WordsList);
+            m_OnlineController.SetLocalLobbyWords(m_WordsIndexes, m_LeaderWordIndex);
         }
 
-        _drawingManager.OnLineConfirmed += OnLineConfirmed;
+        m_DrawingManager.OnLineConfirmed += OnLineConfirmed;
+        m_DrawingManager.OnLineSpawned += OnLineSpawned;
+        m_DrawingUpdate.OnScreenshotTaken += OnScreenshotTaken;
 
-        _drawingManager.OnLineSpawned += OnLineSpawned;
+        m_WordsPanel.UserClickedWordEvent += OnUserMakeGuess;
+    }
 
-        _drawingUpdate.OnScreenshotTaken += OnScreenshotTaken;
+    private void SubscribeOnRpcEvents()
+    {
+        if (m_RpcHandler == null)
+        {
+            Debug.LogWarning("Can't subscribe on RpcEvents: Rpc Handler is null.");
+            return;
+        }
 
-        _wordsPanel.UserClickedWord += OnUserMakeGuess;
+        m_RpcHandler.GameOverEvent += ShowGameOverScreen;
+        m_RpcHandler.UpdateHeartsEvent += SetHearts;
+        m_RpcHandler.DisableWordButtonEvent += DisableButtonByIndex;
+    }
+
+    private void UnsubscribeFromRpcEvents()
+    {
+        m_RpcHandler.GameOverEvent -= ShowGameOverScreen;
+        m_RpcHandler.UpdateHeartsEvent -= SetHearts;
+        m_RpcHandler.DisableWordButtonEvent -= DisableButtonByIndex;
     }
 
     private void OnDestroy()
     {
-        _localLobby.WordsList.onChanged -= OnWordsChanged;
-        _localLobby.LeaderWord.onChanged -= OnLeaderWordChanged;
+        m_LocalLobby.WordsList.onChanged -= OnWordsChanged;
+        m_LocalLobby.LeaderWord.onChanged -= OnLeaderWordChanged;
 
-        _drawingUpdate.OnScreenshotTaken -= OnScreenshotTaken;
+        m_DrawingManager.OnLineConfirmed -= OnLineConfirmed;
+        m_DrawingManager.OnLineSpawned -= OnLineSpawned;
+        m_DrawingUpdate.OnScreenshotTaken -= OnScreenshotTaken;
+
+        UnsubscribeFromRpcEvents();
     }
 
     private void OnLineSpawned()
     {
         ToggleScreen(true);
-        _drawingUpdate.TakeScreenshot();
+        m_DrawingUpdate.TakeScreenshot();
         ToggleScreen(false);
     }
 
     private void OnLineConfirmed(NGOLine line)
     {
-        _networkGameManager.SpawnLine(line.Start, line.End);
+        m_RpcHandler.SpawnLine(line.Start, line.End);
         _turnHandler.EndTurn();
     }
 
+    #region Words Methods
+
     private void OnWordsChanged(List<int> indexes)
     {
-        _words = _wordManager.GetWordsFromIndexes(indexes);
+        m_WordsList = m_WordManager.GetWordsFromIndexes(indexes);
 
-        _wordsPanel.SetButtons(_words);
+        m_WordsPanel.SetButtons(m_WordsList);
     }
 
     private void OnLeaderWordChanged(int index)
     {
-        _leaderWord = index;
+        m_LeaderWordIndex = index;
 
-        _wordsPanel.SetLeaderWord(index);
+        m_WordsPanel.SetLeaderWord(index);
     }
+
+    public void DisableButtonByIndex(int index)
+    {
+        m_WordsPanel.DisableButton(index);
+    }
+
+    #endregion
+
+    #region Drawing Methods
+
+    public void ToggleScreen(bool isDrawing)
+    {
+        m_DrawingUpdate.gameObject.SetActive(isDrawing);
+        m_MainCamera.gameObject.SetActive(!isDrawing);
+        m_DrawingManager.IsDrawAllowed = isDrawing;
+    }
+
+    #endregion
 
     private void UpdatePicture(Texture2D texture)
     {
@@ -113,44 +182,37 @@ public class OnlineGameSetup : MonoBehaviour
         ToggleScreen(false);
     }
 
-    public void ToggleScreen(bool isDrawing)
-    {
-        _drawingUpdate.gameObject.SetActive(isDrawing);
-        _mainCamera.gameObject.SetActive(!isDrawing);
-        _drawingManager.IsDrawAllowed = isDrawing;
-    }
-
     private void OnUserMakeGuess(int index)
     {
-        if (_leaderWord != index)
+        if (m_LeaderWordIndex != index)
         {
-            _logger.Log("Oh-oh! Wrong word! Duh!");
-            int newHearts = _currentHearts - 1;
+            Debug.Log("Oh-oh! Wrong word! Duh!");
+            int newHearts = m_CurrentHearts - 1;
 
-            Debug.Log($"Old hearts count: {_currentHearts} --- New hearts count: {newHearts}");
+            Debug.Log($"Old hearts count: {m_CurrentHearts} --- New hearts count: {newHearts}");
 
             if (newHearts <= 0)
             {
-                _networkGameManager.OnGameOver(false);
+                m_RpcHandler.OnGameOver(false);
             }
             else
             {
-                _networkGameManager.OnGuessedWrong(index, newHearts);
+                m_RpcHandler.OnGuessedWrong(index, newHearts);
             }
 
             _turnHandler.EndTurn();
         }
         else
         {
-            _networkGameManager.OnGameOver(true, 100f);
+            m_RpcHandler.OnGameOver(true, 100f);
         }
     }
 
     public void SetHearts(int count)
     {
-        _currentHearts = count;
+        m_CurrentHearts = count;
 
-        _heartsUI.UpdateHearts(count);
+        m_HeartsUI.UpdateHearts(count);
     }
 
     public void ShowGameOverScreen(bool isWin, float score = 0)
@@ -158,8 +220,4 @@ public class OnlineGameSetup : MonoBehaviour
         _gameOverUI.Show(isWin, score);
     }
 
-    public void DisableButtonByIndex(int index)
-    {
-        _wordsPanel.DisableButton(index);
-    }
 }

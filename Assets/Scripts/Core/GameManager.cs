@@ -41,8 +41,8 @@ public class GameManager : MonoBehaviour
     #region NGO Fields and Props
 
     [SerializeField] private NetworkManager _networkManager;
-    [SerializeField] private NetworkGameManager _networkGameManagerPrefab;
-    private NetworkGameManager _networkGameManager;
+    [SerializeField] private RpcHandler _networkGameManagerPrefab;
+    private RpcHandler _networkGameManager;
 
     private bool _hasConnectedViaNGO = false;
 
@@ -244,7 +244,7 @@ public class GameManager : MonoBehaviour
 
     private async void StartNetworkGame()
     {
-        _networkGameManager = FindAnyObjectByType<NetworkGameManager>();
+        _networkGameManager = FindAnyObjectByType<RpcHandler>();
 
         if (_localUser.IsHost.Value)
         {

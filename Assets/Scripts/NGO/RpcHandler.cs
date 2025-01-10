@@ -1,12 +1,17 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
-public class NetworkGameManager : NetworkBehaviour
+public class RpcHandler : NetworkBehaviour
 {
     [SerializeField] private NGOLine _linePrefab;
     [SerializeField] private NGODrawManager _drawManager;
 
-    [SerializeField] private OnlineGameSetup _gameSetupManager;
+    //[SerializeField] private OnlineGameSetup _gameSetupManager;
+
+    public event Action<int> DisableWordButtonEvent;
+    public event Action<int> UpdateHeartsEvent;
+    public event Action<bool, float> GameOverEvent;
 
     #region Line Syncronization
 
@@ -87,9 +92,10 @@ public class NetworkGameManager : NetworkBehaviour
     [ClientRpc]
     private void OnGuessedWrongClientRpc(int index, int count)
     {
-        DisableButton(index);
-
-        UpdateHearts(count);
+        // DisableButton(index);
+        DisableWordButtonEvent?.Invoke(index);
+        UpdateHeartsEvent?.Invoke(count);
+        // UpdateHearts(count);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -100,12 +106,12 @@ public class NetworkGameManager : NetworkBehaviour
 
     private void DisableButton(int index)
     {
-        _gameSetupManager.DisableButtonByIndex(index);
+        //_gameSetupManager.DisableButtonByIndex(index);
     }
 
     private void UpdateHearts(int count)
     {
-        _gameSetupManager.SetHearts(count);
+        //_gameSetupManager.SetHearts(count);
     }
 
     #endregion
@@ -114,7 +120,8 @@ public class NetworkGameManager : NetworkBehaviour
 
     private void ShowGameOverScreen(bool isWin, float score = 0f)
     {
-        _gameSetupManager.ShowGameOverScreen(isWin, score);
+        GameOverEvent?.Invoke(isWin, score);
+        //_gameSetupManager.ShowGameOverScreen(isWin, score);
     }
 
     public void OnGameOver(bool isWin, float score = 0f)

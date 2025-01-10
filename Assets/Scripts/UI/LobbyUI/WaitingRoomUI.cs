@@ -81,7 +81,7 @@ public class WaitingRoomUI : MenuBase
 
         LoadingPanel.Instance.Show(_creatingLobbyLoadingText);
 
-        await _gameManager.CreateLobby(_gameManager.LocalUser.DisplayName.Value, _isPrivate, _maxPlayers);
+        await _gameManager.CreateLobby(_gameManager.LocalPlayer.DisplayName.Value, _isPrivate, _maxPlayers);
 
         HostSetUp();
 
@@ -127,7 +127,7 @@ public class WaitingRoomUI : MenuBase
     {
         _status = PlayerStatus.Ready;
 
-        _gameManager.SetLocalUserStatus(_status);
+        _gameManager.SetLocalPlayerStatus(_status);
 
         _unreadyButton.gameObject.SetActive(true);
 
@@ -138,7 +138,7 @@ public class WaitingRoomUI : MenuBase
     {
         _status = PlayerStatus.Lobby;
 
-        _gameManager.SetLocalUserStatus(_status);
+        _gameManager.SetLocalPlayerStatus(_status);
 
         _readyButton.gameObject.SetActive(true);
 
@@ -224,7 +224,7 @@ public class WaitingRoomUI : MenuBase
 
         _enableTimerButton.gameObject.SetActive(false);
 
-        _playersListUI.AddPlayer(_gameManager.LocalUser);
+        _playersListUI.AddPlayer(_gameManager.LocalPlayer);
 
         _privateButtonAnimator.SetBool("Selected", false);
         _publicButtonAnimator.SetBool("Selected", true);
@@ -255,7 +255,7 @@ public class WaitingRoomUI : MenuBase
 
         _timerSlider.interactable = false;
 
-        _status = _gameManager.LocalUser.UserStatus.Value;
+        _status = _gameManager.LocalPlayer.UserStatus.Value;
 
         _privateButtonAnimator.SetBool("Selected", _isPrivate);
         _publicButtonAnimator.SetBool("Selected", !_isPrivate);
@@ -290,7 +290,7 @@ public class WaitingRoomUI : MenuBase
 
         _timerSlider.interactable = false;
 
-        _status = _gameManager.LocalUser.UserStatus.Value;
+        _status = _gameManager.LocalPlayer.UserStatus.Value;
 
         UpdatePlayersList();
     }

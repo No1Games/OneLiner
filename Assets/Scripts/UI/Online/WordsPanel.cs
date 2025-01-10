@@ -5,43 +5,50 @@ using UnityEngine.UI;
 
 public class WordsPanel : MonoBehaviour
 {
-    [SerializeField] private Button _closeBtn;
+    [Space]
+    [SerializeField] private Button m_CloseBtn;
 
-    [SerializeField] private WordButton _wordButtonPrefab;
+    [Space]
+    [SerializeField] private WordButtonOnline m_WordButtonPrefab;
 
-    private List<WordButton> _buttonsPool = new List<WordButton>();
+    private List<WordButtonOnline> m_WordButtons;
 
-    public event Action<int> UserClickedWord;
+    public event Action<int> UserClickedWordEvent;
 
-    private void Start()
+    private void Awake()
     {
-        _closeBtn.onClick.AddListener(OnClick_CloseButton);
+        m_CloseBtn.onClick.AddListener(OnClick_CloseButton);
     }
 
     public void SetButtons(List<string> words)
     {
-        if (words == null)
+        if (words == null || words.Count == 0)
         {
-            Debug.Log("Failed to find words list!");
+            Debug.LogWarning("Words list is null or empty!");
             return;
         }
 
-        if (_buttonsPool.Count < words.Count)
+        if (m_WordButtons == null)
         {
-            InstantiateButtons(words.Count - _buttonsPool.Count);
+            m_WordButtons = new List<WordButtonOnline>();
+            InstantiateButtons(words.Count);
         }
 
         for (int i = 0; i < words.Count; i++)
         {
-            _buttonsPool[i].SetWord(words[i], i);
-            _buttonsPool[i].gameObject.SetActive(true);
-            _buttonsPool[i].WordButtonClick += OnUserClickedWord;
+            m_WordButtons[i].SetWord(words[i], i);
+            m_WordButtons[i].gameObject.SetActive(true);
+            m_WordButtons[i].WordButtonClick += OnUserClickedWord;
+            m_WordButtons[i].Interactable = true;
         }
     }
 
     private void OnUserClickedWord(int index)
     {
-        UserClickedWord?.Invoke(index);
+        UserClickedWordEvent?.Invoke(index);
+
+        // TODO: SHOW POP UP WITH RESULT
+
         Hide();
     }
 
@@ -49,23 +56,23 @@ public class WordsPanel : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            WordButton wordButton = Instantiate(_wordButtonPrefab, transform);
+            WordButtonOnline wordButton = Instantiate(m_WordButtonPrefab, transform);
             wordButton.gameObject.SetActive(false);
-            _buttonsPool.Add(wordButton);
+            m_WordButtons.Add(wordButton);
         }
     }
 
     public void SetLeaderWord(int leaderWordIndex)
     {
-        if (GameManager.Instance.LocalUser.Role.Value != PlayerRole.Leader) return;
+        if (OnlineController.Instance.LocalPlayer.Role.Value != PlayerRole.Leader) return;
 
-        if (leaderWordIndex > _buttonsPool.Count || leaderWordIndex < 0)
+        if (leaderWordIndex > m_WordButtons.Count || leaderWordIndex < 0)
         {
-            Debug.Log("Invalid Leader Word Index");
+            Debug.LogWarning("Invalid Leader Word Index!");
             return;
         }
 
-        _buttonsPool[leaderWordIndex].SetLeaderWord();
+        m_WordButtons[leaderWordIndex].SetLeaderWord();
     }
 
     private void OnClick_CloseButton()
@@ -75,7 +82,7 @@ public class WordsPanel : MonoBehaviour
 
     public void DisableButton(int index)
     {
-        _buttonsPool[index].Interactable = false;
+        m_WordButtons[index].DisableButton();
     }
 
     private void Hide()

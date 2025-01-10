@@ -2,13 +2,24 @@ using UnityEngine;
 
 public class HeartUI : MonoBehaviour
 {
-    public void Show()
+    [SerializeField] private Animator m_Animator;
+    private int m_IsFullHash;
+
+    public bool IsFull
     {
-        gameObject.SetActive(true);
+        get
+        {
+            return m_Animator.GetBool(m_IsFullHash);
+        }
     }
 
-    public void Hide()
+    private void Awake()
     {
-        gameObject.SetActive(false);
+        m_IsFullHash = Animator.StringToHash("IsFull");
+    }
+
+    public void SetFull(bool isFull)
+    {
+        m_Animator.SetBool(m_IsFullHash, isFull);
     }
 }

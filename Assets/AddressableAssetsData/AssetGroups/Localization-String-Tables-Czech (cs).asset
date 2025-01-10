@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Localization-String-Tables-Czech (cs)
   m_EditorClassIdentifier: 
   m_GroupName: Localization-String-Tables-Czech (cs)
-  m_Data:
-    m_SerializedData: []
   m_GUID: 91d032177e33e5247b6533e9245e224b
   m_SerializeEntries:
   - m_GUID: 069e25dbd18809f409bc69a3fa8aa43c

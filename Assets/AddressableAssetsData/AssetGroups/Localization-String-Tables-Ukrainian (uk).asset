@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Localization-String-Tables-Ukrainian (uk)
   m_EditorClassIdentifier: 
   m_GroupName: Localization-String-Tables-Ukrainian (uk)
-  m_Data:
-    m_SerializedData: []
   m_GUID: ebaba04548e020c4fa2a6138e37a79d7
   m_SerializeEntries:
   - m_GUID: ad38baf2ae872c1478266bc31402d7b4
