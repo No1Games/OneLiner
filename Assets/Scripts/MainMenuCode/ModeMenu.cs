@@ -1,68 +1,169 @@
-using System.Collections;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Collections;
 
 public class ModeMenu : MonoBehaviour
 {
-    [SerializeField] private List<GameModes> gameModesKeys;
-    [SerializeField] private List<GameObject> gameModesValues;
-    private Dictionary<GameModes, GameObject> modePanels = new();
-    private GameModes currentMode;
+    [SerializeField] private List<GameObject> modePanels;
+    [SerializeField] private Button leftButton;
+    [SerializeField] private Button rightButton;
+    [SerializeField] private Button confirmButton;
+
+    private Animator modeSelectAnimator;
+
+    private int currentIndex = 0;
+    private int toGoIndex = 0;
+
+    private bool modeSelectionIsActive;
+
+    public event Action OnModeSelected;
 
     private void Awake()
     {
-        modePanels.Clear();
-        for (int i = 0; i < gameModesKeys.Count; i++)
-        {
-            modePanels.Add(gameModesKeys[i], gameModesValues[i]);
-        }
+        Init();
     }
-    public void NextMode()
-    {
-        // Знайдемо наступний режим гри
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        currentMode = (GameModes)(((int)currentMode + 1) % modePanels.Count);
-        ActivateGameModePanel(currentMode);
-    }
+   
 
-    public void PreviousMode()
+    private void Init()
     {
-        // Знайдемо попередній режим гри
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        currentMode = (GameModes)(((int)currentMode - 1 + modePanels.Count) % modePanels.Count);
-        ActivateGameModePanel(currentMode);
+        modeSelectionIsActive = false;
+        modeSelectAnimator = GetComponent<Animator>();
+        leftButton.onClick.AddListener(MoveLeft);
+        rightButton.onClick.AddListener(MoveRight);
+        confirmButton.onClick.AddListener(ConfirmSelection);
+
+        Debug.Log($"Mode Params: Current Mode = {modePanels[currentIndex].GetComponent<ModeInfo>().modeName}, Min Players = {modePanels[currentIndex].GetComponent<ModeInfo>().playersMin}");
+
+    }
+    public ModeInfo GetCurrentModeInfo()
+    {
+        return modePanels[currentIndex].GetComponent<ModeInfo>();
     }
 
     private void ActivateGameModePanel(GameModes mode)
     {
         // Вимикаємо всі панелі
-        foreach (var panel in modePanels.Values)
+        foreach (var panel in modePanels)
         {
-            panel.SetActive(false);
+            if (panel.GetComponent<ModeInfo>().modeName == mode)
+            {
+                panel.SetActive(true);
+            }
+            else
+            {
+                panel.SetActive(false);
+            }
+
         }
 
-        // Активуємо лише обрану панель
-        modePanels[mode].SetActive(true);
 
-        // Оновлюємо текст режиму
-        
     }
-
-    public void SelectMode()
-    {
-        // Обираємо режим гри і передаємо його в скрипт з даними
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        IngameData.Instance.SetGameMode(currentMode);
-        this.gameObject.SetActive(false);
-    }
-
-    public void OpenModeSelection()
+    public void OpenModeSelection(GameModes mode)
     {
         // Відкриваємо меню і встановлюємо панель відповідно до поточного режиму
-        currentMode = IngameData.Instance.GetGameMode();
-        ActivateGameModePanel(currentMode);
+        //currentMode = IngameData.Instance.GetGameMode();
+        ActivateGameModePanel(mode);
+    }
+
+    public void MoveRight()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        StartCoroutine(SwitchPanelCoroutine(true));
+    }
+
+    public void MoveLeft()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        StartCoroutine(SwitchPanelCoroutine(false));
+    }
+    private IEnumerator SwitchPanelCoroutine(bool moveRight)
+    {
+        // Disable button interactivity
+        leftButton.interactable = false;
+        rightButton.interactable = false;
+        confirmButton.interactable = false;
+
+        toGoIndex = currentIndex;
+
+        // Determine the new current index
+        if (moveRight)
+        {
+            currentIndex = (currentIndex + 1) % modePanels.Count;
+        }
+        else
+        {
+            currentIndex = (currentIndex - 1 + modePanels.Count) % modePanels.Count;
+        }
+
+        // Play exit and enter animations
+        Animator currentAnimator = modePanels[currentIndex].GetComponent<Animator>();
+        Animator toGoAnimator = modePanels[toGoIndex].GetComponent<Animator>();
+
+        if (toGoAnimator != null)
+        {
+            toGoAnimator.Play(moveRight ? "ExitRightAnimation" : "ExitLeftAnimation");
+        }
+
+        if (currentAnimator != null)
+        {
+            currentAnimator.Play(moveRight ? "EnterLeftAnimation" : "EnterRightAnimation");
+        }
+
+        // Wait for animations to complete // треба замінити на вичислення работи аніматорів
+        yield return new WaitForSeconds(0.5f); // Adjust duration to match animation time
+
+        
+        // Re-enable button interactivity
+        leftButton.interactable = true;
+        rightButton.interactable = true;
+        confirmButton.interactable = true;
+    }
+
+    public void ConfirmSelection()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+
+        if (!modeSelectionIsActive)
+        {
+            // Якщо меню неактивне, активуємо його та запускаємо анімацію вниз
+            modeSelectionIsActive = true;
+            leftButton.interactable = true;
+            rightButton.interactable = true;
+            modeSelectAnimator.Play("ModeScreenDownAnimation");
+        }
+        else
+        {
+            // Якщо меню вже активне, закриваємо його та запускаємо анімацію вгору
+            modeSelectionIsActive = false;
+            leftButton.interactable = false;
+            rightButton.interactable = false;
+            modeSelectAnimator.Play("ModeScreenUpAnimation");
+
+            // Надсилаємо подію про обраний режим
+            OnModeSelected?.Invoke();
+            
+
+
+
+        }
+    }
+
+    public ModeInfo GetModeInfo()
+    {
+         
+        return modePanels[currentIndex].GetComponent<ModeInfo>();
     }
 
 }
+
+public enum GameModes
+{
+    Coop, ReverseCoop
+}
+
+
+
 
 

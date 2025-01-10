@@ -22,18 +22,22 @@ public class LocalSetup : MenuBase
     public event Action OnStartGameBtnClick;
     public event Action OnRandomLeaderBtnClick;
     public event Action OnChooseLeaderBtnClick;
-    public event Action OnModeSelectBtnClick;
+
+    
+    
 
     private void Awake()
     {
         Init();
     }
+
+    
     public override void Init()
     {
         addPlayer.onClick.AddListener(OnClick_AddPlayerBtn);        
         selectLeader.onClick.AddListener(OnClick_SelectLeaderBtn);
         randomLeader.onClick.AddListener(OnClick_RandomLeaderBtn);
-        modeSelect.onClick.AddListener(OnClick_ModeSelectBtn);
+        
         startGame.onClick.AddListener(OnClick_StartGameBtn);
         back.onClick.AddListener(OnClick_Back);
 
@@ -72,22 +76,7 @@ public class LocalSetup : MenuBase
 
     }
 
-    private void OnClick_ModeSelectBtn()
-    {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        ModeAnimator.SetTrigger("OpenMenu");
-        if (ModeBGScreen.activeSelf)
-        {
-            ModeBGScreen.SetActive(false);
-        }
-        else
-        {
-            ModeBGScreen.SetActive(true);
-        }
-        
-
-        OnModeSelectBtnClick?.Invoke();
-    }
+    
     private void OnClick_StartGameBtn()
     {
         OnStartGameBtnClick?.Invoke();

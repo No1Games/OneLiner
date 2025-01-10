@@ -75,14 +75,14 @@ public class LocalGameSetup_Func : MonoBehaviour
     public void NextLevel(List<PlayerScript> players)
     {
         // Очищення попереднього списку гравців
-        IngameData.Instance.players.Clear();
+        IngameData.Instance.Players.Clear();
         foreach (PlayerScript player in players)
         {
             if(player.role == PlayerRole.NotSetYet)
             {
                 player.role = PlayerRole.Player;
             }
-            IngameData.Instance.players.Add(player);
+            IngameData.Instance.Players.Add(player);
         }
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

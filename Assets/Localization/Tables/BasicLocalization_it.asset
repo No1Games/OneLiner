@@ -221,6 +221,23 @@ MonoBehaviour:
     m_Localized: NON PRONTO
     m_Metadata:
       m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: INVERSO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "In questa modalit\xE0, tutti i giocatori sono uniti da un unico
+      obiettivo: indovinare la parola scelta dal gioco. Tutti i giocatori, tranne
+      l'ospite, sanno quale parola \xE8 stata scelta. Il gioco inizia con il giocatore
+      successivo in linea dopo l'ospite, che traccia una linea. Successivamente,
+      il turno passa all'ospite, che disegna una linea collegata a quella esistente.
+      Dopo ogni turno dell'ospite, il giocatore successivo prende il suo turno. L'obiettivo
+      dell'ospite \xE8 indovinare la parola basandosi sul disegno. Meno mosse ci
+      sono, pi\xF9 punti guadagna la squadra. Non c'\xE8 limite al numero di mosse.
+      I cuori possono essere utilizzati solo per indovinare le parole e sono condivisi
+      tra tutti i giocatori."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

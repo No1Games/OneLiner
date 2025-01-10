@@ -225,6 +225,24 @@ MonoBehaviour:
     m_Localized: "NEP\u0158IPRAVEN\xDD"
     m_Metadata:
       m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: "OBR\xC1CEN\xDD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "V tomto re\u017Eimu jsou v\u0161ichni hr\xE1\u010Di spojeni jedin\xFDm
+      c\xEDlem \u2013 uhodnout slovo vybran\xE9 hrou. V\u0161ichni hr\xE1\u010Di
+      krom\u011B hostitele v\u011Bd\xED, kter\xE9 slovo bylo vybr\xE1no. Hra za\u010D\xEDn\xE1
+      hr\xE1\u010Dem, kter\xFD je na \u0159ad\u011B po hostiteli, a nakresl\xED \u010D\xE1ru.
+      Pot\xE9 p\u0159ech\xE1z\xED tah na hostitele, kter\xFD nakresl\xED \u010D\xE1ru
+      spojenou s tou st\xE1vaj\xEDc\xED. Po ka\u017Ed\xE9m tahu hostitele si sv\u016Fj
+      tah vezme dal\u0161\xED hr\xE1\u010D. C\xEDlem hostitele je uhodnout slovo
+      na z\xE1klad\u011B kresby. \u010C\xEDm m\xE9n\u011B tah\u016F, t\xEDm v\xEDce
+      bod\u016F t\xFDm z\xEDsk\xE1. Po\u010Det tah\u016F nen\xED omezen. Srd\xED\u010Dka
+      lze pou\u017E\xEDt pouze k h\xE1d\xE1n\xED slov a sd\xEDlej\xED je v\u0161ichni
+      hr\xE1\u010Di."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

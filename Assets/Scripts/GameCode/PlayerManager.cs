@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        players = new List<PlayerScript>(IngameData.Instance.players);
+        players = new List<PlayerScript>(IngameData.Instance.Players);
 
         GeneratePlates();
         GenerateTurnQueue();

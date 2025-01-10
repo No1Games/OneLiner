@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LocalGameSetupManager : MonoBehaviour
 {
 
-    private int maxPlayers = 8;
-    private int minPlayers = 2;
+    private int maxPlayers;
+    private int minPlayers;
     [SerializeField] private GameObject playerPlatePrefab;
     [SerializeField] private GameObject playerPanel;
     [SerializeField] LocalSetup localSetupUI;
@@ -16,8 +19,16 @@ public class LocalGameSetupManager : MonoBehaviour
     private List<GameObject> playersPlates = new();
     [SerializeField] private AccountManager accountManager;
     [SerializeField] private CustomizationDataManager customizationDataManager;
+    [SerializeField] private LGS_TimerController timerController;
+    [SerializeField] private ModeMenu modeMenu;
 
     private LocalGameSetup_Func lgsFunc;
+
+    
+    private PlayerRole roleKnowsTheWord;
+
+    private event Action OnLevelStarts; 
+
     
 
     private void Awake()
@@ -30,6 +41,31 @@ public class LocalGameSetupManager : MonoBehaviour
         localSetupUI.OnChooseLeaderBtnClick += SelectLeader;
 
         customizationDataManager.OnCustomizationEnds += PlateVisualUpdate;
+        OnLevelStarts += timerController.UpdateIngameData;
+        
+
+
+    }
+    private void Start()
+    {
+        modeMenu.OnModeSelected += InitiateModeParams;
+        InitiateModeParams();
+    }
+
+    private void InitiateModeParams()
+    {
+        ModeInfo currentModeInfo = modeMenu.GetModeInfo();
+        if (currentModeInfo != null)
+        {
+            maxPlayers = currentModeInfo.playersMax;
+            minPlayers = currentModeInfo.playersMin;
+            roleKnowsTheWord = currentModeInfo.role1;
+            Debug.Log($"Mode Params: Max Players = {maxPlayers}, Min Players = {minPlayers}");
+        }
+        else
+        {
+            Debug.LogWarning("ModeInfo is null!");
+        }
     }
 
     private void AddPlayer()
@@ -115,6 +151,8 @@ public class LocalGameSetupManager : MonoBehaviour
         if (players.Count >= minPlayers)
         {
             AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Play);
+            OnLevelStarts?.Invoke();
+            IngameData.Instance.SetRoleKnowsWord(roleKnowsTheWord);
             lgsFunc.NextLevel(players);
 
         }

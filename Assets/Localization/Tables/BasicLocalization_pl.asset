@@ -226,6 +226,24 @@ MonoBehaviour:
     m_Localized: NIE GOTOWY
     m_Metadata:
       m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: ODWROTNY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "W tym trybie wszyscy gracze maj\u0105 jeden wsp\xF3lny cel \u2013
+      odgadni\u0119cie s\u0142owa wybranego przez gr\u0119. Wszyscy gracze opr\xF3cz
+      gospodarza wiedz\u0105, jakie s\u0142owo zosta\u0142o wybrane. Gra rozpoczyna
+      si\u0119 od gracza, kt\xF3ry jest nast\u0119pny w kolejce po gospodarzu i rysuje
+      lini\u0119. Nast\u0119pnie kolej przechodzi na gospodarza, kt\xF3ry rysuje
+      lini\u0119 po\u0142\u0105czon\u0105 z istniej\u0105c\u0105. Po ka\u017Cdej
+      turze gospodarza kolej przypada na nast\u0119pnego gracza. Celem gospodarza
+      jest odgadni\u0119cie s\u0142owa na podstawie rysunku. Im mniej ruch\xF3w,
+      tym wi\u0119cej punkt\xF3w zdobywa dru\u017Cyna. Nie ma ogranicze\u0144 co
+      do liczby ruch\xF3w. Serduszka mo\u017Cna u\u017Cywa\u0107 tylko do odgadywania
+      s\u0142\xF3w i s\u0105 wsp\xF3lne dla wszystkich graczy."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

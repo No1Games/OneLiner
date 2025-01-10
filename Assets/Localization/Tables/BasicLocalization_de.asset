@@ -220,6 +220,24 @@ MonoBehaviour:
     m_Localized: NICHT BEREIT
     m_Metadata:
       m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: UMKEHR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "In diesem Modus sind alle Spieler mit einem gemeinsamen Ziel vereint
+      \u2013 das vom Spiel ausgew\xE4hlte Wort zu erraten. Alle Spieler au\xDFer
+      dem Gastgeber wissen, welches Wort gew\xE4hlt wurde. Das Spiel beginnt mit
+      dem Spieler, der in der Reihenfolge nach dem Gastgeber an der Reihe ist und
+      eine Linie zeichnet. Danach ist der Gastgeber an der Reihe, der eine Linie
+      zieht, die mit der bestehenden verbunden ist. Nach jedem Zug des Gastgebers
+      ist der n\xE4chste Spieler an der Reihe. Das Ziel des Gastgebers ist es, das
+      Wort basierend auf der Zeichnung zu erraten. Je weniger Z\xFCge, desto mehr
+      Punkte erh\xE4lt das Team. Es gibt keine Begrenzung der Zuganzahl. Herzen k\xF6nnen
+      nur zum Erraten von W\xF6rtern verwendet werden und werden von allen Spielern
+      gemeinsam genutzt."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
