@@ -242,6 +242,38 @@ MonoBehaviour:
       players."
     m_Metadata:
       m_Items: []
+  - m_Id: 14171429907628032
+    m_Localized: 'LINES:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171441379049472
+    m_Localized: CONFIRM MOVE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Localized: CANCEL MOVE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Localized: VICTORY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Localized: DEFEAT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Localized: The line is too short
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Localized: he line must not continue the direction of another line
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Localized: The line must start from another line
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

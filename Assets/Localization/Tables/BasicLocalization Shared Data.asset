@@ -211,6 +211,38 @@ MonoBehaviour:
     m_Key: LGS_ReverseModeInfo
     m_Metadata:
       m_Items: []
+  - m_Id: 14171429907628032
+    m_Key: InGame_Lines
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171441379049472
+    m_Key: InGame_Aprove
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Key: InGame_Decline
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Key: InGame_Win
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Key: InGame_Lose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Key: InGame_Warning_TooShort
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Key: InGame_Warning_WrongVector
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Key: InGame_Warning_WrongStart
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

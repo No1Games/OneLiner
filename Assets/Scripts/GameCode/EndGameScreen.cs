@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Localization.Components;
+using UnityEngine.InputSystem;
 
 public class EndGameScreen : MonoBehaviour
 {
@@ -12,7 +14,9 @@ public class EndGameScreen : MonoBehaviour
     [SerializeField] private Button menuBtn;
     [SerializeField] private Button againBtn;
     [SerializeField] private List<GameObject> stars;
-    [SerializeField] private TextMeshProUGUI chosenWord;
+    
+
+    [SerializeField] private LocalizeStringEvent localizeStringEvent;
 
     private void Start()
     {
@@ -22,8 +26,8 @@ public class EndGameScreen : MonoBehaviour
     public void SetFinaleScreen(string word, bool teamWin, int score = 0)
     {
         AudioManager.Instance.TurnMusicOff();
-        chosenWord.text = word;
-        
+        localizeStringEvent.StringReference.TableEntryReference = word;
+
         if (!teamWin)
         {
             AudioManager.Instance.PlaySoundInAdditional(GameSounds.Game_Lose);

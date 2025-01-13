@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WordManager : MonoBehaviour
 {
-    //Додати тут дікшенарі Вордлістов чи просто тримати тут перелік цих вордлістов в залежності від мови скланості чи теми.
+    //Додати тут дікшенарі Вордлістов чи просто тримати тут перелік цих вордлістов в залежності від скланості чи теми.
     [SerializeField] private WordList wordList;
 
     [SerializeField] private int wordAmount;
@@ -16,7 +16,7 @@ public class WordManager : MonoBehaviour
         return wordsToChoose[wordIndex];
     }
 
-    public List<string> FormWordListForRound() //Переробити так щоб він приймав WordList і обирав там потрібний список в залежності від  умов теми та мови
+    public List<string> FormWordListForRound() //Переробити так щоб він приймав WordList і обирав там потрібний список в залежності від  умов
     {
         List<string> words = new List<string>();
         for (int i = 0; i < wordAmount; i++)
@@ -38,6 +38,8 @@ public class WordManager : MonoBehaviour
         return GetRandomWord(words);
     }
 
+
+    #region OnlineCode
     public int GetLeaderWordIndex(List<string> words)
     {
         return UnityEngine.Random.Range(0, words.Count);
@@ -67,4 +69,5 @@ public class WordManager : MonoBehaviour
 
         return words;
     }
+    #endregion
 }

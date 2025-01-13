@@ -71,6 +71,10 @@ public class DrawingManager : MonoBehaviour
     }
     private void GenerateLine()
     {
+        string lineTooShort = "InGame_Warning_TooShort";
+        string lineWrongVector = "InGame_Warning_WrongVector";
+        string lineWrongStart = "InGame_Warning_WrongStart";
+        
         if (drawingCam.gameObject.activeInHierarchy)
         {
 
@@ -118,7 +122,7 @@ public class DrawingManager : MonoBehaviour
                 }
                 else
                 {
-                    OnLineUnavailable.Invoke("Лінія має починатись з іншої лінії");
+                    OnLineUnavailable.Invoke(lineWrongStart);
                 }
             }
 
@@ -148,12 +152,12 @@ public class DrawingManager : MonoBehaviour
                     isDrawing = false; // Завершити малювання
                     if (Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < minLength)
                     {
-                        OnLineUnavailable.Invoke("Лінія занадто коротка");
+                        OnLineUnavailable.Invoke(lineTooShort);
                         Destroy(currentLine);
                     }
                     else if (!SecondPointDistanceCheck())
                     {
-                        OnLineUnavailable.Invoke("Лінія не має продовжувати напрямок іншої лінії");
+                        OnLineUnavailable.Invoke(lineWrongVector);
                         Destroy(currentLine);
                     }
                     else

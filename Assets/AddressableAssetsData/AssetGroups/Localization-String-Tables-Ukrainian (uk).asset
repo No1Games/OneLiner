@@ -22,6 +22,12 @@ MonoBehaviour:
     - Locale-uk
     - Preload
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b66c09caae0b4e847a3c79fb94ca75d9
+    m_Address: GameWords_uk
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-uk
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: ed5b7c5c3be292c44a84f8f59aa72efd, type: 2}
   m_SchemaSet:

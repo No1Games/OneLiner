@@ -243,6 +243,38 @@ MonoBehaviour:
       hr\xE1\u010Di."
     m_Metadata:
       m_Items: []
+  - m_Id: 14171429907628032
+    m_Localized: 'LINIE:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171441379049472
+    m_Localized: "POTVRDIT P\u0158ESUN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Localized: "ZRU\u0160IT P\u0158ESUN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Localized: "V\xCDT\u011AZSTV\xCD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Localized: "POR\xC1\u017DKA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Localized: "\u010C\xE1ra je p\u0159\xEDli\u0161 kr\xE1tk\xE1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Localized: "\u010C\xE1ra nesm\xED pokra\u010Dovat ve sm\u011Bru jin\xE9 \u010D\xE1ry"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Localized: "\u010C\xE1ra mus\xED za\u010D\xEDnat z jin\xE9 \u010D\xE1ry"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

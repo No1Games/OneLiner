@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
+  m_Name: GameWords
+  m_EditorClassIdentifier: 
+  m_SharedTableData: {fileID: 11400000, guid: fdf2e71c993547a49bd25fc8af382254, type: 2}
+  m_Tables:
+  - {fileID: 11400000, guid: bdc90cd799a48004ca2eb22dbbf0d5c1, type: 2}
+  - {fileID: 11400000, guid: b66c09caae0b4e847a3c79fb94ca75d9, type: 2}
+  - {fileID: 11400000, guid: 5195252fa35e0b943aa6930770f0e33c, type: 2}
+  - {fileID: 11400000, guid: 287f7e1caeb55ed4d8fe2f83bedfd15b, type: 2}
+  - {fileID: 11400000, guid: 84ca9be19a63c1c4a8e85b477f7d7b67, type: 2}
+  - {fileID: 11400000, guid: 13882ada9d452e244bb3c34c1e89f499, type: 2}
+  - {fileID: 11400000, guid: 09e9c06c71290954d918bb6ad2da72ec, type: 2}
+  - {fileID: 11400000, guid: 7b14e2199de58fe42a60e2e430352d04, type: 2}
+  m_Extensions: []
+  m_Group: String Table
+  references:
+    version: 2
+    RefIds: []

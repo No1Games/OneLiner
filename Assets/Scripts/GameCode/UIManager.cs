@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Localization.Components;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -24,10 +26,10 @@ public class UIManager : MonoBehaviour
 
     [Header("Texts")]
     [SerializeField] private TMP_Text drawenLines;
-    
 
 
-    [SerializeField] private TMP_Text warningText;
+
+    [SerializeField] private LocalizeStringEvent warningLocalizeStringEvent;
 
 
 
@@ -80,11 +82,11 @@ public class UIManager : MonoBehaviour
 
             GameObject newButton = Instantiate(wordButtonPrefab, wordPanel.transform);
             WordButton_new wordInfo = newButton.GetComponent<WordButton_new>();
-            wordInfo.SetWord(words[i]);
+            wordInfo.SetKey(words[i]);
             wordInfo.wordClicked += CheckTheWord;
             wordsButtons.Add(newButton);
 
-            Button button = newButton.GetComponentInChildren<Button>();
+            //Button button = newButton.GetComponentInChildren<Button>();
             
         }
     }
@@ -94,13 +96,14 @@ public class UIManager : MonoBehaviour
 
 
     }
+    // знаходимо сам об'єкт з лідер вордом, щоб показувати його або ховати
     private void InitiateLeaderWordButton()
     {
         foreach (GameObject wordButton in wordsButtons)
         {
-            if (wordButton.GetComponentInChildren<TMP_Text>().text == leaderWordText)
+            if (wordButton.GetComponent<WordButton_new>().GetKey() == leaderWordText)
             {
-                Debug.Log("leader finded");
+                Debug.Log("leader word was found");
                 leaderWord = wordButton;
                 break;
             }
@@ -165,8 +168,6 @@ public class UIManager : MonoBehaviour
     {
         wordPanel.SetActive(false);
         
-
-        //drawing.DrawingAllowed = true;
         if (playerToTrack.role == roleKnowTheWord)
         {
             leaderWord.GetComponent<WordButton_new>().HideLeaderWord();
@@ -182,7 +183,7 @@ public class UIManager : MonoBehaviour
         {
             
             wordPanel.SetActive(false);
-            if (word.gameObject.GetComponentInChildren<TMP_Text>().text == leaderWordText)
+            if (word.gameObject.GetComponent<WordButton_new>().GetKey() == leaderWordText)
             {
 
                 
@@ -224,11 +225,11 @@ public class UIManager : MonoBehaviour
 
     }
 
-    private IEnumerator PushWarning(string message)
+    private IEnumerator PushWarning(string key)
     {
         
         isWarningActive = true;
-        warningText.text = message;
+        warningLocalizeStringEvent.StringReference.TableEntryReference = key;
         warningPanel.SetActive(true);
         yield return new WaitForSeconds(2f);
         warningPanel.SetActive(false);

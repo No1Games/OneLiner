@@ -244,6 +244,38 @@ MonoBehaviour:
       s\u0142\xF3w i s\u0105 wsp\xF3lne dla wszystkich graczy."
     m_Metadata:
       m_Items: []
+  - m_Id: 14171429907628032
+    m_Localized: 'LINIE:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171441379049472
+    m_Localized: "POTWIERD\u0179 RUCH"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Localized: ANULUJ RUCH
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Localized: "ZWYCI\u0118STWO"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Localized: "PORA\u017BKA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Localized: "Linia jest zbyt kr\xF3tka"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Localized: "Linia nie mo\u017Ce kontynuowa\u0107 kierunku innej linii"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Localized: "Linia musi zaczyna\u0107 si\u0119 od innej linii"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

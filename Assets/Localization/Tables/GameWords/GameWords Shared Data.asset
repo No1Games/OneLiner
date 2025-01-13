@@ -1,0 +1,188 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: GameWords Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: GameWords
+  m_TableCollectionNameGuidString: fdf2e71c993547a49bd25fc8af382254
+  m_Entries:
+  - m_Id: 9535389696
+    m_Key: word_01
+    m_Metadata:
+      m_Items: []
+  - m_Id: 467406585856
+    m_Key: word_02
+    m_Metadata:
+      m_Items: []
+  - m_Id: 482581577728
+    m_Key: word_03
+    m_Metadata:
+      m_Items: []
+  - m_Id: 496661856256
+    m_Key: word_04
+    m_Metadata:
+      m_Items: []
+  - m_Id: 517285249024
+    m_Key: word_05
+    m_Metadata:
+      m_Items: []
+  - m_Id: 540429418496
+    m_Key: word_06
+    m_Metadata:
+      m_Items: []
+  - m_Id: 557470875648
+    m_Key: word_07
+    m_Metadata:
+      m_Items: []
+  - m_Id: 580006871040
+    m_Key: word_08
+    m_Metadata:
+      m_Items: []
+  - m_Id: 598629580800
+    m_Key: word_09
+    m_Metadata:
+      m_Items: []
+  - m_Id: 602576420864
+    m_Key: word_10
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603318812672
+    m_Key: word_11
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603922792448
+    m_Key: word_12
+    m_Metadata:
+      m_Items: []
+  - m_Id: 604690350080
+    m_Key: word_13
+    m_Metadata:
+      m_Items: []
+  - m_Id: 605327884288
+    m_Key: word_14
+    m_Metadata:
+      m_Items: []
+  - m_Id: 606099636224
+    m_Key: word_15
+    m_Metadata:
+      m_Items: []
+  - m_Id: 606967857152
+    m_Key: word_16
+    m_Metadata:
+      m_Items: []
+  - m_Id: 608142262272
+    m_Key: word_17
+    m_Metadata:
+      m_Items: []
+  - m_Id: 610826616832
+    m_Key: word_18
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4402536153088
+    m_Key: word_19
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4405254062080
+    m_Key: word_20
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4406021619712
+    m_Key: word_21
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4406797565952
+    m_Key: word_22
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4407535763456
+    m_Key: word_23
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4408269766656
+    m_Key: word_24
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4409611943936
+    m_Key: word_25
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4410215923712
+    m_Key: word_26
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4410891206656
+    m_Key: word_27
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4411558100992
+    m_Key: word_28
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4412191440896
+    m_Key: word_29
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4412971581440
+    m_Key: word_30
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4413705584640
+    m_Key: word_31
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4414343118848
+    m_Key: word_32
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4415119065088
+    m_Key: word_33
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4415785959424
+    m_Key: word_34
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4722305695744
+    m_Key: word_35
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4723341688832
+    m_Key: word_36
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4724243464192
+    m_Key: word_37
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4725027799040
+    m_Key: word_38
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4725761802240
+    m_Key: word_39
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4726567108608
+    m_Key: word_40
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 5938984872695038149
+  references:
+    version: 2
+    RefIds:
+    - rid: 5938984872695038149
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1736763775041

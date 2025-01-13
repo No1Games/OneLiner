@@ -238,6 +238,38 @@ MonoBehaviour:
       tra tutti i giocatori."
     m_Metadata:
       m_Items: []
+  - m_Id: 14171429907628032
+    m_Localized: 'LINEE:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171441379049472
+    m_Localized: CONFERMA MOSSA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Localized: ANNULLA MOSSA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Localized: VITTORIA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Localized: SCONFITTA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Localized: "La linea \xE8 troppo corta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Localized: La linea non deve proseguire nella direzione di un'altra linea
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Localized: La linea deve iniziare da un'altra linea
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
