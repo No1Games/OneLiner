@@ -20,6 +20,14 @@ public class MainMenuManager : MonoBehaviour
     {
         _instance = this;
         _currentMenu = MenuName.MainScreen;
+        
+    }
+    private void Start()
+    {
+        if (IngameData.Instance.ReturnedFromGame)
+        {
+            ChangeMenu(MenuName.LocalSetup);
+        }
     }
 
     public void ChangeMenu(MenuName menu)

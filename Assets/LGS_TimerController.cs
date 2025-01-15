@@ -49,4 +49,16 @@ public class LGS_TimerController : MonoBehaviour
     {
         IngameData.Instance.InitializeTimer(isTimerOn, timerValue);
     }
+
+    public void InitializeTimer(bool timerState, int value)
+    {
+        isTimerOn = timerState;
+        timerValue = value;
+
+        timerSlider.value = timerValue;
+        timerSlider.interactable = isTimerOn;
+        isOnImage.SetActive(isTimerOn);
+
+        UpdateTimerText();
+    }
 }

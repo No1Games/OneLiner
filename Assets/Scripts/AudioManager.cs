@@ -44,9 +44,13 @@ public class AudioManager : MonoBehaviour
         audioSourceMain.loop = s.loop;
         audioSourceMain.Play();
     }
-    public void StopSoundInMain()
+    public void PauseSoundInBack()
     {
-        audioSourceMain.Stop();
+        audioSourceBack.Stop();
+    }
+    public void ResumeSoundInBack()
+    {
+        audioSourceBack.Play();
     }
 
     public void PlaySoundInBack(GameSounds name)

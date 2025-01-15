@@ -22,9 +22,10 @@ public class LocalSetup : MenuBase
     public event Action OnStartGameBtnClick;
     public event Action OnRandomLeaderBtnClick;
     public event Action OnChooseLeaderBtnClick;
+    public event Action OnBackBtnClick;
 
-    
-    
+
+
 
     private void Awake()
     {
@@ -42,6 +43,7 @@ public class LocalSetup : MenuBase
         back.onClick.AddListener(OnClick_Back);
 
     }
+    
 
     public void AddPlayerBtn_VisibilityChange(bool visibility)
     {
@@ -83,7 +85,8 @@ public class LocalSetup : MenuBase
     }
     private void OnClick_Back()
     {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);        
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        OnBackBtnClick?.Invoke();
         MainMenuManager.Instance.ChangeMenu(MenuName.MainScreen);
     }
 }

@@ -14,6 +14,7 @@ public class LocalGameSetupManager : MonoBehaviour
     [SerializeField] private GameObject playerPanel;
     [SerializeField] LocalSetup localSetupUI;
     private bool leaderSelectInProcess = false;
+    private bool playersInitialized = false;
     
     private List<PlayerScript> players = new();
     private List<GameObject> playersPlates = new();
@@ -35,10 +36,13 @@ public class LocalGameSetupManager : MonoBehaviour
     {
         lgsFunc = gameObject.AddComponent<LocalGameSetup_Func>(); 
         lgsFunc.Initialize(playerPlatePrefab, playerPanel, accountManager);
-        localSetupUI.OnAddPlayerBtnClick += AddPlayer;
+        localSetupUI.OnAddPlayerBtnClick += (() => AddPlayer());
         localSetupUI.OnStartGameBtnClick += StartLocalGame;
         localSetupUI.OnRandomLeaderBtnClick += ChoseRandomLeader;
         localSetupUI.OnChooseLeaderBtnClick += SelectLeader;
+        localSetupUI.OnScreenShow += SetLocalSetup;
+        localSetupUI.OnBackBtnClick += ClearLocalSetup;
+
 
         customizationDataManager.OnCustomizationEnds += PlateVisualUpdate;
         OnLevelStarts += timerController.UpdateIngameData;
@@ -51,6 +55,77 @@ public class LocalGameSetupManager : MonoBehaviour
         modeMenu.OnModeSelected += InitiateModeParams;
         InitiateModeParams();
     }
+
+    private void SetLocalSetup()
+    {
+        if (!playersInitialized)
+        {
+            playersInitialized = true;
+            IngameData ingameData = IngameData.Instance;
+            InitializeMode();
+            timerController.InitializeTimer(ingameData.IsTimerOn, ingameData.TimerDuration);
+
+            if (ingameData.ReturnedFromGame && ingameData.Players != null && ingameData.Players.Count > 0)
+            {
+                InitializeSavedPlayers();
+            }
+            else
+            {
+                InitializeDefaultPlayers();
+            }
+
+        }
+        
+    }
+
+    private void ClearLocalSetup()
+    {
+        players.Clear();
+        foreach (GameObject plate in playersPlates)
+        {
+            if (plate != null)
+            {
+                Destroy(plate);
+            }
+        }
+        playersInitialized = false;
+
+        
+       
+        playersPlates.Clear();
+        IngameData.Instance.SetReturnedFromGame(false);
+    }
+
+    private void InitializeMode()
+    {
+        if (IngameData.Instance.GameMode != null)
+        {
+            modeMenu.SetSelectedMode(IngameData.Instance.GameMode);
+        }
+        else
+        {
+            Debug.LogWarning("GameMode is null. Using default mode.");
+        }
+    }
+
+    
+
+    private void InitializeSavedPlayers()
+    {
+        foreach (PlayerScript p in IngameData.Instance.Players)
+        {
+            AddPlayer(p);
+        }
+    }
+
+    private void InitializeDefaultPlayers()
+    {
+        for (int i = 0; i < minPlayers; i++)
+        {
+            AddPlayer();
+        }
+    }
+
 
     private void InitiateModeParams()
     {
@@ -68,19 +143,25 @@ public class LocalGameSetupManager : MonoBehaviour
         }
     }
 
-    private void AddPlayer()
+
+    private void AddPlayer(PlayerScript player = null)
     {
-        PlayerScript player;
+        
         if (players.Count < maxPlayers)
         {
-            if (players.Count == 0)
+            if (player == null)
             {
-               player = accountManager.player;
+                if (players.Count == 0)
+                {
+                    player = accountManager.player;
+                }
+                else
+                {
+                    player = lgsFunc.AddRandomPlayer(players);
+                }
             }
-            else
-            {
-               player = lgsFunc.AddRandomPlayer(players);
-            }
+            
+            
            players.Add(player);
             if(players.Count == maxPlayers)
             {

@@ -1,11 +1,10 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.Localization.Components;
-using UnityEngine.InputSystem;
+
 
 public class EndGameScreen : MonoBehaviour
 {
@@ -25,7 +24,7 @@ public class EndGameScreen : MonoBehaviour
     }
     public void SetFinaleScreen(string word, bool teamWin, int score = 0)
     {
-        AudioManager.Instance.TurnMusicOff();
+        AudioManager.Instance.PauseSoundInBack();
         localizeStringEvent.StringReference.TableEntryReference = word;
 
         if (!teamWin)
@@ -66,8 +65,9 @@ public class EndGameScreen : MonoBehaviour
 
     public void BackToMainMenu()
     {
-        AudioManager.Instance.TurnMusicOn();
+        AudioManager.Instance.ResumeSoundInBack();
         AudioManager.Instance.StopSoundInAdditional();
+        IngameData.Instance.SetReturnedFromGame(true);
         SceneManager.LoadScene(0);
     }
 

@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class IngameData : MonoBehaviour
 {
-
     // Singleton instance
     public static IngameData Instance { get; private set; }
 
@@ -22,14 +20,13 @@ public class IngameData : MonoBehaviour
     {
         get => isTimerOn;
         set => isTimerOn = value;
-
     }
 
     private int timerDuration;
     public int TimerDuration
     {
         get => timerDuration;
-        set => timerDuration = value;
+        private set => timerDuration = value;
     }
 
     // Role-specific settings
@@ -37,9 +34,25 @@ public class IngameData : MonoBehaviour
     public PlayerRole RoleKnowsWord
     {
         get => roleKnowsWord;
-        set => roleKnowsWord = value;
+        private set => roleKnowsWord = value;
     }
 
+    // Game mode
+    private GameModes gameMode; // Назва ігрового режиму
+    public GameModes GameMode
+    {
+        get => gameMode;
+        private set => gameMode = value;
+    }
+
+    // Flag for returning from the game
+    public bool ReturnedFromGame { get; private set; }
+    public void SetReturnedFromGame(bool value)
+    {
+        ReturnedFromGame = value;
+    }
+
+    // Singleton setup
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -50,6 +63,8 @@ public class IngameData : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        ResetData();
     }
 
     // Method to reset IngameData when returning to the main menu
@@ -57,13 +72,16 @@ public class IngameData : MonoBehaviour
     {
         players.Clear();
         isTimerOn = true;
-        timerDuration = 60;
+        timerDuration = 60; // Базова тривалість таймера
         roleKnowsWord = PlayerRole.NotSetYet;
+        gameMode = GameModes.Coop; // Базовий ігровий режим
+        ReturnedFromGame = false;
     }
 
     // Method to initialize players
     public void InitializePlayers(List<PlayerScript> newPlayers)
     {
+        players.Clear();
         Players = newPlayers;
     }
 
@@ -80,6 +98,9 @@ public class IngameData : MonoBehaviour
         RoleKnowsWord = role;
     }
 
+    // Method to set the game mode
+    public void SetGameMode(GameModes mode)
+    {
+        GameMode = mode;
+    }
 }
-
-

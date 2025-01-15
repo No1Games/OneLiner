@@ -42,30 +42,43 @@ public class ModeMenu : MonoBehaviour
         return modePanels[currentIndex].GetComponent<ModeInfo>();
     }
 
-    private void ActivateGameModePanel(GameModes mode)
-    {
-        // Вимикаємо всі панелі
-        foreach (var panel in modePanels)
-        {
-            if (panel.GetComponent<ModeInfo>().modeName == mode)
-            {
-                panel.SetActive(true);
-            }
-            else
-            {
-                panel.SetActive(false);
-            }
+    
 
+    public void SetSelectedMode(GameModes mode)
+    {
+        // Знайдемо індекс панелі з потрібним режимом
+        int gameModeIndex = modePanels.FindIndex(mp => mp.GetComponent<ModeInfo>().modeName == mode);
+
+        // Якщо індекс не знайдено, виходимо
+        if (gameModeIndex == -1)
+        {
+            Debug.LogError($"Mode {mode} not found in modePanels!");
+            return;
         }
 
+        // Якщо панель уже активна, просто викликаємо підтвердження
+        if (gameModeIndex == currentIndex)
+        {
+            Debug.Log($"Mode {mode} is already selected.");
+            OnModeSelected?.Invoke();
+            return;
+        }
 
+        // Оновлюємо поточний індекс
+        currentIndex = gameModeIndex;
+
+        // Активуємо потрібну панель і вимикаємо інші
+        for (int i = 0; i < modePanels.Count; i++)
+        {
+            modePanels[i].SetActive(i == currentIndex);
+        }
+
+        // Надсилаємо подію про обраний режим
+        OnModeSelected?.Invoke();
     }
-    public void OpenModeSelection(GameModes mode)
-    {
-        // Відкриваємо меню і встановлюємо панель відповідно до поточного режиму
-        //currentMode = IngameData.Instance.GetGameMode();
-        ActivateGameModePanel(mode);
-    }
+
+
+    
 
     public void MoveRight()
     {
