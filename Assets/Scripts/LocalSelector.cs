@@ -7,6 +7,7 @@ using UnityEngine.Localization.Settings;
 public class LocalSelector : MonoBehaviour
 {
     private bool isActive = false;
+    public const string LanguageKey = "Language"; // Ключ для зберігання мови в PlayerPrefs
 
     public void ChooseLocal(int index)
     {
@@ -23,6 +24,10 @@ public class LocalSelector : MonoBehaviour
         isActive = true;
         yield return LocalizationSettings.InitializationOperation;
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[localIndex];
+
+        PlayerPrefs.SetInt(LanguageKey, localIndex);
+        
+
         isActive= false;
     }
 }

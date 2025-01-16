@@ -24,7 +24,12 @@ public class SettingsMenu_MM : MenuBase
 
     private void Awake()
     {
-        Init();
+        //Init(); // called from mainMenuManager
+        
+    }
+    private void Start()
+    {
+        ButtonAnimationUpdate();
     }
     public override void Init()
     {
@@ -36,8 +41,66 @@ public class SettingsMenu_MM : MenuBase
         confidentialPolicy.onClick.AddListener(OnClick_confidentialPolicy);
         back.onClick.AddListener(OnClick_back);
         languageChange.onValueChanged.AddListener(OnLanguageChanged);
+        CheckPlayerPrefs();
+
+
+
 
     }
+    
+
+    private void CheckPlayerPrefs()
+    {
+        if (PlayerPrefs.HasKey(LocalSelector.LanguageKey))
+        {
+            int savedLanguageIndex = PlayerPrefs.GetInt(LocalSelector.LanguageKey);
+
+            
+            languageChange.value = savedLanguageIndex;
+
+            
+            languageChange.onValueChanged.Invoke(savedLanguageIndex);
+        }
+       
+
+       
+        
+    }
+    private void ButtonAnimationUpdate()
+    {
+       if (PlayerPrefs.HasKey(AudioManager.MusicKey))
+        {
+            float musicVolume = PlayerPrefs.GetFloat(AudioManager.MusicKey);
+            
+            if (musicVolume <= -80f)
+            {
+                musicBtnAnimator.SetTrigger("ClickOff");
+            }
+            else
+            {
+                musicBtnAnimator.SetTrigger("ClickOn");
+            }
+        }
+
+
+
+        if (PlayerPrefs.HasKey(AudioManager.SFXKey))
+        {
+            float sfxVolume = PlayerPrefs.GetFloat(AudioManager.SFXKey);
+            
+            if (sfxVolume <= -80f)
+            {
+                sfxBtnAnimator.SetTrigger("ClickOff");
+            }
+            else
+            {
+                sfxBtnAnimator.SetTrigger("ClickOn");
+            }
+        }
+
+    }
+
+
 
     private void OnClick_musicVolumeChange()
     {
@@ -54,6 +117,8 @@ public class SettingsMenu_MM : MenuBase
         }
 
     }
+   
+
     private void OnClick_sfxVolumeChange()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);

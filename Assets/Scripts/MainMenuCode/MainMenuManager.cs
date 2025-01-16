@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -20,8 +21,30 @@ public class MainMenuManager : MonoBehaviour
     {
         _instance = this;
         _currentMenu = MenuName.MainScreen;
-        
+        CallSettingsInit();
+
+
     }
+
+    
+
+    private void CallSettingsInit()
+    {
+        // Знаходимо об'єкт з MenuName.OptionScreen
+        var settingsMenu = _menus.Find(menu => menu.Menu == MenuName.OptionScreen);
+
+        // Перевіряємо, чи знайдено меню
+        if (settingsMenu != null)
+        {
+            settingsMenu.Init();
+        }
+        else
+        {
+            Debug.LogWarning("Menu with MenuName.OptionScreen not found in _menus list!");
+        }
+    }
+
+
     private void Start()
     {
         if (IngameData.Instance.ReturnedFromGame)

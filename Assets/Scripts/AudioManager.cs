@@ -2,7 +2,6 @@ using UnityEngine.Audio;
 using UnityEngine;
 using System;
 
-
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
@@ -14,6 +13,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] string musicVolumeParam;
     [SerializeField] string sfxVolumeParam;
+
+    public const string MusicKey = "MusicVolume";
+    public const string SFXKey = "SFXVolume";
+
     private void Awake()
     {
         if (Instance == null)
@@ -29,7 +32,49 @@ public class AudioManager : MonoBehaviour
         }
 
         PlaySoundInBack(GameSounds.MainTheme);
+          
+        
     }
+    private void Start()
+    {
+        SetPreviousSettings();
+    }
+
+    private void SetPreviousSettings()
+    {
+        
+        if (PlayerPrefs.HasKey(MusicKey))
+        {
+            float musicVolume = PlayerPrefs.GetFloat(MusicKey);
+            Debug.Log($"Music Volume from PlayerPrefs: {musicVolume}");
+            if (musicVolume <= -80f)
+            {
+                TurnMusicOff(); 
+            }
+            else
+            {
+                TurnMusicOn(); 
+            }
+        }
+       
+
+        
+        if (PlayerPrefs.HasKey(SFXKey))
+        {
+            float sfxVolume = PlayerPrefs.GetFloat(SFXKey);
+            Debug.Log($"SFX Volume from PlayerPrefs: {sfxVolume}");
+            if (sfxVolume <= -80f)
+            {
+                TurnSFXOff(); 
+            }
+            else
+            {
+                TurnSFXOn(); 
+            }
+        }
+       
+    }
+
 
     public void PlaySoundInMain(GameSounds name)
     {
@@ -44,10 +89,12 @@ public class AudioManager : MonoBehaviour
         audioSourceMain.loop = s.loop;
         audioSourceMain.Play();
     }
+
     public void PauseSoundInBack()
     {
         audioSourceBack.Stop();
     }
+
     public void ResumeSoundInBack()
     {
         audioSourceBack.Play();
@@ -78,6 +125,7 @@ public class AudioManager : MonoBehaviour
         audioSourceAdditional.loop = s.loop;
         audioSourceAdditional.Play();
     }
+
     public void StopSoundInAdditional()
     {
         audioSourceAdditional.Stop();
@@ -85,40 +133,48 @@ public class AudioManager : MonoBehaviour
 
     public void TurnMusicOn()
     {
-        audioMixer.SetFloat(musicVolumeParam, 0f);
+        audioMixer.SetFloat(musicVolumeParam, 0f);  // Встановлення нормального рівня гучності
+        PlayerPrefs.SetFloat(MusicKey, 0f);
+        PlayerPrefs.Save();
     }
+
     public void TurnMusicOff()
     {
-        audioMixer.SetFloat(musicVolumeParam, -80f);
+        audioMixer.SetFloat(musicVolumeParam, -80f);  // Встановлення мінімального рівня гучності (вимкнено)
+        PlayerPrefs.SetFloat(MusicKey, -80f);
+        PlayerPrefs.Save();
     }
+
     public void TurnSFXOn()
     {
-        audioMixer.SetFloat(sfxVolumeParam, 0f);
+        audioMixer.SetFloat(sfxVolumeParam, 0f);  // Встановлення нормального рівня гучності для SFX
+        PlayerPrefs.SetFloat(SFXKey, 0f);
+        PlayerPrefs.Save();
     }
+
     public void TurnSFXOff()
     {
-        audioMixer.SetFloat(sfxVolumeParam, -80f);
+        audioMixer.SetFloat(sfxVolumeParam, -80f);  // Встановлення мінімального рівня гучності для SFX (вимкнено)
+        PlayerPrefs.SetFloat(SFXKey, -80f);
+        PlayerPrefs.Save();
     }
 
     public float GetMusicVolume()
     {
-        float volume;
-        audioMixer.GetFloat(musicVolumeParam, out volume);
+        audioMixer.GetFloat(musicVolumeParam, out float volume);
         return volume;
     }
+
     public float GetSFXVolume()
     {
-        float volume;
-        audioMixer.GetFloat(sfxVolumeParam, out volume);
+        audioMixer.GetFloat(sfxVolumeParam, out float volume);
         return volume;
     }
-
-
 }
 
 public enum GameSounds
 {
-MainTheme, Menu_Click, Menu_Play, Menu_edit,
-Game_WordMenu, Game_DrawMenu, Game_Settings, Game_TurnChange, Game_WrongWord, Game_WrongDrawing, 
-Timer_LastSeconds, Game_Victory, Game_Lose
+    MainTheme, Menu_Click, Menu_Play, Menu_edit,
+    Game_WordMenu, Game_DrawMenu, Game_Settings, Game_TurnChange, Game_WrongWord, Game_WrongDrawing,
+    Timer_LastSeconds, Game_Victory, Game_Lose
 }
