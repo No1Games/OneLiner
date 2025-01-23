@@ -6,9 +6,6 @@ public class RoomsListUI : MenuBase
 {
     public override MenuName Menu => MenuName.RoomsList;
 
-    [Header("Loading Settings")]
-    [SerializeField] private string _joiningText = "Joining the room...";
-
     [Header("Rooms List Fields")]
     [SerializeField] private RoomItemUI _roomItemPrefab;
     [SerializeField] private Transform _container;
@@ -114,16 +111,13 @@ public class RoomsListUI : MenuBase
                 item.Deselect();
             }
         }
-
-        _selectedLobby = lobby;
-        // _joinButton.gameObject.SetActive(true);
     }
 
     private async void OnJoinLobbyClicked(LocalLobby lobby)
     {
-        LoadingPanel.Instance.Show(_joiningText);
+        LoadingPanel.Instance.Show();
 
-        await _gameManager.JoinLobby(_selectedLobby.LobbyID.Value, _selectedLobby.LobbyCode.Value);
+        await _gameManager.JoinLobby(lobby.LobbyID.Value, lobby.LobbyCode.Value);
 
         MainMenuManager.Instance.OpenRoomPanel(false);
 

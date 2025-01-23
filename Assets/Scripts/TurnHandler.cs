@@ -1,42 +1,69 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 public class TurnHandler : MonoBehaviour
 {
-    [Inject(Id = "RuntimeTMP")] ILogger _logger;
+    private OnlineController m_OnlineController;
 
-    [SerializeField] private TextMeshProUGUI _currentPlayerTMP;
-    [SerializeField] private Button _drawButton;
+    [SerializeField] private Button m_DrawButton;
 
-    private LocalLobby _localLobby;
+    private LocalLobby m_LocalLobby;
 
-    private Queue<LocalPlayer> _playersQueue;
-    private LocalPlayer _leader;
+    private Queue<LocalPlayer> m_PlayersQueue;
+    private LocalPlayer m_Leader;
 
-    private LocalPlayer _currentPlayer;
-    public LocalPlayer CurrentPlayer => _currentPlayer;
+    private LocalPlayer m_CurrentPlayer;
+    public LocalPlayer CurrentPlayer => m_CurrentPlayer;
+
+    private void Awake()
+    {
+        // Cache controller
+        m_OnlineController = OnlineController.Instance;
+
+        // Cache current lobby
+        m_LocalLobby = m_OnlineController.LocalLobby;
+    }
 
     private void Start()
     {
-        // Cache current lobby
-        _localLobby = GameManager.Instance.LocalLobby;
-
         // Subscribe on turn changing
-        _localLobby.CurrentPlayerID.onChanged += OnTurnIDChanged;
-        GameManager.Instance.PassTurn += PassTurn;
+        m_LocalLobby.CurrentPlayerID.onChanged += OnTurnIDChanged;
+        m_OnlineController.PassTurnEvent += PassTurn;
 
 
         // Following actions makes only host
-        if (GameManager.Instance.LocalUser.IsHost.Value)
+        if (m_OnlineController.LocalPlayer.IsHost.Value)
         {
             // Form players queue and find leader
             CreateQueue();
 
             // Leader first to take turn
-            GameManager.Instance.SetTurnID(_leader.ID.Value);
+            if (m_Leader is null)
+            {
+                Debug.LogWarning("Can't find leader player!");
+                return;
+            }
+
+            m_OnlineController.SetTurnID(m_Leader.ID.Value);
+        }
+    }
+
+    private void CreateQueue()
+    {
+        m_PlayersQueue = new Queue<LocalPlayer>();
+
+        foreach (var p in m_LocalLobby.LocalPlayers)
+        {
+            Debug.Log(p.Role.Value.ToString());
+
+            if (p.Role.Value == PlayerRole.Leader)
+            {
+                m_Leader = p;
+                Debug.Log($"Leader found! {p.DisplayName.Value} - {p.ID.Value} - {p.Role.Value}");
+                continue;
+            }
+            m_PlayersQueue.Enqueue(p);
         }
     }
 
@@ -44,64 +71,43 @@ public class TurnHandler : MonoBehaviour
     {
         LocalPlayer nextPlayer = null;
 
-        if (_currentPlayer.Role.Value == PlayerRole.Player)
+        if (m_CurrentPlayer.Role.Value == PlayerRole.Player)
         {
-            _playersQueue.Enqueue(_currentPlayer);
-            nextPlayer = _leader;
+            m_PlayersQueue.Enqueue(m_CurrentPlayer);
+            nextPlayer = m_Leader;
         }
-        else if (_currentPlayer.Role.Value == PlayerRole.Leader)
+        else if (m_CurrentPlayer.Role.Value == PlayerRole.Leader)
         {
-            nextPlayer = _playersQueue.Dequeue();
+            nextPlayer = m_PlayersQueue.Dequeue();
         }
 
         if (nextPlayer == null)
         {
-            _logger.Log($"Failed to calculate next player");
+            Debug.LogWarning($"Failed to calculate next player");
+            return;
         }
 
-        GameManager.Instance.SetTurnID(nextPlayer.ID.Value);
+        m_OnlineController.SetTurnID(nextPlayer.ID.Value);
     }
 
     private void OnTurnIDChanged(string newID)
     {
         // Get current player from lobby
-        _currentPlayer = _localLobby.GetLocalPlayer(newID);
+        m_CurrentPlayer = m_LocalLobby.GetLocalPlayer(newID);
 
-        if (_currentPlayer == null)
+        if (m_CurrentPlayer == null)
         {
-            _logger.Log($"Failed to find local player with id {newID}");
+            Debug.Log($"Failed to find local player with id {newID}");
             return;
         }
 
-        // Update UI
-        SetUI();
-    }
-
-    private void CreateQueue()
-    {
-        _playersQueue = new Queue<LocalPlayer>();
-
-        foreach (var p in _localLobby.LocalPlayers)
-        {
-            if (p.Role.Value == PlayerRole.Leader)
-            {
-                _leader = p;
-                continue;
-            }
-            _playersQueue.Enqueue(p);
-        }
-    }
-
-    private void SetUI()
-    {
-        _currentPlayerTMP.text = _currentPlayer.ID.Value == GameManager.Instance.LocalUser.ID.Value ? "Ви" : _currentPlayer.DisplayName.Value;
-
-        _drawButton.interactable = _currentPlayer.ID.Value == GameManager.Instance.LocalUser.ID.Value;
+        m_DrawButton.enabled = m_CurrentPlayer.ID.Value == m_OnlineController.LocalPlayer.ID.Value;
     }
 
     public void EndTurn()
     {
-        GameManager.Instance.SetLocalUserTurn(false);
+        Debug.Log("NOT IMPLEMENTED");
+        // m_OnlineController.SetLocalUserTurn(false);
     }
 }
 

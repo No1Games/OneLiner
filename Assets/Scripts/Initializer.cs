@@ -8,7 +8,7 @@ public class Initializer : MonoBehaviour
 {
     private async void Awake()
     {
-        LoadingPanel.Instance.Show("Loading...");
+        LoadingPanel.Instance.Show();
 
         await TryInitServices();
 

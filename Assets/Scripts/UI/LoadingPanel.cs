@@ -1,5 +1,4 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LoadingPanel : MonoBehaviour
 {
@@ -7,7 +6,7 @@ public class LoadingPanel : MonoBehaviour
     public static LoadingPanel Instance => _instance;
 
     [SerializeField] private GameObject _panelGO;
-    
+
 
     private void Awake()
     {
@@ -22,10 +21,8 @@ public class LoadingPanel : MonoBehaviour
         }
     }
 
-    public void Show(string text)
+    public void Show()
     {
-        
-
         _panelGO.SetActive(true);
     }
 

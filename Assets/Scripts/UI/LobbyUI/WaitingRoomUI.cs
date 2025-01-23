@@ -36,9 +36,6 @@ public class WaitingRoomUI : MenuBase
     private float _timerValue;
     private bool _isTimerEnabled;
 
-    [Header("Loading Screen Settings")]
-    [SerializeField] private string _creatingLobbyLoadingText = "Creating your room...";
-
     private LocalLobby _localLobby;
     private OnlineController _gameManager;
 
@@ -61,6 +58,7 @@ public class WaitingRoomUI : MenuBase
         _unreadyButton.onClick.AddListener(OnClick_UnreadyButton);
 
         _randomLeaderButton.onClick.AddListener(OnClick_RandomLeaderButton);
+        _chooseLeaderButton.onClick.AddListener(OnClick_ChooseLeaderButton);
 
         _timerSlider.onValueChanged.AddListener(OnValueChanged_TimerSlider);
         _enableTimerButton.onClick.AddListener(OnClick_EnableTimerButton);
@@ -79,7 +77,7 @@ public class WaitingRoomUI : MenuBase
     {
         // TODO: PRIVATE MAX PLAYERS
 
-        LoadingPanel.Instance.Show(_creatingLobbyLoadingText);
+        LoadingPanel.Instance.Show();
 
         await _gameManager.CreateLobby(_gameManager.LocalPlayer.DisplayName.Value, _isPrivate, _maxPlayers);
 
@@ -114,6 +112,8 @@ public class WaitingRoomUI : MenuBase
 
     private void OnClick_PublicButton()
     {
+        OnlineController.Instance.IsRandomLeader = true;
+
         _publicButtonAnimator.SetBool("Selected", true);
         _privateButtonAnimator.SetBool("Selected", false);
 
@@ -147,14 +147,12 @@ public class WaitingRoomUI : MenuBase
 
     private void OnClick_ChooseLeaderButton()
     {
-
+        OnlineController.Instance.IsRandomLeader = false;
     }
 
     private void OnClick_RandomLeaderButton()
     {
-        string newLeaderID = LeaderPicker.PickRandomLeader();
 
-        _gameManager.SetLocalLobbyLeader(newLeaderID);
     }
 
     private void OnClick_EnableTimerButton()

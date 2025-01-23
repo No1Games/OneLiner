@@ -54,8 +54,6 @@ public class PlayerPanelUI : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Player ID: {m_LocalPlayer.ID.Value} --- Leader ID: {m_LocalLobby.LeaderID.Value}");
-
         SetIsLeader(m_LocalLobby.LeaderID.Value);
 
         SubscribeOnLobbyChanges();

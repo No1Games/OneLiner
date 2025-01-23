@@ -7,16 +7,21 @@ public class ObjectPool<T> where T : MonoBehaviour
     private T _objPrefab;
     private int _initSize = 10;
 
+    private Transform m_Parent;
+
     private Queue<T> _pool = new Queue<T>();
 
     public event Action<T> ObjectReturnedEvent;
 
-    public ObjectPool(T objPrefab)
+    public ObjectPool(T objPrefab, Transform parent = null)
     {
         _objPrefab = objPrefab;
+
+        m_Parent = parent;
+
         for (int i = 0; i < _initSize; i++)
         {
-            T obj = GameObject.Instantiate(_objPrefab);
+            T obj = GameObject.Instantiate(_objPrefab, m_Parent);
             obj.gameObject.SetActive(false);
             _pool.Enqueue(obj);
         }
@@ -32,7 +37,7 @@ public class ObjectPool<T> where T : MonoBehaviour
         }
         else
         {
-            T obj = GameObject.Instantiate(_objPrefab);
+            T obj = GameObject.Instantiate(_objPrefab, m_Parent);
             return obj;
         }
     }

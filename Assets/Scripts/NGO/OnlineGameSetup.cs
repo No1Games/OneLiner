@@ -16,8 +16,8 @@ public class OnlineGameSetup : MonoBehaviour
     #region Turn Handle Fields
 
     [Header("Turn Handle Fields")]
-    [SerializeField] private StartTurnPanelUI _startTurnPanel;
-    [SerializeField] private TurnHandler _turnHandler;
+    [SerializeField] private StartTurnPanelUI m_StartTurnPanel;
+    [SerializeField] private TurnHandler m_TurnHandler;
 
     #endregion
 
@@ -37,7 +37,7 @@ public class OnlineGameSetup : MonoBehaviour
     [Header("Drawing Fields")]
     [SerializeField] private NGODrawManager m_DrawingManager;
     [SerializeField] private DrawingUpdate m_DrawingUpdate;
-    [SerializeField] private Image _drawnImage;
+    [SerializeField] private Image m_DrawnImage;
 
     #endregion
 
@@ -45,7 +45,7 @@ public class OnlineGameSetup : MonoBehaviour
     [SerializeField] private Camera m_MainCamera;
 
     [Space]
-    [SerializeField] private GameOverUI _gameOverUI;
+    [SerializeField] private GameOverUI m_GameOverUI;
 
     private RpcHandler m_RpcHandler;
     private OnlineController m_OnlineController;
@@ -131,7 +131,7 @@ public class OnlineGameSetup : MonoBehaviour
     private void OnLineConfirmed(NGOLine line)
     {
         m_RpcHandler.SpawnLine(line.Start, line.End);
-        _turnHandler.EndTurn();
+        //_turnHandler.EndTurn();
     }
 
     #region Words Methods
@@ -172,7 +172,7 @@ public class OnlineGameSetup : MonoBehaviour
     {
         Sprite screenshotSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
 
-        _drawnImage.sprite = screenshotSprite;
+        m_DrawnImage.sprite = screenshotSprite;
     }
 
     private void OnScreenshotTaken(Texture2D texture)
@@ -200,7 +200,7 @@ public class OnlineGameSetup : MonoBehaviour
                 m_RpcHandler.OnGuessedWrong(index, newHearts);
             }
 
-            _turnHandler.EndTurn();
+            m_TurnHandler.EndTurn();
         }
         else
         {
@@ -217,7 +217,7 @@ public class OnlineGameSetup : MonoBehaviour
 
     public void ShowGameOverScreen(bool isWin, float score = 0)
     {
-        _gameOverUI.Show(isWin, score);
+        m_GameOverUI.Show(isWin, score);
     }
 
 }

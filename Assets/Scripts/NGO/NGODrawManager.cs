@@ -6,13 +6,14 @@ using UnityEngine.UI;
 
 public class NGODrawManager : MonoBehaviour
 {
-    [SerializeField] private NGOLine _linePrefab;
+    [SerializeField] private NGOLine m_LinePrefab;
 
     [SerializeField] private Camera _drawingCamera;
 
+    private ObjectPool<NGOLine> m_LinesPool;
+
     private List<NGOLine> _lines;
-    private Queue<NGOLine> _linesPool;
-    private NGOLine _currentLine;
+    private NGOLine m_CurrentLine;
     private NGOLine _startLine;
 
     [SerializeField] private float _minDistance = 0.5f;
@@ -36,7 +37,8 @@ public class NGODrawManager : MonoBehaviour
     void Start()
     {
         _lines = new List<NGOLine>();
-        _linesPool = new Queue<NGOLine>();
+
+        m_LinesPool = new ObjectPool<NGOLine>(m_LinePrefab, transform);
     }
 
     void Update()
@@ -57,38 +59,38 @@ public class NGODrawManager : MonoBehaviour
         {
             _isDrawing = false;
 
-            if (_currentLine.GetLength() < _minLength)
+            if (m_CurrentLine.GetLength() < _minLength)
             {
-                _currentLine.gameObject.SetActive(false);
-                _linesPool.Enqueue(_currentLine);
-                _currentLine = null;
+                m_LinesPool.ReturnObject(m_CurrentLine);
+
+                m_CurrentLine = null;
 
                 OnLineUnavailable?.Invoke(_lineTooShortMessage);
             }
             else if (!SecondPointAngleCheck())
             {
-                _currentLine.gameObject.SetActive(false);
-                _linesPool.Enqueue(_currentLine);
-                _currentLine = null;
+                m_LinesPool.ReturnObject(m_CurrentLine);
+
+                m_CurrentLine = null;
 
                 OnLineUnavailable?.Invoke(_lineMustNotContinueAnotherLineMessage);
             }
             else
             {
-                OnLineDrawn?.Invoke(_currentLine);
+                OnLineDrawn?.Invoke(m_CurrentLine);
             }
         }
         else
         {
-            _currentLine.SetLineEnd(GetPointerPosition());
+            m_CurrentLine.SetLineEnd(GetPointerPosition());
 
-            if (_currentLine.GetLength() < _minLength || !SecondPointAngleCheck())
+            if (m_CurrentLine.GetLength() < _minLength || !SecondPointAngleCheck())
             {
-                _currentLine.SetLineColor(Color.red);
+                m_CurrentLine.SetLineColor(Color.red);
             }
             else
             {
-                _currentLine.SetLineColor(Color.black);
+                m_CurrentLine.SetLineColor(Color.black);
             }
         }
     }
@@ -104,17 +106,9 @@ public class NGODrawManager : MonoBehaviour
                 {
                     _isDrawing = true;
 
-                    if (_linesPool.Count > 0)
-                    {
-                        _currentLine = _linesPool.Dequeue();
-                        _currentLine.gameObject.SetActive(true);
-                    }
-                    else
-                    {
-                        _currentLine = Instantiate(_linePrefab);
-                    }
+                    m_CurrentLine = m_LinesPool.GetObject();
 
-                    _currentLine.SetLinePositions(point, point);
+                    m_CurrentLine.SetLinePositions(point, point);
                 }
                 else
                 {
@@ -227,7 +221,7 @@ public class NGODrawManager : MonoBehaviour
         else
         {
             Vector3[] startLinePoints = _startLine.GetPositions();
-            Vector3[] currentLinePoints = _currentLine.GetPositions();
+            Vector3[] currentLinePoints = m_CurrentLine.GetPositions();
 
             Vector3 vectorToStartOldLine = startLinePoints[0] - currentLinePoints[0];
             Vector3 vectorToEndOldLine = startLinePoints[1] - currentLinePoints[0];
@@ -259,12 +253,7 @@ public class NGODrawManager : MonoBehaviour
 
     public void RemoveLastLine()
     {
-        NGOLine lastLine = _lines[_lines.Count - 1];
-
-        _linesPool.Enqueue(lastLine);
-        lastLine.gameObject.SetActive(false);
-
-        _lines.RemoveAt(_lines.Count - 1);
+        m_LinesPool.ReturnObject(m_CurrentLine);
     }
 
     public void AddLine(NGOLine line)
@@ -275,6 +264,6 @@ public class NGODrawManager : MonoBehaviour
 
     public void LineConfirmed()
     {
-        OnLineConfirmed?.Invoke(_currentLine);
+        OnLineConfirmed?.Invoke(m_CurrentLine);
     }
 }

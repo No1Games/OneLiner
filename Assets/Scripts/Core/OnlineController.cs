@@ -15,25 +15,25 @@ using UnityEngine.SceneManagement;
 
 public class OnlineController : MonoBehaviour
 {
-    static OnlineController _instance;
+    static OnlineController m_Instance;
     public static OnlineController Instance
     {
         get
         {
-            if (_instance == null)
+            if (m_Instance == null)
             {
-                _instance = FindAnyObjectByType<OnlineController>();
+                m_Instance = FindAnyObjectByType<OnlineController>();
 
-                if (_instance == null)
+                if (m_Instance == null)
                 {
                     GameObject singletonObj = new GameObject("OnlineGameManager");
-                    _instance = singletonObj.AddComponent<OnlineController>();
+                    m_Instance = singletonObj.AddComponent<OnlineController>();
                 }
 
-                DontDestroyOnLoad(_instance.gameObject);
+                DontDestroyOnLoad(m_Instance.gameObject);
             }
 
-            return _instance;
+            return m_Instance;
         }
     }
 
@@ -61,16 +61,15 @@ public class OnlineController : MonoBehaviour
     public event Action PassTurnEvent;
 
     private const string _gameSceneName = "OnlineGameScene";
-    private const string _loadingGameText = "Starting your game...";
 
     private void Awake()
     {
-        if (_instance == null)
+        if (m_Instance == null)
         {
-            _instance = this;
+            m_Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else if (_instance != this)
+        else if (m_Instance != this)
         {
             Destroy(gameObject);
         }
@@ -164,7 +163,7 @@ public class OnlineController : MonoBehaviour
 
     public void OnCountdownFinished()
     {
-        LoadingPanel.Instance.Show(_loadingGameText);
+        LoadingPanel.Instance.Show();
 
         if (!m_LocalPlayer.IsHost.Value) return;
 
@@ -455,6 +454,15 @@ public class OnlineController : MonoBehaviour
 
         m_LocalLobby.LeaderID.onChanged += OnLeaderIDChanged;
         m_LocalLobby.CurrentPlayerID.onChanged += OnTurnIDChanged;
+
+        if (m_LocalLobby.LeaderID.Value == m_LocalPlayer.ID.Value)
+        {
+            SetLocalPlayerRole(PlayerRole.Leader);
+        }
+        else
+        {
+            SetLocalPlayerRole(PlayerRole.Player);
+        }
 
         // _localLobby.onUserTurnChanged += OnAnyUserTurnChanged;
 

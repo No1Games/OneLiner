@@ -3,42 +3,42 @@ using UnityEngine.UI;
 
 public class ConfirmLineUI : MonoBehaviour
 {
-    [SerializeField] private NGODrawManager _drawingManager;
-    [SerializeField] private DrawingUpdate _drawingUpdate;
+    [SerializeField] private NGODrawManager m_DrawingManager;
+    [SerializeField] private DrawingUpdate m_DrawingUpdate;
 
-    [SerializeField] private GameObject _panelGO;
+    [SerializeField] private GameObject m_PanelGO;
 
-    [SerializeField] private Button _confirmBtn;
-    [SerializeField] private Button _removeBtn;
+    [SerializeField] private Button m_ConfirmBtn;
+    [SerializeField] private Button m_RemoveBtn;
 
-    private void Start()
+    private void Awake()
     {
-        _drawingManager.OnLineDrawn += ConfirmTurnActivate;
+        m_DrawingManager.OnLineDrawn += ConfirmTurnActivate;
 
-        _removeBtn.onClick.AddListener(OnClick_RemoveButton);
-        _confirmBtn.onClick.AddListener(OnClick_ConfirmButton);
+        m_RemoveBtn.onClick.AddListener(OnClick_RemoveButton);
+        m_ConfirmBtn.onClick.AddListener(OnClick_ConfirmButton);
     }
 
     private void ConfirmTurnActivate(NGOLine line)
     {
-        _drawingManager.IsDrawAllowed = false;
-        _panelGO.SetActive(true);
+        m_DrawingManager.IsDrawAllowed = false;
+        m_PanelGO.SetActive(true);
     }
 
     private void OnClick_RemoveButton()
     {
-        _panelGO.SetActive(false);
-        _drawingManager.RemoveLastLine();
-        _drawingManager.IsDrawAllowed = true;
+        m_PanelGO.SetActive(false);
+        m_DrawingManager.RemoveLastLine();
+        m_DrawingManager.IsDrawAllowed = true;
     }
 
     private void OnClick_ConfirmButton()
     {
         Debug.Log("User confirmed his line");
 
-        _panelGO.SetActive(false);
+        m_PanelGO.SetActive(false);
         //_drawingUpdate.TakeScreenshot();
 
-        _drawingManager.LineConfirmed();
+        m_DrawingManager.LineConfirmed();
     }
 }

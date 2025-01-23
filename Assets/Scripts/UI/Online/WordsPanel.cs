@@ -28,7 +28,7 @@ public class WordsPanel : MonoBehaviour
             return;
         }
 
-        if (m_WordButtons == null)
+        if (m_WordButtons == null || m_WordButtons.Count != words.Count)
         {
             m_WordButtons = new List<WordButtonOnline>();
             InstantiateButtons(words.Count);

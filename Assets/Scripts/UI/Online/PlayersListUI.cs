@@ -3,51 +3,58 @@ using UnityEngine;
 
 public class PlayersListUI : MonoBehaviour
 {
-    [SerializeField] private PlayerPanelUI _playerPrefab;
-    [SerializeField] private Transform _container;
+    [SerializeField] private PlayerPanelUI m_PlayerPrefab;
+    [SerializeField] private Transform m_Container;
 
-    private ObjectPool<PlayerPanelUI> _itemPool;
-    private List<PlayerPanelUI> _activeItems;
+    private ObjectPool<PlayerPanelUI> m_ItemPool;
+    private List<PlayerPanelUI> m_ActiveItems;
 
-    private LocalLobby _localLobby;
+    private LocalLobby m_LocalLobby;
+    private OnlineController m_OnlineController;
 
     private void Awake()
     {
-        _itemPool = new ObjectPool<PlayerPanelUI>(_playerPrefab);
-        _activeItems = new List<PlayerPanelUI>();
+        m_ItemPool = new ObjectPool<PlayerPanelUI>(m_PlayerPrefab);
+        m_ActiveItems = new List<PlayerPanelUI>();
+
+        m_OnlineController = OnlineController.Instance;
+        m_LocalLobby = m_OnlineController.LocalLobby;
+    }
+
+    private void Start()
+    {
+        UpdateList(m_LocalLobby.LocalPlayers);
     }
 
     public void AddPlayer(LocalPlayer player)
     {
-        PlayerPanelUI panel = _itemPool.GetObject();
+        PlayerPanelUI panel = m_ItemPool.GetObject();
 
-        panel.transform.SetParent(_container, false);
+        panel.transform.SetParent(m_Container, false);
         panel.SetLocalPlayer(player);
 
-        if (_localLobby != null)
+        if (m_LocalLobby != null)
         {
             panel.SetLocalLobby();
         }
 
-        _activeItems.Add(panel);
+        m_ActiveItems.Add(panel);
     }
 
     public void RemovePlayer(int index)
     {
-        if (index < 0 || index >= _activeItems.Count)
+        if (index < 0 || index >= m_ActiveItems.Count)
         {
             Debug.Log("Index out of bounds.");
         }
 
-        _itemPool.ReturnObject(_activeItems[index]);
+        m_ItemPool.ReturnObject(m_ActiveItems[index]);
 
-        _activeItems.RemoveAt(index);
+        m_ActiveItems.RemoveAt(index);
     }
 
     public void UpdateList(List<LocalPlayer> localPlayers)
     {
-        _localLobby = OnlineController.Instance.LocalLobby;
-
         ClearList();
 
         foreach (var player in localPlayers)
@@ -58,11 +65,17 @@ public class PlayersListUI : MonoBehaviour
 
     public void ClearList()
     {
-        foreach (var item in _activeItems)
+        if (m_ActiveItems == null || m_ActiveItems.Count == 0)
         {
-            _itemPool.ReturnObject(item);
+            Debug.Log("Player List is empty.");
+            return;
         }
 
-        _activeItems.Clear();
+        foreach (var item in m_ActiveItems)
+        {
+            m_ItemPool.ReturnObject(item);
+        }
+
+        m_ActiveItems.Clear();
     }
 }

@@ -226,7 +226,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 44100376}
-  - component: {fileID: 44100377}
   m_Layer: 5
   m_Name: EndTurnPanel
   m_TagString: Untagged
@@ -255,23 +254,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &44100377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 44100375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1651bbedcd5bf6a40a363064ebc936be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _drawingManager: {fileID: 0}
-  _drawingUpdate: {fileID: 0}
-  _panelGO: {fileID: 0}
-  _confirmBtn: {fileID: 0}
-  _removeBtn: {fileID: 0}
 --- !u!1 &49886114
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,6 +906,7 @@ GameObject:
   m_Component:
   - component: {fileID: 94886927}
   - component: {fileID: 94886926}
+  - component: {fileID: 94886928}
   m_Layer: 0
   m_Name: DrawingScreen
   m_TagString: Untagged
@@ -968,6 +951,23 @@ Transform:
   - {fileID: 765814668}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &94886928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94886925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1651bbedcd5bf6a40a363064ebc936be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DrawingManager: {fileID: 149930183}
+  m_DrawingUpdate: {fileID: 94886926}
+  m_PanelGO: {fileID: 44100375}
+  m_ConfirmBtn: {fileID: 1187180765}
+  m_RemoveBtn: {fileID: 1036991779}
 --- !u!1 &115207740
 GameObject:
   m_ObjectHideFlags: 0
@@ -1087,7 +1087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf7b2a6e5e3360044a2229657145ff7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _linePrefab: {fileID: 6528342933294212655, guid: 138d1bea86fd86e46844b91b7af107be, type: 3}
+  m_LinePrefab: {fileID: 6528342933294212655, guid: 138d1bea86fd86e46844b91b7af107be, type: 3}
   _drawingCamera: {fileID: 1899021213}
   _minDistance: 0.5
   _minLength: 2
@@ -1260,15 +1260,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HeartsUI: {fileID: 1753747412}
   m_MaxHearts: 2
-  _startTurnPanel: {fileID: 368842264}
-  _turnHandler: {fileID: 1343160723}
+  m_StartTurnPanel: {fileID: 0}
+  m_TurnHandler: {fileID: 0}
   m_WordsPanel: {fileID: 597228376}
   m_WordManager: {fileID: 2078672916}
   m_DrawingManager: {fileID: 149930183}
   m_DrawingUpdate: {fileID: 94886926}
-  _drawnImage: {fileID: 544783611}
+  m_DrawnImage: {fileID: 0}
   m_MainCamera: {fileID: 720143048}
-  _gameOverUI: {fileID: 1483874731}
+  m_GameOverUI: {fileID: 0}
 --- !u!4 &227335247
 Transform:
   m_ObjectHideFlags: 0
@@ -1819,10 +1819,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1306563805}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 418, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &311678735
 CanvasRenderer:
@@ -1868,8 +1868,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a4f4dfc153af24e9130982d1baa6c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 4855533895064862301, guid: 8fe5614864519e9489d7862fc8ecb965, type: 3}
-  _container: {fileID: 311678733}
+  m_PlayerPrefab: {fileID: 4855533895064862301, guid: 8fe5614864519e9489d7862fc8ecb965, type: 3}
+  m_Container: {fileID: 311678733}
 --- !u!1 &368842262
 GameObject:
   m_ObjectHideFlags: 0
@@ -2224,7 +2224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CloseBtn: {fileID: 839574457}
-  m_WordButtonPrefab: {fileID: 3280853274936887768, guid: adaec31e04d59bf40bec3562fc72b20b, type: 3}
+  m_WordButtonPrefab: {fileID: 767010712857299668, guid: 5d88ac45d7be95744b3261cd5d83aff0, type: 3}
 --- !u!1 &634156064
 GameObject:
   m_ObjectHideFlags: 0
@@ -3604,7 +3604,7 @@ MonoBehaviour:
   warningPanel: {fileID: 0}
   confirmedDrawing: {fileID: 544783609}
   drawenLines: {fileID: 49886116}
-  warningText: {fileID: 0}
+  warningLocalizeStringEvent: {fileID: 0}
   lives: 2
   hearths: []
   drawing: {fileID: 0}
@@ -4053,7 +4053,7 @@ GameObject:
   - component: {fileID: 1036991780}
   - component: {fileID: 1036991779}
   m_Layer: 5
-  m_Name: Remove
+  m_Name: CancelBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4820,7 +4820,7 @@ GameObject:
   - component: {fileID: 1187180766}
   - component: {fileID: 1187180765}
   m_Layer: 5
-  m_Name: Next
+  m_Name: ConfirmBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5647,10 +5647,10 @@ RectTransform:
   - {fileID: 311678733}
   m_Father: {fileID: 1230155463}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -751.3656, y: 0}
-  m_SizeDelta: {x: 417.2688, y: 1080}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 208.6344, y: 0}
+  m_SizeDelta: {x: 417.2688, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1307847023
 GameObject:
@@ -5756,8 +5756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7b6d27e2d5f5cc449be2ebf82bb9b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentPlayerTMP: {fileID: 0}
-  _drawButton: {fileID: 0}
+  m_DrawButton: {fileID: 244875190}
 --- !u!4 &1343160724
 Transform:
   m_ObjectHideFlags: 0
@@ -6257,7 +6256,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -7870,7 +7869,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
