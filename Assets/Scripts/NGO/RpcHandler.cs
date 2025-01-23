@@ -90,12 +90,6 @@ public class RpcHandler : NetworkBehaviour
 
     #region Game Over Syncronization
 
-    private void ShowGameOverScreen(bool isWin, float score = 0f)
-    {
-        GameOverEvent?.Invoke(isWin, score);
-        //_gameSetupManager.ShowGameOverScreen(isWin, score);
-    }
-
     public void OnGameOver(bool isWin, float score = 0f)
     {
         if (IsHost)
@@ -110,7 +104,7 @@ public class RpcHandler : NetworkBehaviour
 
     private void GameOverOnHost(bool isWin, float score = 0f)
     {
-        ShowGameOverScreen(isWin, score);
+        GameOverEvent?.Invoke(isWin, score);
 
         GameOverClientRpc(isWin, score);
     }
@@ -118,7 +112,7 @@ public class RpcHandler : NetworkBehaviour
     [ClientRpc]
     private void GameOverClientRpc(bool isWin, float score = 0f)
     {
-        ShowGameOverScreen(isWin, score);
+        GameOverEvent?.Invoke(isWin, score);
     }
 
     [ServerRpc(RequireOwnership = false)]

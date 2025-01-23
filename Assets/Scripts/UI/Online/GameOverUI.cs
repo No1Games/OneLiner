@@ -1,48 +1,74 @@
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
 public class GameOverUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _resultTMP;
-    [SerializeField] private TextMeshProUGUI _scoreTMP;
+    [Header("Buttons")]
+    [SerializeField] private Button m_RestartBtn;
+    [SerializeField] private Button m_ExitBtn;
 
-    [SerializeField] private Button _restartBtn;
-    [SerializeField] private Button _exitBtn;
+    [Header("Contents")]
+    [SerializeField] private GameObject m_OverallContent;
+    [SerializeField] private GameObject m_LoseContent;
+    [SerializeField] private GameObject m_WinContent;
+    [SerializeField] private List<GameObject> m_Stars;
 
-    [SerializeField] private string WIN_TEXT = "Вітаю, ви перемогли!";
-    [SerializeField] private string LOOSE_TEXT = "Ви програли :(";
+    [SerializeField] private LocalizeStringEvent m_WordLocalStrEvent;
 
     private void Awake()
     {
-        _restartBtn.onClick.AddListener(OnClick_RestartButton);
-        _exitBtn.onClick.AddListener(OnClick_ExitButton);
+        m_RestartBtn.onClick.AddListener(OnClick_RestartButton);
+        m_ExitBtn.onClick.AddListener(OnClick_ExitButton);
     }
 
     private void OnClick_RestartButton()
     {
-        GameManager.Instance.ExitToLobby();
+        Debug.LogWarning("NOT IMPLEMENTED");
     }
 
     private void OnClick_ExitButton()
     {
-        GameManager.Instance.ExitToLobbyList();
+        Debug.LogWarning("NOT IMPLEMENTED");
     }
 
-    public void Show(bool isWin, float score = 0)
+    public void Show(string word, bool isWin, float score = 0)
     {
-        _resultTMP.text = isWin ? WIN_TEXT : LOOSE_TEXT;
+        AudioManager.Instance.PauseSoundInBack();
 
-        if (isWin)
+        m_OverallContent.SetActive(true);
+
+        m_WordLocalStrEvent.StringReference.TableEntryReference = word;
+
+        if (!isWin)
         {
-            _scoreTMP.gameObject.SetActive(true);
-            _scoreTMP.text = $"Ваш рахунок: {score}";
+            AudioManager.Instance.PlaySoundInAdditional(GameSounds.Game_Lose);
+            m_LoseContent.SetActive(true);
+            m_WinContent.SetActive(false);
         }
         else
         {
-            _scoreTMP.gameObject.SetActive(false);
-        }
+            AudioManager.Instance.PlaySoundInAdditional(GameSounds.Game_Victory);
+            m_WinContent.SetActive(true);
+            m_LoseContent.SetActive(false);
 
-        gameObject.SetActive(true);
+            if (score <= 600)
+            {
+                m_Stars[0].SetActive(true);
+            }
+            else if (score > 600 && score <= 800)
+            {
+                m_Stars[1].SetActive(true);
+            }
+            else if (score > 800 && score < 1000)
+            {
+                m_Stars[2].SetActive(true);
+            }
+            else if (score >= 1000)
+            {
+                m_Stars[3].SetActive(true);
+            }
+        }
     }
 }

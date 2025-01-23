@@ -28,6 +28,7 @@ public class OnlineGameSetup : MonoBehaviour
     [SerializeField] private WordManager m_WordManager;
     private List<string> m_WordsList = new List<string>();
     private List<int> m_WordsIndexes = new List<int>();
+    private string m_LeaderWord;
     private int m_LeaderWordIndex;
 
     #endregion
@@ -79,6 +80,7 @@ public class OnlineGameSetup : MonoBehaviour
             m_WordsList = m_WordManager.FormWordListForRound();
             m_WordsIndexes = m_WordManager.GetWordsIndexes(m_WordsList);
             m_LeaderWordIndex = m_WordManager.GetLeaderWordIndex(m_WordsList);
+            m_LeaderWord = m_WordsList[m_LeaderWordIndex];
             m_OnlineController.SetLocalLobbyWords(m_WordsIndexes, m_LeaderWordIndex);
         }
 
@@ -214,7 +216,9 @@ public class OnlineGameSetup : MonoBehaviour
 
     public void ShowGameOverScreen(bool isWin, float score = 0)
     {
-        m_GameOverUI.Show(isWin, score);
+        Debug.Log("Show Game Over Screen");
+
+        m_GameOverUI.Show(m_LeaderWord, isWin, score);
     }
 
 }
