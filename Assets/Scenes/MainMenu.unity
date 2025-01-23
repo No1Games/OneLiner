@@ -19198,7 +19198,6 @@ MonoBehaviour:
   _timeTMP: {fileID: 926548342}
   _timerSlider: {fileID: 1144046142}
   _timerEnabledImage: {fileID: 422881967}
-  _creatingLobbyLoadingText: Creating your room...
 --- !u!1 &1055753357
 GameObject:
   m_ObjectHideFlags: 0
@@ -31293,7 +31292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 271332d420f6da54190a30fb161b8629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _joiningText: Joining the room...
   _roomItemPrefab: {fileID: 7284916227842341166, guid: 0639b6144118b404090002a453ae819f, type: 3}
   _container: {fileID: 1359639162}
   _backButton: {fileID: 1680818126}
@@ -36630,7 +36628,7 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 0}
     Prefabs:
       NetworkPrefabsLists:
-      - {fileID: 11400000, guid: 80ea5d397e65ef44d9c2f6e46ddc3541, type: 2}
+      - {fileID: 11400000, guid: 3b914e122c74e1f4caf2bbed48ea5508, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -37844,7 +37842,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 285.66666, y: -57}
+  m_AnchoredPosition: {x: 285.66663, y: -57}
   m_SizeDelta: {x: 571.3333, y: 114}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1928945459

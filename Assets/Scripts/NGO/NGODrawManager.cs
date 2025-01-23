@@ -6,17 +6,17 @@ using UnityEngine.UI;
 
 public class NGODrawManager : MonoBehaviour
 {
-    [SerializeField] private NGOLine m_LinePrefab;
+    [SerializeField] private Line m_LinePrefab;
 
     [SerializeField] private Camera _drawingCamera;
 
     [SerializeField] private GameObject m_DrawingScreen;
 
-    private ObjectPool<NGOLine> m_LinesPool;
+    private ObjectPool<Line> m_LinesPool;
 
-    private List<NGOLine> _lines;
-    private NGOLine m_CurrentLine;
-    private NGOLine _startLine;
+    private List<Line> _lines;
+    private Line m_CurrentLine;
+    private Line _startLine;
 
     [SerializeField] private float _minDistance = 0.5f;
     [SerializeField] private float _minLength = 2f;
@@ -28,8 +28,8 @@ public class NGODrawManager : MonoBehaviour
     public bool IsDrawAllowed { set { _isDrawAllowed = value; } }
 
     public event Action<string> OnLineUnavailable;
-    public event Action<NGOLine> OnLineDrawn;
-    public event Action<NGOLine> OnLineConfirmed;
+    public event Action<Line> OnLineDrawn;
+    public event Action<Line> OnLineConfirmed;
     public event Action OnLineSpawned;
 
     private readonly string _lineMustStartMessage = "Лінія має починатись з іншої лінії";
@@ -38,9 +38,9 @@ public class NGODrawManager : MonoBehaviour
 
     void Start()
     {
-        _lines = new List<NGOLine>();
+        _lines = new List<Line>();
 
-        m_LinesPool = new ObjectPool<NGOLine>(m_LinePrefab, m_DrawingScreen.transform);
+        m_LinesPool = new ObjectPool<Line>(m_LinePrefab, m_DrawingScreen.transform);
     }
 
     void Update()
@@ -200,7 +200,7 @@ public class NGODrawManager : MonoBehaviour
         }
         else
         {
-            foreach (NGOLine line in _lines)
+            foreach (Line line in _lines)
             {
                 Vector3[] positions = line.GetPositions();
 
@@ -258,7 +258,19 @@ public class NGODrawManager : MonoBehaviour
         m_LinesPool.ReturnObject(m_CurrentLine);
     }
 
-    public void AddLine(NGOLine line)
+    public Line SpawnLine(Vector3 start, Vector3 end)
+    {
+        // Instantiate the line on the server and set positions
+        Line line = m_LinesPool.GetObject();
+
+        line.SetLinePositions(start, end);
+
+        AddLine(line);
+
+        return line;
+    }
+
+    public void AddLine(Line line)
     {
         _lines.Add(line);
         OnLineSpawned?.Invoke();

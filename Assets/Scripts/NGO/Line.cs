@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class NGOLine : NetworkBehaviour
+public class Line : MonoBehaviour
 {
     [SerializeField] private LineRenderer _renderer;
 

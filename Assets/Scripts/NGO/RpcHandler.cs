@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RpcHandler : NetworkBehaviour
 {
-    [SerializeField] private NGOLine _linePrefab;
+    [SerializeField] private Line _linePrefab;
     [SerializeField] private NGODrawManager _drawManager;
 
     //[SerializeField] private OnlineGameSetup _gameSetupManager;
@@ -27,18 +27,19 @@ public class RpcHandler : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    private void SpawnLineClientRpc(ulong lineNetworkId, Vector3 start, Vector3 end)
+    private void SpawnLineOnServer(Vector3 start, Vector3 end)
     {
-        // Get the line instance by NetworkObjectId
-        NGOLine line = NetworkManager.SpawnManager.SpawnedObjects[lineNetworkId].GetComponent<NGOLine>();
+        // Instantiate the line on the server and set positions
+        Line line = _drawManager.SpawnLine(start, end);
 
-        if (line != null)
-        {
-            line.SetLinePositions(start, end);
+        // Synchronize initial positions across all clients
+        SpawnLineClientRpc(start, end);
+    }
 
-            _drawManager.AddLine(line);
-        }
+    [ClientRpc]
+    private void SpawnLineClientRpc(Vector3 start, Vector3 end)
+    {
+        Line line = _drawManager.SpawnLine(start, end);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -47,20 +48,6 @@ public class RpcHandler : NetworkBehaviour
         SpawnLineOnServer(start, end);
     }
 
-    private void SpawnLineOnServer(Vector3 start, Vector3 end)
-    {
-        // Instantiate the line on the server and set positions
-        NGOLine line = Instantiate(_linePrefab);
-        line.SetLinePositions(start, end);
-
-        _drawManager.AddLine(line);
-
-        // Spawn it across the network
-        line.NetworkObject.Spawn();
-
-        // Synchronize initial positions across all clients
-        SpawnLineClientRpc(line.NetworkObjectId, start, end);
-    }
 
     #endregion
 

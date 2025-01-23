@@ -121,19 +121,6 @@ public class OnlineGameSetup : MonoBehaviour
         UnsubscribeFromRpcEvents();
     }
 
-    private void OnLineSpawned()
-    {
-        ToggleScreen(true);
-        m_DrawingUpdate.TakeScreenshot();
-        ToggleScreen(false);
-    }
-
-    private void OnLineConfirmed(NGOLine line)
-    {
-        m_RpcHandler.SpawnLine(line.Start, line.End);
-        m_TurnHandler.EndTurn();
-    }
-
     #region Words Methods
 
     private void OnWordsChanged(List<int> indexes)
@@ -166,8 +153,6 @@ public class OnlineGameSetup : MonoBehaviour
         m_DrawingManager.IsDrawAllowed = isDrawing;
     }
 
-    #endregion
-
     private void UpdatePicture(Texture2D texture)
     {
         Sprite screenshotSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
@@ -181,6 +166,21 @@ public class OnlineGameSetup : MonoBehaviour
 
         ToggleScreen(false);
     }
+
+    private void OnLineSpawned()
+    {
+        ToggleScreen(true);
+        m_DrawingUpdate.TakeScreenshot();
+        ToggleScreen(false);
+    }
+
+    private void OnLineConfirmed(Line line)
+    {
+        m_RpcHandler.SpawnLine(line.Start, line.End);
+        m_TurnHandler.EndTurn();
+    }
+
+    #endregion
 
     private void OnUserMakeGuess(int index)
     {

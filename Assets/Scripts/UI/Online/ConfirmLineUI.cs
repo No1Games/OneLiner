@@ -19,7 +19,7 @@ public class ConfirmLineUI : MonoBehaviour
         m_ConfirmBtn.onClick.AddListener(OnClick_ConfirmButton);
     }
 
-    private void ConfirmTurnActivate(NGOLine line)
+    private void ConfirmTurnActivate(Line line)
     {
         m_DrawingManager.IsDrawAllowed = false;
         m_PanelGO.SetActive(true);
