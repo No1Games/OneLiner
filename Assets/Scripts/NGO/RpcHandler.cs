@@ -53,25 +53,22 @@ public class RpcHandler : NetworkBehaviour
 
     #region Wrong Guess Syncronization
 
-    public void OnGuessedWrong(int index, int count)
+    public void OnGuessedWrong(int index, int newHeartsCount)
     {
         if (IsHost)
         {
-            OnGuessedWrongOnHost(index, count);
-
-            OnGuessedWrongClientRpc(index, count);
+            OnGuessedWrongOnServer(index, newHeartsCount);
         }
         else
         {
-            OnGuessedWrongServerRpc(index, count);
+            OnGuessedWrongServerRpc(index, newHeartsCount);
         }
     }
 
-    private void OnGuessedWrongOnHost(int index, int count)
+    private void OnGuessedWrongOnServer(int index, int count)
     {
-        DisableButton(index);
-
-        UpdateHearts(count);
+        DisableWordButtonEvent?.Invoke(index);
+        UpdateHeartsEvent?.Invoke(count);
 
         OnGuessedWrongClientRpc(index, count);
     }
@@ -79,26 +76,14 @@ public class RpcHandler : NetworkBehaviour
     [ClientRpc]
     private void OnGuessedWrongClientRpc(int index, int count)
     {
-        // DisableButton(index);
         DisableWordButtonEvent?.Invoke(index);
         UpdateHeartsEvent?.Invoke(count);
-        // UpdateHearts(count);
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void OnGuessedWrongServerRpc(int index, int count)
     {
-        OnGuessedWrongOnHost(index, count);
-    }
-
-    private void DisableButton(int index)
-    {
-        //_gameSetupManager.DisableButtonByIndex(index);
-    }
-
-    private void UpdateHearts(int count)
-    {
-        //_gameSetupManager.SetHearts(count);
+        OnGuessedWrongOnServer(index, count);
     }
 
     #endregion

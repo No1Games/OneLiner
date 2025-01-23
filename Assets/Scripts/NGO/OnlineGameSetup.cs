@@ -186,10 +186,7 @@ public class OnlineGameSetup : MonoBehaviour
     {
         if (m_LeaderWordIndex != index)
         {
-            Debug.Log("Oh-oh! Wrong word! Duh!");
             int newHearts = m_CurrentHearts - 1;
-
-            Debug.Log($"Old hearts count: {m_CurrentHearts} --- New hearts count: {newHearts}");
 
             if (newHearts <= 0)
             {

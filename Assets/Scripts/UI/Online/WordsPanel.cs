@@ -45,6 +45,8 @@ public class WordsPanel : MonoBehaviour
 
     private void OnUserClickedWord(int index)
     {
+        Debug.Log($"On User Clicked Word. Index: {index}.");
+
         UserClickedWordEvent?.Invoke(index);
 
         // TODO: SHOW POP UP WITH RESULT

@@ -18,6 +18,7 @@ public class HeartsUI : MonoBehaviour
         {
             var heart = Instantiate(m_HeartPrefab, transform);
             heart.SetFull(true);
+            m_Hearts.Add(heart);
         }
     }
 
@@ -25,7 +26,7 @@ public class HeartsUI : MonoBehaviour
     {
         for (int i = 0; i < m_Hearts.Count; i++)
         {
-            m_Hearts[i].SetFull(i <= fullCount);
+            m_Hearts[i].SetFull(i < fullCount);
         }
     }
 }
