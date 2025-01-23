@@ -267,6 +267,8 @@ public class NGODrawManager : MonoBehaviour
 
         AddLine(line);
 
+        OnLineSpawned?.Invoke();
+
         return line;
     }
 
