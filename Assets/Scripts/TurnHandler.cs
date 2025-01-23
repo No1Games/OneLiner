@@ -69,6 +69,9 @@ public class TurnHandler : MonoBehaviour
 
     private void PassTurn()
     {
+        // Only host decides who the next player
+        if (!m_OnlineController.LocalPlayer.IsHost.Value) return;
+
         LocalPlayer nextPlayer = null;
 
         if (m_CurrentPlayer.Role.Value == PlayerRole.Player)
@@ -106,8 +109,7 @@ public class TurnHandler : MonoBehaviour
 
     public void EndTurn()
     {
-        Debug.Log("NOT IMPLEMENTED");
-        // m_OnlineController.SetLocalUserTurn(false);
+        m_OnlineController.SetLocalPlayerTurn(false);
     }
 }
 

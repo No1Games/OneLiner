@@ -131,7 +131,7 @@ public class OnlineGameSetup : MonoBehaviour
     private void OnLineConfirmed(NGOLine line)
     {
         m_RpcHandler.SpawnLine(line.Start, line.End);
-        //_turnHandler.EndTurn();
+        m_TurnHandler.EndTurn();
     }
 
     #region Words Methods

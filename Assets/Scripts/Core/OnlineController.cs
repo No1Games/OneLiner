@@ -60,7 +60,7 @@ public class OnlineController : MonoBehaviour
 
     public event Action PassTurnEvent;
 
-    private const string _gameSceneName = "OnlineGameScene";
+    private const string m_GameSceneName = "OnlineGameScene";
 
     private void Awake()
     {
@@ -143,6 +143,14 @@ public class OnlineController : MonoBehaviour
         }
     }
 
+    private void OnPlayerPassedTurn(bool isTurn)
+    {
+        if (!isTurn && m_LocalPlayer.IsHost.Value)
+        {
+            PassTurnEvent?.Invoke();
+        }
+    }
+
     private void OnPlayersCountChanged(int playersCount)
     {
         if (!m_LocalPlayer.IsHost.Value) return;
@@ -216,7 +224,7 @@ public class OnlineController : MonoBehaviour
 
     private void ChangeScene()
     {
-        SceneManager.LoadScene(_gameSceneName);
+        SceneManager.LoadScene(m_GameSceneName);
     }
 
     #endregion
@@ -337,6 +345,13 @@ public class OnlineController : MonoBehaviour
     public void SetLocalPlayerRole(PlayerRole role)
     {
         m_LocalPlayer.Role.Value = role;
+
+        SendLocalUserData();
+    }
+
+    public void SetLocalPlayerTurn(bool isTurn)
+    {
+        m_LocalPlayer.IsTurn.Value = isTurn;
 
         SendLocalUserData();
     }
@@ -464,7 +479,7 @@ public class OnlineController : MonoBehaviour
             SetLocalPlayerRole(PlayerRole.Player);
         }
 
-        // _localLobby.onUserTurnChanged += OnAnyUserTurnChanged;
+        m_LocalLobby.onUserTurnChanged += OnPlayerPassedTurn;
 
         //SetLobbyView();
     }

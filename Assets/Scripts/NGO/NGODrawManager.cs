@@ -10,6 +10,8 @@ public class NGODrawManager : MonoBehaviour
 
     [SerializeField] private Camera _drawingCamera;
 
+    [SerializeField] private GameObject m_DrawingScreen;
+
     private ObjectPool<NGOLine> m_LinesPool;
 
     private List<NGOLine> _lines;
@@ -38,7 +40,7 @@ public class NGODrawManager : MonoBehaviour
     {
         _lines = new List<NGOLine>();
 
-        m_LinesPool = new ObjectPool<NGOLine>(m_LinePrefab, transform);
+        m_LinesPool = new ObjectPool<NGOLine>(m_LinePrefab, m_DrawingScreen.transform);
     }
 
     void Update()

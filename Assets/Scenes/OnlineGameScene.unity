@@ -1089,6 +1089,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LinePrefab: {fileID: 6528342933294212655, guid: 138d1bea86fd86e46844b91b7af107be, type: 3}
   _drawingCamera: {fileID: 1899021213}
+  m_DrawingScreen: {fileID: 94886925}
   _minDistance: 0.5
   _minLength: 2
   _secondPointAngle: 10
@@ -1260,15 +1261,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HeartsUI: {fileID: 1753747412}
   m_MaxHearts: 2
-  m_StartTurnPanel: {fileID: 0}
-  m_TurnHandler: {fileID: 0}
+  m_StartTurnPanel: {fileID: 368842264}
+  m_TurnHandler: {fileID: 1343160723}
   m_WordsPanel: {fileID: 597228376}
   m_WordManager: {fileID: 2078672916}
   m_DrawingManager: {fileID: 149930183}
   m_DrawingUpdate: {fileID: 94886926}
-  m_DrawnImage: {fileID: 0}
+  m_DrawnImage: {fileID: 544783611}
   m_MainCamera: {fileID: 720143048}
-  m_GameOverUI: {fileID: 0}
+  m_GameOverUI: {fileID: 1483874731}
 --- !u!4 &227335247
 Transform:
   m_ObjectHideFlags: 0
