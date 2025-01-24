@@ -55,8 +55,6 @@ public class TurnHandler : MonoBehaviour
 
         foreach (var p in m_LocalLobby.LocalPlayers)
         {
-            Debug.Log(p.Role.Value.ToString());
-
             if (p.Role.Value == PlayerRole.Leader)
             {
                 m_Leader = p;

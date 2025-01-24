@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class MainMenuManager : MonoBehaviour
@@ -22,11 +20,15 @@ public class MainMenuManager : MonoBehaviour
         _instance = this;
         _currentMenu = MenuName.MainScreen;
         CallSettingsInit();
-
-
     }
 
-    
+    private void Start()
+    {
+        if (IngameData.Instance.ReturnedFromGame)
+        {
+            ChangeMenu(MenuName.LocalSetup);
+        }
+    }
 
     private void CallSettingsInit()
     {
@@ -41,15 +43,6 @@ public class MainMenuManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Menu with MenuName.OptionScreen not found in _menus list!");
-        }
-    }
-
-
-    private void Start()
-    {
-        if (IngameData.Instance.ReturnedFromGame)
-        {
-            ChangeMenu(MenuName.LocalSetup);
         }
     }
 
@@ -88,11 +81,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void ChangeMenuToPrevious()
     {
-      
-                ChangeMenu(_stackMenus.Peek());
-            
-            
-        
+        ChangeMenu(_stackMenus.Peek());
     }
 
     public void OpenMenu(MenuName menu)
@@ -104,8 +93,34 @@ public class MainMenuManager : MonoBehaviour
 
     public void OpenRoomPanel(bool isCreate)
     {
-        _menus.Find(m => m.Menu == MenuName.RoomsList).Hide();
-        (_menus.Find(m => m.Menu == MenuName.WaitingRoom) as WaitingRoomUI).Show(isCreate);
+        MenuBase roomListMenu = _menus.Find(m => m.Menu == MenuName.RoomsList);
+
+        if (roomListMenu != null && roomListMenu.isActiveAndEnabled)
+        {
+            if (roomListMenu.isActiveAndEnabled)
+            {
+                roomListMenu.Hide();
+            }
+            else
+            {
+                Debug.Log("Room List Menu is already inactive");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Room List menu is null.");
+        }
+
+        WaitingRoomUI waitingRoomMenu = _menus.Find(m => m.Menu == MenuName.WaitingRoom) as WaitingRoomUI;
+
+        if (waitingRoomMenu == null)
+        {
+            Debug.LogWarning("Waiting menu is null! Leaving lobby.");
+            OnlineController.Instance.LeaveLobby();
+            return;
+        }
+
+        waitingRoomMenu.Show(isCreate);
     }
 }
 

@@ -133,9 +133,9 @@ public class LocalLobby
     {
         m_LocalPlayers[playerIndex].UserStatus.onChanged -= OnUserChangedStatus;
         m_LocalPlayers.RemoveAt(playerIndex);
+
         onUserLeft?.Invoke(playerIndex);
         onLobbyDataChanged?.Invoke();
-
         PlayersCountChangedEvent?.Invoke(PlayerCount);
     }
 

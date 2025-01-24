@@ -26,6 +26,6 @@ public class AccountSettingsUI : MonoBehaviour
 
     private void OnConfirmButtonClick()
     {
-        GameManager.Instance.SetLocalUserName(_playerName);
+        OnlineController.Instance.SetLocalPlayerName(_playerName);
     }
 }

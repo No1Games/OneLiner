@@ -61,6 +61,7 @@ public class OnlineController : MonoBehaviour
     public event Action PassTurnEvent;
 
     private const string m_GameSceneName = "OnlineGameScene";
+    private const string m_MenuSceneName = "MainMenu";
 
     private void Awake()
     {
@@ -482,6 +483,26 @@ public class OnlineController : MonoBehaviour
         m_LocalLobby.onUserTurnChanged += OnPlayerPassedTurn;
 
         //SetLobbyView();
+    }
+
+    public async void ReturnToLobby()
+    {
+        LoadingPanel.Instance.Show();
+
+        SetLocalPlayerStatus(PlayerStatus.Lobby);
+
+        if (m_LocalPlayer.IsHost.Value)
+        {
+            m_LocalLobby.LocalLobbyState.Value = LobbyState.Lobby;
+            m_LocalLobby.Locked.Value = false;
+            await SendLocalLobbyDataAsync();
+        }
+
+        SceneManager.LoadScene(m_MenuSceneName);
+
+        MainMenuManager.Instance.OpenRoomPanel(false);
+
+        LoadingPanel.Instance.Hide();
     }
 
     public async void LeaveLobby()

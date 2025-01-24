@@ -48,6 +48,8 @@ public class PlayersListUI : MonoBehaviour
             Debug.Log("Index out of bounds.");
         }
 
+        m_ActiveItems[index].Unsubscribe();
+
         m_ItemPool.ReturnObject(m_ActiveItems[index]);
 
         m_ActiveItems.RemoveAt(index);
@@ -67,7 +69,7 @@ public class PlayersListUI : MonoBehaviour
     {
         if (m_ActiveItems == null || m_ActiveItems.Count == 0)
         {
-            Debug.Log("Player List is empty.");
+            Debug.LogWarning("Player List is empty.");
             return;
         }
 

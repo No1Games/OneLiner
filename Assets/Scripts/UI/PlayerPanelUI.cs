@@ -79,7 +79,7 @@ public class PlayerPanelUI : MonoBehaviour
         Unsubscribe();
     }
 
-    private void Unsubscribe()
+    public void Unsubscribe()
     {
         if (m_LocalPlayer != null)
         {

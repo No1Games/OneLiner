@@ -30,7 +30,7 @@ public class GameOverUI : MonoBehaviour
 
     private void OnClick_ExitButton()
     {
-        Debug.LogWarning("NOT IMPLEMENTED");
+        OnlineController.Instance.ReturnToLobby();
     }
 
     public void Show(string word, bool isWin, float score = 0)

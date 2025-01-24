@@ -34,8 +34,6 @@ public class ConfirmLineUI : MonoBehaviour
 
     private void OnClick_ConfirmButton()
     {
-        Debug.Log("User confirmed his line");
-
         m_PanelGO.SetActive(false);
 
         m_DrawingManager.LineConfirmed();

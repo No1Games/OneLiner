@@ -216,8 +216,6 @@ public class OnlineGameSetup : MonoBehaviour
 
     public void ShowGameOverScreen(bool isWin, float score = 0)
     {
-        Debug.Log("Show Game Over Screen");
-
         m_GameOverUI.Show(m_LeaderWord, isWin, score);
     }
 
