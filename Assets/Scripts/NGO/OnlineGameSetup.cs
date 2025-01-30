@@ -106,6 +106,12 @@ public class OnlineGameSetup : MonoBehaviour
 
     private void UnsubscribeFromRpcEvents()
     {
+        if (m_RpcHandler == null)
+        {
+            Debug.LogWarning("Can't unsubscribe from RpcEvents: Rpc Handler is null.");
+            return;
+        }
+
         m_RpcHandler.GameOverEvent -= ShowGameOverScreen;
         m_RpcHandler.UpdateHeartsEvent -= SetHearts;
         m_RpcHandler.DisableWordButtonEvent -= DisableButtonByIndex;
