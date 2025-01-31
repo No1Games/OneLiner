@@ -23,11 +23,13 @@ public class GemShop : MenuBase
     {
         base.Init();
         backBtn.onClick.AddListener(OnClick_BackButton);
-        freeTierBtn.onClick.AddListener(() => GetGems(5));
+        freeTierBtn.onClick.AddListener(() => GetFreeGems());
         firstTierBtn.onClick.AddListener(() => GetGems(50));
         secondTierBtn.onClick.AddListener(() => GetGems(300));
         thirdTierBtn.onClick.AddListener(() => GetGems(1000));
         maxTierBtn.onClick.AddListener(() => GetGems(2500));
+
+        AdsManager.Instance.OnGemsShopRewardAllowed += () => GemManager.Instance.AddGems(5);
 
     }
 
@@ -36,6 +38,12 @@ public class GemShop : MenuBase
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         GemManager.Instance.AddGems(gems);
         Debug.Log("Total gems now " + GemManager.Instance.GetGems());
+    }
+
+    private void GetFreeGems()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        AdsManager.Instance.ShowRewardedAds(AdsPlaces.GemsShop);
     }
 
     
