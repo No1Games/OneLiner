@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GemShop : MenuBase
 {
@@ -12,7 +13,8 @@ public class GemShop : MenuBase
     [SerializeField] private Button thirdTierBtn;
     [SerializeField] private Button maxTierBtn;
 
-    
+    [SerializeField] private AdsWatchingCounter watchingCounter;
+
     public override MenuName Menu => MenuName.GemShop;
 
     private void Start()
@@ -23,30 +25,34 @@ public class GemShop : MenuBase
     {
         base.Init();
         backBtn.onClick.AddListener(OnClick_BackButton);
-        freeTierBtn.onClick.AddListener(() => GetFreeGems());
+        
         firstTierBtn.onClick.AddListener(() => GetGems(50));
         secondTierBtn.onClick.AddListener(() => GetGems(300));
         thirdTierBtn.onClick.AddListener(() => GetGems(1000));
         maxTierBtn.onClick.AddListener(() => GetGems(2500));
 
+        freeTierBtn.onClick.AddListener(() => GetFreeGems());
         AdsManager.Instance.OnGemsShopRewardAllowed += () => GemManager.Instance.AddGems(5);
 
     }
 
     private void GetGems(int gems)
     {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click); //remove when added in game purchase
         GemManager.Instance.AddGems(gems);
-        Debug.Log("Total gems now " + GemManager.Instance.GetGems());
     }
 
     private void GetFreeGems()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        AdsManager.Instance.ShowRewardedAds(AdsPlaces.GemsShop);
+        if (watchingCounter.CanWatchAd())
+        {
+            
+            AdsManager.Instance.ShowRewardedAds(AdsPlaces.GemsShop);
+        }
     }
 
-    
+
 
     private void OnClick_BackButton()
     {
