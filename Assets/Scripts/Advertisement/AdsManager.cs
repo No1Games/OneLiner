@@ -14,6 +14,8 @@ public class AdsManager : MonoBehaviour
     public event Action OnGemsShopRewardAllowed;
     public event Action OnDoubleExpRewardAllowed;
 
+    public event Action OnInterstitialAddsShown; 
+
     private void Awake()
     {
         if (Instance == null)
@@ -31,7 +33,8 @@ public class AdsManager : MonoBehaviour
     private void Init()
     {
         rewardedAds.OnAdsShowed += AllowReward;
-        
+        interstitialAds.OnAdsShowed += InterstitialAdsShown;
+
     }
     private void AllowReward()
     {
@@ -57,7 +60,11 @@ public class AdsManager : MonoBehaviour
     {
         interstitialAds.ShowAd();
     }
-    
+    private void InterstitialAdsShown()
+    {
+        OnInterstitialAddsShown?.Invoke();
+    }
+
 }
 public enum AdsPlaces
 {

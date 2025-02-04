@@ -22,8 +22,10 @@ public class LocalGameSetupManager : MonoBehaviour
     [SerializeField] private CustomizationDataManager customizationDataManager;
     [SerializeField] private LGS_TimerController timerController;
     [SerializeField] private ModeMenu modeMenu;
+    [SerializeField] private PlayerGamesTracker gamesTracker;
 
     private LocalGameSetup_Func lgsFunc;
+
 
     
     private PlayerRole roleKnowsTheWord;
@@ -46,6 +48,7 @@ public class LocalGameSetupManager : MonoBehaviour
 
         customizationDataManager.OnCustomizationEnds += PlateVisualUpdate;
         OnLevelStarts += timerController.UpdateIngameData;
+
         
 
 
@@ -53,6 +56,7 @@ public class LocalGameSetupManager : MonoBehaviour
     private void Start()
     {
         modeMenu.OnModeSelected += InitiateModeParams;
+        AdsManager.Instance.OnInterstitialAddsShown += LoadLocalGame;
         InitiateModeParams();
     }
 
@@ -81,6 +85,7 @@ public class LocalGameSetupManager : MonoBehaviour
     private void ClearLocalSetup()
     {
         players.Clear();
+
         foreach (GameObject plate in playersPlates)
         {
             if (plate != null)
@@ -88,6 +93,7 @@ public class LocalGameSetupManager : MonoBehaviour
                 Destroy(plate);
             }
         }
+        localSetupUI.AddPlayerBtn_VisibilityChange(true);
         playersInitialized = false;
 
         
@@ -232,9 +238,15 @@ public class LocalGameSetupManager : MonoBehaviour
         if (players.Count >= minPlayers)
         {
             AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Play);
-            OnLevelStarts?.Invoke();
-            IngameData.Instance.SetRoleKnowsWord(roleKnowsTheWord);
-            lgsFunc.NextLevel(players);
+            if (gamesTracker.CanRunWithoutAds())
+            {
+                LoadLocalGame();
+            }
+            else
+            {
+                AdsManager.Instance.ShowInterstitialAds();
+            }
+            
 
         }
             else
@@ -242,6 +254,12 @@ public class LocalGameSetupManager : MonoBehaviour
             AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
             Debug.LogWarning("Перехід на наступну сцену заблоковано.");
         }
+    }
+    private void LoadLocalGame()
+    {
+        OnLevelStarts?.Invoke();
+        IngameData.Instance.SetRoleKnowsWord(roleKnowsTheWord);
+        lgsFunc.NextLevel(players);
     }
 
     public void ChoseRandomLeader()

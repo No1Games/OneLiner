@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -9,6 +10,7 @@ public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
 
     private bool _adLoaded = false;
 
+    public event Action OnAdsShowed;
     void Awake()
     {
         // Визначаємо Ad Unit ID для відповідної платформи:
@@ -24,24 +26,26 @@ public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
     // Метод для завантаження реклами
     public void LoadAd()
     {
-        if (!_adLoaded)
-        {
-            Advertisement.Load(_adUnitId, this);
-        }
+        Advertisement.Load(_adUnitId, this);
+        //if (!_adLoaded)
+        //{
+        //Advertisement.Load(_adUnitId, this);
+        //}
     }
 
     // Метод для показу реклами
     public void ShowAd()
     {
-        if (_adLoaded)
-        {
-            Advertisement.Show(_adUnitId, this);
-            _adLoaded = false; // Скидаємо статус після показу
-        }
-        else
-        {
-            Debug.Log("Interstitial ad is not ready yet.");
-        }
+        Advertisement.Show(_adUnitId, this);
+        //if (_adLoaded)
+        //{
+        //    Advertisement.Show(_adUnitId, this);
+        //    _adLoaded = false; // Скидаємо статус після показу
+        //}
+        //else
+        //{
+        //    Debug.Log("Interstitial ad is not ready yet.");
+        //}
 
         LoadAd(); // Завантажуємо наступну рекламу після показу
     }
@@ -52,18 +56,18 @@ public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
         if (adUnitId.Equals(_adUnitId) && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
         {
             Debug.Log("Unity Ads Interstitial Ad Completed");
-            // Тут можна додати логіку, наприклад, щоб продовжити гру
+            OnAdsShowed?.Invoke();
         }
     }
 
     // Callback при успішному завантаженні реклами
     public void OnUnityAdsAdLoaded(string placementId)
     {
-        if (placementId.Equals(_adUnitId))
-        {
-            _adLoaded = true;
-            Debug.Log("Interstitial ad loaded successfully.");
-        }
+        //if (placementId.Equals(_adUnitId))
+        //{
+        //    _adLoaded = true;
+        //    Debug.Log("Interstitial ad loaded successfully.");
+        //}
     }
 
     // Callback при невдалій спробі завантажити рекламу

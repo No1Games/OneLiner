@@ -16,11 +16,13 @@ public class EndGameScreen : MonoBehaviour
     
 
     [SerializeField] private LocalizeStringEvent localizeStringEvent;
+    [SerializeField] private PlayerGamesTracker gamesTracker;
 
     private void Start()
     {
         menuBtn.onClick.AddListener(BackToMainMenu);
         againBtn.onClick.AddListener(PlayAgain);
+        AdsManager.Instance.OnInterstitialAddsShown += LoadLocalGame;
     }
     public void SetFinaleScreen(string word, bool teamWin, int score = 0)
     {
@@ -73,10 +75,24 @@ public class EndGameScreen : MonoBehaviour
 
     public void PlayAgain()
     {
-        AudioManager.Instance.TurnMusicOn();
         AudioManager.Instance.StopSoundInAdditional();
+        if (gamesTracker.CanRunWithoutAds())
+        {
+            LoadLocalGame();
+        }
+        else
+        {
+            AdsManager.Instance.ShowInterstitialAds();
+        }
+
+
+
+    }
+    private void LoadLocalGame()
+    {
+        AudioManager.Instance.ResumeSoundInBack();
+        
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.buildIndex);
-
     }
 }
