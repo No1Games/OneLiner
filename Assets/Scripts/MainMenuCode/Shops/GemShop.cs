@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Purchasing;
 
 public class GemShop : MenuBase
 {
@@ -12,6 +13,8 @@ public class GemShop : MenuBase
     [SerializeField] private Button secondTierBtn;
     [SerializeField] private Button thirdTierBtn;
     [SerializeField] private Button maxTierBtn;
+  
+    
 
     [SerializeField] private AdsWatchingCounter watchingCounter;
 
@@ -26,25 +29,28 @@ public class GemShop : MenuBase
         base.Init();
         backBtn.onClick.AddListener(OnClick_BackButton);
         
-        firstTierBtn.onClick.AddListener(() => GetGems(50));
-        secondTierBtn.onClick.AddListener(() => GetGems(300));
-        thirdTierBtn.onClick.AddListener(() => GetGems(1000));
-        maxTierBtn.onClick.AddListener(() => GetGems(2500));
+        firstTierBtn.onClick.AddListener(PlayBtnSound);
+        secondTierBtn.onClick.AddListener(PlayBtnSound);
+        thirdTierBtn.onClick.AddListener(PlayBtnSound);
+        maxTierBtn.onClick.AddListener(PlayBtnSound);
 
         freeTierBtn.onClick.AddListener(() => GetFreeGems());
+        freeTierBtn.onClick.AddListener(PlayBtnSound);
         AdsManager.Instance.OnGemsShopRewardAllowed += () => GemManager.Instance.AddGems(5);
+
+       
 
     }
 
-    private void GetGems(int gems)
+    private void PlayBtnSound()
     {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click); //remove when added in game purchase
-        GemManager.Instance.AddGems(gems);
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click); 
+        
     }
 
     private void GetFreeGems()
     {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+       
         if (watchingCounter.CanWatchAd())
         {
             

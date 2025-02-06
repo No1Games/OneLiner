@@ -24,7 +24,8 @@ public class AccountManager : MonoBehaviour
     private void Awake()
     {
         InitializeStorage();
-        
+
+
         if (saveManager.HasSave())
         {
             accountData = saveManager.Load();
