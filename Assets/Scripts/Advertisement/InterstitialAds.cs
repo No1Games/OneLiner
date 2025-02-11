@@ -53,7 +53,9 @@ public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
     // Callback після завершення показу реклами
     public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState)
     {
-        if (adUnitId.Equals(_adUnitId) && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
+        if (adUnitId.Equals(_adUnitId) &&
+        (showCompletionState == UnityAdsShowCompletionState.COMPLETED ||
+         showCompletionState == UnityAdsShowCompletionState.SKIPPED))
         {
             Debug.Log("Unity Ads Interstitial Ad Completed");
             OnAdsShowed?.Invoke();

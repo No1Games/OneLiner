@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject warningPanel;
     [SerializeField] private GameObject confirmedDrawing;
 
+    [SerializeField] private GameObject drawingConfirmPanel;
+
     private PlayerRole roleKnowTheWord;
 
 
@@ -120,6 +122,10 @@ public class UIManager : MonoBehaviour
 
             StopDrawing();
         }
+        if (wordPanel.activeSelf)
+        {
+            CloseWordsMenu();
+        }
         OnTurnStarted?.Invoke();
         AudioManager.Instance.PlaySoundInAdditional(GameSounds.Game_TurnChange);
 
@@ -159,6 +165,10 @@ public class UIManager : MonoBehaviour
         {
             leaderWord.GetComponent<WordButton_new>().ShowLeaderWord();
         }
+        else
+        {
+            leaderWord.GetComponent<WordButton_new>().HideLeaderWord();
+        }
 
 
 
@@ -166,14 +176,14 @@ public class UIManager : MonoBehaviour
 
     public void CloseWordsMenu() //коли хочемо повернутись до малювання
     {
-        wordPanel.SetActive(false);
         
-        if (playerToTrack.role == roleKnowTheWord)
-        {
-            leaderWord.GetComponent<WordButton_new>().HideLeaderWord();
+        
+        //if (playerToTrack.role == roleKnowTheWord)
+        //{
+            
 
-
-        }
+        //}
+        wordPanel.SetActive(false);
     }
 
     private void CheckTheWord(WordButton_new word)
@@ -267,6 +277,10 @@ public class UIManager : MonoBehaviour
     }
     public void StopDrawing()
     {
+        if (drawingConfirmPanel.activeSelf)
+        {
+            RestartTurn();
+        }
         drawingPanel.SetActive(false);
         mainCam.SetActive(true);
         drawing.DrawingAllowed = false;

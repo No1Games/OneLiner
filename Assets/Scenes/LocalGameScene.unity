@@ -4880,6 +4880,7 @@ MonoBehaviour:
   endgamePanel: {fileID: 1483874727}
   warningPanel: {fileID: 615336098}
   confirmedDrawing: {fileID: 2055995422}
+  drawingConfirmPanel: {fileID: 889509361}
   drawenLines: {fileID: 49886116}
   warningLocalizeStringEvent: {fileID: 1269279393}
   lives: 2

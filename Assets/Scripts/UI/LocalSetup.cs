@@ -9,7 +9,7 @@ public class LocalSetup : MenuBase
     [SerializeField] private Button addPlayer;
     [SerializeField] private Button selectLeader;
     [SerializeField] private Button randomLeader;
-    [SerializeField] private Button modeSelect;
+    
     [SerializeField] private Button startGame;
     [SerializeField] private Button back;
 

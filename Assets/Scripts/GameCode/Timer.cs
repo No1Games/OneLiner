@@ -99,4 +99,11 @@ public class Timer : MonoBehaviour
     {
         this.maxTime = (float)maxTime;
     }
+    private void OnDisable()
+    {
+        if( alarmIsRunning)
+        {
+            StopAlarm();
+        }
+    }
 }

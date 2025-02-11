@@ -10,6 +10,7 @@ public class ModeMenu : MonoBehaviour
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
     [SerializeField] private Button confirmButton;
+    [SerializeField] private GameObject background;
 
     private Animator modeSelectAnimator;
 
@@ -144,6 +145,7 @@ public class ModeMenu : MonoBehaviour
             modeSelectionIsActive = true;
             leftButton.interactable = true;
             rightButton.interactable = true;
+            background.SetActive(true); 
             modeSelectAnimator.Play("ModeScreenDownAnimation");
         }
         else
@@ -152,6 +154,7 @@ public class ModeMenu : MonoBehaviour
             modeSelectionIsActive = false;
             leftButton.interactable = false;
             rightButton.interactable = false;
+            background.SetActive(false);
             modeSelectAnimator.Play("ModeScreenUpAnimation");
 
             // Надсилаємо подію про обраний режим

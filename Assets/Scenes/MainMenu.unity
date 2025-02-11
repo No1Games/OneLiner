@@ -7815,7 +7815,6 @@ MonoBehaviour:
   addPlayer: {fileID: 1690940034}
   selectLeader: {fileID: 926168841}
   randomLeader: {fileID: 577736258}
-  modeSelect: {fileID: 0}
   startGame: {fileID: 1391209625}
   back: {fileID: 575404220}
   ModeAnimator: {fileID: 1815486919}
@@ -18337,6 +18336,7 @@ GameObject:
   - component: {fileID: 990036766}
   - component: {fileID: 990036768}
   - component: {fileID: 990036767}
+  - component: {fileID: 990036769}
   m_Layer: 5
   m_Name: GemsImg
   m_TagString: Untagged
@@ -18361,7 +18361,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 418, y: 410}
+  m_SizeDelta: {x: 600, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &990036767
 MonoBehaviour:
@@ -18383,7 +18383,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 76cb323aee7746541a2e4da416615288, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bee704e6b1a7e1540b0cb5eccc8c1adf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18401,6 +18401,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 990036765}
   m_CullTransparentMesh: 1
+--- !u!95 &990036769
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990036765}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 84f79ffbbfb202742ac6817e295e5c97, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1000703019
 GameObject:
   m_ObjectHideFlags: 0
@@ -35769,6 +35791,7 @@ MonoBehaviour:
   leftButton: {fileID: 872688975}
   rightButton: {fileID: 867057754}
   confirmButton: {fileID: 2108657887}
+  background: {fileID: 1855908614}
 --- !u!95 &1815486919
 Animator:
   serializedVersion: 7
@@ -39271,6 +39294,7 @@ GameObject:
   - component: {fileID: 1987260205}
   - component: {fileID: 1987260207}
   - component: {fileID: 1987260206}
+  - component: {fileID: 1987260208}
   m_Layer: 5
   m_Name: ShopImg
   m_TagString: Untagged
@@ -39295,7 +39319,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 418, y: 410}
+  m_SizeDelta: {x: 600, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1987260206
 MonoBehaviour:
@@ -39317,7 +39341,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 72b26f5b87e2ec1458bf9b7f1aaf6457, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 188bd700ffc71304a9fece8cc0c0f142, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -39335,6 +39359,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987260204}
   m_CullTransparentMesh: 1
+--- !u!95 &1987260208
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987260204}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d6d39d37449c461458658f5679359f23, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1990243420
 GameObject:
   m_ObjectHideFlags: 0
