@@ -1868,15 +1868,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 403
-    m_Top: 701
+    m_Left: 200
+    m_Right: 25
+    m_Top: 50
     m_Bottom: 0
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 1
-  m_CellSize: {x: 500, y: 130}
-  m_Spacing: {x: 0, y: 0}
+  m_CellSize: {x: 400, y: 130}
+  m_Spacing: {x: 0, y: 20}
   m_Constraint: 1
   m_ConstraintCount: 1
 --- !u!114 &311678737
@@ -4087,6 +4087,7 @@ MonoBehaviour:
   endgamePanel: {fileID: 0}
   warningPanel: {fileID: 0}
   confirmedDrawing: {fileID: 0}
+  drawingConfirmPanel: {fileID: 0}
   drawenLines: {fileID: 49886116}
   warningLocalizeStringEvent: {fileID: 0}
   lives: 2
