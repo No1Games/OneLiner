@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 102736b3c8b7e194d8a72228d2f09645, type: 3}
   itemCode: 3007
-  requiredLevel: 0
+  requiredLevel: 15
   cost: 0
   category: 2

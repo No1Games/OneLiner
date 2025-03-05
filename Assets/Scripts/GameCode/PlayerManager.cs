@@ -59,14 +59,31 @@ public class PlayerManager : MonoBehaviour
         // Знаходимо ведучого
         PlayerScript leader = players.Find(p => p.role == PlayerRole.Leader);
 
-        for (int i = 0; i < players.Count; i++)
+        if(IngameData.Instance.GameMode == GameModes.Coop)
         {
-            if (players[i].role == PlayerRole.Player)
+            for (int i = 0; i < players.Count; i++)
             {
-                turnsQueue.Add(leader);
-                turnsQueue.Add(players[i]);
+                if (players[i].role == PlayerRole.Player)
+                {
+                    turnsQueue.Add(leader);
+                    turnsQueue.Add(players[i]);
+                }
             }
         }
+        else if (IngameData.Instance.GameMode == GameModes.ReverseCoop)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (players[i].role == PlayerRole.Player)
+                {
+                    turnsQueue.Add(players[i]);
+                    turnsQueue.Add(leader);
+                    
+                }
+            }
+        }
+
+
     }
 
     public void ChangeTurn()

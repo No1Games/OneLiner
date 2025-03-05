@@ -257,8 +257,10 @@ public class LocalGameSetupManager : MonoBehaviour
     }
     private void LoadLocalGame()
     {
+        
         OnLevelStarts?.Invoke();
         IngameData.Instance.SetRoleKnowsWord(roleKnowsTheWord);
+        IngameData.Instance.SetGameMode(modeMenu.GetModeInfo().modeName);
         lgsFunc.NextLevel(players);
     }
 

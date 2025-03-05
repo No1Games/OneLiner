@@ -21,21 +21,32 @@ public class AccountManager : MonoBehaviour
     [Header("Default Items")]
     [SerializeField] private List<int> defaultCosmeticCodes;
 
+    [SerializeField] private bool runWithPreviousAcc; 
+
     private void Awake()
     {
         InitializeStorage();
 
-
-        if (saveManager.HasSave())
+        if (runWithPreviousAcc)
         {
-            accountData = saveManager.Load();
-            InitializeAccount(accountData);
+            if (saveManager.HasSave())
+            {
+                accountData = saveManager.Load();
+                InitializeAccount(accountData);
+            }
+            else
+            {
+                accountData = CreateDefaultAccount();
+                SaveAccount();
+            }
         }
         else
         {
             accountData = CreateDefaultAccount();
             SaveAccount();
         }
+
+        
         UpdateDefaultCosmetics();
     }
     private void InitializeStorage()

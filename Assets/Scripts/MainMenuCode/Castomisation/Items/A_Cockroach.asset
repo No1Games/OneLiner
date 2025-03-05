@@ -15,5 +15,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: eff197cc6da2b2b4ea5ba2c239200c69, type: 3}
   itemCode: 1007
   requiredLevel: 0
-  cost: 0
+  cost: 50
   category: 0

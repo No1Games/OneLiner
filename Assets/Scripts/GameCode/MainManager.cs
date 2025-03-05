@@ -64,11 +64,8 @@ public class MainManager : MonoBehaviour
     private int CountScore()
     {
         timer.PauseTimer();
-        int maxPoints = 1000;
-        int heartPoints = 100;
-        int linePoints = 20;
-        int score = maxPoints - drawingManager.drawenLines * linePoints + uIManager.lives * heartPoints; 
-        return score;
+        return drawingManager.drawenLines;
+        
 
     }
 }

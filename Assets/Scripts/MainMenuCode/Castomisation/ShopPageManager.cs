@@ -1,6 +1,5 @@
-using System.Collections;
+
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +22,12 @@ public class ShopPageManager : MonoBehaviour
     private void Start()
     {
         GenerateButtons();
+        UpdateItemVisibility();
+
+    }
+    private void OnEnable()
+    {
+        UpdateItemVisibility();
     }
 
     private void GenerateButtons()
@@ -74,6 +79,57 @@ public class ShopPageManager : MonoBehaviour
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         uiMenu.StartSinglePurchase(item);
+    }
+
+    public void UpdateItemVisibility()
+    {
+        foreach(GameObject button in buttons)
+        {
+            ItemButton _btnFunc = button.GetComponent<ItemButton>();
+            bool _isAvaliable = CheckItemAccessibility(_btnFunc.GetItemData());
+            if (_isAvaliable)
+            {
+                _btnFunc.HideRequirements();
+                
+            }
+
+        }
+        SortButtons();
+    }
+    private void SortButtons()
+    {
+        buttons.Sort((a, b) =>
+        {
+            ItemButton buttonA = a.GetComponent<ItemButton>();
+            ItemButton buttonB = b.GetComponent<ItemButton>();
+
+            Item itemA = buttonA.GetItemData();
+            Item itemB = buttonB.GetItemData();
+
+            bool availableA = CheckItemAccessibility(itemA);
+            bool availableB = CheckItemAccessibility(itemB);
+
+            // 1. Спочатку доступні айтеми
+            if (availableA != availableB)
+            {
+                return availableA ? -1 : 1;
+            }
+
+            // 2. Потім сортуємо заблоковані за рівнем
+            if (itemA.requiredLevel != itemB.requiredLevel)
+            {
+                return itemA.requiredLevel.CompareTo(itemB.requiredLevel);
+            }
+
+            // 3. Потім сортуємо за ціною
+            return itemA.cost.CompareTo(itemB.cost);
+        });
+
+        // Оновлюємо ієрархію об'єктів у buttonParent
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            buttons[i].transform.SetSiblingIndex(i);
+        }
     }
 
 

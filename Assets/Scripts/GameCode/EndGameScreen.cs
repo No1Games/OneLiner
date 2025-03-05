@@ -40,26 +40,43 @@ public class EndGameScreen : MonoBehaviour
             AudioManager.Instance.PlaySoundInAdditional(GameSounds.Game_Victory);
             winContent.SetActive(true);
             loseContent.SetActive(false);
-            if (score <= 600) 
+            int indexToShow = 0;
+                       
+            //if (score <= 600) 
+            //{
+            //    stars[0].SetActive(true);
+
+            //}
+            if (score > 15)
             {
-                stars[0].SetActive(true);
+                indexToShow = 1;
+                //stars[1].SetActive(true);
 
             }
-            if (score > 600 && score <= 800)
+            if (score > 10 && score <= 15)
             {
-                stars[1].SetActive(true);
+                indexToShow = 2;
+                //stars[2].SetActive(true);
 
             }
-            if (score > 800 && score < 1000)
+            if (score <= 10)
             {
-                stars[2].SetActive(true);
+                indexToShow = 3;
+                /*stars[3].SetActive(true);*/
 
             }
-            if (score >= 1000)
+            for (int i = 0; i < stars.Count; i++) 
             {
-                stars[3].SetActive(true);
-
+            if (i == indexToShow)
+                {
+                    stars[i].SetActive(true);
+                }
+                else
+                {
+                    stars[i].SetActive(false);
+                }
             }
+
 
         }
 

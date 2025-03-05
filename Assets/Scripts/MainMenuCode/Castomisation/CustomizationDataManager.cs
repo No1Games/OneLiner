@@ -12,6 +12,8 @@ public class CustomizationDataManager : MonoBehaviour
     private MenuName previousMenuName;
     
     private List<Item> itemsOnPreview = new();
+    [SerializeField] private List<ShopPageManager> shopPageManagers = new();
+    [SerializeField] private CustomizationMenuUi ui;
 
     public event Action OnCustomizationEnds;
 
@@ -177,7 +179,17 @@ public class CustomizationDataManager : MonoBehaviour
         }
         GemManager.Instance.SpendGems(_price);
         accountManager.AddItemsToAccount(items);
-        // update customisation menu prewiev decrise gem ammount sort and filter items in shop
+
+       // update customisation menu prewiev decrise gem ammount sort and filter items in shop
+       foreach(ShopPageManager shop in shopPageManagers)
+        {
+            if (shop.gameObject.activeSelf)
+            {
+                shop.UpdateItemVisibility();
+
+            }
+        }
+       ui.UpdateGemsAtShop();
     }
 
     public void SigleBuy(Item item)

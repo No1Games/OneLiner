@@ -17,6 +17,10 @@ public class ItemButton : MonoBehaviour
     [Header("State")]
     private Item itemData; // Дані айтема, які налаштовують кнопку
 
+    public Item GetItemData()
+    {
+        return itemData;
+    }
     public void CustomizeButton(Item data, bool isAvailable)
     {
         itemData = data;
@@ -24,11 +28,10 @@ public class ItemButton : MonoBehaviour
 
         if (isAvailable)
         {
-            lockIcon.gameObject.SetActive(false);
-            priceIcon.SetActive(false);
-            levelIcon.SetActive(false);
-            
-            
+            HideRequirements();
+
+
+
         }
         else
         {
@@ -61,5 +64,12 @@ public class ItemButton : MonoBehaviour
     {
         priceButton.onClick.RemoveAllListeners();
         priceButton.onClick.AddListener(() => action?.Invoke(itemData));
+    }
+
+    public void HideRequirements()
+    {
+        lockIcon.gameObject.SetActive(false);
+        priceIcon.SetActive(false);
+        levelIcon.SetActive(false);
     }
 }

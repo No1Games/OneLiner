@@ -31,9 +31,9 @@ public class CustomizationMenuUi : MenuBase
 
     [SerializeField] private TextMeshProUGUI gems;
 
-    
-    
-    
+
+
+
 
     public override MenuName Menu => MenuName.CustomizationScreen;
     private void Awake()
@@ -132,6 +132,11 @@ public class CustomizationMenuUi : MenuBase
         avatarBackSmall.sprite = ItemManager.Instance.GetItemByCode(player.avatarBackID).icon;
         nameBackImg.sprite = ItemManager.Instance.GetItemByCode(player.nameBackID).icon;
         playerNameInputField.text = player.name;
+        UpdateGemsAtShop();
+    }
+
+    public void UpdateGemsAtShop()
+    {
         gems.text = GemManager.Instance.GetGems().ToString();
     }
 
@@ -183,7 +188,7 @@ public class CustomizationMenuUi : MenuBase
         }
     }
 
-    public void StartSinglePurchase(Item item) 
+    public void StartSinglePurchase(Item item)
     {
         customizationDataManager.SigleBuy(item);
     }
