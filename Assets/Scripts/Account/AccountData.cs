@@ -6,8 +6,8 @@ public class AccountData
 {
     public string playerName;
     public string playerID;
-    public int localPlayerID;
-    public string lastSaveTime;
+    //public int localPlayerID;
+    //public string lastSaveTime;
     public int avatarCode;
     public int avatarBackgroundCode;
     public int nameBackgroundCode;
@@ -17,6 +17,8 @@ public class AccountData
     public int level;
     public AccountStatus accountStatus;
     public string premiumEndDate;
+
+    public bool completeTutorial;
 
 
 }

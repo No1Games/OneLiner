@@ -20,6 +20,8 @@ public class MainMenuManager : MonoBehaviour
         _instance = this;
         _currentMenu = MenuName.MainScreen;
         CallSettingsInit();
+
+        
     }
 
     private void Start()

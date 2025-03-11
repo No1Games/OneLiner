@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using GooglePlayGames;
 
 
 public enum AccountStatus
@@ -21,57 +22,63 @@ public class AccountManager : MonoBehaviour
     [Header("Default Items")]
     [SerializeField] private List<int> defaultCosmeticCodes;
 
-    [SerializeField] private bool runWithPreviousAcc; 
 
-    private void Awake()
+
+
+    public void PrepareAccountData(bool result)
     {
-        InitializeStorage();
+        InitializeStorage(result);
 
-        if (runWithPreviousAcc)
+
+
+        if (saveManager.HasSave())
         {
-            if (saveManager.HasSave())
-            {
-                accountData = saveManager.Load();
-                InitializeAccount(accountData);
-            }
-            else
-            {
-                accountData = CreateDefaultAccount();
-                SaveAccount();
-            }
+            accountData = saveManager.Load();
+            InitializeAccount(accountData);
         }
         else
         {
-            accountData = CreateDefaultAccount();
+            accountData = CreateDefaultAccount(result);
             SaveAccount();
-        }
 
-        
+
+        }
         UpdateDefaultCosmetics();
+
+        // call main screen customisation
+        // close loading screen
+        //if account isnt auth in google show information about limitation
     }
-    private void InitializeStorage()
+    private void InitializeStorage(bool goFromGoogle)
     {
-        // Тимчасова реалізація: згодом заміниться логікою вибору
-        dataStorage = new PlayerPrefsDataStorage();
+
+
+        if (goFromGoogle)
+        {
+            dataStorage = new GooglePlayDataStorage();
+        }
+        else
+        {
+            dataStorage = new PlayerPrefsDataStorage();
+
+        }
         saveManager = new SaveManager(dataStorage);
     }
-    
 
-private void InitializeAccount(AccountData data)
+
+    private void InitializeAccount(AccountData data)
     {
         // Ініціалізація акаунта (можливо, присвоєння значень у грі)
-        player = new PlayerScript(data.playerName, data.localPlayerID);
+        player = new PlayerScript(data.playerName);
         player.UpdatePlayerInfo(data.playerName, data.avatarCode, data.avatarBackgroundCode, data.nameBackgroundCode);
     }
 
-    private AccountData CreateDefaultAccount()
+    private AccountData CreateDefaultAccount(bool hasDataFromGoogle)
     {
-        
-        return new AccountData
+        AccountData _newAccount = new AccountData
         {
             playerName = "Guest",
             playerID = Guid.NewGuid().ToString(),
-            localPlayerID = 0,
             avatarCode = 1001,
             avatarBackgroundCode = 2001,
             nameBackgroundCode = 3001,
@@ -79,9 +86,18 @@ private void InitializeAccount(AccountData data)
             gems = 0,
             experience = 0,
             level = 1,
-            accountStatus = AccountStatus.Basic,
-            
+            accountStatus = AccountStatus.Offline,
+            completeTutorial = false,
+
         };
+
+        if (hasDataFromGoogle)
+        {
+            _newAccount.playerName = PlayGamesPlatform.Instance.GetUserDisplayName();
+            _newAccount.playerID = PlayGamesPlatform.Instance.GetUserId();
+            _newAccount.accountStatus = AccountStatus.Basic;
+        }
+        return _newAccount;
     }
 
     public void SaveAccount()
@@ -96,7 +112,7 @@ private void InitializeAccount(AccountData data)
 
     private void UpdateDefaultCosmetics()
     {
-        foreach(int code in defaultCosmeticCodes)
+        foreach (int code in defaultCosmeticCodes)
         {
             if (!accountData.cosmeticCodes.Contains(code))
             {
@@ -113,14 +129,14 @@ private void InitializeAccount(AccountData data)
 
     public void AddItemsToAccount(List<Item> items)
     {
-        foreach(Item item in items)
+        foreach (Item item in items)
         {
-           
-                accountData.cosmeticCodes.Add(item.itemCode);
-            
-            
+
+            accountData.cosmeticCodes.Add(item.itemCode);
+
+
         }
-        
+
         SaveAccount();
 
     }

@@ -9,14 +9,14 @@ public class PlayerScript
     public int nameBackID;
 
 
-    public PlayerScript(string name, int playerID)
+    public PlayerScript(string name, int playerID = 0)
     {
         this.name = name;
         this.role = PlayerRole.NotSetYet;
         this.playerID = playerID;
-        this.avatarBackID = 0;
-        this.avatarID = 0;
-        this.nameBackID = 0;
+        this.avatarBackID = 201;
+        this.avatarID = 101;
+        this.nameBackID = 301;
     }
 
     public void UpdatePlayerInfo(string name, int avatarID, int avatarBackId, int nameBackId)
