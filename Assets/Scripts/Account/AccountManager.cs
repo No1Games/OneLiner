@@ -22,12 +22,10 @@ public class AccountManager : MonoBehaviour
     [Header("Default Items")]
     [SerializeField] private List<int> defaultCosmeticCodes;
 
-
-
-
-    public void PrepareAccountData(bool result)
+    private void Awake()
     {
-        InitializeStorage(result);
+        //LoadingPanel.Instance.Show();
+        InitializeStorage(false);
 
 
 
@@ -38,17 +36,41 @@ public class AccountManager : MonoBehaviour
         }
         else
         {
-            accountData = CreateDefaultAccount(result);
+            accountData = CreateDefaultAccount(false);
             SaveAccount();
 
 
         }
         UpdateDefaultCosmetics();
 
-        // call main screen customisation
-        // close loading screen
-        //if account isnt auth in google show information about limitation
-    }
+     
+}
+
+
+    //public void PrepareAccountData(bool result)
+    //{
+    //    InitializeStorage(result);
+
+
+
+    //    if (saveManager.HasSave())
+    //    {
+    //        accountData = saveManager.Load();
+    //        InitializeAccount(accountData);
+    //    }
+    //    else
+    //    {
+    //        accountData = CreateDefaultAccount(result);
+    //        SaveAccount();
+
+
+    //    }
+    //    UpdateDefaultCosmetics();
+
+    //    // call main screen customisation
+    //    // close loading screen
+    //    //if account isnt auth in google show information about limitation
+    //}
     private void InitializeStorage(bool goFromGoogle)
     {
 

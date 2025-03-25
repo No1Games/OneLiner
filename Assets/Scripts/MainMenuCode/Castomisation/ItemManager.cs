@@ -38,7 +38,7 @@ public class ItemManager : MonoBehaviour
         
 
         Debug.LogError($"Item with code {code} not found!");
-        return itemDictionary[101];
+        return itemDictionary[1001];
     }
 
     public List<int> GetItemCodesByCategory(ItemCategory category)
