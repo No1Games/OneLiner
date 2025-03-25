@@ -30,13 +30,15 @@ public class ItemManager : MonoBehaviour
 
     public Item GetItemByCode(int code)
     {
+        
         if (itemDictionary.TryGetValue(code, out var item))
         {
             return item;
         }
+        
 
         Debug.LogError($"Item with code {code} not found!");
-        return null;
+        return itemDictionary[101];
     }
 
     public List<int> GetItemCodesByCategory(ItemCategory category)
