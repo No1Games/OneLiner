@@ -33,6 +33,8 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
         //{
         //    Advertisement.Load(_adUnitId, this);
         //}
+        
+
         Advertisement.Load(_adUnitId, this);
     }
 
@@ -41,6 +43,8 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     // Implement a method to execute when the user clicks the button:
     public void ShowAd()
     {
+        
+
         Advertisement.Show(_adUnitId, this);
 
         //if (_adLoaded) // Перевіряємо, чи реклама готова

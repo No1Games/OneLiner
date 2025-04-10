@@ -19,15 +19,15 @@ public class GooglePlayAuthManager : MonoBehaviour
     }
     internal void ProcessAuthentication(SignInStatus status)
     {
-        //if (status == SignInStatus.Success)
-        //{
-
-        //    accountManager.PrepareAccountData(true);
-        //}
-        //else
-        //{
-        //    accountManager.PrepareAccountData(false);
-        //}
+        if (status == SignInStatus.Success)
+        {
+            
+            //accountManager.PrepareAccountData(true);
+        }
+        else
+        {
+            //accountManager.PrepareAccountData(false);
+        }
     }
 }
 

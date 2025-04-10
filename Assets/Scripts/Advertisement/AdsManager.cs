@@ -51,7 +51,7 @@ public class AdsManager : MonoBehaviour
     }
 
     public void ShowRewardedAds(AdsPlaces _adsPlace)
-    {
+    {       
         adsPlace = _adsPlace;
         rewardedAds.ShowAd();
 
