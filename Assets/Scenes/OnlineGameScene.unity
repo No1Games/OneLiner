@@ -1419,6 +1419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HeartsUI: {fileID: 1753747412}
   m_MaxHearts: 2
+  m_LinesUI: {fileID: 2009819091}
   m_StartTurnPanel: {fileID: 368842264}
   m_TurnHandler: {fileID: 1343160723}
   m_WordsPanel: {fileID: 597228376}
@@ -9917,6 +9918,7 @@ GameObject:
   - component: {fileID: 2009819088}
   - component: {fileID: 2009819090}
   - component: {fileID: 2009819089}
+  - component: {fileID: 2009819091}
   m_Layer: 5
   m_Name: ScoreHolder
   m_TagString: Untagged
@@ -10042,6 +10044,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2009819087}
   m_CullTransparentMesh: 1
+--- !u!114 &2009819091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009819087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b1f7081281561428036fa3dd00f191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LinesText: {fileID: 2009819089}
 --- !u!1 &2019004907
 GameObject:
   m_ObjectHideFlags: 0

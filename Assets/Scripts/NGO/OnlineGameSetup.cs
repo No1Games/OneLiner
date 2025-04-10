@@ -13,6 +13,14 @@ public class OnlineGameSetup : MonoBehaviour
 
     #endregion
 
+    #region Lines Fields
+
+    [Header("Lines")]
+    [SerializeField] private LinesUI m_LinesUI;
+    private int m_LinesCount = 0;
+
+    #endregion
+
     #region Turn Handle Fields
 
     [Header("Turn Handle Fields")]
@@ -67,6 +75,9 @@ public class OnlineGameSetup : MonoBehaviour
         m_CurrentHearts = m_MaxHearts;
         m_HeartsUI.Init(m_CurrentHearts);
 
+        m_LinesCount = 0;
+        m_LinesUI.SetLines(m_LinesCount);
+
         m_RpcHandler = FindAnyObjectByType<RpcHandler>();
 
         SubscribeOnRpcEvents();
@@ -86,6 +97,7 @@ public class OnlineGameSetup : MonoBehaviour
 
         m_DrawingManager.OnLineConfirmed += OnLineConfirmed;
         m_DrawingManager.OnLineSpawned += OnLineSpawned;
+        m_DrawingManager.OnLineSpawned += UpdateLines;
         m_DrawingUpdate.OnScreenshotTaken += OnScreenshotTaken;
 
         m_WordsPanel.UserClickedWordEvent += OnUserMakeGuess;
@@ -124,6 +136,7 @@ public class OnlineGameSetup : MonoBehaviour
 
         m_DrawingManager.OnLineConfirmed -= OnLineConfirmed;
         m_DrawingManager.OnLineSpawned -= OnLineSpawned;
+        m_DrawingManager.OnLineSpawned -= UpdateLines;
         m_DrawingUpdate.OnScreenshotTaken -= OnScreenshotTaken;
 
         UnsubscribeFromRpcEvents();
@@ -189,6 +202,11 @@ public class OnlineGameSetup : MonoBehaviour
     }
 
     #endregion
+
+    private void UpdateLines()
+    {
+        m_LinesUI.SetLines(++m_LinesCount);
+    }
 
     private void OnUserMakeGuess(int index)
     {
