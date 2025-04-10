@@ -275,7 +275,6 @@ public class NGODrawManager : MonoBehaviour
     public void AddLine(Line line)
     {
         _lines.Add(line);
-        OnLineSpawned?.Invoke();
     }
 
     public void LineConfirmed()

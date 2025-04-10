@@ -39,6 +39,7 @@ public class RpcHandler : NetworkBehaviour
     [ClientRpc]
     private void SpawnLineClientRpc(Vector3 start, Vector3 end)
     {
+        if (IsHost) return;
         Line line = _drawManager.SpawnLine(start, end);
     }
 
