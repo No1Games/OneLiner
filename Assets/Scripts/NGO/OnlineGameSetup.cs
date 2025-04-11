@@ -155,6 +155,11 @@ public class OnlineGameSetup : MonoBehaviour
     {
         m_LeaderWordIndex = index;
 
+        if (m_WordsList != null)
+        {
+            m_LeaderWord = m_WordsList[m_LeaderWordIndex];
+        }
+
         m_WordsPanel.SetLeaderWord(index);
     }
 
@@ -240,6 +245,18 @@ public class OnlineGameSetup : MonoBehaviour
 
     public void ShowGameOverScreen(bool isWin, float score = 0)
     {
+        if (m_LeaderWord == null)
+        {
+            if (m_WordsList != null)
+            {
+                m_LeaderWord = m_WordsList[m_LeaderWordIndex];
+            }
+            else
+            {
+                Debug.LogError($"Words list was not initialilzed!");
+            }
+        }
+
         m_GameOverUI.Show(m_LeaderWord, isWin, score);
     }
 

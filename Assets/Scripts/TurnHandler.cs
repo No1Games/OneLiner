@@ -58,7 +58,6 @@ public class TurnHandler : MonoBehaviour
             if (p.Role.Value == PlayerRole.Leader)
             {
                 m_Leader = p;
-                Debug.Log($"Leader found! {p.DisplayName.Value} - {p.ID.Value} - {p.Role.Value}");
                 continue;
             }
             m_PlayersQueue.Enqueue(p);

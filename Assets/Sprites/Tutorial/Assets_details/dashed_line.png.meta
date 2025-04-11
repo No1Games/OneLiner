@@ -410,7 +410,18 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      dashed_line_0: -7197917366411214618
+      dashed_line_1: -4172426696968808990
+      dashed_line_10: 5594937773032085991
+      dashed_line_2: -8413551554718247436
+      dashed_line_3: -1232471054594653361
+      dashed_line_4: 5775961036591437453
+      dashed_line_5: 4600635383921648894
+      dashed_line_6: 1391856010070394580
+      dashed_line_7: 7879450924587343809
+      dashed_line_8: -8304921728114471711
+      dashed_line_9: 6122101185952347891
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
