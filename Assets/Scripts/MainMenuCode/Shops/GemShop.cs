@@ -50,10 +50,9 @@ public class GemShop : MenuBase
 
     private void GetFreeGems()
     {
-       
         if (watchingCounter.CanWatchAd())
         {
-            
+
             AdsManager.Instance.ShowRewardedAds(AdsPlaces.GemsShop);
         }
     }
