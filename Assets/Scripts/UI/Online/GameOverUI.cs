@@ -39,6 +39,8 @@ public class GameOverUI : MonoBehaviour
 
         m_OverallContent.SetActive(true);
 
+        Debug.Log(word);
+
         m_WordLocalStrEvent.StringReference.TableEntryReference = word;
 
         if (!isWin)

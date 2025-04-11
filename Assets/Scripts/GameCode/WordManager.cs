@@ -42,7 +42,7 @@ public class WordManager : MonoBehaviour
     #region OnlineCode
     public int GetLeaderWordIndex(List<string> words)
     {
-        return UnityEngine.Random.Range(0, words.Count);
+        return Random.Range(0, words.Count);
     }
 
     public List<int> GetWordsIndexes(List<string> words)

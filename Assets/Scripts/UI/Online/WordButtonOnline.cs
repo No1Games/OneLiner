@@ -1,11 +1,13 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
 public class WordButtonOnline : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI m_WordTMP;
+    [SerializeField] private LocalizeStringEvent m_LocalizeStringEvent;
     [SerializeField] private Button m_Button;
 
     [SerializeField] private GameObject m_Leader;
@@ -28,7 +30,7 @@ public class WordButtonOnline : MonoBehaviour
 
     public void SetWord(string word, int index)
     {
-        m_WordTMP.text = word;
+        m_LocalizeStringEvent.StringReference.TableEntryReference = word;
         m_Index = index;
     }
 

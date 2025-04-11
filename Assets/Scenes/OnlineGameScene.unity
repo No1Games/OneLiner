@@ -9420,7 +9420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c351f180309fcc4eaad7ebbe19710f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wordList: {fileID: 11400000, guid: 4e5e0612c51376a4ab5abed074b067f9, type: 2}
+  wordList: {fileID: 11400000, guid: cd945c340f3b19847b9e96492d8ebe24, type: 2}
   wordAmount: 20
 --- !u!4 &2078672917
 Transform:

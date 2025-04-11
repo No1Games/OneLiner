@@ -77,6 +77,7 @@ public class RpcHandler : NetworkBehaviour
     [ClientRpc]
     private void OnGuessedWrongClientRpc(int index, int count)
     {
+        if (IsHost) return;
         DisableWordButtonEvent?.Invoke(index);
         UpdateHeartsEvent?.Invoke(count);
     }
@@ -113,6 +114,7 @@ public class RpcHandler : NetworkBehaviour
     [ClientRpc]
     private void GameOverClientRpc(bool isWin, float score = 0f)
     {
+        if (IsHost) return;
         GameOverEvent?.Invoke(isWin, score);
     }
 
