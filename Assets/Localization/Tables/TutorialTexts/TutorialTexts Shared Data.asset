@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: TutorialTexts Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: TutorialTexts
+  m_TableCollectionNameGuidString: 8d334058508b98f40bfcf5f7af095632
+  m_Entries:
+  - m_Id: 6165293072384
+    m_Key: Local_Menu_t1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6171634860032
+    m_Key: Local_Menu_t2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6175996936192
+    m_Key: Local_Menu_t3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6179616620544
+    m_Key: Local_Menu_t4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6459846459392
+    m_Key: Local_Menu_t5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6473859629056
+    m_Key: Local_Menu_t6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6498815737856
+    m_Key: Local_Menu_t7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6534064668672
+    m_Key: Local_Menu_t8
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6551873683456
+    m_Key: Local_Menu_t9
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6657997963264
+    m_Key: Local_Game_t1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6672820633600
+    m_Key: Local_Game_t2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6686804443136
+    m_Key: Local_Game_t3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6704953196544
+    m_Key: Local_Game_t4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6717565468672
+    m_Key: Local_Game_t5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6734430765056
+    m_Key: Local_Game_t6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6749895163904
+    m_Key: Local_Game_t7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6806975447040
+    m_Key: Local_Game_t8
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6823480033280
+    m_Key: Local_Game_t9
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6851816751104
+    m_Key: Local_Game_t10
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6865536319488
+    m_Key: Local_Game_t11
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6878249254912
+    m_Key: Local_Game_t12
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6896628695040
+    m_Key: Local_Game_t13
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908133670912
+    m_Key: Local_Game_t14
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6920410398720
+    m_Key: Local_Game_t15
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6932582268928
+    m_Key: Local_Game_t16
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6966191226880
+    m_Key: Local_Game_t17
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6977494876160
+    m_Key: Local_Game_t18
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 7910354341923651586
+  references:
+    version: 2
+    RefIds:
+    - rid: 7910354341923651586
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1744903530139

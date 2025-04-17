@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 59183bac20abe944bae3fdd8d5f30e1a
   m_currentHash:
     serializedVersion: 2
-    Hash: 0667ea573c1ac980da1dd39387e38bda
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -62,15 +62,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 73e3f6dac44208047a610a897a32c4af, type: 2}
   - {fileID: 11400000, guid: f3d1530edfe5d0d469730565837f6332, type: 2}
   - {fileID: 11400000, guid: 92c94d48947e4d54f81c594ed92f84ce, type: 2}
+  - {fileID: 11400000, guid: 7ea6216a9f1906d48976621117004de9, type: 2}
   - {fileID: 11400000, guid: 204cf8bdf62246e4cb539978b120c797, type: 2}
+  - {fileID: 11400000, guid: 291a8890d2d63d840ac0301a247e3cd7, type: 2}
   - {fileID: 11400000, guid: f1ccf7f9734ef9248b5bd266056c6c99, type: 2}
   - {fileID: 11400000, guid: d8f63f9f5a31e694a967580b023b4911, type: 2}
   - {fileID: 11400000, guid: ff420f2aa2d5e61429698b4ac424adf8, type: 2}
   - {fileID: 11400000, guid: 7b89fdc7556112641b70264549e2ff88, type: 2}
   - {fileID: 11400000, guid: 1fd17fb877329b443b49293741d06238, type: 2}
   - {fileID: 11400000, guid: 88d66bb818ab35d4385ca1ac0dd0aae8, type: 2}
+  - {fileID: 11400000, guid: 549f9660e412872498d831c6c50eba4b, type: 2}
   - {fileID: 11400000, guid: add4acee9c779bc459b507fc2b52fc79, type: 2}
   - {fileID: 11400000, guid: 4f9c98c84e4f4064cb5e064542e3c644, type: 2}
+  - {fileID: 11400000, guid: 7f067c19ecad0994f9e834edf2eefa76, type: 2}
+  - {fileID: 11400000, guid: 495062b1dfbbbe64e92171940426c4a6, type: 2}
   - {fileID: 11400000, guid: be934aeda2c150549a15de3450fd6620, type: 2}
   - {fileID: 11400000, guid: 5922110cd30b3cb4696b3d923b2eed50, type: 2}
   m_BuildSettings:
@@ -123,6 +128,11 @@ MonoBehaviour:
     - Locale-es
     - Locale-pl
     - Locale-cs
+    - Locale-zh-CN
+    - Locale-ko-KR
+    - Locale-pt
+    - Locale-hi-IN
+    - Locale-crh
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 0f4e1d3e172888f48b34ce111c1b358e, type: 2}

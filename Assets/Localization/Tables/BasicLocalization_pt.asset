@@ -1,0 +1,269 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: BasicLocalization_pt
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: pt
+  m_SharedData: {fileID: 11400000, guid: cc4036fb4339b03479ebb38b9e442be4, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 14171441379049472
+    m_Localized: CONFIRMAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Localized: RECUSAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Localized: "VIT\xD3RIA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Localized: PERDER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Localized: "A linha \xE9 muito curta."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Localized: "A linha n\xE3o pode continuar na dire\xE7\xE3o de outra linha."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Localized: "A linha deve come\xE7ar de outra linha."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79680516030464
+    m_Localized: "m\xEAs"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373101642285056
+    m_Localized: meses
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373104595075072
+    m_Localized: meses
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373150170382336
+    m_Localized: ilimitado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811721133654016
+    m_Localized: ESCOLHER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811718302498816
+    m_Localized: "L\xCDDER"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811849206726656
+    m_Localized: "L\xCDDERES"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811854747402240
+    m_Localized: "Neste modo, todos os jogadores est\xE3o unidos por um \xFAnico
+      objetivo \u2013 adivinhar a palavra escolhida pelo l\xEDder. Os outros jogadores
+      n\xE3o sabem qual palavra foi escolhida. O l\xEDder come\xE7a o jogo primeiro
+      e desenha uma linha. Depois disso, a vez passa para o pr\xF3ximo jogador na
+      lista, que desenha uma linha conectada \xE0 existente. Ap\xF3s o turno de cada
+      jogador, a vez volta para o l\xEDder. O objetivo \xE9 adivinhar a palavra com
+      base no desenho. Quanto menos turnos, mais pontos a equipe ganha. O n\xFAmero
+      de turnos \xE9 ilimitado.  \nOs cora\xE7\xF5es podem ser usados apenas para
+      adivinhar palavras."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811850850893824
+    m_Localized: COOPERATIVO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811846224576512
+    m_Localized: JOGADORES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811726384922624
+    m_Localized: "ALEAT\xD3RIO"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811847801634816
+    m_Localized: EQUIPE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811736052793344
+    m_Localized: TEMPO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466433507328
+    m_Localized: "POL\xCDTICA DE PRIVACIDADE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361349414912
+    m_Localized: EFEITOS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13461258240
+    m_Localized: IDIOMA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 372757921792
+    m_Localized: NOS ENVIE UMA MENSAGEM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357264162816
+    m_Localized: "M\xDASICA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367695396864
+    m_Localized: "VIBRA\xC7\xC3O"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 387147472994304
+    m_Localized: COMPRAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79678708285440
+    m_Localized: Gaste gemas e crie o perfil mais bonito de todos os tempos!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79669011054592
+    m_Localized: "- Sem an\xFAncios!  \r\n- Ganho acelerado de pontos de experi\xEAncia 
+      \r\n- Mais modos de jogo  \r\n- Capacidade de criar salas privadas  \r\n- Destaque-se
+      entre outros jogadores  "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4354233650212864
+    m_Localized: CRIAR SALA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Localized: ENTRAR PRIVADA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Localized: "In\xEDcio R\xE1pido"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Localized: SALA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Localized: MODE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155353477869568
+    m_Localized: PRIVADA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Localized: "P\xDABLICA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Localized: PRONTO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223252384940032
+    m_Localized: "Parece que voc\xEA selecionou um ou mais itens que est\xE3o atualmente
+      bloqueados."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223255107043328
+    m_Localized: "Mas aqui est\xE1 a boa not\xEDcia! Voc\xEA tem gemas suficientes
+      para desbloque\xE1-los!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223257585876992
+    m_Localized: Gostaria de comprar os novos itens?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223259603337216
+    m_Localized: 'Custo total:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223261851484160
+    m_Localized: "Infelizmente, voc\xEA n\xE3o tem gemas suficientes para desbloque\xE1-los!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223263323684864
+    m_Localized: Gostaria de visitar a loja para comprar mais gemas?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223264196100096
+    m_Localized: 'Faltando:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265034960896
+    m_Localized: "Infelizmente, alguns deles exigem um n\xEDvel de perfil mais alto
+      para serem desbloqueados."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265806712832
+    m_Localized: "Continue jogando e voc\xEA poder\xE1 desbloque\xE1-los todos em
+      breve!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223266586853376
+    m_Localized: "Jogadores Premium ganham tr\xEAs vezes mais experi\xEAncia! Gostaria
+      de comprar o Premium?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223267417325568
+    m_Localized: "Infelizmente, alguns deles exigem um n\xEDvel de perfil mais alto
+      e ainda n\xE3o foram comprados."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223268256186368
+    m_Localized: "Tente selecionar uma combina\xE7\xE3o diferente de decora\xE7\xF5es
+      de perfil."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223269904547840
+    m_Localized: "Voc\xEA est\xE1 prestes a sair da personaliza\xE7\xE3o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223270936346624
+    m_Localized: "Mas voc\xEA tem altera\xE7\xF5es n\xE3o salvas."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223271875870720
+    m_Localized: Ainda deseja sair?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: REVERSO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "Neste modo, todos os jogadores est\xE3o unidos com um \xFAnico
+      objetivo \u2013 adivinhar a palavra escolhida pelo jogo. Todos os jogadores,
+      exceto o anfitri\xE3o, sabem qual palavra foi escolhida. O jogo come\xE7a com
+      o jogador seguinte ao anfitri\xE3o, que desenha uma linha. Depois disso, a
+      vez passa para o anfitri\xE3o, que desenha uma linha conectada \xE0 existente.
+      Ap\xF3s cada vez do anfitri\xE3o, o pr\xF3ximo jogador faz a sua vez. O objetivo
+      do anfitri\xE3o \xE9 adivinhar a palavra com base no desenho. Quanto menos
+      movimentos, mais pontos a equipe ganha. N\xE3o h\xE1 limite para o n\xFAmero
+      de movimentos. As cora\xE7\xF5es s\xF3 podem ser usados para adivinhar palavras
+      e s\xE3o compartilhados entre todos os jogadores."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171429907628032
+    m_Localized: LINHAS
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

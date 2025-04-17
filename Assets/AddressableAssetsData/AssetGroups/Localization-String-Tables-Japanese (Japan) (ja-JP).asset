@@ -13,10 +13,27 @@ MonoBehaviour:
   m_Name: Localization-String-Tables-Japanese (Japan) (ja-JP)
   m_EditorClassIdentifier: 
   m_GroupName: Localization-String-Tables-Japanese (Japan) (ja-JP)
-  m_Data:
-    m_SerializedData: []
   m_GUID: 8ea6da037e51fc846a7ddf1a6078bce2
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 446610570f6cef3408ecf6c1057cbaed
+    m_Address: TutorialTexts_ja-JP
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ja-JP
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7cbc9aeab676315429f05cd5d7168b5e
+    m_Address: BasicLocalization_ja-JP
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ja-JP
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc390475955d7bb419f8e6124b08c738
+    m_Address: GameWords_ja-JP
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ja-JP
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: ed5b7c5c3be292c44a84f8f59aa72efd, type: 2}
   m_SchemaSet:

@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: TutorialTexts_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 8d334058508b98f40bfcf5f7af095632, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 6165293072384
+    m_Localized: DO YOU WANT TO SKIP THE TUTORIAL?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6171634860032
+    m_Localized: Hello! My name is Mr. Croc! I will help you learn how to play!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6175996936192
+    m_Localized: First, click this button and choose Local Game.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6179616620544
+    m_Localized: Well done! Now we are in the game settings menu.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6459846459392
+    m_Localized: Now we will play in cooperative mode. In the future, you can change
+      it here.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6473859629056
+    m_Localized: Yes! You understood correctly! We will play together! I will be
+      the host. See my crown?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6498815737856
+    m_Localized: Click the plus sign to add a new player.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6534064668672
+    m_Localized: Well done! By clicking the avatar, you can change the player's name
+      or delete them.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6551873683456
+    m_Localized: But enough chit-chat! Time to start the game!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6657997963264
+    m_Localized: The host always starts first. Now I'll see what word we need to
+      draw.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6672820633600
+    m_Localized: Aha, aha... Got it. I know the word we've been given. But unfortunately,
+      I can't tell you.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6686804443136
+    m_Localized: Don't worry! I'll try to help you guess it by drawing lines. But
+      I'm not a great artist.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6704953196544
+    m_Localized: Sorry, that's all for now. It's your turn! Click here to see the
+      list of words.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6717565468672
+    m_Localized: One of these words needs to be guessed by the drawing. Only the
+      host knows which word the game chose.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6734430765056
+    m_Localized: "If you want to guess \u2014 just click on the word. But it's too
+      early for that. Let's start drawing."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6749895163904
+    m_Localized: Touch the pencil to enter drawing mode.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6806975447040
+    m_Localized: To draw a line, tap the screen and drag your finger wherever you
+      want.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6823480033280
+    m_Localized: Remember, your line must start from another line but not continue
+      it! Try drawing where I marked with a dashed line.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6851816751104
+    m_Localized: Try again.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6865536319488
+    m_Localized: The best line I've ever seen! Now confirm your turn, and let's move
+      on.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6878249254912
+    m_Localized: Now it's my turn again. But let's imagine we've been playing for
+      a while and already drew something.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6896628695040
+    m_Localized: Wow! What have we got here? Want to guess the word?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908133670912
+    m_Localized: Oh, it seems you guessed wrong. Let's try again! This time I'll
+      help you. Remember, the number of attempts is limited by hearts!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6920410398720
+    m_Localized: I'm sure this is the correct word.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6932582268928
+    m_Localized: We won!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6966191226880
+    m_Localized: Remember, in different modes the rules can differ. You can learn
+      more about the mode rules in the settings screen or by clicking the question
+      mark in the game.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6977494876160
+    m_Localized: You have received a reward for completing the tutorial!
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
