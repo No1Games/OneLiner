@@ -482,6 +482,11 @@ public class OnlineController : MonoBehaviour
 
         NetworkManager.Singleton.Shutdown();
 
+        if (m_LocalPlayer.IsHost.Value)
+        {
+            HostSetRelayCode(string.Empty);
+        }
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.LoadScene(m_MenuSceneName);
     }

@@ -93,15 +93,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void OpenRoomPanel(bool isCreate)
     {
-        foreach (var menu in _menus)
-        {
-            if (menu != null && menu.isActiveAndEnabled)
-            {
-                menu.Hide();
-            }
-        }
-
-        //_menus.FindAll(m => m.gameObject.activeInHierarchy).ForEach(m => m.Hide());
+        _menus.FindAll(m => m.gameObject.activeInHierarchy).ForEach(m => m.Hide());
 
         _bgController.SetBackground(BGType.Blue);
 
