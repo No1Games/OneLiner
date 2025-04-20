@@ -53,7 +53,7 @@ public class OnlineController : MonoBehaviour
 
     public bool IsRandomLeader { get; set; }
 
-    private RpcHandler m_RpcHandler;
+    //private RpcHandler m_RpcHandler;
 
     public event Action AllPlayersReadyEvent;
     public event Action PlayerNotReadyEvent;
@@ -188,27 +188,14 @@ public class OnlineController : MonoBehaviour
         SetLocalLobbyState(LobbyState.InGame);
     }
 
-    private async void StartGame()
+    private void StartGame()
     {
-        SetLocalPlayerStatus(PlayerStatus.InGame);
-
-        if (m_LocalPlayer.IsHost.Value)
-        {
-            m_LocalLobby.Locked.Value = true;
-
-            await SendLocalLobbyDataAsync();
-        }
-
         ChangeScene();
-
-        await StartNetwork();
-
-        LoadingPanel.Instance.Hide();
     }
 
     private async Task StartNetwork()
     {
-        m_RpcHandler = FindAnyObjectByType<RpcHandler>();
+        //m_RpcHandler = FindAnyObjectByType<RpcHandler>();
 
         if (m_LocalPlayer.IsHost.Value)
         {
@@ -225,7 +212,9 @@ public class OnlineController : MonoBehaviour
 
     private void ChangeScene()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.LoadScene(m_GameSceneName);
+        //NetworkManager.Singleton.SceneManager.LoadScene(m_GameSceneName, LoadSceneMode.Additive);
     }
 
     #endregion
@@ -485,24 +474,51 @@ public class OnlineController : MonoBehaviour
         //SetLobbyView();
     }
 
-    public async void ReturnToLobby()
+    public void ReturnToLobby()
     {
+        Debug.Log("Return to lobby");
+
         LoadingPanel.Instance.Show();
 
-        SetLocalPlayerStatus(PlayerStatus.Lobby);
+        NetworkManager.Singleton.Shutdown();
 
-        if (m_LocalPlayer.IsHost.Value)
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.LoadScene(m_MenuSceneName);
+    }
+
+    private async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == m_MenuSceneName)
         {
-            m_LocalLobby.LocalLobbyState.Value = LobbyState.Lobby;
-            m_LocalLobby.Locked.Value = false;
-            await SendLocalLobbyDataAsync();
+            SetLocalPlayerStatus(PlayerStatus.Lobby);
+
+            if (m_LocalPlayer.IsHost.Value)
+            {
+                m_LocalLobby.LocalLobbyState.Value = LobbyState.Lobby;
+                m_LocalLobby.Locked.Value = false;
+                await SendLocalLobbyDataAsync();
+            }
+
+            MainMenuManager.Instance.OpenRoomPanel(false);
         }
 
-        SceneManager.LoadScene(m_MenuSceneName);
+        if (scene.name == m_GameSceneName)
+        {
+            SetLocalPlayerStatus(PlayerStatus.InGame);
 
-        MainMenuManager.Instance.OpenRoomPanel(false);
+            if (m_LocalPlayer.IsHost.Value)
+            {
+                m_LocalLobby.Locked.Value = true;
+
+                await SendLocalLobbyDataAsync();
+            }
+
+            await StartNetwork();
+        }
 
         LoadingPanel.Instance.Hide();
+
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public async void LeaveLobby()

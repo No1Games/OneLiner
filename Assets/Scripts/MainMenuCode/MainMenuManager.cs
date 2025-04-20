@@ -20,8 +20,6 @@ public class MainMenuManager : MonoBehaviour
         _instance = this;
         _currentMenu = MenuName.MainScreen;
         CallSettingsInit();
-
-        
     }
 
     private void Start()
@@ -95,23 +93,35 @@ public class MainMenuManager : MonoBehaviour
 
     public void OpenRoomPanel(bool isCreate)
     {
-        MenuBase roomListMenu = _menus.Find(m => m.Menu == MenuName.RoomsList);
+        foreach (var menu in _menus)
+        {
+            if (menu != null && menu.isActiveAndEnabled)
+            {
+                menu.Hide();
+            }
+        }
 
-        if (roomListMenu != null && roomListMenu.isActiveAndEnabled)
-        {
-            if (roomListMenu.isActiveAndEnabled)
-            {
-                roomListMenu.Hide();
-            }
-            else
-            {
-                Debug.Log("Room List Menu is already inactive");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Room List menu is null.");
-        }
+        //_menus.FindAll(m => m.gameObject.activeInHierarchy).ForEach(m => m.Hide());
+
+        _bgController.SetBackground(BGType.Blue);
+
+        //MenuBase roomListMenu = _menus.Find(m => m.Menu == MenuName.RoomsList);
+
+        //if (roomListMenu != null && roomListMenu.isActiveAndEnabled)
+        //{
+        //    if (roomListMenu.isActiveAndEnabled)
+        //    {
+        //        roomListMenu.Hide();
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Room List Menu is already inactive");
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("Room List menu is null.");
+        //}
 
         WaitingRoomUI waitingRoomMenu = _menus.Find(m => m.Menu == MenuName.WaitingRoom) as WaitingRoomUI;
 

@@ -25,12 +25,12 @@ public class GameOverUI : MonoBehaviour
 
     private void OnClick_RestartButton()
     {
-        Debug.LogWarning("NOT IMPLEMENTED");
+        OnlineController.Instance.ReturnToLobby();
     }
 
     private void OnClick_ExitButton()
     {
-        OnlineController.Instance.ReturnToLobby();
+        Debug.LogWarning("NOT IMPLEMENTED");
     }
 
     public void Show(string word, bool isWin, float score = 0)
@@ -38,8 +38,6 @@ public class GameOverUI : MonoBehaviour
         AudioManager.Instance.PauseSoundInBack();
 
         m_OverallContent.SetActive(true);
-
-        Debug.Log(word);
 
         m_WordLocalStrEvent.StringReference.TableEntryReference = word;
 
