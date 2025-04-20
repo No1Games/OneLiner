@@ -300,7 +300,6 @@ public class WaitingRoomUI : MenuBase
         _enableTimerButton.interactable = false;
 
         _timerSlider.interactable = false;
-        _enableTimerButton.gameObject.SetActive(false);
 
         _status = _gameManager.LocalPlayer.UserStatus.Value;
 

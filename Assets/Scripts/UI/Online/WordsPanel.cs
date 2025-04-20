@@ -10,7 +10,6 @@ public class WordsPanel : MonoBehaviour
 
     [Space]
     [SerializeField] private WordButtonOnline m_WordButtonPrefab;
-    [SerializeField] private Transform m_ButtonsGridT;
 
     private List<WordButtonOnline> m_WordButtons;
 
@@ -55,7 +54,7 @@ public class WordsPanel : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            WordButtonOnline wordButton = Instantiate(m_WordButtonPrefab, m_ButtonsGridT);
+            WordButtonOnline wordButton = Instantiate(m_WordButtonPrefab, transform);
             wordButton.gameObject.SetActive(false);
             m_WordButtons.Add(wordButton);
         }
