@@ -15,38 +15,14 @@ MonoBehaviour:
   m_GroupName: Localization-Locales
   m_GUID: dfa244df75e02564ca82d8de8b6eb68c
   m_SerializeEntries:
-  - m_GUID: 08d65060370bcf445b2ed83ac86c2193
-    m_Address: Hindi (India) (hi-IN)
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 13c03d2ed37d73a48b1f5a42e853d9ee
     m_Address: Italian (it)
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 17e0f338149168743bf25ff811b30cac
-    m_Address: "Q\u0131r\u0131mtatar tili (crh)"
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 20cbdb749b7c69e4a99a5a74ae4f90d2
     m_Address: French (fr)
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 41ba958177ebc954f9597fd212b72690
-    m_Address: Portuguese (pt)
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 475c2ed56e37d1b46ad3cc60375f2f9e
-    m_Address: Korean (South Korea) (ko-KR)
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale
@@ -71,12 +47,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8f5296894e2e75447b31a48b1623e2e6
     m_Address: English (en)
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d3b6133c6ae1bc5418c61bbf2fe8e641
-    m_Address: Chinese (Simplified) (zh-CN)
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale
