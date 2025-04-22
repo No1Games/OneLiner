@@ -35,8 +35,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6459846459392
-    m_Localized: "Agora vamos jogar no modo cooperativo. No futuro, voc\xEA poder\xE1
-      alter\xE1-lo aqui."
+    m_Localized: 'Agora vamos jogar no modo cooperativo. '
     m_Metadata:
       m_Items: []
   - m_Id: 6473859629056
@@ -142,6 +141,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6977494876160
     m_Localized: "Voc\xEA recebeu uma recompensa por concluir o tutorial!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1772182952378368
+    m_Localized: "No futuro, voc\xEA poder\xE1 alter\xE1-lo aqui."
     m_Metadata:
       m_Items: []
   references:

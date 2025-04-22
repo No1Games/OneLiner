@@ -37,8 +37,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6459846459392
-    m_Localized: "Nous allons jouer en mode coop\xE9ratif. Plus tard, tu pourras
-      le modifier ici."
+    m_Localized: "Nous allons jouer en mode coop\xE9ratif."
     m_Metadata:
       m_Items: []
   - m_Id: 6473859629056
@@ -145,6 +144,10 @@ MonoBehaviour:
   - m_Id: 6977494876160
     m_Localized: "Vous avez re\xE7u une r\xE9compense pour avoir termin\xE9 la formation
       !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1772182952378368
+    m_Localized: ' Plus tard, tu pourras le modifier ici.'
     m_Metadata:
       m_Items: []
   references:

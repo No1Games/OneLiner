@@ -35,8 +35,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6459846459392
-    m_Localized: Now we will play in cooperative mode. In the future, you can change
-      it here.
+    m_Localized: 'Now we will play in cooperative mode. '
     m_Metadata:
       m_Items: []
   - m_Id: 6473859629056
@@ -140,6 +139,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6977494876160
     m_Localized: You have received a reward for completing the tutorial!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1772182952378368
+    m_Localized: In the future, you can change it here.
     m_Metadata:
       m_Items: []
   references:

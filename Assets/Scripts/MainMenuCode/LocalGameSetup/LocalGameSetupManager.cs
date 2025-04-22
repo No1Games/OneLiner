@@ -62,6 +62,10 @@ public class LocalGameSetupManager : MonoBehaviour
 
     private void SetLocalSetup()
     {
+        if (accountManager.isTutorialOn)
+        {
+
+        
         if (!playersInitialized)
         {
             playersInitialized = true;
@@ -79,7 +83,23 @@ public class LocalGameSetupManager : MonoBehaviour
             }
 
         }
-        
+        }
+        else
+        {
+            
+            AddPlayer(lgsFunc.AddCroco());
+
+        }
+
+    }
+
+    public void AddPlayerForTutorial()
+    {
+        AddPlayer(accountManager.player);
+    }
+    public void FinishTutorial()
+    {
+        StartLocalGame();
     }
 
     private void ClearLocalSetup()

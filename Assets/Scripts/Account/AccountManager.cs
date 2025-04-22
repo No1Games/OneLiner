@@ -18,6 +18,8 @@ public class AccountManager : MonoBehaviour
     private SaveManager saveManager;
     private AccountData accountData;
     public PlayerScript player;
+    
+    public bool isTutorialOn = true;  // temporarily
 
     [Header("Default Items")]
     [SerializeField] private List<int> defaultCosmeticCodes;

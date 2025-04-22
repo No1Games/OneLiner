@@ -35,8 +35,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6459846459392
-    m_Localized: "Te\u010F budeme hr\xE1t v kooperativn\xEDm re\u017Eimu. V budoucnu
-      jej m\u016F\u017Ee\u0161 zm\u011Bnit tady."
+    m_Localized: "Te\u010F budeme hr\xE1t v kooperativn\xEDm re\u017Eimu."
     m_Metadata:
       m_Items: []
   - m_Id: 6473859629056
@@ -143,6 +142,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6977494876160
     m_Localized: "Z\xEDskal jsi odm\u011Bnu za dokon\u010Den\xED v\xFDuky!\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1772182952378368
+    m_Localized: " V budoucnu jej m\u016F\u017Ee\u0161 zm\u011Bnit tady."
     m_Metadata:
       m_Items: []
   references:

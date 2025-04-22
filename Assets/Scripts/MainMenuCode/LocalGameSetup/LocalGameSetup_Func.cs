@@ -19,6 +19,15 @@ public class LocalGameSetup_Func : MonoBehaviour
 
     }
 
+    public PlayerScript AddCroco()
+    {
+        string newPlayerName = "Croco";
+        int newPlayerID = Random.Range(1, 1000);
+        PlayerScript newPlayer = new PlayerScript(newPlayerName, newPlayerID);
+        SetRandomPlayerCustomization(newPlayer);
+        newPlayer.avatarID = 1001;
+        return newPlayer;
+    }
     public PlayerScript AddRandomPlayer(List<PlayerScript> players)
     {
 

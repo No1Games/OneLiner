@@ -37,8 +37,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6459846459392
-    m_Localized: "\u015Eimdi kooperatif modunda oynayaca\u011F\u0131z. Gelecekte
-      bunu burada de\u011Fi\u015Ftirebilirsin."
+    m_Localized: "\u015Eimdi kooperatif modunda oynayaca\u011F\u0131z. "
     m_Metadata:
       m_Items: []
   - m_Id: 6473859629056
@@ -148,6 +147,10 @@ MonoBehaviour:
   - m_Id: 6977494876160
     m_Localized: "E\u011Fitim k\u0131sm\u0131n\u0131 tamamlad\u0131\u011F\u0131n
       i\xE7in \xF6d\xFCl ald\u0131n!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1772182952378368
+    m_Localized: "Gelecekte bunu burada de\u011Fi\u015Ftirebilirsin."
     m_Metadata:
       m_Items: []
   references:

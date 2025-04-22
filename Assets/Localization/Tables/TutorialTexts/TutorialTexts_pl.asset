@@ -36,8 +36,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6459846459392
-    m_Localized: "Teraz zagramy w trybie kooperacji. W przysz\u0142o\u015Bci b\u0119dziesz
-      m\xF3g\u0142 zmieni\u0107 ten tryb tutaj."
+    m_Localized: 'Teraz zagramy w trybie kooperacji. '
     m_Metadata:
       m_Items: []
   - m_Id: 6473859629056
@@ -144,6 +143,11 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6977494876160
     m_Localized: "Otrzyma\u0142e\u015B nagrod\u0119 za uko\u0144czenie samouczka!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1772182952378368
+    m_Localized: "W przysz\u0142o\u015Bci b\u0119dziesz m\xF3g\u0142 zmieni\u0107
+      ten tryb tutaj."
     m_Metadata:
       m_Items: []
   references:

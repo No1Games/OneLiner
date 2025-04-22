@@ -7,6 +7,8 @@ public class TutorialManager : MonoBehaviour
     
     private int currentIndex = 0;
 
+    [SerializeField] AccountManager accountManager;
+    [SerializeField] LocalGameSetupManager localGameSetupManager;
     
 
     private void Awake()
@@ -63,6 +65,12 @@ public class TutorialManager : MonoBehaviour
                 break;
             case 2:
                 MainMenuManager.Instance.ChangeMenu(MenuName.LocalSetup);
+                break;
+            case 7:
+                localGameSetupManager.AddPlayerForTutorial();
+                break;
+            case 9:
+                localGameSetupManager.FinishTutorial();
                 break;
             default:
                 Debug.Log("Default tutorial action.");
