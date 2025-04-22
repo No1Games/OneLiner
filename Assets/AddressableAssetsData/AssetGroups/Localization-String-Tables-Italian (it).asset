@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-Italian (it)
   m_GUID: 22d2112a0d1e33044b9a18a6120c3177
   m_SerializeEntries:
+  - m_GUID: 09ee47c4a4936e746b9a1677d36cd5d1
+    m_Address: TutorialTexts_it
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-it
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 84ca9be19a63c1c4a8e85b477f7d7b67
     m_Address: GameWords_it
     m_ReadOnly: 1

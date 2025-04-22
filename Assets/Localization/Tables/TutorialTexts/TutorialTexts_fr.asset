@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: TutorialTexts_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 8d334058508b98f40bfcf5f7af095632, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 6165293072384
+    m_Localized: VOUS VOULEZ PASSER LA FORMATION ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6171634860032
+    m_Localized: "Salut ! Je m'appelle Monsieur Croc ! Je vais t'aider \xE0 apprendre
+      \xE0 jouer !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6175996936192
+    m_Localized: Pour commencer, appuie sur ce bouton et choisis une partie locale.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6179616620544
+    m_Localized: "Bien jou\xE9 ! Nous sommes maintenant dans le menu des param\xE8tres
+      du jeu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6459846459392
+    m_Localized: "Nous allons jouer en mode coop\xE9ratif. Plus tard, tu pourras
+      le modifier ici."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6473859629056
+    m_Localized: Oui ! Tu as bien compris ! Nous allons jouer ensemble ! Je serai
+      le meneur. Tu vois ma couronne ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6498815737856
+    m_Localized: Appuie sur la croix pour ajouter un nouveau joueur.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6534064668672
+    m_Localized: "Bien jou\xE9 ! En appuyant sur l'avatar, tu pourras modifier le
+      nom du joueur ou le supprimer."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6551873683456
+    m_Localized: "Assez parl\xE9 ! Il est temps de commencer la partie !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6657997963264
+    m_Localized: Le meneur commence toujours en premier. Je vais voir quel mot nous
+      devons dessiner.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6672820633600
+    m_Localized: Ah, ah... Compris. Je sais quel mot on doit deviner. Mais malheureusement,
+      je ne peux pas te le dire.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6686804443136
+    m_Localized: "Ne t\u2019inqui\xE8te pas ! Je vais essayer de t'aider \xE0 deviner
+      en dessinant des lignes. Mais je ne suis pas un grand artiste."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6704953196544
+    m_Localized: "D\xE9sol\xE9, c'est tout pour le moment. C'est ton tour ! Appuie
+      ici pour voir la liste des mots."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6717565468672
+    m_Localized: "L\u2019un de ces mots doit \xEAtre devin\xE9 gr\xE2ce au dessin.
+      Seul le meneur sait lequel c\u2019est."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6734430765056
+    m_Localized: "Si tu veux deviner \u2014 appuie simplement sur le mot. Mais c'est
+      encore trop t\xF4t. Passons au dessin."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6749895163904
+    m_Localized: Touchez le crayon pour passer en mode dessin.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6806975447040
+    m_Localized: "Pour cr\xE9er une ligne, appuie sur l'\xE9cran et fais glisser
+      ton doigt o\xF9 tu veux."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6823480033280
+    m_Localized: "Souviens-toi, ta ligne doit commencer sur une autre, mais ne doit
+      pas la prolonger ! Essaie de dessiner l\xE0 o\xF9 j\u2019ai mis le pointill\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6851816751104
+    m_Localized: Essaie encore.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6865536319488
+    m_Localized: "La meilleure ligne que j\u2019ai vue de toute ma vie ! Maintenant
+      valide ton coup et on continue."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6878249254912
+    m_Localized: "C\u2019est de nouveau mon tour. Mais imaginons que nous avons d\xE9j\xE0
+      jou\xE9 longtemps et qu\u2019il y a un dessin form\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6896628695040
+    m_Localized: "Wow ! Qu\u2019est-ce que \xE7a peut bien \xEAtre ? Veux-tu essayer
+      de deviner le mot ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908133670912
+    m_Localized: "Oups, on dirait que tu t\u2019es tromp\xE9. Essayons encore une
+      fois ! Cette fois je vais t'aider. N\u2019oublie pas que le nombre d'essais
+      est limit\xE9 par des c\u0153urs !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6920410398720
+    m_Localized: "Je suis s\xFBr que c\u2019est le bon mot."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6932582268928
+    m_Localized: "Nous avons gagn\xE9 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6966191226880
+    m_Localized: "N'oublie pas que les r\xE8gles peuvent varier selon le mode de
+      jeu. Tu peux en savoir plus sur l'\xE9cran des param\xE8tres ou en appuyant
+      sur le point d'interrogation dans le jeu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6977494876160
+    m_Localized: "Vous avez re\xE7u une r\xE9compense pour avoir termin\xE9 la formation
+      !"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

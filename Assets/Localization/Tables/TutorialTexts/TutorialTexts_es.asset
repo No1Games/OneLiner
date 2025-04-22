@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: TutorialTexts_es
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: 8d334058508b98f40bfcf5f7af095632, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 6165293072384
+    m_Localized: "\xBFQuieres saltarte el tutorial?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6171634860032
+    m_Localized: "\xA1Hola! \xA1Me llamo Mister Krok!\n\xA1Te ayudar\xE9 a aprender
+      a jugar!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6175996936192
+    m_Localized: "Para empezar, pulsa este bot\xF3n y elige una partida local."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6179616620544
+    m_Localized: "\xA1Bien hecho! Ahora estamos en el men\xFA de configuraci\xF3n
+      del juego."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6459846459392
+    m_Localized: "Ahora vamos a jugar en modo cooperativo. En el futuro, podr\xE1s
+      cambiarlo aqu\xED."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6473859629056
+    m_Localized: "\xA1Exacto! \xA1Lo has entendido bien! Jugaremos juntos. Yo ser\xE9
+      el anfitri\xF3n. \xBFVes mi corona?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6498815737856
+    m_Localized: "Pulsa en la cruz para a\xF1adir un nuevo jugador."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6534064668672
+    m_Localized: "\xA1Bien hecho! Si tocas el avatar, podr\xE1s cambiar el nombre
+      del jugador o eliminarlo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6551873683456
+    m_Localized: "\xA1Basta de charla!\n\xA1Es hora de empezar la partida!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6657997963264
+    m_Localized: "El anfitri\xF3n siempre empieza primero. Ahora voy a ver qu\xE9
+      palabra tenemos que dibujar."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6672820633600
+    m_Localized: "Aj\xE1, aj\xE1... Entendido. Ya s\xE9 qu\xE9 palabra nos ha tocado.
+      Pero, lamentablemente, no puedo dec\xEDrtela."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6686804443136
+    m_Localized: "\xA1No te preocupes! Intentar\xE9 ayudarte a adivinarla dibujando
+      algunas l\xEDneas. Aunque no soy un gran artista, la verdad."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6704953196544
+    m_Localized: "Perd\xF3n, eso es todo por ahora. \xA1Es tu turno! Pulsa aqu\xED
+      para ver la lista de palabras."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6717565468672
+    m_Localized: "Una de estas palabras es la correcta, y debes adivinarla seg\xFAn
+      el dibujo. Solo el anfitri\xF3n sabe cu\xE1l es la palabra elegida."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6734430765056
+    m_Localized: "Si quieres adivinar, simplemente pulsa sobre la palabra. Pero a\xFAn
+      es pronto. \xA1Pasemos al dibujo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6749895163904
+    m_Localized: "Toca el l\xE1piz para entrar en modo dibujo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6806975447040
+    m_Localized: "Para crear una l\xEDnea, toca la pantalla y desliza el dedo donde
+      quieras."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6823480033280
+    m_Localized: "Recuerda, tu l\xEDnea debe empezar desde otra, pero \xA1no debe
+      continuarla! Intenta dibujar donde he se\xF1alado con la l\xEDnea de puntos."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6851816751104
+    m_Localized: "Int\xE9ntalo de nuevo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6865536319488
+    m_Localized: "\xA1La mejor l\xEDnea que he visto en mi vida! Ahora confirma tu
+      jugada y sigamos."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6878249254912
+    m_Localized: Ahora es mi turno otra vez. Pero imaginemos que ya hemos jugado
+      un rato y que hay algo dibujado.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6896628695040
+    m_Localized: "\xA1Vaya! \xBFQu\xE9 ser\xE1 esto que hemos dibujado? \xBFQuieres
+      intentar adivinar la palabra?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908133670912
+    m_Localized: "Uy, parece que no acertaste. \xA1Intent\xE9moslo de nuevo! Esta
+      vez te ayudar\xE9. Recuerda que el n\xFAmero de intentos est\xE1 limitado por
+      los corazones."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6920410398720
+    m_Localized: Estoy seguro de que esta es la palabra correcta.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6932582268928
+    m_Localized: "\xA1Hemos ganado!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6966191226880
+    m_Localized: "Recuerda que las reglas pueden variar seg\xFAn el modo de juego.
+      Puedes consultar las reglas en la pantalla de configuraci\xF3n o pulsando el
+      signo de interrogaci\xF3n dentro del juego."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6977494876160
+    m_Localized: "\xA1Has recibido una recompensa por completar el tutorial!"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

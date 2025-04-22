@@ -1,0 +1,155 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: TutorialTexts_crh
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: crh
+  m_SharedData: {fileID: 11400000, guid: 8d334058508b98f40bfcf5f7af095632, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 6165293072384
+    m_Localized: "\xD6\u011Fretimi atlamak istiyor musunuz?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6171634860032
+    m_Localized: "Merhaba! Benim ad\u0131m Bay Krok!\nSana oyun oynamay\u0131 \xF6\u011Fretmeye
+      yard\u0131mc\u0131 olaca\u011F\u0131m!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6175996936192
+    m_Localized: "Ba\u015Flamak i\xE7in bu d\xFC\u011Fmeye t\u0131kla ve yerel bir
+      oyun se\xE7."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6179616620544
+    m_Localized: "Aferin! \u015Eimdi oyun ayarlar\u0131 men\xFCs\xFCndeyiz."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6459846459392
+    m_Localized: "\u015Eimdi kooperatif modunda oynayaca\u011F\u0131z. Gelecekte
+      bunu burada de\u011Fi\u015Ftirebilirsin."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6473859629056
+    m_Localized: "Evet! Do\u011Fru anlad\u0131n! Birlikte oynayaca\u011F\u0131z!
+      Ben lider olaca\u011F\u0131m. Ta\xE7\u0131m\u0131 g\xF6r\xFCyor musun?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6498815737856
+    m_Localized: "Yeni bir oyuncu eklemek i\xE7in \xE7arp\u0131ya t\u0131kla."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6534064668672
+    m_Localized: "Aferin! Avatar\u0131na t\u0131klayarak oyuncunun ismini de\u011Fi\u015Ftirebilir
+      ya da onu silebilirsin."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6551873683456
+    m_Localized: "Ama art\u0131k yeter!\nOyuna ba\u015Flama zaman\u0131!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6657997963264
+    m_Localized: "Lider her zaman \xF6nce ba\u015Flar. \u015Eimdi hangi kelimeyi
+      \xE7izece\u011Fimize bakaca\u011F\u0131m."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6672820633600
+    m_Localized: "Aha, aha... Anlad\u0131m. Hangi kelimeyi se\xE7tiklerini biliyorum.
+      Ama \xFCzg\xFCn\xFCm, sana s\xF6yleyemem."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6686804443136
+    m_Localized: "Korkma! Tahmin etmene yard\u0131mc\u0131 olaca\u011F\u0131m, \xE7izgiler
+      \xE7izece\u011Fim. Ama, d\xFCr\xFCst olmak gerekirse, ben iyi bir sanat\xE7\u0131
+      de\u011Filim."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6704953196544
+    m_Localized: "\xDCzg\xFCn\xFCm, \u015Fu anl\u0131k bu kadar. \u015Eimdi senin
+      s\u0131ram! Kelimeler listesini g\xF6rmek i\xE7in buraya t\u0131kla."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6717565468672
+    m_Localized: "Bu kelimelerden birini \xE7izimle tahmin etmen gerekiyor. Yaln\u0131zca
+      lider, hangi kelimenin se\xE7ildi\u011Fini biliyor."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6734430765056
+    m_Localized: "E\u011Fer tahmin etmek istersen \u2014 sadece kelimeye t\u0131kla.
+      Ama \u015Fu an erken. \xC7izmeye ge\xE7elim."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6749895163904
+    m_Localized: "\xC7izim moduna ge\xE7mek i\xE7in kaleme t\u0131kla.\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6806975447040
+    m_Localized: "Bir \xE7izgi olu\u015Fturmak i\xE7in ekrana t\u0131kla ve parma\u011F\u0131n\u0131
+      istedi\u011Fin yere kayd\u0131r."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6823480033280
+    m_Localized: "Unutma, \xE7izgin ba\u015Fka bir \xE7izgiden ba\u015Flamal\u0131
+      ama onu uzatmamal\u0131! Benim g\xF6sterdi\u011Fim noktalarda \xE7izmeyi dene."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6851816751104
+    m_Localized: 'Bir kez daha deneyin.
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6865536319488
+    m_Localized: "Hayat\u0131mda g\xF6rd\xFC\u011F\xFCm en iyi \xE7izgi! \u015Eimdi
+      hamleni onayla ve devam edelim.\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6878249254912
+    m_Localized: "\u015Eimdi yine benim s\u0131ram. Ama hayal edelim ki uzun zamand\u0131r
+      oynuyoruz ve baz\u0131 \u015Feyler \xE7izdik."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6896628695040
+    m_Localized: "Vay! Ne \xE7izdik? Kelimeyi tahmin etmeye \xE7al\u0131\u015Facak
+      m\u0131s\u0131n?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908133670912
+    m_Localized: "Ayy, san\u0131r\u0131m tahmin edemedin. Hadi bir kez daha deneyelim!
+      Bu sefer sana yard\u0131mc\u0131 olaca\u011F\u0131m. Unutma, deneme say\u0131s\u0131
+      kalplerle s\u0131n\u0131rl\u0131d\u0131r!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6920410398720
+    m_Localized: "Eminim bu kelime do\u011Fru."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6932582268928
+    m_Localized: "Kazand\u0131k!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6966191226880
+    m_Localized: "Unutma, farkl\u0131 modlarda kurallar de\u011Fi\u015Febilir. Modun
+      kurallar\u0131 hakk\u0131nda daha fazla bilgi edinmek i\xE7in ayar ekran\u0131nda
+      ya da oyundaki soru i\u015Faretine t\u0131klayabilirsin."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6977494876160
+    m_Localized: "E\u011Fitim k\u0131sm\u0131n\u0131 tamamlad\u0131\u011F\u0131n
+      i\xE7in \xF6d\xFCl ald\u0131n!"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

@@ -22,8 +22,24 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 13882ada9d452e244bb3c34c1e89f499, type: 2}
   - {fileID: 11400000, guid: 09e9c06c71290954d918bb6ad2da72ec, type: 2}
   - {fileID: 11400000, guid: 7b14e2199de58fe42a60e2e430352d04, type: 2}
-  m_Extensions: []
+  - {fileID: 11400000, guid: a883940ed771c2f419b35014f9e9b8d3, type: 2}
+  - {fileID: 11400000, guid: fc390475955d7bb419f8e6124b08c738, type: 2}
+  - {fileID: 11400000, guid: 0a58530a7be21544291adce426fe02ec, type: 2}
+  - {fileID: 11400000, guid: c3fd842b8faba664c8f5ec9647121125, type: 2}
+  - {fileID: 11400000, guid: 5acfdbaff25463f4596d87a60735bcb3, type: 2}
+  - {fileID: 11400000, guid: 19d0c91a5c3d70b478c397e1de50d1b4, type: 2}
+  m_Extensions:
+  - rid: 7910354341923651584
   m_Group: String Table
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 7910354341923651584
+      type: {class: GoogleSheetsExtension, ns: UnityEditor.Localization.Plugins.Google, asm: Unity.Localization.Editor}
+      data:
+        m_Collection: {fileID: 11400000}
+        m_SheetsServiceProvider: {fileID: 0}
+        m_SpreadsheetId: 
+        m_SheetId: 0
+        m_Columns: []
+        m_RemoveMissingPulledKeys: 1
