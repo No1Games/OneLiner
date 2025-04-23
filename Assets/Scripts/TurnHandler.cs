@@ -23,6 +23,10 @@ public class TurnHandler : MonoBehaviour
 
         // Cache current lobby
         m_LocalLobby = m_OnlineController.LocalLobby;
+
+        // Cache current player
+        m_CurrentPlayer = m_OnlineController.LocalPlayer;
+
     }
 
     private void Start()
@@ -47,6 +51,12 @@ public class TurnHandler : MonoBehaviour
 
             m_OnlineController.SetTurnID(m_Leader.ID.Value);
         }
+    }
+
+    private void OnDestroy()
+    {
+        m_LocalLobby.CurrentPlayerID.onChanged -= OnTurnIDChanged;
+        m_OnlineController.PassTurnEvent -= PassTurn;
     }
 
     private void CreateQueue()
@@ -93,15 +103,15 @@ public class TurnHandler : MonoBehaviour
     private void OnTurnIDChanged(string newID)
     {
         // Get current player from lobby
-        m_CurrentPlayer = m_LocalLobby.GetLocalPlayer(newID);
+        //m_CurrentPlayer = m_LocalLobby.GetLocalPlayer(newID);
 
-        if (m_CurrentPlayer == null)
-        {
-            Debug.Log($"Failed to find local player with id {newID}");
-            return;
-        }
+        //if (m_CurrentPlayer == null)
+        //{
+        //    Debug.Log($"Failed to find local player with id {newID}");
+        //    return;
+        //}
 
-        m_DrawButton.enabled = m_CurrentPlayer.ID.Value == m_OnlineController.LocalPlayer.ID.Value;
+        m_DrawButton.enabled = newID == m_OnlineController.LocalPlayer.ID.Value;
     }
 
     public void EndTurn()

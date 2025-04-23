@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -157,7 +158,19 @@ public class OnlineGameSetup : MonoBehaviour
 
         if (m_WordsList != null)
         {
-            m_LeaderWord = m_WordsList[m_LeaderWordIndex];
+            try
+            {
+                // m_LeaderWord = m_WordsList[m_LeaderWordIndex];
+                Debug.LogWarning(m_LocalLobby.WordsList.Value.Count);
+                Debug.LogWarning(m_WordManager.GetWordsFromIndexes(m_LocalLobby.WordsList.Value).Count);
+                m_WordsList = m_WordManager.GetWordsFromIndexes(m_LocalLobby.WordsList.Value);
+                m_LeaderWord = m_WordsList[index];
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"{m_WordsList.Count} {m_LeaderWordIndex}\n{e.Message}");
+                m_LeaderWord = null;
+            }
         }
 
         m_WordsPanel.SetLeaderWord(index);

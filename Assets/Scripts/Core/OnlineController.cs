@@ -210,8 +210,17 @@ public class OnlineController : MonoBehaviour
         }
     }
 
-    private void ChangeScene()
+    private async void ChangeScene()
     {
+        SetLocalPlayerStatus(PlayerStatus.InGame);
+
+        if (m_LocalPlayer.IsHost.Value)
+        {
+            m_LocalLobby.Locked.Value = true;
+
+            await SendLocalLobbyDataAsync();
+        }
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.LoadScene(m_GameSceneName);
         //NetworkManager.Singleton.SceneManager.LoadScene(m_GameSceneName, LoadSceneMode.Additive);
@@ -358,6 +367,9 @@ public class OnlineController : MonoBehaviour
     public async void SetLocalLobbyWords(List<int> indexes, int leaderWordIndex)
     {
         m_LocalLobby.WordsList.Value = indexes;
+
+        await SendLocalLobbyDataAsync();
+
         m_LocalLobby.LeaderWord.Value = leaderWordIndex;
 
         await SendLocalLobbyDataAsync();
@@ -509,14 +521,7 @@ public class OnlineController : MonoBehaviour
 
         if (scene.name == m_GameSceneName)
         {
-            SetLocalPlayerStatus(PlayerStatus.InGame);
 
-            if (m_LocalPlayer.IsHost.Value)
-            {
-                m_LocalLobby.Locked.Value = true;
-
-                await SendLocalLobbyDataAsync();
-            }
 
             await StartNetwork();
         }
