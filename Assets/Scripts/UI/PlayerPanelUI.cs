@@ -24,6 +24,9 @@ public class PlayerPanelUI : MonoBehaviour
     [SerializeField] private Animator _panelAnimator;
     [SerializeField] private GameObject _crownGO;
 
+    public bool IsSet => m_LocalPlayer != null;
+    public string? PlayerID => m_LocalPlayer?.ID.Value;
+
     private void Awake()
     {
         m_InGameHash = Animator.StringToHash("InGame");
@@ -42,6 +45,14 @@ public class PlayerPanelUI : MonoBehaviour
         SetStatus(localPlayer.UserStatus.Value);
 
         SubscribeOnPlayerChanges();
+    }
+
+    public void SetDefault()
+    {
+        Unsubscribe();
+
+        m_LocalLobby = null;
+        m_LocalPlayer = null;
     }
 
     public void SetLocalLobby()

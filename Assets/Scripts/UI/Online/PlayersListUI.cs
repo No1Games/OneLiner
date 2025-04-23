@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayersListUI : MonoBehaviour
@@ -57,12 +58,32 @@ public class PlayersListUI : MonoBehaviour
 
     public void UpdateList(List<LocalPlayer> localPlayers)
     {
-        ClearList();
-
-        foreach (var player in localPlayers)
+        if (m_ActiveItems.Count == 0)
         {
-            AddPlayer(player);
+            foreach (var player in localPlayers)
+            {
+                AddPlayer(player);
+            }
         }
+        else
+        {
+            var temp = new List<PlayerPanelUI>();
+            foreach (var player in localPlayers)
+            {
+                temp.Add(m_ActiveItems.Find(p => p.PlayerID == player.ID.Value));
+            }
+            var disable = m_ActiveItems.Where(i => !temp.Contains(i)).ToList();
+            foreach (var item in disable)
+            {
+                item.SetDefault();
+
+                m_ItemPool.ReturnObject(item);
+
+                m_ActiveItems.Remove(item);
+            }
+        }
+
+        //ClearList();
     }
 
     public void ClearList()
