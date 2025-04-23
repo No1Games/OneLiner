@@ -5,11 +5,24 @@ public class WordManager : MonoBehaviour
 {
     //Додати тут дікшенарі Вордлістов чи просто тримати тут перелік цих вордлістов в залежності від скланості чи теми.
     [SerializeField] private WordList wordList;
+    [SerializeField] private WordList tutorialWordList;
 
     [SerializeField] private int wordAmount;
 
     System.Random rand = new System.Random();
 
+    
+    
+
+    public List<string> GetTutorialWords() 
+    {
+       
+        return new List<string>(tutorialWordList.words);
+    }
+    public string GetTutorialLeaderWord()
+    {
+        return tutorialWordList.words[9];
+    }
     string GetRandomWord(List<string> wordsToChoose)
     {
         int wordIndex = rand.Next(0, wordsToChoose.Count);

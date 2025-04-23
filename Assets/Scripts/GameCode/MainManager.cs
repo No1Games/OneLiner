@@ -11,19 +11,32 @@ public class MainManager : MonoBehaviour
     [SerializeField] DrawingManager drawingManager;
     [SerializeField] DrawingUpdate drawingUpdate;
 
+    [SerializeField] TutorialManager tutorialManager;
+
     [Header("Параметри гри")]
     private List<string> wordsForRound;
     private string leaderWord;
     [SerializeField] private Timer timer;
 
 
-    
+
 
 
     private void Awake()
     {
-        wordsForRound = wordManager.FormWordListForRound();
-        leaderWord = wordManager.GetLeaderWord(wordsForRound);
+        if (IngameData.Instance.IsTutorialOn)
+        {
+            wordsForRound = wordManager.GetTutorialWords();
+            leaderWord = wordManager.GetTutorialLeaderWord();
+        }
+        else
+        {
+            tutorialManager.gameObject.SetActive(false);
+            wordsForRound = wordManager.FormWordListForRound();
+            leaderWord = wordManager.GetLeaderWord(wordsForRound);
+        }
+
+
         uIManager.GenerateWordButtons(wordsForRound);
         uIManager.SetLeaderWord(leaderWord);
         uIManager.OnGameEnded += CountScore;
@@ -65,7 +78,7 @@ public class MainManager : MonoBehaviour
     {
         timer.PauseTimer();
         return drawingManager.drawenLines;
-        
+
 
     }
 }

@@ -13,6 +13,13 @@ public class IngameData : MonoBehaviour
         get => players;
         set => players = value;
     }
+    // Timer settings
+    private bool isTutorialOn;
+    public bool IsTutorialOn
+    {
+        get => isTutorialOn;
+        set => isTutorialOn = value;
+    }
 
     // Timer settings
     private bool isTimerOn;

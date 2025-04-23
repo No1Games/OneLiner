@@ -7,8 +7,8 @@ public class TutorialManager : MonoBehaviour
     
     private int currentIndex = 0;
 
-    [SerializeField] AccountManager accountManager;
-    [SerializeField] LocalGameSetupManager localGameSetupManager;
+    
+    [SerializeField] private BasicTutorialLogic tutorialLogic;
     
 
     private void Awake()
@@ -44,40 +44,11 @@ public class TutorialManager : MonoBehaviour
         // Тут основна логіка для цієї сторінки
         Debug.Log($"[Tutorial] Button clicked on page {tutorialPages.IndexOf(page)}");
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        PerformActionForPage(page);
+        tutorialLogic.PerformActionForPage(page);
         GoToNextPage();
     }
 
-    private void PerformActionForPage(TutorialPage page)
-    {
-        // В залежності від сторінки можна викликати різну логіку
-        int index = tutorialPages.IndexOf(page);
-        
-        
-        switch (index)
-        {
-            case 0:
-                
-
-                break;
-            case 1:
-                MainMenuManager.Instance.OpenMenu(MenuName.LocalOnline);
-                break;
-            case 2:
-                MainMenuManager.Instance.ChangeMenu(MenuName.LocalSetup);
-                break;
-            case 7:
-                localGameSetupManager.AddPlayerForTutorial();
-                break;
-            case 9:
-                localGameSetupManager.FinishTutorial();
-                break;
-            default:
-                Debug.Log("Default tutorial action.");
-                break;
-        }
-
-    }
+    
 
     private void GoToNextPage()
     {
