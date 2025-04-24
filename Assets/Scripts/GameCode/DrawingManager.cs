@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -20,7 +19,7 @@ public class DrawingManager : MonoBehaviour
     }
 
     public event Action OnDrawingComplete;
-    public event Action <string> OnLineUnavailable;
+    public event Action<string> OnLineUnavailable;
 
     private List<GameObject> lines = new List<GameObject>();
     public int drawenLines;
@@ -28,21 +27,11 @@ public class DrawingManager : MonoBehaviour
     [SerializeField] private float minLength = 2f; // Відстань для перевірки, чи достатньо довга лінія
     [SerializeField] private float secondPointAngle = 10f; // кут для перевірки чи не йде друга точка вздовж лінії з якої почалась
 
-    private GameObject lineToTrack;
-    
-
-
-    Vector3 firstPointPosition;
-
-    
     void Update()
     {
         GenerateLine();
         drawenLines = lines.Count;
-
     }
-
-    
 
     // Перевіряємо, чи курсор знаходиться над UI елементом, який є кнопкою
     bool IsPointerOverButton()
@@ -71,114 +60,120 @@ public class DrawingManager : MonoBehaviour
     }
     private void GenerateLine()
     {
+        IDrawingValidator validator = new StandardDrawingValidator(lines, minLength, minDistance);
+
         string lineTooShort = "InGame_Warning_TooShort";
         string lineWrongVector = "InGame_Warning_WrongVector";
         string lineWrongStart = "InGame_Warning_WrongStart";
-        
+
         if (drawingCam.gameObject.activeInHierarchy)
         {
 
-        
-        // Отримуємо позицію миші або дотику
-        Vector3 mousePos = drawingCam.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = drawingCam.transform.position.z + 15f;
 
-        bool touchBegan = false;
-        bool touchMoved = false;
-        bool touchEnded = false;
+            // Отримуємо позицію миші або дотику
+            Vector3 mousePos = drawingCam.ScreenToWorldPoint(Input.mousePosition);
+            float distanceFromCamera = 15f;
+            mousePos.z = drawingCam.transform.position.z + distanceFromCamera;
 
-        // Перевірка на дотик
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            mousePos = drawingCam.ScreenToWorldPoint(touch.position);
-            mousePos.z = drawingCam.transform.position.z + 15f;
+            bool touchBegan = false;
+            bool touchMoved = false;
+            bool touchEnded = false;
+
+            // Перевірка на дотик
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+                mousePos = drawingCam.ScreenToWorldPoint(touch.position);
+                mousePos.z = drawingCam.transform.position.z + distanceFromCamera;
 
                 touchBegan = touch.phase == TouchPhase.Began;
-            touchMoved = touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary;
-            touchEnded = touch.phase == TouchPhase.Ended;
-        }
-
-        // Малювання дозволено та вказівник не знаходиться над кнопкою
-        if (drawingAllowed && !IsPointerOverButton())
-        {
-            // Початок малювання: або натискання миші, або початок дотику
-            if (Input.GetMouseButtonDown(0) || touchBegan)
-            {
-                if (FirstPointDistanceCheck(mousePos))
-                {
-                    currentLine = Instantiate(linePrefab);
-                    lineRenderer = currentLine.GetComponent<LineRenderer>();
-
-                    if (lineRenderer == null)
-                    {
-                        Debug.LogError("LineRenderer component not found on linePrefab!");
-                        return;
-                    }
-
-                    lineRenderer.SetPosition(0, firstPointPosition);
-                    lineRenderer.SetPosition(1, firstPointPosition);
-                    isDrawing = true; // Малювання активне
-                }
-                else
-                {
-                    OnLineUnavailable.Invoke(lineWrongStart);
-                }
+                touchMoved = touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary;
+                touchEnded = touch.phase == TouchPhase.Ended;
             }
 
-            // Малювання активне
-            if (isDrawing)
+            // Малювання дозволено та вказівник не знаходиться над кнопкою
+            if (drawingAllowed && !IsPointerOverButton())
             {
-                // Перевірка на рух миші або дотик
-                if (Input.GetMouseButton(0) || touchMoved)
+                // Початок малювання: або натискання миші, або початок дотику
+                if (Input.GetMouseButtonDown(0) || touchBegan)
                 {
-                    if (Vector3.Distance(lineRenderer.GetPosition(0), mousePos) < minLength || !SecondPointDistanceCheck())
+                    if (validator.CanStartDrawing(ref mousePos))
                     {
-                        lineRenderer.startColor = Color.red;
-                        lineRenderer.endColor = Color.red;
-                    }
-                    else
-                    {
-                        lineRenderer.startColor = Color.black;
-                        lineRenderer.endColor = Color.black;
-                    }
 
-                    lineRenderer.SetPosition(1, mousePos);
-                }
+                        currentLine = Instantiate(linePrefab);
+                        lineRenderer = currentLine.GetComponent<LineRenderer>();
 
-                // Завершення малювання: або відпускання миші, або завершення дотику
-                if (Input.GetMouseButtonUp(0) || touchEnded)
-                {
-                    isDrawing = false; // Завершити малювання
-                    if (Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < minLength)
-                    {
-                        OnLineUnavailable.Invoke(lineTooShort);
-                        Destroy(currentLine);
-                    }
-                    else if (!SecondPointDistanceCheck())
-                    {
-                        OnLineUnavailable.Invoke(lineWrongVector);
-                        Destroy(currentLine);
-                    }
-                    else
-                    {
-                        lines.Add(currentLine);
-                        if (!firstLineDone)
+                        if (lineRenderer == null)
                         {
-                            firstLineDone = true;
+                            Debug.LogError("LineRenderer component not found on linePrefab!");
+                            return;
                         }
-                        OnDrawingComplete?.Invoke();
+
+                        lineRenderer.SetPosition(0, mousePos);
+                        lineRenderer.SetPosition(1, mousePos);
+                        isDrawing = true; // Малювання активне
+                    }
+                    else
+                    {
+                        OnLineUnavailable.Invoke(lineWrongStart);
+                    }
+                }
+
+                // Малювання активне
+                if (isDrawing)
+                {
+                    // Перевірка на рух миші або дотик
+                    if (Input.GetMouseButton(0) || touchMoved)
+                    {
+                        if (validator.IsValidLine(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)))
+                        {
+                            lineRenderer.startColor = Color.black;
+                            lineRenderer.endColor = Color.black;
+
+                        }
+                        else
+                        {
+                            lineRenderer.startColor = Color.red;
+                            lineRenderer.endColor = Color.red;
+
+                        }
+
+                        lineRenderer.SetPosition(1, mousePos);
+                    }
+
+                    // Завершення малювання: або відпускання миші, або завершення дотику
+                    if (Input.GetMouseButtonUp(0) || touchEnded)
+                    {
+                        isDrawing = false; // Завершити малювання
+                        if (Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < minLength)
+                        {
+                            OnLineUnavailable.Invoke(lineTooShort);
+                            Destroy(currentLine);
+                        }
+                        else if (!validator.IsValidLine(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)))
+                        {
+                            OnLineUnavailable.Invoke(lineWrongVector);
+                            Destroy(currentLine);
+                        }
+                        else
+                        {
+                            lines.Add(currentLine);
+                            if (!firstLineDone)
+                            {
+                                firstLineDone = true;
+                            }
+                            OnDrawingComplete?.Invoke();
+                        }
                     }
                 }
             }
-        }
         }
     }
 
 
     public void RemoveLastLine()
     {
-        if(lines.Count > 0)
+        if (lines.Count > 0)
         {
             Destroy(lines[lines.Count - 1]);
             lines.RemoveAt(lines.Count - 1);
@@ -188,81 +183,7 @@ public class DrawingManager : MonoBehaviour
 
             }
         }
-        
+
     }
 
-    private bool FirstPointDistanceCheck(Vector3 point)
-    {
-        if (!firstLineDone)
-        {
-            firstPointPosition = point;
-            return true; // Якщо ще немає ліній, завжди дозволяємо почати нову
-        }
-        else
-        {
-            foreach (GameObject lineObj in lines)
-            {
-                LineRenderer lineRenderer = lineObj.GetComponent<LineRenderer>();
-                if (lineRenderer != null && lineRenderer.positionCount == 2)
-                {
-                    Vector3 start = lineRenderer.GetPosition(0);
-                    Vector3 end = lineRenderer.GetPosition(1);
-                    if (DistancePointToLineSegment(point, start, end) < minDistance)
-                    {
-                        lineToTrack = lineObj;
-                        return true; // Якщо точка близька до існуючої лінії, дозволяємо малювати нову лінію
-                    }
-                }
-            }
-        }
-        return false; // Якщо точка не близька до жодної лінії, не дозволяємо почати нову лінію
-    }
-
-
-    private bool SecondPointDistanceCheck()
-    {
-        if (!firstLineDone)
-        {
-            return true; // Якщо ще немає ліній, завжди дозволяємо почати нову
-        }
-        else
-        {
-
-            LineRenderer oldLine = lineToTrack.GetComponent<LineRenderer>();
-            LineRenderer newLine = currentLine.GetComponent<LineRenderer>();
-
-            // Створюємо вектори
-            Vector3 vectorToStartOldLine = oldLine.GetPosition(0) - newLine.GetPosition(0);
-            Vector3 vectorToEndOldLine = oldLine.GetPosition(1) - newLine.GetPosition(0);
-            Vector3 newLineVector = newLine.GetPosition(1) - newLine.GetPosition(0);
-
-            // Обчислюємо кути
-            float angleToStart = Vector3.Angle(newLineVector, vectorToStartOldLine);
-            float angleToEnd = Vector3.Angle(newLineVector, vectorToEndOldLine);
-
-
-
-            if (angleToEnd > secondPointAngle && angleToStart > secondPointAngle)
-            {
-
-                return true; // Якщо точка близька до початкової лінії, не дозволяємо малювати нову лінію
-            }
-
-
-        }
-        return false; // Якщо точка не близька до початкової лінії, дозволяємо почати нову лінію
-    }
-
-    // Відстань від точки до відрізка
-    float DistancePointToLineSegment(Vector3 point, Vector3 lineStart, Vector3 lineEnd)
-    {
-
-        Vector3 lineDir = lineEnd - lineStart;
-        Vector3 pointToStart = point - lineStart;
-        float lineLengthSquared = lineDir.sqrMagnitude;
-        float t = Mathf.Clamp01(Vector3.Dot(pointToStart, lineDir) / lineLengthSquared);
-        Vector3 closestPoint = lineStart + t * lineDir;
-        firstPointPosition = closestPoint;
-        return Vector3.Distance(point, closestPoint);
-    }
 }
