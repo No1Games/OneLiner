@@ -47,10 +47,10 @@ public class TutorialManager : MonoBehaviour
         tutorialLogic.PerformActionForPage(page);
         GoToNextPage();
     }
-
+   
     
 
-    private void GoToNextPage()
+    public void GoToNextPage()
     {
         currentIndex++;
         if (currentIndex < tutorialPages.Count)
@@ -62,6 +62,7 @@ public class TutorialManager : MonoBehaviour
             EndTutorial();
         }
     }
+    
 
     private void EndTutorial()
     {

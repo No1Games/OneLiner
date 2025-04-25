@@ -2455,7 +2455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialButton: {fileID: 815355714}
-  pageCode: 0
+  pageCode: 11
 --- !u!1 &271581524
 GameObject:
   m_ObjectHideFlags: 0
@@ -8807,7 +8807,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialButton: {fileID: 1059624487}
-  pageCode: 0
+  pageCode: 3
 --- !u!1 &733466234
 GameObject:
   m_ObjectHideFlags: 0
@@ -12642,7 +12642,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1104997435}
   m_OnClick:
     m_PersistentCalls:
@@ -12836,7 +12836,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1147131743
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15479,7 +15479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialButton: {fileID: 477042494}
-  pageCode: 0
+  pageCode: 9
 --- !u!1 &1446769075
 GameObject:
   m_ObjectHideFlags: 0
@@ -17062,7 +17062,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1599150788
 Transform:
   m_ObjectHideFlags: 0
@@ -17090,7 +17090,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d77d0b8b4f7a9324ebc4584dade3ac87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uIManager: {fileID: 0}
+  uIManager: {fileID: 969784015}
+  drawingManager: {fileID: 149930181}
+  drawingUpdate: {fileID: 940072994}
+  tutorialManager: {fileID: 1599150790}
+  autoLinesPositions:
+  - start: {x: -3, y: -2, z: -38.6}
+    end: {x: -1, y: 0.5, z: -38.6}
+  - start: {x: -1, y: 0.5, z: -38.6}
+    end: {x: 1, y: -2, z: -38.6}
+  - start: {x: 1, y: -2, z: -38.6}
+    end: {x: 1, y: -5, z: -38.6}
+  - start: {x: 1, y: -5, z: -38.6}
+    end: {x: -3, y: -5, z: -38.6}
 --- !u!114 &1599150790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17114,6 +17126,11 @@ MonoBehaviour:
   - {fileID: 303005560}
   - {fileID: 1440606188}
   - {fileID: 1476793874}
+  - {fileID: 270527421}
+  - {fileID: 2139509384}
+  - {fileID: 1801547179}
+  - {fileID: 2028131200}
+  - {fileID: 426187260}
   tutorialLogic: {fileID: 1599150789}
 --- !u!1 &1605365156
 GameObject:
@@ -20069,7 +20086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialButton: {fileID: 1558976986}
-  pageCode: 0
+  pageCode: 4
 --- !u!1 &1812140112
 GameObject:
   m_ObjectHideFlags: 0
@@ -21434,7 +21451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialButton: {fileID: 1735239011}
-  pageCode: 0
+  pageCode: 7
 --- !u!1 &1968073105
 GameObject:
   m_ObjectHideFlags: 0
@@ -23898,7 +23915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialButton: {fileID: 812723522}
-  pageCode: 0
+  pageCode: 12
 --- !u!1 &2144027195
 GameObject:
   m_ObjectHideFlags: 0

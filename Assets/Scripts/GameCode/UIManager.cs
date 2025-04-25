@@ -268,13 +268,20 @@ public class UIManager : MonoBehaviour
 
     public void StartDrawing()
     {
-        AudioManager.Instance.PlaySoundInMain(GameSounds.Game_DrawMenu);
-        mainCam.SetActive(false);
-        drawingPanel.SetActive(true);
+        OpenDrawingMenu();
 
         drawing.DrawingAllowed = true;
 
     }
+
+    public void OpenDrawingMenu()
+    {
+        Debug.Log("menu is open to draw");
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Game_DrawMenu);
+        mainCam.SetActive(false);
+        drawingPanel.SetActive(true);
+    }
+
     public void StopDrawing()
     {
         if (drawingConfirmPanel.activeSelf)

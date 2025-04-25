@@ -27,6 +27,7 @@ public class DrawingManager : MonoBehaviour
     [SerializeField] private float minLength = 2f; // Відстань для перевірки, чи достатньо довга лінія
     [SerializeField] private float secondPointAngle = 10f; // кут для перевірки чи не йде друга точка вздовж лінії з якої почалась
 
+    public event Action OnTestDrawingComplete;
     void Update()
     {
         GenerateLine();
@@ -68,8 +69,6 @@ public class DrawingManager : MonoBehaviour
 
         if (drawingCam.gameObject.activeInHierarchy)
         {
-
-
             // Отримуємо позицію миші або дотику
             Vector3 mousePos = drawingCam.ScreenToWorldPoint(Input.mousePosition);
             float distanceFromCamera = 15f;
@@ -92,25 +91,14 @@ public class DrawingManager : MonoBehaviour
             }
 
             // Малювання дозволено та вказівник не знаходиться над кнопкою
-            if (drawingAllowed && !IsPointerOverButton())
+            if (drawingAllowed /*&& !IsPointerOverButton()*/)
             {
                 // Початок малювання: або натискання миші, або початок дотику
                 if (Input.GetMouseButtonDown(0) || touchBegan)
                 {
                     if (validator.CanStartDrawing(ref mousePos))
                     {
-
-                        currentLine = Instantiate(linePrefab);
-                        lineRenderer = currentLine.GetComponent<LineRenderer>();
-
-                        if (lineRenderer == null)
-                        {
-                            Debug.LogError("LineRenderer component not found on linePrefab!");
-                            return;
-                        }
-
-                        lineRenderer.SetPosition(0, mousePos);
-                        lineRenderer.SetPosition(1, mousePos);
+                        StartLine(mousePos);
                         isDrawing = true; // Малювання активне
                     }
                     else
@@ -157,12 +145,22 @@ public class DrawingManager : MonoBehaviour
                         }
                         else
                         {
+                            Debug.Log(lineRenderer.GetPosition(0));
+                            Debug.Log(lineRenderer.GetPosition(1));
                             lines.Add(currentLine);
                             if (!firstLineDone)
                             {
                                 firstLineDone = true;
                             }
-                            OnDrawingComplete?.Invoke();
+                            if (IngameData.Instance.IsTutorialOn)
+                            {
+                                OnTestDrawingComplete?.Invoke();
+                            }
+                            else
+                            {
+                                OnDrawingComplete?.Invoke();
+                            }
+                            
                         }
                     }
                 }
@@ -170,6 +168,36 @@ public class DrawingManager : MonoBehaviour
         }
     }
 
+    private void StartLine(Vector3 mousePos)
+    {
+        currentLine = Instantiate(linePrefab);
+        lineRenderer = currentLine.GetComponent<LineRenderer>();
+
+        if (lineRenderer == null)
+        {
+            Debug.LogError("LineRenderer component not found on linePrefab!");
+            return;
+        }
+
+        lineRenderer.SetPosition(0, mousePos);
+        lineRenderer.SetPosition(1, mousePos);
+        
+    }
+
+    private void FinishLine(Vector3 mousePos)
+    {
+        lineRenderer.SetPosition(1, mousePos);
+        lines.Add(currentLine);
+
+    }
+    public void DrawAutoLine(Vector3 start, Vector3 end)
+    {
+        float distanceFromCamera = 15f;
+        start.z = drawingCam.transform.position.z + distanceFromCamera;
+        end.z = drawingCam.transform.position.z + distanceFromCamera;
+        StartLine(start);
+        FinishLine(end);
+    }
 
     public void RemoveLastLine()
     {

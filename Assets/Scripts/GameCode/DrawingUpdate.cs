@@ -62,6 +62,7 @@ public class DrawingUpdate : MonoBehaviour
         // ¬икликаЇмо под≥ю та передаЇмо зн≥мок
         OnScreenshotTaken?.Invoke(screenshot);
     }
+    
 
 
 }
