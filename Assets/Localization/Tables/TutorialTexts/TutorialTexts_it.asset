@@ -137,7 +137,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
-    m_Localized: Hai ricevuto una ricompensa per aver completato il tutorial!
+    m_Localized: 'Tutorial completato! Ora devi solo tornare al menu principale e
+      ritirare la tua ricompensa.
+
+
+'
     m_Metadata:
       m_Items: []
   - m_Id: 1772182952378368

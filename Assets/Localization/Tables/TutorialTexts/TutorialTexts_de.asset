@@ -141,8 +141,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
-    m_Localized: "Du hast eine Belohnung f\xFCr das Abschlie\xDFen des Tutorials
-      erhalten!"
+    m_Localized: "Tutorial abgeschlossen! Du musst nur noch ins Hauptmen\xFC zur\xFCckkehren
+      und deine Belohnung abholen."
     m_Metadata:
       m_Items: []
   - m_Id: 1772182952378368

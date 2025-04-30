@@ -136,7 +136,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
-    m_Localized: You have received a reward for completing the tutorial!
+    m_Localized: "Tutorial completed! All that\u2019s left is to return to the main
+      menu and claim your reward."
     m_Metadata:
       m_Items: []
   - m_Id: 1772182952378368

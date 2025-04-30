@@ -137,7 +137,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
-    m_Localized: "Voc\xEA recebeu uma recompensa por concluir o tutorial!"
+    m_Localized: "Tutorial conclu\xEDdo! Agora \xE9 s\xF3 voltar ao menu principal
+      e pegar sua recompensa."
     m_Metadata:
       m_Items: []
   - m_Id: 1772182952378368

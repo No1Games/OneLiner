@@ -140,8 +140,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
-    m_Localized: "Vous avez re\xE7u une r\xE9compense pour avoir termin\xE9 la formation
-      !"
+    m_Localized: "Tutoriel termin\xE9 ! Il ne reste plus qu\u2019\xE0 retourner au
+      menu principal et r\xE9clamer votre r\xE9compense."
     m_Metadata:
       m_Items: []
   - m_Id: 1772182952378368

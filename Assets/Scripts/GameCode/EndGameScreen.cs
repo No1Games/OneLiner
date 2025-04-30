@@ -84,9 +84,19 @@ public class EndGameScreen : MonoBehaviour
 
     public void BackToMainMenu()
     {
+        if (IngameData.Instance.IsTutorialOn)
+        {
+            IngameData.Instance.SetReturnedFromGame(false);
+            IngameData.Instance.IsTutorialFinished = true;
+            
+        }
+        else
+        {
+            IngameData.Instance.SetReturnedFromGame(true);
+        }
         AudioManager.Instance.ResumeSoundInBack();
         AudioManager.Instance.StopSoundInAdditional();
-        IngameData.Instance.SetReturnedFromGame(true);
+        
         SceneManager.LoadScene(0);
     }
 

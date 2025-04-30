@@ -140,7 +140,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
-    m_Localized: "Otrzyma\u0142e\u015B nagrod\u0119 za uko\u0144czenie samouczka!"
+    m_Localized: "Samouczek uko\u0144czony! Pozosta\u0142o tylko wr\xF3ci\u0107 do
+      menu g\u0142\xF3wnego i odebra\u0107 swoj\u0105 nagrod\u0119."
     m_Metadata:
       m_Items: []
   - m_Id: 1772182952378368
