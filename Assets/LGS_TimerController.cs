@@ -44,6 +44,13 @@ public class LGS_TimerController : MonoBehaviour
         
         timerText.text = timerValue.ToString();
     }
+    public void TutorialOffTimer()
+    {
+        isTimerOn = false;
+        timerSlider.interactable = isTimerOn;
+        isOnImage.SetActive(isTimerOn);
+
+    }
 
     public void UpdateIngameData()
     {

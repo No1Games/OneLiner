@@ -4,6 +4,7 @@ public class MainMenuTutorialLogic : BasicTutorialLogic
 {
     [SerializeField] AccountManager accountManager;
     [SerializeField] LocalGameSetupManager localGameSetupManager;
+    [SerializeField] LGS_TimerController timerController;
     public override void PerformActionForPage(TutorialPage page) 
     {
         
@@ -22,12 +23,13 @@ public class MainMenuTutorialLogic : BasicTutorialLogic
                 break;
             case 2:
                 MainMenuManager.Instance.ChangeMenu(MenuName.LocalSetup);
+                timerController.TutorialOffTimer();
                 break;
             case 7:
                 localGameSetupManager.AddPlayerForTutorial();
                 break;
             case 9:
-                IngameData.Instance.IsTutorialOn = true;
+                IngameData.Instance.IsTutorialOn = true;                
                 localGameSetupManager.FinishTutorial();
                 break;
             default:

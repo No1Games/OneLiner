@@ -96,11 +96,11 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6823480033280
     m_Localized: 'Ricorda: la tua linea deve iniziare da un''altra linea, ma non
-      deve proseguirla! Prova a disegnare nel punto indicato dalla linea tratteggiata.'
+      deve proseguirla! '
     m_Metadata:
       m_Items: []
   - m_Id: 6851816751104
-    m_Localized: Riprova.
+    m_Localized: Prova a disegnare nel punto indicato dalla linea tratteggiata.
     m_Metadata:
       m_Items: []
   - m_Id: 6865536319488
@@ -119,8 +119,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6908133670912
-    m_Localized: "Ops, sembra che tu abbia sbagliato. Proviamo di nuovo! Stavolta
-      ti aiuter\xF2. Ricorda che il numero di tentativi \xE8 limitato dai cuori!"
+    m_Localized: "Ops, sembra che tu abbia sbagliato.  Ricorda che il numero di tentativi
+      \xE8 limitato dai cuori!"
     m_Metadata:
       m_Items: []
   - m_Id: 6920410398720
@@ -133,8 +133,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6966191226880
     m_Localized: "Ricorda che in base alla modalit\xE0 di gioco le regole possono
-      cambiare. Puoi scoprire di pi\xF9 sulle regole nella schermata delle impostazioni
-      o toccando il punto interrogativo all\u2019interno del gioco."
+      cambiare. "
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
@@ -143,6 +142,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1772182952378368
     m_Localized: ' In futuro potrai cambiarla qui.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628579465461760
+    m_Localized: "Proviamo di nuovo! Stavolta ti aiuter\xF2."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628583135477760
+    m_Localized: "Puoi scoprire di pi\xF9 sulle regole nella schermata delle impostazioni
+      o toccando il punto interrogativo all\u2019interno del gioco."
     m_Metadata:
       m_Items: []
   references:

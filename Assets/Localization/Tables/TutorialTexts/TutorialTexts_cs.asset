@@ -99,12 +99,12 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6823480033280
     m_Localized: "Pamatuj, tvoje \u010D\xE1ra mus\xED za\u010D\xEDnat na jin\xE9,
-      ale nesm\xED ji prodlu\u017Eovat! Zkus kreslit tam, kde jsem ti uk\xE1zal p\u0159eru\u0161ovanou
-      \u010D\xE1rou."
+      ale nesm\xED ji prodlu\u017Eovat! "
     m_Metadata:
       m_Items: []
   - m_Id: 6851816751104
-    m_Localized: Zkus to znovu.
+    m_Localized: "Zkus kreslit tam, kde jsem ti uk\xE1zal p\u0159eru\u0161ovanou
+      \u010D\xE1rou."
     m_Metadata:
       m_Items: []
   - m_Id: 6865536319488
@@ -122,8 +122,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6908133670912
-    m_Localized: "Ups, vypad\xE1 to, \u017Ee jsi neuhodl. Poj\u010Fme to zkusit znovu!
-      Tentokr\xE1t ti pomohu. Pamatuj, po\u010Det pokus\u016F je omezen srd\xED\u010Dky!"
+    m_Localized: "Ups, vypad\xE1 to, \u017Ee jsi neuhodl.  Pamatuj, po\u010Det pokus\u016F
+      je omezen srd\xED\u010Dky!"
     m_Metadata:
       m_Items: []
   - m_Id: 6920410398720
@@ -136,8 +136,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6966191226880
     m_Localized: "Pamatuj, \u017Ee pravidla se mohou li\u0161it podle hern\xEDho
-      re\u017Eimu. M\u016F\u017Ee\u0161 se o nich dozv\u011Bd\u011Bt v\xEDc v nastaven\xED
-      nebo kliknut\xEDm na otazn\xEDk p\u0159\xEDmo ve h\u0159e."
+      re\u017Eimu. "
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
@@ -146,6 +145,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1772182952378368
     m_Localized: " V budoucnu jej m\u016F\u017Ee\u0161 zm\u011Bnit tady."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628579465461760
+    m_Localized: "Poj\u010Fme to zkusit znovu! Tentokr\xE1t ti pomohu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628583135477760
+    m_Localized: "M\u016F\u017Ee\u0161 se o nich dozv\u011Bd\u011Bt v\xEDc v nastaven\xED
+      nebo kliknut\xEDm na otazn\xEDk p\u0159\xEDmo ve h\u0159e."
     m_Metadata:
       m_Items: []
   references:

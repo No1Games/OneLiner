@@ -98,12 +98,12 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6823480033280
-    m_Localized: "Souviens-toi, ta ligne doit commencer sur une autre, mais ne doit
-      pas la prolonger ! Essaie de dessiner l\xE0 o\xF9 j\u2019ai mis le pointill\xE9."
+    m_Localized: 'Souviens-toi, ta ligne doit commencer sur une autre, mais ne doit
+      pas la prolonger ! '
     m_Metadata:
       m_Items: []
   - m_Id: 6851816751104
-    m_Localized: Essaie encore.
+    m_Localized: "Essaie de dessiner l\xE0 o\xF9 j\u2019ai mis le pointill\xE9."
     m_Metadata:
       m_Items: []
   - m_Id: 6865536319488
@@ -122,9 +122,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6908133670912
-    m_Localized: "Oups, on dirait que tu t\u2019es tromp\xE9. Essayons encore une
-      fois ! Cette fois je vais t'aider. N\u2019oublie pas que le nombre d'essais
-      est limit\xE9 par des c\u0153urs !"
+    m_Localized: "Oups, on dirait que tu t\u2019es tromp\xE9.  N\u2019oublie pas
+      que le nombre d'essais est limit\xE9 par des c\u0153urs !"
     m_Metadata:
       m_Items: []
   - m_Id: 6920410398720
@@ -137,8 +136,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6966191226880
     m_Localized: "N'oublie pas que les r\xE8gles peuvent varier selon le mode de
-      jeu. Tu peux en savoir plus sur l'\xE9cran des param\xE8tres ou en appuyant
-      sur le point d'interrogation dans le jeu."
+      jeu. "
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
@@ -148,6 +146,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1772182952378368
     m_Localized: ' Plus tard, tu pourras le modifier ici.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628579465461760
+    m_Localized: Essayons encore une fois ! Cette fois je vais t'aider.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628583135477760
+    m_Localized: "Tu peux en savoir plus sur l'\xE9cran des param\xE8tres ou en appuyant
+      sur le point d'interrogation dans le jeu."
     m_Metadata:
       m_Items: []
   references:

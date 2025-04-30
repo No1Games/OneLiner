@@ -96,12 +96,12 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6823480033280
-    m_Localized: Remember, your line must start from another line but not continue
-      it! Try drawing where I marked with a dashed line.
+    m_Localized: 'Remember, your line must start from another line but not continue
+      it! '
     m_Metadata:
       m_Items: []
   - m_Id: 6851816751104
-    m_Localized: Try again.
+    m_Localized: Try drawing where I marked with a dashed line.
     m_Metadata:
       m_Items: []
   - m_Id: 6865536319488
@@ -119,8 +119,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6908133670912
-    m_Localized: Oh, it seems you guessed wrong. Let's try again! This time I'll
-      help you. Remember, the number of attempts is limited by hearts!
+    m_Localized: Oh, it seems you didn't guess correctly. Remember, the number of
+      attempts is limited only by hearts!
     m_Metadata:
       m_Items: []
   - m_Id: 6920410398720
@@ -132,9 +132,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6966191226880
-    m_Localized: Remember, in different modes the rules can differ. You can learn
-      more about the mode rules in the settings screen or by clicking the question
-      mark in the game.
+    m_Localized: 'Remember, in different modes the rules can differ. '
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
@@ -143,6 +141,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1772182952378368
     m_Localized: In the future, you can change it here.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628579465461760
+    m_Localized: Let's try again! This time, I'll help you.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628583135477760
+    m_Localized: You can learn more about the mode rules in the settings screen or
+      by clicking the question mark in the game.
     m_Metadata:
       m_Items: []
   references:

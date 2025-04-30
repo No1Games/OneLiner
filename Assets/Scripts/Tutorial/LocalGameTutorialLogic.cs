@@ -44,10 +44,10 @@ public class LocalGameTutorialLogic : BasicTutorialLogic
                 // open drawing menu
                 uIManager.OpenDrawingMenu();
                 break;
-            case 9:
+            case 8:
                 //allow drawing wih special settings its allowing drawing a started first position
                 drawingManager.DrawingAllowed = true;
-                drawingManager.OnTestDrawingComplete += ForceNextTutorialStep;
+                drawingManager.OnTestDrawingComplete += CallNextStepAfterDrawing;
                 break;
             case 11:
                 //close drawing menu and confirm line
@@ -59,11 +59,20 @@ public class LocalGameTutorialLogic : BasicTutorialLogic
 
                 break;
             case 13:
+                uIManager.OnTutorialWordCheck += TutorialWordCheck;
+                uIManager.OpenWordsMenu();
+
+                break;
+            case 16:
                 
                 break;
-            case 14:
-                //return to main menu and give a reward
             
+            case 18:
+                //show wining screen
+                break;
+
+            case 22:
+                //return to main menu + give a reward
             default:
                 Debug.Log("Default tutorial action.");
                 break;
@@ -72,7 +81,7 @@ public class LocalGameTutorialLogic : BasicTutorialLogic
 
 
     }
-    private void ForceNextTutorialStep()
+    private void CallNextStepAfterDrawing()
     {
         // можна додати логіку перевірки лінії
         tutorialManager.GoToNextPage();
@@ -114,6 +123,18 @@ public class LocalGameTutorialLogic : BasicTutorialLogic
         yield return new WaitForEndOfFrame(); // дочекайся рендеру, щоб камера точно бачила лінію
 
         drawingUpdate.TakeScreenshot();
+    }
+    
+    private void TutorialWordCheck(bool result)
+    {
+        if (result)
+        {
+            tutorialManager.SkipToPage(18);
+        }
+        else
+        {
+            tutorialManager.GoToNextPage();
+        }
     }
 
 

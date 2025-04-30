@@ -100,7 +100,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6823480033280
     m_Localized: "Unutma, \xE7izgin ba\u015Fka bir \xE7izgiden ba\u015Flamal\u0131
-      ama onu uzatmamal\u0131! Benim g\xF6sterdi\u011Fim noktalarda \xE7izmeyi dene."
+      ama onu uzatmamal\u0131! "
     m_Metadata:
       m_Items: []
   - m_Id: 6851816751104
@@ -125,8 +125,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6908133670912
-    m_Localized: "Ayy, san\u0131r\u0131m tahmin edemedin. Hadi bir kez daha deneyelim!
-      Bu sefer sana yard\u0131mc\u0131 olaca\u011F\u0131m. Unutma, deneme say\u0131s\u0131
+    m_Localized: "Ayy, san\u0131r\u0131m tahmin edemedin. Unutma, deneme say\u0131s\u0131
       kalplerle s\u0131n\u0131rl\u0131d\u0131r!"
     m_Metadata:
       m_Items: []
@@ -139,9 +138,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6966191226880
-    m_Localized: "Unutma, farkl\u0131 modlarda kurallar de\u011Fi\u015Febilir. Modun
-      kurallar\u0131 hakk\u0131nda daha fazla bilgi edinmek i\xE7in ayar ekran\u0131nda
-      ya da oyundaki soru i\u015Faretine t\u0131klayabilirsin."
+    m_Localized: "Unutma, farkl\u0131 modlarda kurallar de\u011Fi\u015Febilir. "
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
@@ -151,6 +148,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1772182952378368
     m_Localized: "Gelecekte bunu burada de\u011Fi\u015Ftirebilirsin."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628579465461760
+    m_Localized: "Hadi bir kez daha deneyelim! Bu sefer sana yard\u0131mc\u0131 olaca\u011F\u0131m. "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628583135477760
+    m_Localized: "Modun kurallar\u0131 hakk\u0131nda daha fazla bilgi edinmek i\xE7in
+      ayar ekran\u0131nda ya da oyundaki soru i\u015Faretine t\u0131klayabilirsin."
     m_Metadata:
       m_Items: []
   references:

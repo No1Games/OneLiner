@@ -99,11 +99,11 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6823480033280
     m_Localized: "Recuerda, tu l\xEDnea debe empezar desde otra, pero \xA1no debe
-      continuarla! Intenta dibujar donde he se\xF1alado con la l\xEDnea de puntos."
+      continuarla! "
     m_Metadata:
       m_Items: []
   - m_Id: 6851816751104
-    m_Localized: "Int\xE9ntalo de nuevo."
+    m_Localized: "Intenta dibujar donde he se\xF1alado con la l\xEDnea de puntos."
     m_Metadata:
       m_Items: []
   - m_Id: 6865536319488
@@ -122,9 +122,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6908133670912
-    m_Localized: "Uy, parece que no acertaste. \xA1Intent\xE9moslo de nuevo! Esta
-      vez te ayudar\xE9. Recuerda que el n\xFAmero de intentos est\xE1 limitado por
-      los corazones."
+    m_Localized: "Uy, parece que no acertaste.  Recuerda que el n\xFAmero de intentos
+      est\xE1 limitado por los corazones."
     m_Metadata:
       m_Items: []
   - m_Id: 6920410398720
@@ -136,9 +135,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6966191226880
-    m_Localized: "Recuerda que las reglas pueden variar seg\xFAn el modo de juego.
-      Puedes consultar las reglas en la pantalla de configuraci\xF3n o pulsando el
-      signo de interrogaci\xF3n dentro del juego."
+    m_Localized: "Recuerda que las reglas pueden variar seg\xFAn el modo de juego. "
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
@@ -147,6 +144,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1772182952378368
     m_Localized: "En el futuro, podr\xE1s cambiarlo aqu\xED."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628579465461760
+    m_Localized: "\xA1Intent\xE9moslo de nuevo! Esta vez te ayudar\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628583135477760
+    m_Localized: "Puedes consultar las reglas en la pantalla de configuraci\xF3n
+      o pulsando el signo de interrogaci\xF3n dentro del juego."
     m_Metadata:
       m_Items: []
   references:

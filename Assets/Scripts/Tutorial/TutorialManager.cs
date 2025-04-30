@@ -62,6 +62,10 @@ public class TutorialManager : MonoBehaviour
             EndTutorial();
         }
     }
+    public void SkipToPage(int index)
+    {
+        ShowPage(index);
+    }
     
 
     private void EndTutorial()

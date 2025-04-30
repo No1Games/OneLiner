@@ -62,6 +62,8 @@ public class UIManager : MonoBehaviour
     public event Func<int> OnGameEnded;
     public event Action OnTurnStarted;
 
+    public event Action<bool> OnTutorialWordCheck;
+
 
 
 
@@ -85,7 +87,15 @@ public class UIManager : MonoBehaviour
             GameObject newButton = Instantiate(wordButtonPrefab, wordPanel.transform);
             WordButton_new wordInfo = newButton.GetComponent<WordButton_new>();
             wordInfo.SetKey(words[i]);
-            wordInfo.wordClicked += CheckTheWord;
+            if (IngameData.Instance.IsTutorialOn)
+            {
+                wordInfo.wordClicked += TutorialCheckTheWord;
+            }
+            else
+            {
+                wordInfo.wordClicked += CheckTheWord;
+            }
+            
             wordsButtons.Add(newButton);
 
             //Button button = newButton.GetComponentInChildren<Button>();
@@ -233,6 +243,34 @@ public class UIManager : MonoBehaviour
         }
 
 
+    }
+    private void TutorialCheckTheWord(WordButton_new word)
+    {   
+
+            wordPanel.SetActive(false); 
+            if (word.gameObject.GetComponent<WordButton_new>().GetKey() == leaderWordText)
+            {
+                //invoke ivent to tutor logic
+                OnTutorialWordCheck?.Invoke(true);
+                endgamePanel.SetActive(true);
+                CloseWordsMenu();
+                int _score = OnGameEnded.Invoke();
+                endgamePanel.GetComponent<EndGameScreen>().SetFinaleScreen(leaderWordText, true, _score);
+
+
+            }
+            else
+            {
+            //invoke ivent to tutor logic
+            OnTutorialWordCheck?.Invoke(false);
+            lives--;
+            AudioManager.Instance.PlaySoundInMain(GameSounds.Game_WrongWord);
+            hearths[lives].GetComponent<Animator>().Play("EmptyHeartAnimation"); 
+                word.ShowWordAsWrong();                   
+                    
+
+                
+             }
     }
 
     private IEnumerator PushWarning(string key)

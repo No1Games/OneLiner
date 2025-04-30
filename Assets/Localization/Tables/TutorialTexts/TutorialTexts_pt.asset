@@ -97,12 +97,11 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6823480033280
     m_Localized: "Lembre-se, sua linha deve come\xE7ar de outro ponto, mas n\xE3o
-      deve continuar a linha anterior! Tente desenhar onde eu marquei com o ponto
-      tracejado."
+      deve continuar a linha anterior! "
     m_Metadata:
       m_Items: []
   - m_Id: 6851816751104
-    m_Localized: Tente novamente.
+    m_Localized: Tente desenhar onde eu marquei com o ponto tracejado.
     m_Metadata:
       m_Items: []
   - m_Id: 6865536319488
@@ -121,8 +120,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6908133670912
-    m_Localized: "Ah, parece que voc\xEA errou. Vamos tentar de novo! Desta vez eu
-      vou te ajudar. Lembre-se, o n\xFAmero de tentativas \xE9 limitado pelas vidas!"
+    m_Localized: "Ah, parece que voc\xEA errou.  Lembre-se, o n\xFAmero de tentativas
+      \xE9 limitado pelas vidas!"
     m_Metadata:
       m_Items: []
   - m_Id: 6920410398720
@@ -134,9 +133,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6966191226880
-    m_Localized: "Lembre-se de que as regras podem ser diferentes dependendo do modo.
-      Voc\xEA pode aprender mais sobre as regras do modo na tela de configura\xE7\xF5es
-      ou clicando no \xEDcone de interroga\xE7\xE3o no pr\xF3prio jogo."
+    m_Localized: 'Lembre-se de que as regras podem ser diferentes dependendo do modo. '
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
@@ -145,6 +142,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1772182952378368
     m_Localized: "No futuro, voc\xEA poder\xE1 alter\xE1-lo aqui."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628579465461760
+    m_Localized: Vamos tentar de novo! Desta vez eu vou te ajudar.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628583135477760
+    m_Localized: "Voc\xEA pode aprender mais sobre as regras do modo na tela de configura\xE7\xF5es
+      ou clicando no \xEDcone de interroga\xE7\xE3o no pr\xF3prio jogo."
     m_Metadata:
       m_Items: []
   references:

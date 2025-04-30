@@ -98,12 +98,12 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6823480033280
     m_Localized: "Pami\u0119taj, Twoja linia musi zaczyna\u0107 si\u0119 od innej,
-      ale nie mo\u017Ce jej przed\u0142u\u017Ca\u0107! Spr\xF3buj narysowa\u0107
-      tam, gdzie wskaza\u0142em przerywan\u0105 lini\u0105."
+      ale nie mo\u017Ce jej przed\u0142u\u017Ca\u0107! "
     m_Metadata:
       m_Items: []
   - m_Id: 6851816751104
-    m_Localized: "Spr\xF3buj jeszcze raz."
+    m_Localized: "Spr\xF3buj narysowa\u0107 tam, gdzie wskaza\u0142em przerywan\u0105
+      lini\u0105."
     m_Metadata:
       m_Items: []
   - m_Id: 6865536319488
@@ -122,9 +122,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6908133670912
-    m_Localized: "Oj, wygl\u0105da na to, \u017Ce nie zgad\u0142e\u015B. Spr\xF3bujmy
-      jeszcze raz! Tym razem Ci pomog\u0119. Pami\u0119taj, liczba pr\xF3b jest ograniczona
-      przez serca!"
+    m_Localized: "Oj, wygl\u0105da na to, \u017Ce nie zgad\u0142e\u015B.  Pami\u0119taj,
+      liczba pr\xF3b jest ograniczona przez serca!"
     m_Metadata:
       m_Items: []
   - m_Id: 6920410398720
@@ -137,8 +136,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 6966191226880
     m_Localized: "Pami\u0119taj, \u017Ce zasady mog\u0105 si\u0119 r\xF3\u017Cni\u0107
-      w zale\u017Cno\u015Bci od trybu gry. Mo\u017Cesz dowiedzie\u0107 si\u0119 wi\u0119cej
-      o zasadach w menu ustawie\u0144 lub klikaj\u0105c znak zapytania w grze."
+      w zale\u017Cno\u015Bci od trybu gry. "
     m_Metadata:
       m_Items: []
   - m_Id: 6977494876160
@@ -148,6 +146,15 @@ MonoBehaviour:
   - m_Id: 1772182952378368
     m_Localized: "W przysz\u0142o\u015Bci b\u0119dziesz m\xF3g\u0142 zmieni\u0107
       ten tryb tutaj."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628579465461760
+    m_Localized: "Spr\xF3bujmy jeszcze raz! Tym razem Ci pomog\u0119."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628583135477760
+    m_Localized: "Mo\u017Cesz dowiedzie\u0107 si\u0119 wi\u0119cej o zasadach w menu
+      ustawie\u0144 lub klikaj\u0105c znak zapytania w grze."
     m_Metadata:
       m_Items: []
   references:
