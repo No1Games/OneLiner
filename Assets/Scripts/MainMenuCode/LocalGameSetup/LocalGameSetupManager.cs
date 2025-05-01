@@ -18,7 +18,7 @@ public class LocalGameSetupManager : MonoBehaviour
     
     private List<PlayerScript> players = new();
     private List<GameObject> playersPlates = new();
-    [SerializeField] private AccountManager accountManager;
+    //[SerializeField] private AccountManager accountManager;
     [SerializeField] private CustomizationDataManager customizationDataManager;
     [SerializeField] private LGS_TimerController timerController;
     [SerializeField] private ModeMenu modeMenu;
@@ -37,7 +37,7 @@ public class LocalGameSetupManager : MonoBehaviour
     private void Awake()
     {
         lgsFunc = gameObject.AddComponent<LocalGameSetup_Func>(); 
-        lgsFunc.Initialize(playerPlatePrefab, playerPanel, accountManager);
+        lgsFunc.Initialize(playerPlatePrefab, playerPanel);
         localSetupUI.OnAddPlayerBtnClick += (() => AddPlayer());
         localSetupUI.OnStartGameBtnClick += StartLocalGame;
         localSetupUI.OnRandomLeaderBtnClick += ChoseRandomLeader;
@@ -62,7 +62,7 @@ public class LocalGameSetupManager : MonoBehaviour
 
     private void SetLocalSetup()
     {
-        if (accountManager.isTutorialOn)
+        if (AccountManager.Instance.isTutorialOn)
         {
 
         
@@ -95,7 +95,7 @@ public class LocalGameSetupManager : MonoBehaviour
 
     public void AddPlayerForTutorial()
     {
-        AddPlayer(accountManager.player);
+        AddPlayer(AccountManager.Instance.player);
     }
     public void FinishTutorial()
     {
@@ -179,7 +179,7 @@ public class LocalGameSetupManager : MonoBehaviour
             {
                 if (players.Count == 0)
                 {
-                    player = accountManager.player;
+                    player = AccountManager.Instance.player;
                 }
                 else
                 {

@@ -1,6 +1,8 @@
+using System.Threading.Tasks;
+
 public interface IDataStorage
 {
-    bool HasSaveData();
-    void SaveData(AccountData data);
-    AccountData LoadData();
+    Task<bool> HasSaveDataAsync();
+    Task SaveDataAsync(AccountData data);
+    Task<AccountData> LoadDataAsync();
 }

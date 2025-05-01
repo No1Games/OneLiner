@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CustomizationDataManager : MonoBehaviour
 {
-    [SerializeField] private AccountManager accountManager;
+    
     [SerializeField] private PopUpController popupController;
     private PlayerScript currentPlayer;
     private string newPlayerName = null;
@@ -68,7 +68,7 @@ public class CustomizationDataManager : MonoBehaviour
         bool canUpdate = true;
         foreach (Item item in itemsOnPreview)
         {
-            if (!accountManager.GetAccountData().cosmeticCodes.Contains(item.itemCode))
+            if (!AccountManager.Instance.CurrentAccountData.cosmeticCodes.Contains(item.itemCode))
             {
                 canUpdate = false;
             }
@@ -98,12 +98,12 @@ public class CustomizationDataManager : MonoBehaviour
 
         currentPlayer.UpdatePlayerInfo(newPlayerName, _newAvatarId, _newAvatarBackId, _newNameBackId);
 
-        if (currentPlayer == accountManager.player)
+        if (currentPlayer == AccountManager.Instance.player)
         {
-            accountManager.GetAccountData().avatarCode = _newAvatarId;
-            accountManager.GetAccountData().avatarBackgroundCode = _newAvatarBackId;
-            accountManager.GetAccountData().nameBackgroundCode = _newNameBackId;
-            accountManager.SaveAccount();
+            AccountManager.Instance.CurrentAccountData.avatarCode = _newAvatarId;
+            AccountManager.Instance.CurrentAccountData.avatarBackgroundCode = _newAvatarBackId;
+            AccountManager.Instance.CurrentAccountData.nameBackgroundCode = _newNameBackId;
+            AccountManager.Instance.SaveAccountData();
         }
     }
 
@@ -117,7 +117,7 @@ public class CustomizationDataManager : MonoBehaviour
         bool itemsIsLockedByLvl = false;
         foreach (Item item in itemsOnPreview)
         {
-            if (!accountManager.GetAccountData().cosmeticCodes.Contains(item.itemCode))
+            if (!AccountManager.Instance.CurrentAccountData.cosmeticCodes.Contains(item.itemCode))
             {
                 _price += item.cost;
                 _notOwnedItems.Add(item);
@@ -148,7 +148,7 @@ public class CustomizationDataManager : MonoBehaviour
             }
             else if (itemsIsLockedByLvl)
             {
-                if(accountManager.GetAccountData().accountStatus == AccountStatus.Premium)
+                if(AccountManager.Instance.CurrentAccountData.accountStatus == AccountStatus.Premium)
                 {
                     popupController.OpenPopUp_ApproveWithPremiumNoLvl();
                 }
@@ -178,7 +178,7 @@ public class CustomizationDataManager : MonoBehaviour
 
         }
         GemManager.Instance.SpendGems(_price);
-        accountManager.AddItemsToAccount(items);
+        AccountManager.Instance.AddItemsToAccount(items);
 
        // update customisation menu prewiev decrise gem ammount sort and filter items in shop
        foreach(ShopPageManager shop in shopPageManagers)

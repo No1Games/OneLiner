@@ -1,31 +1,37 @@
 
+using System;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class GemManager : MonoBehaviour
 {
     public static GemManager Instance { get; private set; }
+    
 
-    private int gems; // Поточна кількість гемів 
+    private int gems;     
 
-    [SerializeField] private AccountManager accountManager;
-
-    private void Start()
+    private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            LoadGemsFromAccount(); // Завантажуємо початкові дані
+           
         }
         else
         {
             Destroy(gameObject);
         }
     }
+    private void Start()
+    {
+        LoadGemsFromAccount(); // Завантажуємо початкові дані
+        
+    }
 
     // Завантаження гемів із AccountData
     private void LoadGemsFromAccount()
     {
-        gems = accountManager.GetAccountData().gems;
+        gems =  AccountManager.Instance.CurrentAccountData.gems;
     }
 
     // Додавання гемів
@@ -55,8 +61,8 @@ public class GemManager : MonoBehaviour
     // Оновлення гемів у AccountData
     private void UpdateAccountData()
     {
-        accountManager.GetAccountData().gems = gems;
-        accountManager.SaveAccount(); // Зберігаємо дані акаунта
+        AccountManager.Instance.CurrentAccountData.gems = gems;
+        AccountManager.Instance.SaveAccountData(); // Зберігаємо дані акаунта
     }
 }
 

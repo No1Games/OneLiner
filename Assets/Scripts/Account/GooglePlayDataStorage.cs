@@ -1,121 +1,87 @@
 using GooglePlayGames.BasicApi.SavedGame;
-using GooglePlayGames.BasicApi;
 using GooglePlayGames;
 using System;
-using UnityEngine;
+using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
+using GooglePlayGames.BasicApi;
 
 public class GooglePlayDataStorage : IDataStorage
 {
     private const string SaveFileName = "PlayerSaveData";
 
-    public bool HasSaveData()
+    public async Task<bool> HasSaveDataAsync()
     {
-        var task = CheckSaveDataAsync();
-        task.Wait(); // чекаємо результат асинхронної операції
-        return task.Result; // повертаємо результат
+        var metadata = await OpenSaveFileAsync();
+        return metadata != null && metadata.TotalTimePlayed > TimeSpan.Zero;
     }
 
-    private async Task<bool> CheckSaveDataAsync()
+    public async Task SaveDataAsync(AccountData data)
     {
-        var tcs = new TaskCompletionSource<bool>();
+        var metadata = await OpenSaveFileAsync();
+        if (metadata == null) return;
 
-        OpenSaveFile((status, game) =>
+        byte[] bytes = Encoding.UTF8.GetBytes(JsonUtility.ToJson(data));
+        var update = new SavedGameMetadataUpdate.Builder()
+            .WithUpdatedDescription("Updated at " + DateTime.Now)
+            .Build();
+
+        var tcs = new TaskCompletionSource<bool>();
+        PlayGamesPlatform.Instance.SavedGame.CommitUpdate(metadata, update, bytes, (status, game) =>
         {
             if (status == SavedGameRequestStatus.Success)
-            {
-                tcs.SetResult(game.TotalTimePlayed > TimeSpan.Zero);
-            }
+                tcs.SetResult(true);
             else
             {
-                Debug.LogError("Failed to open save file to check existence");
+                Debug.LogError("Failed to save game data to cloud");
                 tcs.SetResult(false);
             }
         });
 
-        return await tcs.Task; // повертаємо асинхронно отримане значення
+        await tcs.Task;
     }
 
-    public void SaveData(AccountData data)
+    public async Task<AccountData> LoadDataAsync()
     {
-        string jsonData = JsonUtility.ToJson(data);
-        OpenSaveFile((status, game) =>
-        {
-            if (status == SavedGameRequestStatus.Success)
-            {
-                byte[] saveData = System.Text.Encoding.UTF8.GetBytes(jsonData);
-                SavedGameMetadataUpdate update = new SavedGameMetadataUpdate.Builder()
-                    .WithUpdatedDescription("Player data updated")
-                    .Build();
+        var metadata = await OpenSaveFileAsync();
+        if (metadata == null) return null;
 
-                PlayGamesPlatform.Instance.SavedGame.CommitUpdate(game, update, saveData, OnSaveComplete);
-            }
-            else
-            {
-                Debug.LogError("Failed to open save file for saving");
-            }
-        });
-    }
-
-    public AccountData LoadData()
-    {
-        var task = LoadDataAsync();
-        task.Wait(); // чекаємо результат асинхронної операції
-        return task.Result; // повертаємо результат
-    }
-
-    private async Task<AccountData> LoadDataAsync()
-    {
         var tcs = new TaskCompletionSource<AccountData>();
-
-        OpenSaveFile((status, game) =>
+        PlayGamesPlatform.Instance.SavedGame.ReadBinaryData(metadata, (status, data) =>
         {
             if (status == SavedGameRequestStatus.Success)
             {
-                PlayGamesPlatform.Instance.SavedGame.ReadBinaryData(game, (readStatus, data) =>
-                {
-                    if (readStatus == SavedGameRequestStatus.Success)
-                    {
-                        string jsonData = System.Text.Encoding.UTF8.GetString(data);
-                        var accountData = JsonUtility.FromJson<AccountData>(jsonData);
-                        tcs.SetResult(accountData);
-                    }
-                    else
-                    {
-                        Debug.LogError("Failed to read save data");
-                        tcs.SetResult(null);
-                    }
-                });
+                string json = Encoding.UTF8.GetString(data);
+                var accountData = JsonUtility.FromJson<AccountData>(json);
+                tcs.SetResult(accountData);
             }
             else
             {
-                Debug.LogError("Failed to open save file for loading");
+                Debug.LogError("Failed to load data from cloud");
                 tcs.SetResult(null);
             }
         });
 
-        return await tcs.Task; // повертаємо асинхронно отримане значення
+        return await tcs.Task;
     }
 
-    private void OpenSaveFile(Action<SavedGameRequestStatus, ISavedGameMetadata> callback)
+    private Task<ISavedGameMetadata> OpenSaveFileAsync()
     {
+        var tcs = new TaskCompletionSource<ISavedGameMetadata>();
         PlayGamesPlatform.Instance.SavedGame.OpenWithAutomaticConflictResolution(
             SaveFileName,
             DataSource.ReadCacheOrNetwork,
             ConflictResolutionStrategy.UseLongestPlaytime,
-            callback
-        );
-    }
-
-    private void OnSaveComplete(SavedGameRequestStatus status, ISavedGameMetadata game)
-    {
-        if (status == SavedGameRequestStatus.Success)
-        {
-            Debug.Log("Game data successfully saved to Google Play");
-        }
-        else
-        {
-            Debug.LogError("Failed to save game data");
-        }
+            (status, game) =>
+            {
+                if (status == SavedGameRequestStatus.Success)
+                    tcs.SetResult(game);
+                else
+                {
+                    Debug.LogError("Failed to open save file");
+                    tcs.SetResult(null);
+                }
+            });
+        return tcs.Task;
     }
 }

@@ -1,29 +1,33 @@
-
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class PlayerPrefsDataStorage : IDataStorage
 {
     private const string SaveKey = "PlayerData";
 
-    public bool HasSaveData()
+    public Task<bool> HasSaveDataAsync()
     {
-        return PlayerPrefs.HasKey(SaveKey);
+        bool hasData = PlayerPrefs.HasKey(SaveKey);
+        return Task.FromResult(hasData);
     }
 
-    public void SaveData(AccountData data)
+    public Task SaveDataAsync(AccountData data)
     {
         string jsonData = JsonUtility.ToJson(data);
         PlayerPrefs.SetString(SaveKey, jsonData);
         PlayerPrefs.Save();
+        return Task.CompletedTask;
     }
 
-    public AccountData LoadData()
+    public Task<AccountData> LoadDataAsync()
     {
-        if (HasSaveData())
+        if (PlayerPrefs.HasKey(SaveKey))
         {
             string jsonData = PlayerPrefs.GetString(SaveKey);
-            return JsonUtility.FromJson<AccountData>(jsonData);
+            var data = JsonUtility.FromJson<AccountData>(jsonData);
+            return Task.FromResult(data);
         }
-        return null;
+
+        return Task.FromResult<AccountData>(null);
     }
 }

@@ -8,14 +8,14 @@ public class LocalGameSetup_Func : MonoBehaviour
 {
     private GameObject platePrefab;
     private GameObject playerPanel;
-    private AccountManager accountManager;
+    
 
 
-    public void Initialize(GameObject platePrefab, GameObject playerPanel, AccountManager accountManager)
+    public void Initialize(GameObject platePrefab, GameObject playerPanel)
     {
         this.platePrefab = platePrefab;
         this.playerPanel = playerPanel;
-        this.accountManager = accountManager;
+        
 
     }
 
@@ -46,7 +46,7 @@ public class LocalGameSetup_Func : MonoBehaviour
         List<int> availableNameBackgrounds = ItemManager.Instance.GetItemCodesByCategory(ItemCategory.NameBackgrounds);
 
         // Отримання косметичних кодів акаунта
-        List<int> accountCosmeticCodes = accountManager.GetAccountData().cosmeticCodes;
+        List<int> accountCosmeticCodes = AccountManager.Instance.CurrentAccountData.cosmeticCodes;
 
         // Використання LINQ для фільтрації тільки тих айтемів, які є в списку акаунта
         List<int> filteredAvatars = availableAvatars.Where(code => accountCosmeticCodes.Contains(code)).ToList();

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MainMenuTutorialLogic : BasicTutorialLogic
 {
-    [SerializeField] AccountManager accountManager;
+
     [SerializeField] LocalGameSetupManager localGameSetupManager;
     [SerializeField] LGS_TimerController timerController;
     public override void PerformActionForPage(TutorialPage page) 

@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -14,85 +14,69 @@ public enum AccountStatus
 
 public class AccountManager : MonoBehaviour
 {
-    private IDataStorage dataStorage;
+
     private SaveManager saveManager;
-    private AccountData accountData;
+    public AccountData CurrentAccountData { get; private set; }
     public PlayerScript player;
-    
-    public bool isTutorialOn = true;  // temporarily
+
+
+    public bool isTutorialOn = false;  // temporarily
+
 
     [Header("Default Items")]
     [SerializeField] private List<int> defaultCosmeticCodes;
 
+    public event Action OnAccountInitializationComplete;
+
+    public static AccountManager Instance { get; private set; }
+
     private void Awake()
     {
-        //LoadingPanel.Instance.Show();
-        InitializeStorage(false);
-
-
-
-        if (saveManager.HasSave())
+        if (Instance != null && Instance != this)
         {
-            accountData = saveManager.Load();
-            InitializeAccount(accountData);
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            accountData = CreateDefaultAccount(false);
-            SaveAccount();
 
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
-        }
-        UpdateDefaultCosmetics();
-
-     
-}
-
-
-    //public void PrepareAccountData(bool result)
-    //{
-    //    InitializeStorage(result);
-
-
-
-    //    if (saveManager.HasSave())
-    //    {
-    //        accountData = saveManager.Load();
-    //        InitializeAccount(accountData);
-    //    }
-    //    else
-    //    {
-    //        accountData = CreateDefaultAccount(result);
-    //        SaveAccount();
-
-
-    //    }
-    //    UpdateDefaultCosmetics();
-
-    //    // call main screen customisation
-    //    // close loading screen
-    //    //if account isnt auth in google show information about limitation
-    //}
-    private void InitializeStorage(bool goFromGoogle)
+    public async Task InitializeAccountAsync(bool isAuthenticated)
     {
 
+        // Обираємо джерело даних
+        IDataStorage storage = isAuthenticated
+            ? new GooglePlayDataStorage()
+            : new PlayerPrefsDataStorage();
 
-        if (goFromGoogle)
+        saveManager = new SaveManager(storage);
+
+        // Перевіряємо, чи є сейви
+        bool hasSave = await saveManager.HasSaveAsync();
+
+        if (hasSave)
         {
-            dataStorage = new GooglePlayDataStorage();
+            CurrentAccountData = await saveManager.LoadAsync();
+            Debug.Log("Account loaded");
         }
         else
         {
-            dataStorage = new PlayerPrefsDataStorage();
-
+            CurrentAccountData = CreateDefaultAccount(isAuthenticated);
+            SaveAccountData();
+            Debug.Log("New account created and saved");
         }
-        saveManager = new SaveManager(dataStorage);
+        InitializePlayer(CurrentAccountData);
+        UpdateDefaultCosmetics();
+        await Task.Delay(1000);
+        OnAccountInitializationComplete?.Invoke();
+
     }
 
 
-    private void InitializeAccount(AccountData data)
+    private void InitializePlayer(AccountData data)
     {
-        // Ініціалізація акаунта (можливо, присвоєння значень у грі)
+
         player = new PlayerScript(data.playerName);
         player.UpdatePlayerInfo(data.playerName, data.avatarCode, data.avatarBackgroundCode, data.nameBackgroundCode);
     }
@@ -124,31 +108,25 @@ public class AccountManager : MonoBehaviour
         return _newAccount;
     }
 
-    public void SaveAccount()
-    {
-        saveManager.Save(accountData);
-    }
 
-    public AccountData GetAccountData()
-    {
-        return accountData;
-    }
+
+
 
     private void UpdateDefaultCosmetics()
     {
         foreach (int code in defaultCosmeticCodes)
         {
-            if (!accountData.cosmeticCodes.Contains(code))
+            if (!CurrentAccountData.cosmeticCodes.Contains(code))
             {
-                accountData.cosmeticCodes.Add(code);
+                CurrentAccountData.cosmeticCodes.Add(code);
             }
         }
     }
 
     public void SetAccountStatus(AccountStatus newStatus)
     {
-        accountData.accountStatus = newStatus;
-        SaveAccount();
+        CurrentAccountData.accountStatus = newStatus;
+        SaveAccountData();
     }
 
     public void AddItemsToAccount(List<Item> items)
@@ -156,12 +134,17 @@ public class AccountManager : MonoBehaviour
         foreach (Item item in items)
         {
 
-            accountData.cosmeticCodes.Add(item.itemCode);
+            CurrentAccountData.cosmeticCodes.Add(item.itemCode);
 
 
         }
 
-        SaveAccount();
+        SaveAccountData();
 
+    }
+
+    public void SaveAccountData()
+    {
+        saveManager.EnqueueSave(new AccountData(CurrentAccountData));
     }
 }

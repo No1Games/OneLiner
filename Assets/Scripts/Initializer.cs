@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using UnityEngine;
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
 
 public class Initializer : MonoBehaviour
 {
@@ -13,6 +15,10 @@ public class Initializer : MonoBehaviour
         await TryInitServices();
 
         await TrySignIn();
+
+        bool isGoogleSignedIn = await TryGooglePlaySignIn();
+
+        await AccountManager.Instance.InitializeAccountAsync(isGoogleSignedIn);
 
         LoadingPanel.Instance.Hide();
     }
@@ -34,5 +40,28 @@ public class Initializer : MonoBehaviour
         var result = await UnityServiceAuthenticator.TrySignInAsync(serviceProfileName.Substring(0, 30));
 
         Debug.Log($"Services Authentification Result: {result}");
+    }
+
+    public static async Task<bool> TryGooglePlaySignIn()
+    {
+        var tcs = new TaskCompletionSource<bool>();
+
+        PlayGamesPlatform.Activate();
+
+        PlayGamesPlatform.Instance.Authenticate(status =>
+        {
+            if (status == SignInStatus.Success)
+            {
+                Debug.Log("Google Play Sign-in successful");
+                tcs.SetResult(true);
+            }
+            else
+            {
+                Debug.LogWarning($"Google Play Sign-in failed: {status}");
+                tcs.SetResult(false);
+            }
+        });
+
+        return await tcs.Task;
     }
 }

@@ -10,7 +10,7 @@ public class ShopPageManager : MonoBehaviour
     [Header("Prefabs & References")]
     [SerializeField] private GameObject buttonPrefab; // Префаб кнопки
     [SerializeField] private Transform buttonParent;  // Батьківський об'єкт для кнопок
-    [SerializeField] private AccountManager accountManager;
+    
     [SerializeField] private CustomizationMenuUi uiMenu;
 
     [Header("Item Category")]
@@ -59,7 +59,7 @@ public class ShopPageManager : MonoBehaviour
     private bool CheckItemAccessibility(Item item)
     {
         
-        foreach (int accountIemCode in accountManager.GetAccountData().cosmeticCodes)
+        foreach (int accountIemCode in AccountManager.Instance.CurrentAccountData.cosmeticCodes)
         {
             if(accountIemCode == item.itemCode)
             {

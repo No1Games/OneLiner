@@ -10,7 +10,8 @@ public class MainScreen : MenuBase
     [SerializeField] private Button optionsBtn;
     [SerializeField] private Button customizationBtn;
     [SerializeField] private CustomizationDataManager customizationDataManager;
-    [SerializeField] private AccountManager accountManager;
+    [SerializeField] private TMPro.TextMeshProUGUI gems;
+    
 
     [SerializeField] private Image avatarMainMenu;
     [SerializeField] private Image avatarBackMainMenu;
@@ -25,16 +26,21 @@ public class MainScreen : MenuBase
     }
     private void Start()
     {
-        SetupMainScreenAvatar();
-        customizationDataManager.OnCustomizationEnds += SetupMainScreenAvatar;
+        AccountManager.Instance.OnAccountInitializationComplete += SetupMainScreenView;
+        customizationDataManager.OnCustomizationEnds += SetupMainScreenView;
     }
     public override void Init()
     {
         playBtn.onClick.AddListener(OnClick_PlayBtn);
         shopBtn.onClick.AddListener(OnClick_ShopBtn);
         optionsBtn.onClick.AddListener(OnClick_OptionsBtn);
-        customizationBtn.onClick.AddListener(OnClick_CustomizationBtn);
+        customizationBtn.onClick.AddListener(OnClick_CustomizationBtn);  
 
+    }
+    public override void Show()
+    {
+        base.Show();
+        SetupMainScreenView();
     }
 
     private void OnClick_PlayBtn()
@@ -57,14 +63,15 @@ public class MainScreen : MenuBase
     private void OnClick_CustomizationBtn()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        customizationDataManager.SetupData(accountManager.player, MenuName.MainScreen);
+        customizationDataManager.SetupData(AccountManager.Instance.player, MenuName.MainScreen);
         MainMenuManager.Instance.ChangeMenu(MenuName.CustomizationScreen);
     }
 
-    private void SetupMainScreenAvatar()
+    private void SetupMainScreenView()
     {
-        avatarMainMenu.sprite = ItemManager.Instance.GetItemByCode(accountManager.player.avatarID).icon;
-        avatarBackMainMenu.sprite = ItemManager.Instance.GetItemByCode(accountManager.player.avatarBackID).icon;
+        avatarMainMenu.sprite = ItemManager.Instance.GetItemByCode(AccountManager.Instance.player.avatarID).icon;
+        avatarBackMainMenu.sprite = ItemManager.Instance.GetItemByCode(AccountManager.Instance.player.avatarBackID).icon;
+        gems.text = GemManager.Instance.GetGems().ToString();
     }
 
 }
