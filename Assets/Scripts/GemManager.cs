@@ -24,7 +24,7 @@ public class GemManager : MonoBehaviour
     }
     private void Start()
     {
-        LoadGemsFromAccount(); // Завантажуємо початкові дані
+        AccountManager.Instance.OnAccountInitializationComplete += LoadGemsFromAccount; // Завантажуємо початкові дані
         
     }
 

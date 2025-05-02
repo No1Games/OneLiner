@@ -103,6 +103,7 @@ public class CustomizationDataManager : MonoBehaviour
             AccountManager.Instance.CurrentAccountData.avatarCode = _newAvatarId;
             AccountManager.Instance.CurrentAccountData.avatarBackgroundCode = _newAvatarBackId;
             AccountManager.Instance.CurrentAccountData.nameBackgroundCode = _newNameBackId;
+            AccountManager.Instance.CurrentAccountData.playerName = newPlayerName;
             AccountManager.Instance.SaveAccountData();
         }
     }

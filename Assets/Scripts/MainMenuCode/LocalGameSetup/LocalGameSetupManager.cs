@@ -62,7 +62,7 @@ public class LocalGameSetupManager : MonoBehaviour
 
     private void SetLocalSetup()
     {
-        if (AccountManager.Instance.isTutorialOn)
+        if (!AccountManager.Instance.isTutorialOn)
         {
 
         

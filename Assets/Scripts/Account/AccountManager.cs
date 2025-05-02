@@ -44,17 +44,17 @@ public class AccountManager : MonoBehaviour
 
     public async Task InitializeAccountAsync(bool isAuthenticated)
     {
-
+        Debug.Log("Initializing account started");
         // Обираємо джерело даних
         IDataStorage storage = isAuthenticated
             ? new GooglePlayDataStorage()
             : new PlayerPrefsDataStorage();
 
         saveManager = new SaveManager(storage);
-
+        Debug.Log("Storage initialized? start checking save file");
         // Перевіряємо, чи є сейви
         bool hasSave = await saveManager.HasSaveAsync();
-
+        Debug.Log("Save file checked it is" + hasSave);
         if (hasSave)
         {
             CurrentAccountData = await saveManager.LoadAsync();
@@ -66,10 +66,14 @@ public class AccountManager : MonoBehaviour
             SaveAccountData();
             Debug.Log("New account created and saved");
         }
+
         InitializePlayer(CurrentAccountData);
+        Debug.Log("player initialized");
         UpdateDefaultCosmetics();
-        await Task.Delay(1000);
+        Debug.Log("cosmetic updated");
+        await Task.Delay(3000);
         OnAccountInitializationComplete?.Invoke();
+        Debug.Log("Initializing account complited");
 
     }
 
