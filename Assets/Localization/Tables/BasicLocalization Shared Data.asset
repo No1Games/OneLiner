@@ -243,6 +243,26 @@ MonoBehaviour:
     m_Key: InGame_Warning_WrongStart
     m_Metadata:
       m_Items: []
+  - m_Id: 54709182856331264
+    m_Key: Tutorial_Reaward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709221351653376
+    m_Key: SO_days
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709224371552256
+    m_Key: SO_mainText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709226447732736
+    m_Key: SO_buy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709232617553920
+    m_Key: SO_dino
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

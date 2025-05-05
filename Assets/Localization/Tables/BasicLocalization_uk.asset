@@ -350,6 +350,26 @@ MonoBehaviour:
       \u0437 \u0456\u043D\u0448\u043E\u0457 \u043B\u0456\u043D\u0456\u0457"
     m_Metadata:
       m_Items: []
+  - m_Id: 54709224371552256
+    m_Localized: "\u0410\u041A\u0426\u0406\u042F \u0414\u041B\u042F \u041F\u041E\u0427\u0410\u0422\u041A\u0406\u0412\u0426\u0406\u0412"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709221351653376
+    m_Localized: "7 \u0414\u041D\u0406\u0412"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709226447732736
+    m_Localized: "\u041A\u0423\u041F\u0418\u0422\u0418"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709182856331264
+    m_Localized: "\u0412\u0418\u041D\u0410\u0413\u041E\u0420\u041E\u0414\u0410"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709232617553920
+    m_Localized: "\u041A\u0420\u0423\u0422\u0418\u0419 \u0414\u0418\u041D\u041E\u0417\u0410\u0412\u0420"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

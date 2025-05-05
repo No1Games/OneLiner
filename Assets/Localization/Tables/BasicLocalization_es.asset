@@ -271,6 +271,26 @@ MonoBehaviour:
     m_Localized: "La l\xEDnea debe comenzar desde otra l\xEDnea"
     m_Metadata:
       m_Items: []
+  - m_Id: 54709182856331264
+    m_Localized: RECOMPENSA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709221351653376
+    m_Localized: "7 D\xCDAS"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709224371552256
+    m_Localized: OFERTA PARA PRINCIPIANTES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709226447732736
+    m_Localized: COMPRAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709232617553920
+    m_Localized: DINOSAURIO GENIAL
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

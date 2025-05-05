@@ -273,6 +273,26 @@ MonoBehaviour:
     m_Localized: "La ligne doit commencer \xE0 partir d'une autre ligne"
     m_Metadata:
       m_Items: []
+  - m_Id: 54709224371552256
+    m_Localized: "OFFRE POUR D\xC9BUTANT"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709182856331264
+    m_Localized: "R\xC9COMPENSE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709221351653376
+    m_Localized: 7 JOURS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709226447732736
+    m_Localized: ACHETER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709232617553920
+    m_Localized: DINOSAURE COOL
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
