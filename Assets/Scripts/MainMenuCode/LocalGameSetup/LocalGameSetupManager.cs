@@ -62,7 +62,7 @@ public class LocalGameSetupManager : MonoBehaviour
 
     private void SetLocalSetup()
     {
-        if (!AccountManager.Instance.isTutorialOn)
+        if (!IngameData.Instance.IsTutorialOn)
         {
 
         
@@ -262,6 +262,7 @@ public class LocalGameSetupManager : MonoBehaviour
             {
                 LoadLocalGame();
             }
+
             else
             {
                 AdsManager.Instance.ShowInterstitialAds();

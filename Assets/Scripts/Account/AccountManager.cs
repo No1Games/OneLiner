@@ -18,9 +18,9 @@ public class AccountManager : MonoBehaviour
     private SaveManager saveManager;
     public AccountData CurrentAccountData { get; private set; }
     public PlayerScript player;
+    private SubscriptionManager subscriptionManager;
 
-
-    public bool isTutorialOn = false;  // temporarily
+    
 
 
     [Header("Default Items")]
@@ -40,21 +40,22 @@ public class AccountManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        subscriptionManager = new();
     }
 
     public async Task InitializeAccountAsync(bool isAuthenticated)
     {
-        Debug.Log("Initializing account started");
+        
         // Обираємо джерело даних
         IDataStorage storage = isAuthenticated
             ? new GooglePlayDataStorage()
             : new PlayerPrefsDataStorage();
 
         saveManager = new SaveManager(storage);
-        Debug.Log("Storage initialized? start checking save file");
+        
         // Перевіряємо, чи є сейви
         bool hasSave = await saveManager.HasSaveAsync();
-        Debug.Log("Save file checked it is" + hasSave);
+       
         if (hasSave)
         {
             CurrentAccountData = await saveManager.LoadAsync();
@@ -66,14 +67,18 @@ public class AccountManager : MonoBehaviour
             SaveAccountData();
             Debug.Log("New account created and saved");
         }
+        if (isAuthenticated)
+        {
+            await subscriptionManager.CheckSubscription(CurrentAccountData);
+        }
 
         InitializePlayer(CurrentAccountData);
-        Debug.Log("player initialized");
+        
         UpdateDefaultCosmetics();
-        Debug.Log("cosmetic updated");
+        
         await Task.Delay(3000);
         OnAccountInitializationComplete?.Invoke();
-        Debug.Log("Initializing account complited");
+        
 
     }
 
@@ -89,7 +94,7 @@ public class AccountManager : MonoBehaviour
     {
         AccountData _newAccount = new AccountData
         {
-            playerName = "Guest",
+            playerName = "NewFriend",
             playerID = Guid.NewGuid().ToString(),
             avatarCode = 1001,
             avatarBackgroundCode = 2001,
@@ -99,9 +104,10 @@ public class AccountManager : MonoBehaviour
             experience = 0,
             level = 1,
             accountStatus = AccountStatus.Offline,
-            completeTutorial = false,
+            tutorialStatus = TutorialStatus.None,       
 
-        };
+
+};
 
         if (hasDataFromGoogle)
         {

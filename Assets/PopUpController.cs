@@ -27,6 +27,7 @@ public class PopUpController : MonoBehaviour
 
     public event Action<List<Item>> OnPurchaseConfirmed;
     public event Action OnExitConfirmed;
+    public event Action OnExitWithPurchaseConfirmed;
 
     private List<GameObject> allPopUps;
     private void Awake()
@@ -90,6 +91,7 @@ public class PopUpController : MonoBehaviour
         {
             
             OnPurchaseConfirmed?.Invoke(itemsToBuy);
+            OnExitWithPurchaseConfirmed?.Invoke();
             ClosePopUps();
         });
         int _itemPrice = 0;
@@ -159,7 +161,12 @@ public class PopUpController : MonoBehaviour
     {
         OpenMainElements(false);
         popUp_PurchaseSkinWithNoGems.SetActive(true);
-        acceptBtn.onClick.AddListener(ClosePopUps);
+        acceptBtn.onClick.AddListener(() =>
+        {
+
+            MainMenuManager.Instance.OpenMenu(MenuName.GemShop);
+            ClosePopUps();
+        });
     }
 
 

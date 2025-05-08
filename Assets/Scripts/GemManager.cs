@@ -1,7 +1,6 @@
 
-using System;
 using UnityEngine;
-using System.Threading.Tasks;
+
 
 public class GemManager : MonoBehaviour
 {

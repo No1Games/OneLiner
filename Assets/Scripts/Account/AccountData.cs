@@ -7,9 +7,7 @@ public class AccountData
 
 
     public string playerName;
-    public string playerID;
-    //public int localPlayerID;
-    //public string lastSaveTime;
+    public string playerID;    
     public int avatarCode;
     public int avatarBackgroundCode;
     public int nameBackgroundCode;
@@ -18,9 +16,13 @@ public class AccountData
     public int experience;
     public int level;
     public AccountStatus accountStatus;
-    public string premiumEndDate;
+    
 
-    public bool completeTutorial;
+    public bool hasLifetimeSubscription;
+    public DateTime subscriptionEndDate;
+
+    public bool specialOfferEarned;
+    public TutorialStatus tutorialStatus;
     public AccountData()
     {
         
@@ -37,9 +39,10 @@ public class AccountData
         experience = other.experience;
         level = other.level;
         accountStatus = other.accountStatus;
-        premiumEndDate = other.premiumEndDate;
-        completeTutorial = other.completeTutorial;
-        // המהאי ³םר³ ןמכÿ, ÿךשמ ÷
+        subscriptionEndDate = other.subscriptionEndDate;
+        tutorialStatus = other.tutorialStatus;
+        specialOfferEarned = other.specialOfferEarned;
+        hasLifetimeSubscription = other.hasLifetimeSubscription;
     }
 
 }

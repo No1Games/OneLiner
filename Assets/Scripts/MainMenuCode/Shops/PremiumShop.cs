@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Purchasing;
 using UnityEngine.UI;
 
 public class PremiumShop : MenuBase
@@ -11,7 +12,14 @@ public class PremiumShop : MenuBase
     [SerializeField] private Button tierThreeBtn;
     [SerializeField] private Button tierMaxBtn;
 
+    [SerializeField] private Button tierOneInvoker;
+    [SerializeField] private Button tierTwoInvoker;
+    [SerializeField] private Button tierThreeInvoker;
+    [SerializeField] private Button tierMaxInvoker;
+
     [SerializeField] private AccountManager accountManager;
+
+    
     public override MenuName Menu => MenuName.PremiumShop;
     private void Start()
     {
@@ -21,19 +29,72 @@ public class PremiumShop : MenuBase
     {
         base.Init();
         backBtn.onClick.AddListener(OnClick_BackButton);
-        tierOneBtn.onClick.AddListener(() => SetPremiumTime(1));
-        tierTwoBtn.onClick.AddListener(() => SetPremiumTime(3));
-        tierThreeBtn.onClick.AddListener(() => SetPremiumTime(5));
-        tierMaxBtn.onClick.AddListener(() => SetPremiumTime(100));
+        tierOneBtn.onClick.AddListener(() => OnTierOneClick());
+        tierTwoBtn.onClick.AddListener(() => OnTierTwoClick());
+        tierThreeBtn.onClick.AddListener(() => OnTierThreeClick());
+        tierMaxBtn.onClick.AddListener(() => OnTierMaxClick());
 
     }
 
-    private void SetPremiumTime(float time)
+    private void OnTierOneClick()
     {
-        float premiumEndData = time;
-        Debug.Log("Premium available until: " + premiumEndData);
-        accountManager.SetAccountStatus(AccountStatus.Premium);
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        if (AccountManager.Instance.CurrentAccountData.hasLifetimeSubscription)
+        {
+            Debug.Log("You already have a subscription");
+        }
+        else
+        {
+            
+            tierOneInvoker.onClick.Invoke();
+
+        }
+        
+    }
+    private void OnTierTwoClick()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        if (AccountManager.Instance.CurrentAccountData.hasLifetimeSubscription)
+        {
+            Debug.Log("You already have a subscription");
+        }
+        else
+        {
+
+            tierTwoInvoker.onClick.Invoke();
+
+        }
+
+    }
+    private void OnTierThreeClick()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        if (AccountManager.Instance.CurrentAccountData.hasLifetimeSubscription)
+        {
+            Debug.Log("You already have a subscription");
+        }
+        else
+        {
+
+            tierThreeInvoker.onClick.Invoke();
+
+        }
+
+    }
+    private void OnTierMaxClick()
+    {
+        AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
+        if (AccountManager.Instance.CurrentAccountData.hasLifetimeSubscription)
+        {
+            Debug.Log("You already have a subscription");
+        }
+        else
+        {
+
+            tierMaxInvoker.onClick.Invoke();
+
+        }
+
     }
 
     private void OnClick_BackButton()

@@ -85,6 +85,8 @@ public class CustomizationMenuUi : MenuBase
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         customizationDataManager.ApplyCustomization();
         
+
+
     }
     private void OnClick_avatarShopBtn()
     {

@@ -25,6 +25,12 @@ public class CustomizationDataManager : MonoBehaviour
             MainMenuManager.Instance.ChangeMenu(previousMenuName);
             ClearData();
         });
+        popupController.OnExitWithPurchaseConfirmed += (() =>
+        {
+            ReturnDataToPreviousMenu();
+            MainMenuManager.Instance.ChangeMenu(previousMenuName);
+            
+        });
     }
     
     public void SetNewPlayerName(string name)
@@ -166,7 +172,9 @@ public class CustomizationDataManager : MonoBehaviour
         }
         else
         {
-            UpdatePlayerCustomizationData();
+            ReturnDataToPreviousMenu();
+            MainMenuManager.Instance.ChangeMenu(GetPreviousMenuName());
+
         }
     }
 

@@ -20,12 +20,7 @@ public class IngameData : MonoBehaviour
         get => isTutorialOn;
         set => isTutorialOn = value;
     }
-    private bool isTutorialFinished;
-    public bool IsTutorialFinished
-    {
-        get => isTutorialFinished;
-        set => isTutorialFinished = value;
-    }
+    
 
     // Timer settings
     private bool isTimerOn;

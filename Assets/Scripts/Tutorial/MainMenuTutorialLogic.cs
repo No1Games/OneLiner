@@ -20,6 +20,7 @@ public class MainMenuTutorialLogic : BasicTutorialLogic
                 break;
             case 1:
                 MainMenuManager.Instance.OpenMenu(MenuName.LocalOnline);
+                IngameData.Instance.IsTutorialOn = true;
                 break;
             case 2:
                 MainMenuManager.Instance.ChangeMenu(MenuName.LocalSetup);
@@ -29,7 +30,7 @@ public class MainMenuTutorialLogic : BasicTutorialLogic
                 localGameSetupManager.AddPlayerForTutorial();
                 break;
             case 9:
-                IngameData.Instance.IsTutorialOn = true;                
+                                
                 localGameSetupManager.FinishTutorial();
                 break;
             default:

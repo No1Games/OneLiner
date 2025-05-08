@@ -24,7 +24,7 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         ShowPage(0);
     }
@@ -77,3 +77,12 @@ public class TutorialManager : MonoBehaviour
 
 
 }
+
+public enum TutorialStatus
+{
+    None = 0,
+    Skipped = 1,
+    Completed = 2,
+    OnNewRun = 3
+}
+

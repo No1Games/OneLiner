@@ -42,27 +42,23 @@ public class EndGameScreen : MonoBehaviour
             loseContent.SetActive(false);
             int indexToShow = 0;
                        
-            //if (score <= 600) 
-            //{
-            //    stars[0].SetActive(true);
-
-            //}
+            
             if (score > 15)
             {
                 indexToShow = 1;
-                //stars[1].SetActive(true);
+                
 
             }
             if (score > 10 && score <= 15)
             {
                 indexToShow = 2;
-                //stars[2].SetActive(true);
+                
 
             }
             if (score <= 10)
             {
                 indexToShow = 3;
-                /*stars[3].SetActive(true);*/
+                
 
             }
             for (int i = 0; i < stars.Count; i++) 
@@ -87,7 +83,7 @@ public class EndGameScreen : MonoBehaviour
         if (IngameData.Instance.IsTutorialOn)
         {
             IngameData.Instance.SetReturnedFromGame(false);
-            IngameData.Instance.IsTutorialFinished = true;
+            //IngameData.Instance.IsTutorialFinished = true;
             
         }
         else

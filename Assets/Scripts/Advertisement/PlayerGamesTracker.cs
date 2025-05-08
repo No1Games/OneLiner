@@ -14,7 +14,12 @@ public class PlayerGamesTracker : MonoBehaviour
 
     public bool CanRunWithoutAds()
     {
-        //add if player status is prem return true
+        
+        if(AccountManager.Instance.CurrentAccountData.accountStatus == AccountStatus.Premium || IngameData.Instance.IsTutorialOn)
+        {
+            return true;
+        }
+
         if(gamesPlayed < gamesBetweenAds)
         {
             gamesPlayed++;

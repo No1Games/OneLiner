@@ -36,7 +36,7 @@ public class GemShop : MenuBase
 
         freeTierBtn.onClick.AddListener(() => GetFreeGems());
         freeTierBtn.onClick.AddListener(PlayBtnSound);
-        AdsManager.Instance.OnGemsShopRewardAllowed += () => GemManager.Instance.AddGems(5);
+        AdsManager.Instance.OnGemsShopRewardAllowed += () => GemManager.Instance.AddGems(10);
 
        
 
