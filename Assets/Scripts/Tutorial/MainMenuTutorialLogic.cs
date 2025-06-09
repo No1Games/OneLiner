@@ -1,10 +1,12 @@
 using UnityEngine;
 
+
 public class MainMenuTutorialLogic : BasicTutorialLogic
 {
 
     [SerializeField] LocalGameSetupManager localGameSetupManager;
     [SerializeField] LGS_TimerController timerController;
+    
     public override void PerformActionForPage(TutorialPage page) 
     {
         
@@ -39,4 +41,9 @@ public class MainMenuTutorialLogic : BasicTutorialLogic
         }
 
     }
+    public override void AdditionalSkipActivity()
+    {
+        Debug.Log("tutor was skipped");
+    }
+
 }

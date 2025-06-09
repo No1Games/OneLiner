@@ -114,12 +114,14 @@ public class LocalGameSetupManager : MonoBehaviour
             }
         }
         localSetupUI.AddPlayerBtn_VisibilityChange(true);
+
         playersInitialized = false;
 
         
        
         playersPlates.Clear();
         IngameData.Instance.SetReturnedFromGame(false);
+        //IngameData.Instance.ResetData();
     }
 
     private void InitializeMode()
@@ -155,7 +157,12 @@ public class LocalGameSetupManager : MonoBehaviour
 
     private void InitiateModeParams()
     {
+        
         ModeInfo currentModeInfo = modeMenu.GetModeInfo();
+        IngameData.Instance.SetGameMode(currentModeInfo.modeName);
+        
+
+        
         if (currentModeInfo != null)
         {
             maxPlayers = currentModeInfo.playersMax;
@@ -281,7 +288,7 @@ public class LocalGameSetupManager : MonoBehaviour
         
         OnLevelStarts?.Invoke();
         IngameData.Instance.SetRoleKnowsWord(roleKnowsTheWord);
-        IngameData.Instance.SetGameMode(modeMenu.GetModeInfo().modeName);
+        
         lgsFunc.NextLevel(players);
     }
 

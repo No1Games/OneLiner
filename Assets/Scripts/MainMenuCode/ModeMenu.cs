@@ -25,7 +25,7 @@ public class ModeMenu : MonoBehaviour
     {
         Init();
     }
-   
+
 
     private void Init()
     {
@@ -38,48 +38,20 @@ public class ModeMenu : MonoBehaviour
         Debug.Log($"Mode Params: Current Mode = {modePanels[currentIndex].GetComponent<ModeInfo>().modeName}, Min Players = {modePanels[currentIndex].GetComponent<ModeInfo>().playersMin}");
 
     }
-    public ModeInfo GetCurrentModeInfo()
-    {
-        return modePanels[currentIndex].GetComponent<ModeInfo>();
-    }
 
-    
 
     public void SetSelectedMode(GameModes mode)
     {
         // Знайдемо індекс панелі з потрібним режимом
         int gameModeIndex = modePanels.FindIndex(mp => mp.GetComponent<ModeInfo>().modeName == mode);
-
-        // Якщо індекс не знайдено, виходимо
-        if (gameModeIndex == -1)
-        {
-            Debug.LogError($"Mode {mode} not found in modePanels!");
-            return;
-        }
-
-        // Якщо панель уже активна, просто викликаємо підтвердження
-        if (gameModeIndex == currentIndex)
-        {
-            Debug.Log($"Mode {mode} is already selected.");
-            OnModeSelected?.Invoke();
-            return;
-        }
-
-        // Оновлюємо поточний індекс
-        currentIndex = gameModeIndex;
-
-        // Активуємо потрібну панель і вимикаємо інші
-        for (int i = 0; i < modePanels.Count; i++)
-        {
-            modePanels[i].SetActive(i == currentIndex);
-        }
-
-        // Надсилаємо подію про обраний режим
+               
+        currentIndex = (gameModeIndex - 1 + modePanels.Count) % modePanels.Count;
+        StartCoroutine(SwitchPanelCoroutine(true));
         OnModeSelected?.Invoke();
     }
 
 
-    
+
 
     public void MoveRight()
     {
@@ -94,7 +66,7 @@ public class ModeMenu : MonoBehaviour
     }
     private IEnumerator SwitchPanelCoroutine(bool moveRight)
     {
-        // Disable button interactivity
+        
         leftButton.interactable = false;
         rightButton.interactable = false;
         confirmButton.interactable = false;
@@ -128,8 +100,8 @@ public class ModeMenu : MonoBehaviour
         // Wait for animations to complete // треба замінити на вичислення работи аніматорів
         yield return new WaitForSeconds(0.5f); // Adjust duration to match animation time
 
+
         
-        // Re-enable button interactivity
         leftButton.interactable = true;
         rightButton.interactable = true;
         confirmButton.interactable = true;
@@ -145,7 +117,7 @@ public class ModeMenu : MonoBehaviour
             modeSelectionIsActive = true;
             leftButton.interactable = true;
             rightButton.interactable = true;
-            background.SetActive(true); 
+            background.SetActive(true);
             modeSelectAnimator.Play("ModeScreenDownAnimation");
         }
         else
@@ -159,7 +131,7 @@ public class ModeMenu : MonoBehaviour
 
             // Надсилаємо подію про обраний режим
             OnModeSelected?.Invoke();
-            
+
 
 
 
@@ -168,7 +140,7 @@ public class ModeMenu : MonoBehaviour
 
     public ModeInfo GetModeInfo()
     {
-         
+        Debug.Log("Current mode panel index " + currentIndex);
         return modePanels[currentIndex].GetComponent<ModeInfo>();
     }
 

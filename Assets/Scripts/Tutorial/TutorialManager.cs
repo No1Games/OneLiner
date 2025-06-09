@@ -1,10 +1,14 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField] private List<TutorialPage> tutorialPages;
-    
+    [SerializeField] private Button skipBtn;
+
     private int currentIndex = 0;
 
     
@@ -27,6 +31,13 @@ public class TutorialManager : MonoBehaviour
     private void OnEnable()
     {
         ShowPage(0);
+        skipBtn.gameObject.SetActive(true);
+        
+        skipBtn.onClick.AddListener(OnSkipButtonClick);
+    }
+    private void OnDisable()
+    {
+        skipBtn.onClick.RemoveAllListeners();
     }
 
     private void ShowPage(int index)
@@ -73,6 +84,19 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Tutorial completed!");
         // Можна зберегти прогрес, наприклад:
         // PlayerPrefs.SetInt("TutorialCompleted", 1);
+    }
+    private void OnSkipButtonClick()
+    {
+        AccountManager.Instance.CurrentAccountData.tutorialStatus = TutorialStatus.Skipped;
+        for (int i = 0; i < tutorialPages.Count; i++)
+        {
+            tutorialPages[i].gameObject.SetActive(false);
+            skipBtn.gameObject.SetActive(false);
+        }
+
+        
+        tutorialLogic.AdditionalSkipActivity();
+
     }
 
 

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LocalGameTutorialLogic : BasicTutorialLogic
 {
@@ -135,6 +136,10 @@ public class LocalGameTutorialLogic : BasicTutorialLogic
         {
             tutorialManager.GoToNextPage();
         }
+    }
+    public override void AdditionalSkipActivity()
+    {
+        SceneManager.LoadScene(0);
     }
 
 
