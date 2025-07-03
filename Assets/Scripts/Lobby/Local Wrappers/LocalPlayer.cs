@@ -24,7 +24,7 @@ public class LocalPlayer
 {
     public CallbackValue<bool> IsHost = new CallbackValue<bool>(false);
     public CallbackValue<string> DisplayName = new CallbackValue<string>("");
-    public CallbackValue<PlayerStatus> UserStatus = new CallbackValue<PlayerStatus>((PlayerStatus)0);
+    public CallbackValue<PlayerStatus> PlayerStatus = new CallbackValue<PlayerStatus>((PlayerStatus)0);
     public CallbackValue<string> ID = new CallbackValue<string>("");
     public CallbackValue<int> Index = new CallbackValue<int>(0);
 
@@ -38,20 +38,22 @@ public class LocalPlayer
 
     public DateTime LastUpdated;
 
-    public LocalPlayer(string id, int index, bool isHost, string displayName = default, PlayerStatus status = default, PlayerRole role = default)
+    public LocalPlayer() { }
+
+    public LocalPlayer(string id, int index, bool isHost = false, string displayName = default, PlayerStatus status = default, PlayerRole role = default)
     {
         ID.Value = id;
         IsHost.Value = isHost;
         Index.Value = index;
         DisplayName.Value = displayName;
-        UserStatus.Value = status;
+        PlayerStatus.Value = status;
         Role.Value = role;
     }
 
     public void ResetState()
     {
         IsHost.Value = false;
-        UserStatus.Value = PlayerStatus.Menu;
+        PlayerStatus.Value = global::PlayerStatus.Menu;
     }
 
     public override string ToString()

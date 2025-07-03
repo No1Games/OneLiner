@@ -27,14 +27,14 @@ public class RoomItemUI : MonoBehaviour
 
     private void UpdateUI()
     {
-        SetHostPanel(_localLobby.HostData.Value);
+        SetHostPanel(_localLobby.ApperanceData.Value);
         SetModeTMP(_localLobby.Mode.Value);
         SetPlayersCountTMP(_localLobby.PlayerCount);
     }
 
     private void Subscribe()
     {
-        _localLobby.HostData.onChanged += SetHostPanel;
+        _localLobby.ApperanceData.onChanged += SetHostPanel;
         _localLobby.Mode.onChanged += SetModeTMP;
         _localLobby.PlayersCountChangedEvent += SetPlayersCountTMP;
     }
@@ -44,8 +44,8 @@ public class RoomItemUI : MonoBehaviour
         if (_localLobby == null)
             return;
 
-        if (_localLobby.HostData.onChanged != null)
-            _localLobby.HostData.onChanged -= SetHostPanel;
+        if (_localLobby.ApperanceData.onChanged != null)
+            _localLobby.ApperanceData.onChanged -= SetHostPanel;
 
         if (_localLobby.Mode.onChanged != null)
             _localLobby.Mode.onChanged -= SetModeTMP;
@@ -69,7 +69,7 @@ public class RoomItemUI : MonoBehaviour
         UpdateUI();
     }
 
-    private void SetHostPanel(HostData newValue)
+    private void SetHostPanel(LobbyAppearanceData newValue)
     {
         if (newValue == null)
         {

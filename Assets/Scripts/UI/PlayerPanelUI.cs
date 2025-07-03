@@ -42,7 +42,7 @@ public class PlayerPanelUI : MonoBehaviour
         SetNameBack(localPlayer.NameBackID.Value);
         SetAvatarImage(localPlayer.AvatarID.Value);
         SetAvatarBackImage(localPlayer.AvatarBackID.Value);
-        SetStatus(localPlayer.UserStatus.Value);
+        SetStatus(localPlayer.PlayerStatus.Value);
 
         SubscribeOnPlayerChanges();
     }
@@ -81,7 +81,7 @@ public class PlayerPanelUI : MonoBehaviour
         m_LocalPlayer.AvatarID.onChanged += SetAvatarImage;
         m_LocalPlayer.AvatarBackID.onChanged += SetAvatarBackImage;
         m_LocalPlayer.NameBackID.onChanged += SetNameBack;
-        m_LocalPlayer.UserStatus.onChanged += SetStatus;
+        m_LocalPlayer.PlayerStatus.onChanged += SetStatus;
         m_LocalPlayer.IsTurn.onChanged += SetTurn;
     }
 
@@ -106,8 +106,8 @@ public class PlayerPanelUI : MonoBehaviour
             if (m_LocalPlayer.NameBackID.onChanged != null)
                 m_LocalPlayer.NameBackID.onChanged -= SetNameBack;
 
-            if (m_LocalPlayer.UserStatus.onChanged != null)
-                m_LocalPlayer.UserStatus.onChanged -= SetStatus;
+            if (m_LocalPlayer.PlayerStatus.onChanged != null)
+                m_LocalPlayer.PlayerStatus.onChanged -= SetStatus;
 
             if (m_LocalPlayer.IsTurn.onChanged != null)
                 m_LocalPlayer.IsTurn.onChanged -= SetTurn;

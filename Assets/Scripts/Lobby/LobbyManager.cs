@@ -10,7 +10,7 @@ public class LobbyManager : IDisposable
 {
     #region Lobby Keys
 
-    const string key_HostData = nameof(LocalLobby.HostData);
+    const string key_HostData = nameof(LocalLobby.ApperanceData);
     const string key_LeaderID = nameof(LocalLobby.LeaderID);
 
     const string key_RelayCode = nameof(LocalLobby.RelayCode);
@@ -24,7 +24,7 @@ public class LobbyManager : IDisposable
     #region Player Keys
 
     const string key_Displayname = nameof(LocalPlayer.DisplayName);
-    const string key_Userstatus = nameof(LocalPlayer.UserStatus);
+    const string key_Userstatus = nameof(LocalPlayer.PlayerStatus);
     const string key_PlayerRole = nameof(LocalPlayer.Role);
     const string key_IsTurn = nameof(LocalPlayer.IsTurn);
 
@@ -34,6 +34,8 @@ public class LobbyManager : IDisposable
 
     private Lobby _joinedLobby;
     public Lobby JoinedLobby => _joinedLobby;
+
+    private LocalLobby _localLobby;
 
     LobbyEventCallbacks _lobbyEventCallbacks = new LobbyEventCallbacks();
 
@@ -107,6 +109,15 @@ public class LobbyManager : IDisposable
 
     #endregion
 
+    ILobbyApiService _lobbyApiService;
+
+    public event Func<LocalLobby, Task> OnLobbyCreated;
+
+    public LobbyManager(ILobbyApiService lobbyApiService)
+    {
+        _lobbyApiService = lobbyApiService;
+    }
+
     public async Task<QueryResponse> GetLobbyListAsync()
     {
         if (_queryCooldown.TaskQueued)
@@ -134,6 +145,23 @@ public class LobbyManager : IDisposable
         return await LobbyService.Instance.QueryLobbiesAsync(options);
     }
 
+    public async Task CreateLobbyAsync(bool isPrivate, int maxPlayers, LocalPlayer host)
+    {
+        Lobby lobby = await _lobbyApiService.CreateLobbyAsync(maxPlayers, isPrivate, host);
+
+        if(lobby != null)
+        {
+            _joinedLobby = lobby;
+            _localLobby = LobbyDataConverter.RemoteToLocal(lobby);
+            StartHeartBeat();
+            OnLobbyCreated?.Invoke(_localLobby);
+        }
+        else
+        {
+            Debug.LogError("Failed to create lobby.");
+        }
+    }
+
     public async Task<Lobby> CreateLobbyAsync(string lobbyName, int maxPlayers, bool isPrivate, LocalPlayer localUser)
     {
         if (_createCooldown.IsCoolingDown)
@@ -145,7 +173,7 @@ public class LobbyManager : IDisposable
 
         string uasId = AuthenticationService.Instance.PlayerId;
 
-        HostData hostData = new()
+        LobbyAppearanceData hostData = new()
         {
             Name = localUser.DisplayName.Value,
             Avatar = localUser.AvatarID.Value,
@@ -323,7 +351,7 @@ public class LobbyManager : IDisposable
                     localLobby.CurrentPlayerID.Value = "";
 
                 if (changedKey == key_HostData)
-                    localLobby.HostData.Value = null;
+                    localLobby.ApperanceData.Value = null;
             }
         };
 
@@ -523,7 +551,7 @@ public class LobbyManager : IDisposable
             localLobby.CurrentPlayerID.Value = changedValue.Value.Value;
 
         if (changedKey == key_HostData)
-            localLobby.HostData.Value = HostData.Parse(changedValue.Value.Value);
+            localLobby.ApperanceData.Value = LobbyAppearanceData.Parse(changedValue.Value.Value);
 
         if (changedKey == key_LeaderID)
             localLobby.LeaderID.Value = changedValue.Value.Value;
@@ -546,7 +574,7 @@ public class LobbyManager : IDisposable
     void ParseCustomPlayerData(LocalPlayer player, string dataKey, string playerDataValue)
     {
         if (dataKey == key_Userstatus)
-            player.UserStatus.Value = (PlayerStatus)int.Parse(playerDataValue);
+            player.PlayerStatus.Value = (PlayerStatus)int.Parse(playerDataValue);
         else if (dataKey == key_Displayname)
             player.DisplayName.Value = playerDataValue;
         else if (dataKey == key_PlayerRole)

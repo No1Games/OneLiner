@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ public class LocalLobby
 
     public Action<int> PlayersCountChangedEvent;
 
-    public CallbackValue<HostData> HostData = new CallbackValue<HostData>();
+    public CallbackValue<LobbyAppearanceData> ApperanceData = new CallbackValue<LobbyAppearanceData>();
 
     public CallbackValue<string> LobbyID = new CallbackValue<string>();
     public CallbackValue<string> LobbyCode = new CallbackValue<string>();
@@ -47,15 +48,15 @@ public class LocalLobby
     public CallbackValue<int> LeaderWord = new CallbackValue<int>();
     public CallbackValue<string> CurrentPlayerID = new CallbackValue<string>("");
 
-    public int PlayerCount => m_LocalPlayers.Count;
+    public int PlayerCount => _localPlayers.Count;
     //ServerAddress m_RelayServer;
 
-    public List<LocalPlayer> LocalPlayers => m_LocalPlayers;
-    List<LocalPlayer> m_LocalPlayers = new List<LocalPlayer>();
+    public List<LocalPlayer> LocalPlayers => _localPlayers;
+    List<LocalPlayer> _localPlayers = new List<LocalPlayer>();
 
     public void ResetLobby()
     {
-        m_LocalPlayers.Clear();
+        _localPlayers.Clear();
 
         LobbyName.Value = "";
         LobbyID.Value = "";
@@ -87,7 +88,7 @@ public class LocalLobby
 
     private void OnHostChanged(string newHostId)
     {
-        foreach (var player in m_LocalPlayers)
+        foreach (var player in _localPlayers)
         {
             player.IsHost.Value = player.ID.Value == newHostId;
         }
@@ -95,7 +96,7 @@ public class LocalLobby
 
     public LocalPlayer GetLocalPlayer(int index)
     {
-        return PlayerCount > index ? m_LocalPlayers[index] : null;
+        return PlayerCount > index ? _localPlayers[index] : null;
     }
 
     public LocalPlayer GetLocalPlayer(string id)
@@ -106,21 +107,23 @@ public class LocalLobby
             return null;
         }
 
-        foreach (var player in m_LocalPlayers)
-        {
-            if (player.ID.Value == id)
-            {
-                return player;
-            }
-        }
+        return _localPlayers.Where(player => player.ID.Value == id).FirstOrDefault();
+    }
 
-        return null;
+    public void AddPlayer(LocalPlayer player)
+    {
+        if (player == null)
+        {
+            Debug.LogError("Cannot add a null player to the lobby.");
+            return;
+        }
+        _localPlayers.Add(player);
     }
 
     public void AddPlayer(int index, LocalPlayer user)
     {
-        m_LocalPlayers.Insert(index, user);
-        user.UserStatus.onChanged += OnUserChangedStatus;
+        _localPlayers.Insert(index, user);
+        user.PlayerStatus.onChanged += OnUserChangedStatus;
         user.IsTurn.onChanged += OnUserChangedTurn;
         onUserJoined?.Invoke(user);
         onLobbyDataChanged?.Invoke();
@@ -131,8 +134,8 @@ public class LocalLobby
 
     public void RemovePlayer(int playerIndex)
     {
-        m_LocalPlayers[playerIndex].UserStatus.onChanged -= OnUserChangedStatus;
-        m_LocalPlayers.RemoveAt(playerIndex);
+        _localPlayers[playerIndex].PlayerStatus.onChanged -= OnUserChangedStatus;
+        _localPlayers.RemoveAt(playerIndex);
 
         onUserLeft?.Invoke(playerIndex);
         onLobbyDataChanged?.Invoke();
@@ -147,9 +150,9 @@ public class LocalLobby
     void OnUserChangedStatus(PlayerStatus status)
     {
         int readyCount = 0;
-        foreach (var player in m_LocalPlayers)
+        foreach (var player in _localPlayers)
         {
-            if (player.UserStatus.Value == PlayerStatus.Ready)
+            if (player.PlayerStatus.Value == PlayerStatus.Ready)
                 readyCount++;
         }
 
@@ -180,7 +183,7 @@ public class LocalLobby
         sb.Append("RelayCode: ");
         sb.AppendLine(RelayCode.Value);
         sb.Append("HostData: ");
-        sb.AppendLine(HostData.Value.ToString());
+        sb.AppendLine(ApperanceData.Value.ToString());
         sb.Append("LeaderID: ");
         sb.AppendLine(LeaderID.Value);
 

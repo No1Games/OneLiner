@@ -1,18 +1,21 @@
-public class HostData
+/// <summary>
+/// Class representing the appearance data for a lobby.
+/// </summary>
+public class LobbyAppearanceData
 {
     public string Name { get; set; }
     public int NameBackground { get; set; }
     public int Avatar { get; set; }
     public int AvatarBackground { get; set; }
-
+    // TODO: JSON serialization could be used here instead of custom To String and Parse methods
     public override string ToString()
     {
         return $"{Name}:{NameBackground}:{Avatar}:{AvatarBackground}";
     }
-
-    public static HostData Parse(string str)
+    // TODO: JSON serialization could be used here instead of custom parsing
+    public static LobbyAppearanceData Parse(string str)
     {
-        HostData data = new HostData();
+        LobbyAppearanceData data = new LobbyAppearanceData();
         string[] splitStr = str.Split(':');
 
         data.Name = splitStr[0];

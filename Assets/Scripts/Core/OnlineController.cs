@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -39,14 +39,15 @@ public class OnlineController : MonoBehaviour
 
     #region Lobby Fields and Props
 
-    public LobbyManager LobbyManager { get; private set; }
+    public LobbyManager _lobbyManager;
+    public LobbyManager LobbyManager => _lobbyManager;
 
-    private LocalLobby m_LocalLobby;
-    public LocalLobby LocalLobby => m_LocalLobby;
+    private LocalLobby _localLobby;
+    public LocalLobby LocalLobby => _localLobby;
 
-    private LocalPlayer m_LocalPlayer;
+    private LocalPlayer _localPlayer;
 
-    public LocalPlayer LocalPlayer => m_LocalPlayer;
+    public LocalPlayer LocalPlayer => _localPlayer;
     public LocalLobbyList LobbyList { get; private set; } = new LocalLobbyList();
 
     #endregion
@@ -77,9 +78,11 @@ public class OnlineController : MonoBehaviour
 
         Application.wantsToQuit += OnWantToQuit;
 
-        m_LocalPlayer = new LocalPlayer("", 0, false, "LocalPlayer");
-        m_LocalLobby = new LocalLobby { LocalLobbyState = { Value = LobbyState.Lobby } };
-        LobbyManager = new LobbyManager();
+        _localPlayer = new LocalPlayer("", 0, false, "LocalPlayer");
+        _localLobby = new LocalLobby { LocalLobbyState = { Value = LobbyState.Lobby } };
+
+        _lobbyManager = new LobbyManager(new LobbyApiService());
+        _lobbyManager.OnLobbyCreated += OnLobbyCreated;
 
         AuthenticatePlayer();
 
@@ -100,23 +103,30 @@ public class OnlineController : MonoBehaviour
 
         var randomName = RandomNameGenerator.GetName();
 
-        m_LocalPlayer.ID.Value = localId;
+        _localPlayer.ID.Value = localId;
 
         SetLocalPlayerName(randomName);
     }
 
     #region Lobby Events Handlers
 
+    private async Task OnLobbyCreated(LocalLobby lobby)
+    {
+        _localLobby = lobby;
+
+        await CreateLobby();
+    }
+
     private void OnPlayersReady(int readyCount)
     {
-        if (!m_LocalPlayer.IsHost.Value) return;
+        if (!_localPlayer.IsHost.Value) return;
 
-        if (readyCount == m_LocalLobby.PlayerCount &&
-            m_LocalLobby.LocalLobbyState.Value != LobbyState.CountDown)
+        if (readyCount == _localLobby.PlayerCount &&
+            _localLobby.LocalLobbyState.Value != LobbyState.CountDown)
         {
             SetLocalLobbyState(LobbyState.CountDown);
         }
-        else if (m_LocalLobby.LocalLobbyState.Value == LobbyState.CountDown)
+        else if (_localLobby.LocalLobbyState.Value == LobbyState.CountDown)
         {
             SetLocalLobbyState(LobbyState.Lobby);
         }
@@ -134,7 +144,7 @@ public class OnlineController : MonoBehaviour
 
     private void OnLeaderIDChanged(string id)
     {
-        if (id == m_LocalPlayer.ID.Value)
+        if (id == _localPlayer.ID.Value)
         {
             SetLocalPlayerRole(PlayerRole.Leader);
         }
@@ -146,7 +156,7 @@ public class OnlineController : MonoBehaviour
 
     private void OnPlayerPassedTurn(bool isTurn)
     {
-        if (!isTurn && m_LocalPlayer.IsHost.Value)
+        if (!isTurn && _localPlayer.IsHost.Value)
         {
             PassTurnEvent?.Invoke();
         }
@@ -154,13 +164,13 @@ public class OnlineController : MonoBehaviour
 
     private void OnPlayersCountChanged(int playersCount)
     {
-        if (!m_LocalPlayer.IsHost.Value) return;
+        if (!_localPlayer.IsHost.Value) return;
 
         if (IsRandomLeader)
         {
-            int leaderIndex = UnityEngine.Random.Range(0, m_LocalLobby.PlayerCount);
+            int leaderIndex = UnityEngine.Random.Range(0, _localLobby.PlayerCount);
 
-            string leaderID = m_LocalLobby.GetLocalPlayer(leaderIndex).ID.Value;
+            string leaderID = _localLobby.GetLocalPlayer(leaderIndex).ID.Value;
 
             SetLocalLobbyLeader(leaderID);
         }
@@ -174,13 +184,13 @@ public class OnlineController : MonoBehaviour
     {
         LoadingPanel.Instance.Show();
 
-        if (!m_LocalPlayer.IsHost.Value) return;
+        if (!_localPlayer.IsHost.Value) return;
 
-        if (string.IsNullOrEmpty(m_LocalLobby.LeaderID.Value))
+        if (string.IsNullOrEmpty(_localLobby.LeaderID.Value))
         {
-            int leaderIndex = UnityEngine.Random.Range(0, m_LocalLobby.PlayerCount);
+            int leaderIndex = UnityEngine.Random.Range(0, _localLobby.PlayerCount);
 
-            string leaderID = m_LocalLobby.GetLocalPlayer(leaderIndex).ID.Value;
+            string leaderID = _localLobby.GetLocalPlayer(leaderIndex).ID.Value;
 
             SetLocalLobbyLeader(leaderID);
         }
@@ -197,14 +207,14 @@ public class OnlineController : MonoBehaviour
     {
         //m_RpcHandler = FindAnyObjectByType<RpcHandler>();
 
-        if (m_LocalPlayer.IsHost.Value)
+        if (_localPlayer.IsHost.Value)
         {
             await SetRelayHostData();
             NetworkManager.Singleton.StartHost();
         }
         else
         {
-            await AwaitRelayCode(m_LocalLobby);
+            await AwaitRelayCode(_localLobby);
             await SetRelayClientData();
             NetworkManager.Singleton.StartClient();
         }
@@ -214,9 +224,9 @@ public class OnlineController : MonoBehaviour
     {
         SetLocalPlayerStatus(PlayerStatus.InGame);
 
-        if (m_LocalPlayer.IsHost.Value)
+        if (_localPlayer.IsHost.Value)
         {
-            m_LocalLobby.Locked.Value = true;
+            _localLobby.Locked.Value = true;
 
             await SendLocalLobbyDataAsync();
         }
@@ -244,7 +254,7 @@ public class OnlineController : MonoBehaviour
     {
         UnityTransport transport = NetworkManager.Singleton.GetComponentInChildren<UnityTransport>();
 
-        var allocation = await Relay.Instance.CreateAllocationAsync(m_LocalLobby.MaxPlayerCount.Value);
+        var allocation = await Relay.Instance.CreateAllocationAsync(_localLobby.MaxPlayerCount.Value);
         var joincode = await Relay.Instance.GetJoinCodeAsync(allocation.AllocationId);
         Instance.HostSetRelayCode(joincode);
 
@@ -260,7 +270,7 @@ public class OnlineController : MonoBehaviour
     {
         UnityTransport transport = NetworkManager.Singleton.GetComponentInChildren<UnityTransport>();
 
-        var joinAllocation = await Relay.Instance.JoinAllocationAsync(m_LocalLobby.RelayCode.Value);
+        var joinAllocation = await Relay.Instance.JoinAllocationAsync(_localLobby.RelayCode.Value);
         bool isSecure = false;
         var endpoint = GetEndpointForAllocation(joinAllocation.ServerEndpoints,
             joinAllocation.RelayServer.IpV4, joinAllocation.RelayServer.Port, out isSecure);
@@ -293,7 +303,7 @@ public class OnlineController : MonoBehaviour
 
     public async void HostSetRelayCode(string code)
     {
-        m_LocalLobby.RelayCode.Value = code;
+        _localLobby.RelayCode.Value = code;
         await SendLocalLobbyDataAsync();
     }
 
@@ -303,9 +313,9 @@ public class OnlineController : MonoBehaviour
 
     private void OnTurnIDChanged(string id)
     {
-        if (m_LocalPlayer.ID.Value == id)
+        if (_localPlayer.ID.Value == id)
         {
-            m_LocalPlayer.IsTurn.Value = true;
+            _localPlayer.IsTurn.Value = true;
 
             SendLocalUserData();
         }
@@ -315,7 +325,7 @@ public class OnlineController : MonoBehaviour
     {
         //_rpcHandler.SetTurnID(id);
 
-        m_LocalLobby.CurrentPlayerID.Value = id;
+        _localLobby.CurrentPlayerID.Value = id;
         await SendLocalLobbyDataAsync();
     }
 
@@ -330,34 +340,34 @@ public class OnlineController : MonoBehaviour
             Debug.Log("Empty Name not allowed.");
             return;
         }
-        m_LocalPlayer.DisplayName.Value = name;
+        _localPlayer.DisplayName.Value = name;
         SendLocalUserData();
     }
 
     public void SetLocalPlayerStatus(PlayerStatus status)
     {
-        m_LocalPlayer.UserStatus.Value = status;
+        _localPlayer.PlayerStatus.Value = status;
 
         SendLocalUserData();
     }
 
     public void SetLocalPlayerRole(PlayerRole role)
     {
-        m_LocalPlayer.Role.Value = role;
+        _localPlayer.Role.Value = role;
 
         SendLocalUserData();
     }
 
     public void SetLocalPlayerTurn(bool isTurn)
     {
-        m_LocalPlayer.IsTurn.Value = isTurn;
+        _localPlayer.IsTurn.Value = isTurn;
 
         SendLocalUserData();
     }
 
     private async void SendLocalUserData()
     {
-        await LobbyManager.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(m_LocalPlayer));
+        await LobbyManager.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localPlayer));
     }
 
     #endregion
@@ -366,37 +376,49 @@ public class OnlineController : MonoBehaviour
 
     public async void SetLocalLobbyWords(List<int> indexes, int leaderWordIndex)
     {
-        m_LocalLobby.WordsList.Value = indexes;
+        _localLobby.WordsList.Value = indexes;
 
         await SendLocalLobbyDataAsync();
 
-        m_LocalLobby.LeaderWord.Value = leaderWordIndex;
+        _localLobby.LeaderWord.Value = leaderWordIndex;
 
         await SendLocalLobbyDataAsync();
     }
 
     public async void SetLocalLobbyState(LobbyState state)
     {
-        m_LocalLobby.LocalLobbyState.Value = state;
+        _localLobby.LocalLobbyState.Value = state;
 
         await SendLocalLobbyDataAsync();
     }
 
     public async void SetLocalLobbyLeader(string id)
     {
-        m_LocalLobby.LeaderID.Value = id;
+        _localLobby.LeaderID.Value = id;
 
         await SendLocalLobbyDataAsync();
     }
 
     private async Task SendLocalLobbyDataAsync()
     {
-        await LobbyManager.UpdateLobbyDataAsync(LobbyConverters.LocalToRemoteLobbyData(m_LocalLobby));
+        await LobbyManager.UpdateLobbyDataAsync(LobbyConverters.LocalToRemoteLobbyData(_localLobby));
     }
 
     #endregion
 
     #region Lobby Commands
+
+    public async Task CreateLobbyAsync(bool isPrivate, int maxPlayers = 4)
+    {
+        try
+        {
+            await _lobbyManager.CreateLobbyAsync(isPrivate, maxPlayers, _localPlayer);
+        }
+        catch (LobbyServiceException exception)
+        {
+            Debug.Log($"Error creating lobby : ({exception.ErrorCode}) {exception.Message}");
+        }
+    }
 
     public async Task CreateLobby(string name, bool isPrivate, int maxPlayers = 4)
     {
@@ -406,9 +428,9 @@ public class OnlineController : MonoBehaviour
                 name,
                 maxPlayers,
                 isPrivate,
-                m_LocalPlayer);
+                _localPlayer);
 
-            LobbyConverters.RemoteToLocal(lobby, m_LocalLobby);
+            LobbyConverters.RemoteToLocal(lobby, _localLobby);
 
             await CreateLobby();
         }
@@ -422,9 +444,9 @@ public class OnlineController : MonoBehaviour
     {
         try
         {
-            var lobby = await LobbyManager.JoinLobbyAsync(lobbyID, lobbyCode, m_LocalPlayer);
+            var lobby = await LobbyManager.JoinLobbyAsync(lobbyID, lobbyCode, _localPlayer);
 
-            LobbyConverters.RemoteToLocal(lobby, m_LocalLobby);
+            LobbyConverters.RemoteToLocal(lobby, _localLobby);
 
             await JoinLobby();
 
@@ -438,9 +460,9 @@ public class OnlineController : MonoBehaviour
 
     private async Task CreateLobby()
     {
-        m_LocalPlayer.IsHost.Value = true;
+        _localPlayer.IsHost.Value = true;
 
-        m_LocalLobby.onUserReadyChange += OnPlayersReady;
+        _localLobby.onUserReadyChange += OnPlayersReady;
 
         try
         {
@@ -456,23 +478,23 @@ public class OnlineController : MonoBehaviour
 
     private async Task JoinLobby()
     {
-        m_LocalPlayer.IsHost.ForceSet(false);
+        _localPlayer.IsHost.ForceSet(false);
         await BindLobby();
     }
 
     private async Task BindLobby()
     {
-        await LobbyManager.BindLocalLobbyToRemote(m_LocalLobby.LobbyID.Value, m_LocalLobby);
+        await LobbyManager.BindLocalLobbyToRemote(_localLobby.LobbyID.Value, _localLobby);
 
-        m_LocalLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
+        _localLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
 
-        m_LocalLobby.PlayersCountChangedEvent += OnPlayersCountChanged;
-        m_LocalLobby.PlayersCountChangedEvent += OnPlayersCountChanged;
+        _localLobby.PlayersCountChangedEvent += OnPlayersCountChanged;
+        _localLobby.PlayersCountChangedEvent += OnPlayersCountChanged;
 
-        m_LocalLobby.LeaderID.onChanged += OnLeaderIDChanged;
-        m_LocalLobby.CurrentPlayerID.onChanged += OnTurnIDChanged;
+        _localLobby.LeaderID.onChanged += OnLeaderIDChanged;
+        _localLobby.CurrentPlayerID.onChanged += OnTurnIDChanged;
 
-        if (m_LocalLobby.LeaderID.Value == m_LocalPlayer.ID.Value)
+        if (_localLobby.LeaderID.Value == _localPlayer.ID.Value)
         {
             SetLocalPlayerRole(PlayerRole.Leader);
         }
@@ -481,7 +503,7 @@ public class OnlineController : MonoBehaviour
             SetLocalPlayerRole(PlayerRole.Player);
         }
 
-        m_LocalLobby.onUserTurnChanged += OnPlayerPassedTurn;
+        _localLobby.onUserTurnChanged += OnPlayerPassedTurn;
 
         //SetLobbyView();
     }
@@ -494,7 +516,7 @@ public class OnlineController : MonoBehaviour
 
         NetworkManager.Singleton.Shutdown();
 
-        if (m_LocalPlayer.IsHost.Value)
+        if (_localPlayer.IsHost.Value)
         {
             HostSetRelayCode(string.Empty);
         }
@@ -509,10 +531,10 @@ public class OnlineController : MonoBehaviour
         {
             SetLocalPlayerStatus(PlayerStatus.Lobby);
 
-            if (m_LocalPlayer.IsHost.Value)
+            if (_localPlayer.IsHost.Value)
             {
-                m_LocalLobby.LocalLobbyState.Value = LobbyState.Lobby;
-                m_LocalLobby.Locked.Value = false;
+                _localLobby.LocalLobbyState.Value = LobbyState.Lobby;
+                _localLobby.Locked.Value = false;
                 await SendLocalLobbyDataAsync();
             }
 
@@ -533,12 +555,12 @@ public class OnlineController : MonoBehaviour
 
     public async void LeaveLobby()
     {
-        if (m_LocalLobby == null) return;
+        if (_localLobby == null) return;
 
         await LobbyManager.LeaveLobbyAsync();
 
-        m_LocalPlayer.ResetState();
-        m_LocalLobby.ResetLobby();
+        _localPlayer.ResetState();
+        _localLobby.ResetLobby();
 
         LobbyList.Clear();
     }
@@ -575,7 +597,7 @@ public class OnlineController : MonoBehaviour
 
     bool OnWantToQuit()
     {
-        bool canQuit = string.IsNullOrEmpty(m_LocalLobby?.LobbyID.Value);
+        bool canQuit = string.IsNullOrEmpty(_localLobby?.LobbyID.Value);
         StartCoroutine(LeaveBeforeQuit());
         return canQuit;
     }
@@ -590,17 +612,18 @@ public class OnlineController : MonoBehaviour
     void OnDestroy()
     {
         ForceLeaveAttempt();
+        _lobbyManager.OnLobbyCreated -= OnLobbyCreated;
         LobbyManager?.Dispose();
     }
 
     void ForceLeaveAttempt()
     {
-        if (!string.IsNullOrEmpty(m_LocalLobby?.LobbyID.Value))
+        if (!string.IsNullOrEmpty(_localLobby?.LobbyID.Value))
         {
 #pragma warning disable 4014
             LobbyManager.LeaveLobbyAsync();
 #pragma warning restore 4014
-            m_LocalLobby = null;
+            _localLobby = null;
         }
     }
 

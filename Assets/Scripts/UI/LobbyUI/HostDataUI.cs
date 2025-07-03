@@ -9,7 +9,7 @@ public class HostDataUI : MonoBehaviour
     [SerializeField] private Image _avatarImage;
     [SerializeField] private Image _avatarBackImage;
 
-    public void SetHostData(HostData data)
+    public void SetHostData(LobbyAppearanceData data)
     {
         if (data == null)
         {

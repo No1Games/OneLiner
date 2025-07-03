@@ -10,7 +10,7 @@ public static class LobbyConverters
 {
     #region Lobby Keys
 
-    const string key_HostData = nameof(LocalLobby.HostData);
+    const string key_HostData = nameof(LocalLobby.ApperanceData);
 
     const string key_LeaderID = nameof(LocalLobby.LeaderID);
 
@@ -26,7 +26,7 @@ public static class LobbyConverters
     #region Player Keys
 
     const string key_Displayname = nameof(LocalPlayer.DisplayName);
-    const string key_Userstatus = nameof(LocalPlayer.UserStatus);
+    const string key_Userstatus = nameof(LocalPlayer.PlayerStatus);
     const string key_PlayerRole = nameof(LocalPlayer.Role);
     const string key_IsTurn = nameof(LocalPlayer.IsTurn);
 
@@ -43,7 +43,7 @@ public static class LobbyConverters
         data.Add(key_WordsList, ListToString(lobby.WordsList.Value));
         data.Add(key_CurrentPlayerID, lobby.CurrentPlayerID.Value);
 
-        data.Add(key_HostData, lobby.HostData.Value.ToString());
+        data.Add(key_HostData, lobby.ApperanceData.Value.ToString());
 
         data.Add(key_LeaderID, lobby.LeaderID.Value);
 
@@ -79,7 +79,7 @@ public static class LobbyConverters
         if (user == null || string.IsNullOrEmpty(user.ID.Value))
             return data;
         data.Add(key_Displayname, user.DisplayName.Value);
-        data.Add(key_Userstatus, ((int)user.UserStatus.Value).ToString());
+        data.Add(key_Userstatus, ((int)user.PlayerStatus.Value).ToString());
         data.Add(key_PlayerRole, ((int)user.Role.Value).ToString());
         data.Add(key_IsTurn, user.IsTurn.Value.ToString());
         return data;
@@ -127,8 +127,8 @@ public static class LobbyConverters
         localLobby.CurrentPlayerID.Value = remoteLobby.Data?.ContainsKey(key_CurrentPlayerID) == true
             ? remoteLobby.Data[key_CurrentPlayerID].Value
             : "";
-        localLobby.HostData.Value = remoteLobby.Data?.ContainsKey(key_HostData) == true
-            ? HostData.Parse(remoteLobby.Data[key_HostData].Value)
+        localLobby.ApperanceData.Value = remoteLobby.Data?.ContainsKey(key_HostData) == true
+            ? LobbyAppearanceData.Parse(remoteLobby.Data[key_HostData].Value)
             : null;
         localLobby.LeaderID.Value = remoteLobby.Data?.ContainsKey(key_LeaderID) == true
             ? remoteLobby.Data[key_LeaderID].Value
@@ -165,7 +165,7 @@ public static class LobbyConverters
                 localPlayer.Index.Value = index;
                 localPlayer.IsHost.Value = isHost;
                 localPlayer.DisplayName.Value = displayName;
-                localPlayer.UserStatus.Value = userStatus;
+                localPlayer.PlayerStatus.Value = userStatus;
                 localPlayer.Role.Value = playerRole;
             }
 
