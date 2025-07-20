@@ -13,54 +13,83 @@ public class LobbyApiService : ILobbyApiService
 {
     #region Rate Limiting
 
-    public enum RequestType
-    {
-        Query = 0,
-        Join,
-        QuickJoin,
-        Host
-    }
-
-    public ServiceRateLimiter GetRateLimit(RequestType type)
-    {
-        if (type == RequestType.Join)
-            return _joinCooldown;
-        else if (type == RequestType.QuickJoin)
-            return _quickJoinCooldown;
-        else if (type == RequestType.Host)
-            return _createCooldown;
-        return _queryCooldown;
-    }
-
     // Rate Limits are posted here: https://docs.unity.com/lobby/rate-limits.html
 
     ServiceRateLimiter _queryCooldown = new ServiceRateLimiter(1, 1f);
     ServiceRateLimiter _createCooldown = new ServiceRateLimiter(2, 6f);
     ServiceRateLimiter _joinCooldown = new ServiceRateLimiter(2, 6f);
-    ServiceRateLimiter _quickJoinCooldown = new ServiceRateLimiter(1, 10f);
+    ServiceRateLimiter _updatePlayerCooldown = new ServiceRateLimiter(5, 5f);
+    ServiceRateLimiter _updateLobbyCooldown = new ServiceRateLimiter(5, 5f);
+    ServiceRateLimiter _leaveLobbyOrRemovePlayer = new ServiceRateLimiter(5, 1);
+
+    /*
     ServiceRateLimiter m_GetLobbyCooldown = new ServiceRateLimiter(1, 1f);
     ServiceRateLimiter m_DeleteLobbyCooldown = new ServiceRateLimiter(2, 1f);
-    ServiceRateLimiter _updateLobbyCooldown = new ServiceRateLimiter(5, 5f);
-    ServiceRateLimiter _updatePlayerCooldown = new ServiceRateLimiter(5, 5f);
-    ServiceRateLimiter _leaveLobbyOrRemovePlayer = new ServiceRateLimiter(5, 1);
     ServiceRateLimiter _heartBeatCooldown = new ServiceRateLimiter(5, 30);
+    ServiceRateLimiter _quickJoinCooldown = new ServiceRateLimiter(1, 10f);
+    */
 
     #endregion
 
-    /// <summary>
-    /// Method to create a new lobby.
-    public async Task<Lobby> CreateLobbyAsync(int maxPlayers, bool isPrivate, LocalPlayer host)
+    public async Task<QueryResponse> QueryLobbiesAsync()
     {
-        if (_createCooldown.IsCoolingDown)
+        // Rate limit check for query lobbies
+        // Skip if the cooldown is active
+        if (_queryCooldown.IsCoolingDown)
         {
-            Debug.LogWarning("Create Lobby hit the rate limit.");
+            Debug.Log("Query lobbies hit the rate limit.");
             return null;
         }
-        await _createCooldown.QueueUntilCooldown();
 
+        QueryLobbiesOptions options = new QueryLobbiesOptions
+        {
+            Count = 25, 
+            Filters = new List<QueryFilter> 
+            {
+                // Only lobbies with available slots
+                new QueryFilter(
+                    field: QueryFilter.FieldOptions.AvailableSlots,
+                    op: QueryFilter.OpOptions.GT,
+                    value: "0"),
+                // Only lobbies that does not started game yet
+                new QueryFilter(
+                    field: QueryFilter.FieldOptions.IsLocked,
+                    op: QueryFilter.OpOptions.EQ,
+                    value: "false"
+                    )
+            },
+            // TODO: Consider improve ordering by creation date and latency
+            Order = new List<QueryOrder> // Order by creation date, descending
+            {
+                new QueryOrder(
+                    asc: true,
+                    field: QueryOrder.FieldOptions.AvailableSlots)
+            }
+        };
+
+        try
+        {
+            await _queryCooldown.QueueUntilCooldown();
+            return await Lobbies.Instance.QueryLobbiesAsync(options);
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.LogError($"Failed to query lobbies: {e.Message}");
+            return null;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"An unexpected error occurred while querying lobbies: {e.Message}");
+            return null;
+        }
+    }
+
+
+    public async Task<Lobby> CreateLobbyAsync(int maxPlayers, bool isPrivate, LocalPlayer host)
+    {
         string hostId = AuthenticationService.Instance.PlayerId;
 
-        // Object to hold host cosmetic data for lobby appearance in the list
+        // Object to hold host cosmetics data for lobby appearance in the list
         LobbyAppearanceData appearanceData = new LobbyAppearanceData
         {
             Name = host.DisplayName.Value,
@@ -88,6 +117,9 @@ public class LobbyApiService : ILobbyApiService
 
         try
         {
+            // Rate limit check for creating a lobby
+            // Do not skip if the cooldown is active
+            await _createCooldown.QueueUntilCooldown();
             // Retrun the created lobby to the caller
             return await Lobbies.Instance.CreateLobbyAsync(appearanceData.Name, maxPlayers, options);
         }
@@ -103,18 +135,110 @@ public class LobbyApiService : ILobbyApiService
         }
     }
 
-    public Task<Lobby> JoinLobbyAsync()
+    public async Task<Lobby> JoinLobbyByIdAsync(string lobbyId, LocalPlayer player)
     {
-        throw new System.NotImplementedException();
+        // Validate the lobbyId
+        if (lobbyId == null)
+        {
+            Debug.LogError("LobbyId are null. Cannot join lobby.");
+            return null;
+        }
+
+        string playerId = AuthenticationService.Instance.PlayerId;
+
+        var playerData = PlayerDataConverter.CreateInitialPlayerData(player);
+
+        JoinLobbyByIdOptions joinOptions = new() { Player = new Player(id: playerId, data: playerData) };
+
+        try
+        {
+            // Rate limit check for joining a lobby
+            // Do not skip if the cooldown is active
+            await _joinCooldown.QueueUntilCooldown();
+            return await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId, joinOptions);
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.LogError($"Failed to join lobby by ID: {e.Message}");
+            return null;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"An unexpected error occurred while joining the lobby: {e.Message}");
+            return null;
+        }
     }
 
-    public Task LeaveLobbyAsync()
+    public async Task SubscibeOnLobbyEventsAsync(string lobbyId, LobbyEventCallbacks callbacks)
     {
-        throw new System.NotImplementedException();
+        try
+        {
+            await LobbyService.Instance.SubscribeToLobbyEventsAsync(lobbyId, callbacks);
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.LogError($"Failed to subscribe to lobby events: {e.Message}");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"An unexpected error occurred while subscribing to lobby events: {e.Message}");
+        }
     }
 
-    public Task<Lobby> UpdateLobbyAsync()
+    public async Task LeaveLobbyAsync(string lobbyId)
     {
-        throw new System.NotImplementedException();
+        string playerId = AuthenticationService.Instance.PlayerId;
+
+        await _leaveLobbyOrRemovePlayer.QueueUntilCooldown();
+        await LobbyService.Instance.RemovePlayerAsync(lobbyId, playerId);
+    }
+
+    public async Task UpdateLobbyDataAsync(LocalLobby lobby)
+    {
+        Dictionary<string, DataObject> data = LobbyDataConverter.LocalToRemoteData(lobby);
+
+        //Special Use: Get the state of the Local lobby so we can lock it from appearing in queries if it's not in the "Lobby" LocalLobbyState
+        Enum.TryParse(data[LobbyDataKeys.LocalLobbyState].Value, out LobbyState lobbyState);
+        bool isLocked = lobbyState != LobbyState.Lobby;
+
+        UpdateLobbyOptions updateOptions = new UpdateLobbyOptions { Data = data, IsLocked = isLocked };
+
+        try
+        {
+            await _updateLobbyCooldown.QueueUntilCooldown();
+            await LobbyService.Instance.UpdateLobbyAsync(lobby.LobbyID.Value, updateOptions);
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.LogError($"Failed to update lobby data: {e.Message}");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"An unexpected error occurred while updating the lobby data: {e.Message}");
+        }
+    }
+
+    public async Task UpdatePlayerDataAsync(LocalPlayer player, string lobbyId)
+    {
+        string playerId = AuthenticationService.Instance.PlayerId;
+
+        Dictionary<string, PlayerDataObject> data = PlayerDataConverter.LocalToRemotePlayerData(player);
+
+        UpdatePlayerOptions updateOptions = new UpdatePlayerOptions
+        {
+            Data = data
+        };
+
+        try
+        {
+            // Rate limit check for updating player data
+            // Do not skip if the cooldown is active
+            await _updatePlayerCooldown.QueueUntilCooldown();
+            await LobbyService.Instance.UpdatePlayerAsync(lobbyId, playerId, updateOptions);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
     }
 }

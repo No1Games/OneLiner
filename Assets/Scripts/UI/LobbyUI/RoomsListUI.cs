@@ -17,7 +17,7 @@ public class RoomsListUI : MenuBase
     [SerializeField] private Button _joinPrivateButton;
 
     [Header("Update List Timer")]
-    [SerializeField] private float _updateEverySeconds = 10f;
+    [SerializeField] private float _updateEverySeconds = 4f;
     private float _updateTimer;
 
     private ObjectPool<RoomItemUI> _itemPool;
@@ -34,7 +34,8 @@ public class RoomsListUI : MenuBase
 
     private void Start()
     {
-        _gameManager.LobbyList.onLobbyListChanged += OnLobbyListChanged;
+        _gameManager.LobbyManager.Lobbies.OnLobbiesUpdated += OnLobbiesUpdated;
+        //_gameManager.LobbyList.onLobbyListChanged += OnLobbyListChanged;
     }
 
     private void Update()
@@ -44,7 +45,8 @@ public class RoomsListUI : MenuBase
 
     private void OnDestroy()
     {
-        _gameManager.LobbyList.onLobbyListChanged -= OnLobbyListChanged;
+        _gameManager.LobbyManager.Lobbies.OnLobbiesUpdated -= OnLobbiesUpdated;
+        // _gameManager.LobbyList.onLobbyListChanged -= OnLobbiesUpdated;
     }
 
     #region List Update Methods
@@ -56,7 +58,7 @@ public class RoomsListUI : MenuBase
         if (_updateTimer <= 0)
         {
             _updateTimer = _updateEverySeconds;
-            _gameManager.QueryLobbies();
+            _gameManager.QueryLobbiesAsync();
         }
     }
 
@@ -97,7 +99,7 @@ public class RoomsListUI : MenuBase
 
     #region Events Handlers
 
-    private void OnLobbyListChanged(Dictionary<string, LocalLobby> lobbies)
+    private void OnLobbiesUpdated(Dictionary<string, LocalLobby> lobbies)
     {
         UpdateLobbyList(lobbies);
     }
@@ -117,7 +119,8 @@ public class RoomsListUI : MenuBase
     {
         LoadingPanel.Instance.Show();
 
-        await _gameManager.JoinLobby(lobby.LobbyID.Value, lobby.LobbyCode.Value);
+        await _gameManager.JoinLobbyByIdAsync(lobby.LobbyID.Value);
+        //await _gameManager.JoinLobby(lobby.LobbyID.Value, lobby.LobbyCode.Value);
 
         MainMenuManager.Instance.OpenRoomPanel(false);
 

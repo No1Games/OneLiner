@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerDataConverter
 {
-    public static Dictionary<string, PlayerDataObject> CreateInitialPlayerData(LocalPlayer user)
+    public static Dictionary<string, PlayerDataObject> CreateInitialPlayerData(LocalPlayer player)
     {
         // Create a dictionary to hold the player custom data objects
         Dictionary<string, PlayerDataObject> data = new Dictionary<string, PlayerDataObject>();
 
         // Add player display name
         var displayNameObject =
-            new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, user.DisplayName.Value);
+            new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, player.DisplayName.Value);
         data.Add(PlayerDataKeys.DisplayName, displayNameObject);
 
         return data;
@@ -38,5 +38,23 @@ public class PlayerDataConverter
         local.Role.Value = playerRole;
 
         return local;
+    }
+
+    public static Dictionary<string, PlayerDataObject> LocalToRemotePlayerData(LocalPlayer local)
+    {
+        Dictionary<string, PlayerDataObject> data = new Dictionary<string, PlayerDataObject>();
+
+        if (local == null || string.IsNullOrEmpty(local.ID.Value))
+        {
+            Debug.LogWarning("Error converting local player to remote data: missing local player object or local player id.");
+            return data;
+        }
+
+        data.Add(PlayerDataKeys.DisplayName, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, local.DisplayName.Value));
+        data.Add(PlayerDataKeys.PlayerStatus, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ((int)local.PlayerStatus.Value).ToString()));
+        data.Add(PlayerDataKeys.Role, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ((int)local.PlayerStatus.Value).ToString()));
+        data.Add(PlayerDataKeys.IsTurn, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, local.IsTurn.Value.ToString()));
+
+        return data;
     }
 }

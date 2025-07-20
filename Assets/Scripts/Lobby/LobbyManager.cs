@@ -32,11 +32,6 @@ public class LobbyManager : IDisposable
 
     private Task _heartBeatTask;
 
-    private Lobby _joinedLobby;
-    public Lobby JoinedLobby => _joinedLobby;
-
-    private LocalLobby _localLobby;
-
     LobbyEventCallbacks _lobbyEventCallbacks = new LobbyEventCallbacks();
 
     #region Rate Limiting
@@ -79,7 +74,7 @@ public class LobbyManager : IDisposable
 
     async Task SendHeartbeatPingAsync()
     {
-        if (!InLobby())
+        if (!IsInLobby())
             return;
         if (_heartBeatCooldown.IsCoolingDown)
             return;
@@ -111,38 +106,46 @@ public class LobbyManager : IDisposable
 
     ILobbyApiService _lobbyApiService;
 
+    #region State Fields
+
+    // Remote lobby model
+    private Lobby _joinedLobby;
+    public Lobby JoinedLobby => _joinedLobby;
+
+    // Local lobby model
+    private LocalLobby _localLobby;
+    //public LocalLobby LocalLobby => _localLobby;
+
+    // List of local lobbies
+    private LobbiesCache _lobbies;
+    public LobbiesCache Lobbies => _lobbies;
+
+    #endregion
+
+    LobbyCallbacksHandlersHelper _lobbiesBinder;
+
     public event Func<LocalLobby, Task> OnLobbyCreated;
+    public event Func<LocalLobby, Task> OnLobbyJoined;
 
     public LobbyManager(ILobbyApiService lobbyApiService)
     {
         _lobbyApiService = lobbyApiService;
+        _lobbies = new LobbiesCache();
+        _lobbiesBinder = new LobbyCallbacksHandlersHelper(this);
     }
 
-    public async Task<QueryResponse> GetLobbyListAsync()
+    public async Task QueryLobbiesAsync()
     {
-        if (_queryCooldown.TaskQueued)
-            return null;
-        await _queryCooldown.QueueUntilCooldown();
+        try
+        {
+            var result = await _lobbyApiService.QueryLobbiesAsync();
 
-        QueryLobbiesOptions options = new QueryLobbiesOptions();
-        options.Count = 25;
-
-        // Filter for open lobbies only
-        options.Filters = new List<QueryFilter> {
-                new QueryFilter(
-                    field: QueryFilter.FieldOptions.AvailableSlots,
-                    op: QueryFilter.OpOptions.GT,
-                    value: "0")
-            };
-
-        // Order by newest lobbies first
-        options.Order = new List<QueryOrder> {
-                new QueryOrder(
-                    asc: false,
-                    field: QueryOrder.FieldOptions.Created)
-            };
-
-        return await LobbyService.Instance.QueryLobbiesAsync(options);
+            _lobbies.UpdateLobbies(result.Results);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to query lobbies: {e.Message}");
+        }
     }
 
     public async Task CreateLobbyAsync(bool isPrivate, int maxPlayers, LocalPlayer host)
@@ -154,6 +157,9 @@ public class LobbyManager : IDisposable
             _joinedLobby = lobby;
             _localLobby = LobbyDataConverter.RemoteToLocal(lobby);
             StartHeartBeat();
+
+            await SubscibeOnLobbyEventsAsync();
+
             OnLobbyCreated?.Invoke(_localLobby);
         }
         else
@@ -162,6 +168,119 @@ public class LobbyManager : IDisposable
         }
     }
 
+    public async Task JoinLobbyByIdAsync(string lobbyId, LocalPlayer player)
+    {
+        Lobby lobby = await _lobbyApiService.JoinLobbyByIdAsync(lobbyId, player);
+
+        if (lobby != null)
+        {
+            _joinedLobby = lobby;
+            _localLobby = LobbyDataConverter.RemoteToLocal(lobby);
+
+            await SubscibeOnLobbyEventsAsync();
+
+            OnLobbyJoined?.Invoke(_localLobby);
+        }
+        else
+        {
+            Debug.LogError("Failed to join lobby.");
+        }
+    }
+
+    public async Task LeaveLobbyAsync()
+    {
+        if (!IsInLobby())
+        {
+            Debug.LogWarning("Cannot leave lobby, because player is not currently in lobby.");
+            return;
+        }
+
+        try
+        {
+            await _lobbyApiService.LeaveLobbyAsync(_joinedLobby.Id);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Unexpected error happened when exiting lobby: {e}");
+        }
+
+        Dispose();
+    }
+
+    public async Task UpdateLobbyDataAsync(LocalLobby lobby)
+    {
+        if (!IsInLobby())
+        {
+            Debug.LogWarning("Cannot update lobby data. Player not in lobby.");
+            return;
+        }
+
+        try
+        {
+            await _lobbyApiService.UpdateLobbyDataAsync(lobby);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Unexpected error while updating lobby data: " + ex.Message);
+        }
+    }
+
+    public async Task UpdatePlayerDataAsync(LocalPlayer player)
+    {
+        if (!IsInLobby())
+        {
+            Debug.LogWarning("Cannot update player: player currently not in the lobby");
+            return;
+        }
+
+        try
+        {
+            await _lobbyApiService.UpdatePlayerDataAsync(player, _joinedLobby.Id);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Unexpected error while updating player data: " + ex.Message);
+        }
+    }
+
+    private async Task SubscibeOnLobbyEventsAsync()
+    {
+        var callbacks = _lobbiesBinder.CreateCallbacks();
+        try
+        {
+            await _lobbyApiService.SubscibeOnLobbyEventsAsync(_joinedLobby.Id, callbacks);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Failed to subscribe to lobby events: {ex.Message}");
+        }
+    }
+
+    public void RefreshLobby()
+    {
+        LobbyDataConverter.UpdateLocalFromRemote(_joinedLobby, _localLobby);
+    }
+
+    public bool IsInLobby()
+    {
+        if (_joinedLobby == null)
+        {
+            Debug.LogWarning("LobbyManager not currently in a lobby. Did you CreateLobbyAsync or JoinLobbyAsync?");
+            return false;
+        }
+
+        return true;
+    }
+
+    public void Dispose()
+    {
+        _joinedLobby = null;
+        _lobbyEventCallbacks = new LobbyEventCallbacks();
+    }
+
+    #region Legacy Methods
+
+    /*
     public async Task<Lobby> CreateLobbyAsync(string lobbyName, int maxPlayers, bool isPrivate, LocalPlayer localUser)
     {
         if (_createCooldown.IsCoolingDown)
@@ -199,7 +318,9 @@ public class LobbyManager : IDisposable
 
         return _joinedLobby;
     }
+    */
 
+    /*
     public async Task<Lobby> JoinLobbyAsync(string lobbyId, string lobbyCode, LocalPlayer localUser)
     {
         if (_joinCooldown.IsCoolingDown ||
@@ -228,41 +349,54 @@ public class LobbyManager : IDisposable
 
         return _joinedLobby;
     }
+    */
 
-    public async void KickPlayer(string playerId)
+    /*
+    public async Task<QueryResponse> GetLobbyListAsync()
     {
-        if (IsLobbyHost())
-        {
-            try
-            {
-                await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, playerId);
-            }
-            catch (LobbyServiceException e)
-            {
-                Debug.Log(e.Message);
-            }
-        }
-    }
+        if (_queryCooldown.TaskQueued)
+            return null;
+        await _queryCooldown.QueueUntilCooldown();
 
-    public bool IsLobbyHost()
+        QueryLobbiesOptions options = new QueryLobbiesOptions();
+        options.Count = 25;
+
+        // Filter for open lobbies only
+        options.Filters = new List<QueryFilter> {
+                new QueryFilter(
+                    field: QueryFilter.FieldOptions.AvailableSlots,
+                    op: QueryFilter.OpOptions.GT,
+                    value: "0")
+            };
+
+        // Order by newest lobbies first
+        options.Order = new List<QueryOrder> {
+                new QueryOrder(
+                    asc: false,
+                    field: QueryOrder.FieldOptions.Created)
+            };
+
+        return await LobbyService.Instance.QueryLobbiesAsync(options);
+    }
+    */
+
+    /*
+    Dictionary<string, PlayerDataObject> CreateInitialPlayerData(LocalPlayer user)
     {
-        return _joinedLobby != null && _joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
+        Dictionary<string, PlayerDataObject> data = new Dictionary<string, PlayerDataObject>();
+
+        var displayNameObject =
+            new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, user.DisplayName.Value);
+        data.Add("DisplayName", displayNameObject);
+
+        return data;
     }
+    */
 
-    public bool InLobby()
-    {
-        if (_joinedLobby == null)
-        {
-            Debug.LogWarning("LobbyManager not currently in a lobby. Did you CreateLobbyAsync or JoinLobbyAsync?");
-            return false;
-        }
-
-        return true;
-    }
-
+    /*
     public async Task UpdatePlayerDataAsync(Dictionary<string, string> data, string id = null)
     {
-        if (!InLobby())
+        if (!IsInLobby())
             return;
 
         string playerId = id == null ? AuthenticationService.Instance.PlayerId : id;
@@ -299,6 +433,7 @@ public class LobbyManager : IDisposable
             Debug.LogException(ex);
         }
     }
+    */
 
     public async Task BindLocalLobbyToRemote(string lobbyID, LocalLobby localLobby)
     {
@@ -557,20 +692,6 @@ public class LobbyManager : IDisposable
             localLobby.LeaderID.Value = changedValue.Value.Value;
     }
 
-    public async Task LeaveLobbyAsync()
-    {
-        await _leaveLobbyOrRemovePlayer.QueueUntilCooldown();
-
-        if (!InLobby())
-            return;
-
-        string playerId = AuthenticationService.Instance.PlayerId;
-
-        await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, playerId);
-
-        Dispose();
-    }
-
     void ParseCustomPlayerData(LocalPlayer player, string dataKey, string playerDataValue)
     {
         if (dataKey == key_Userstatus)
@@ -583,27 +704,42 @@ public class LobbyManager : IDisposable
             player.IsTurn.Value = bool.Parse(playerDataValue);
     }
 
-    Dictionary<string, PlayerDataObject> CreateInitialPlayerData(LocalPlayer user)
+    #endregion
+
+    #region Not Implemented Methods
+
+    /*
+    public async void KickPlayer(string playerId)
     {
-        Dictionary<string, PlayerDataObject> data = new Dictionary<string, PlayerDataObject>();
+        if (IsLobbyHost())
+        {
+            try
+            {
+                await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, playerId);
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.Log(e.Message);
+            }
+        }
+    }
+    */
 
-        var displayNameObject =
-            new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, user.DisplayName.Value);
-        data.Add("DisplayName", displayNameObject);
+    #endregion
 
-        return data;
+    public bool IsLobbyHost()
+    {
+        return _joinedLobby != null && _joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
     }
 
-    public void Dispose()
-    {
-        _joinedLobby = null;
-        _lobbyEventCallbacks = new LobbyEventCallbacks();
-    }
 
     public async Task UpdateLobbyDataAsync(Dictionary<string, string> data)
     {
-        if (!InLobby())
+        if (!IsInLobby())
+        {
+            Debug.LogWarning("Cannot update lobby data. Player not in lobby.");
             return;
+        }
 
         Dictionary<string, DataObject> dataCurr = _joinedLobby.Data ?? new Dictionary<string, DataObject>();
 

@@ -8,4 +8,7 @@ public static class PlayerDataKeys
     public const string PlayerStatus = nameof(LocalPlayer.PlayerStatus);
     // Player role - leader, player or not set yet
     public const string Role = nameof(LocalPlayer.Role);
+    // Is player making his move right now. Used to sync in-game turns.
+    // TODO: Consider to move this sync logic to RPC from Lobby.
+    public const string IsTurn = nameof(LocalPlayer.IsTurn);
 }

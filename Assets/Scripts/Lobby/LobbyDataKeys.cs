@@ -19,4 +19,7 @@ public static class LobbyDataKeys
     public const string WordsList = nameof(LocalLobby.WordsList);
     // ID of the player who making a turn right now (guessin or drawing line)
     public const string CurrentPlayerID = nameof(LocalLobby.CurrentPlayerID);
+
+    // Other data
+    public const string LastUpdated = nameof(LocalLobby.LastUpdated);
 }

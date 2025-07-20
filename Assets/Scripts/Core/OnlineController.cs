@@ -42,8 +42,12 @@ public class OnlineController : MonoBehaviour
     public LobbyManager _lobbyManager;
     public LobbyManager LobbyManager => _lobbyManager;
 
+    public LobbiesCache Lobbies => _lobbyManager.Lobbies;
+
+    // TODO: Two source of truth for LocalLobby, one in LobbyManager and one here. Remove this when LobbyManager is fully implemented.
     private LocalLobby _localLobby;
     public LocalLobby LocalLobby => _localLobby;
+    // public LocalLobby LocalLobby => _lobbyManager.LocalLobby;
 
     private LocalPlayer _localPlayer;
 
@@ -83,10 +87,11 @@ public class OnlineController : MonoBehaviour
 
         _lobbyManager = new LobbyManager(new LobbyApiService());
         _lobbyManager.OnLobbyCreated += OnLobbyCreated;
+        _lobbyManager.OnLobbyJoined += OnLobbyJoined;
 
         AuthenticatePlayer();
 
-        QueryLobbies();
+        QueryLobbiesAsync();
     }
 
     async void AuthenticatePlayer()
@@ -115,6 +120,15 @@ public class OnlineController : MonoBehaviour
         _localLobby = lobby;
 
         await CreateLobby();
+    }
+
+    private async Task OnLobbyJoined(LocalLobby lobby)
+    {
+        _localLobby = lobby;
+
+        await JoinLobby();
+
+        SetLocalPlayerStatus(PlayerStatus.Lobby);
     }
 
     private void OnPlayersReady(int readyCount)
@@ -367,7 +381,8 @@ public class OnlineController : MonoBehaviour
 
     private async void SendLocalUserData()
     {
-        await LobbyManager.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localPlayer));
+        //await LobbyManager.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(_localPlayer));
+        await LobbyManager.UpdatePlayerDataAsync(_localPlayer);
     }
 
     #endregion
@@ -401,7 +416,8 @@ public class OnlineController : MonoBehaviour
 
     private async Task SendLocalLobbyDataAsync()
     {
-        await LobbyManager.UpdateLobbyDataAsync(LobbyConverters.LocalToRemoteLobbyData(_localLobby));
+        //await LobbyManager.UpdateLobbyDataAsync(LobbyConverters.LocalToRemoteLobbyData(_localLobby));
+        await LobbyManager.UpdateLobbyDataAsync(_localLobby);
     }
 
     #endregion
@@ -420,41 +436,27 @@ public class OnlineController : MonoBehaviour
         }
     }
 
-    public async Task CreateLobby(string name, bool isPrivate, int maxPlayers = 4)
+    public async Task JoinLobbyByIdAsync(string lobbyId)
     {
         try
         {
-            var lobby = await LobbyManager.CreateLobbyAsync(
-                name,
-                maxPlayers,
-                isPrivate,
-                _localPlayer);
-
-            LobbyConverters.RemoteToLocal(lobby, _localLobby);
-
-            await CreateLobby();
-        }
-        catch (LobbyServiceException exception)
-        {
-            Debug.Log($"Error creating lobby : ({exception.ErrorCode}) {exception.Message}");
-        }
-    }
-
-    public async Task JoinLobby(string lobbyID, string lobbyCode)
-    {
-        try
-        {
-            var lobby = await LobbyManager.JoinLobbyAsync(lobbyID, lobbyCode, _localPlayer);
-
-            LobbyConverters.RemoteToLocal(lobby, _localLobby);
-
-            await JoinLobby();
-
-            SetLocalPlayerStatus(PlayerStatus.Lobby);
+            await _lobbyManager.JoinLobbyByIdAsync(lobbyId, _localPlayer);
         }
         catch (LobbyServiceException exception)
         {
             Debug.Log($"Error joining lobby : ({exception.ErrorCode}) {exception.Message}");
+        }
+    }
+
+    public async void QueryLobbiesAsync()
+    {
+        try
+        {
+            await _lobbyManager.QueryLobbiesAsync();
+        }
+        catch (LobbyServiceException exception)
+        {
+            Debug.Log($"Error querying lobbies : ({exception.ErrorCode}) {exception.Message}");
         }
     }
 
@@ -484,7 +486,7 @@ public class OnlineController : MonoBehaviour
 
     private async Task BindLobby()
     {
-        await LobbyManager.BindLocalLobbyToRemote(_localLobby.LobbyID.Value, _localLobby);
+        //await LobbyManager.BindLocalLobbyToRemote(_localLobby.LobbyID.Value, _localLobby);
 
         _localLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
 
@@ -567,8 +569,51 @@ public class OnlineController : MonoBehaviour
 
     #endregion
 
-    #region Lobby List Commands
+    #region Legacy Methods
 
+    /*
+    public async Task CreateLobby(string name, bool isPrivate, int maxPlayers = 4)
+    {
+        try
+        {
+            var lobby = await LobbyManager.CreateLobbyAsync(
+                name,
+                maxPlayers,
+                isPrivate,
+                _localPlayer);
+
+            LobbyConverters.RemoteToLocal(lobby, _localLobby);
+
+            await CreateLobby();
+        }
+        catch (LobbyServiceException exception)
+        {
+            Debug.Log($"Error creating lobby : ({exception.ErrorCode}) {exception.Message}");
+        }
+    }
+    */
+
+    /*
+    public async Task JoinLobby(string lobbyID, string lobbyCode)
+    {
+        try
+        {
+            var lobby = await LobbyManager.JoinLobbyAsync(lobbyID, lobbyCode, _localPlayer);
+
+            LobbyConverters.RemoteToLocal(lobby, _localLobby);
+
+            await JoinLobby();
+
+            SetLocalPlayerStatus(PlayerStatus.Lobby);
+        }
+        catch (LobbyServiceException exception)
+        {
+            Debug.Log($"Error joining lobby : ({exception.ErrorCode}) {exception.Message}");
+        }
+    }
+    */
+
+    /*
     public async void QueryLobbies()
     {
         LobbyList.QueryState.Value = LobbyQueryState.Fetching;
@@ -580,7 +625,9 @@ public class OnlineController : MonoBehaviour
 
         SetCurrentLobbies(LobbyConverters.QueryToLocalList(qr));
     }
+    */
 
+    /*
     private void SetCurrentLobbies(IEnumerable<LocalLobby> lobbies)
     {
         var newLobbyDict = new Dictionary<string, LocalLobby>();
@@ -590,6 +637,7 @@ public class OnlineController : MonoBehaviour
         LobbyList.CurrentLobbies = newLobbyDict;
         LobbyList.QueryState.Value = LobbyQueryState.Fetched;
     }
+    */
 
     #endregion
 
@@ -613,6 +661,7 @@ public class OnlineController : MonoBehaviour
     {
         ForceLeaveAttempt();
         _lobbyManager.OnLobbyCreated -= OnLobbyCreated;
+        _lobbyManager.OnLobbyJoined -= OnLobbyJoined;
         LobbyManager?.Dispose();
     }
 
