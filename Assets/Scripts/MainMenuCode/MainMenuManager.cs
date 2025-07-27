@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MainMenuManager : MonoBehaviour
@@ -120,7 +121,8 @@ public class MainMenuManager : MonoBehaviour
         if (waitingRoomMenu == null)
         {
             Debug.LogWarning("Waiting menu is null! Leaving lobby.");
-            OnlineController.Instance.LeaveLobby();
+            Task leaveLobbyTask = OnlineController.Instance.LeaveLobbyAsync();
+            //OnlineController.Instance.LeaveLobby();
             return;
         }
 

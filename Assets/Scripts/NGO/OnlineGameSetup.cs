@@ -87,13 +87,17 @@ public class OnlineGameSetup : MonoBehaviour
         m_LocalLobby.LeaderWord.onChanged += OnLeaderWordChanged;
 
         // Host generates words
+        // TODO: Sync via RPC
         if (m_LocalPlayer.IsHost.Value)
         {
             m_WordsList = m_WordManager.FormWordListForRound();
             m_WordsIndexes = m_WordManager.GetWordsIndexes(m_WordsList);
             m_LeaderWordIndex = m_WordManager.GetLeaderWordIndex(m_WordsList);
             m_LeaderWord = m_WordsList[m_LeaderWordIndex];
-            m_OnlineController.SetLocalLobbyWords(m_WordsIndexes, m_LeaderWordIndex);
+            m_OnlineController.LobbyManager.LocalLobbyEditor
+                .SetWordsIndexes(m_WordsIndexes)
+                .SetLeaderWordIndex(m_LeaderWordIndex)
+                .CommitChangesAsync();
         }
 
         m_DrawingManager.OnLineConfirmed += OnLineConfirmed;
@@ -213,10 +217,10 @@ public class OnlineGameSetup : MonoBehaviour
         ToggleScreen(false);
     }
 
-    private void OnLineConfirmed(Line line)
+    private async void OnLineConfirmed(Line line)
     {
         m_RpcHandler.SpawnLine(line.Start, line.End);
-        m_TurnHandler.EndTurn();
+        await m_TurnHandler.EndTurn();
     }
 
     #endregion
@@ -226,7 +230,7 @@ public class OnlineGameSetup : MonoBehaviour
         m_LinesUI.SetLines(++m_LinesCount);
     }
 
-    private void OnUserMakeGuess(int index)
+    private async void OnUserMakeGuess(int index)
     {
         if (m_LeaderWordIndex != index)
         {
@@ -241,7 +245,7 @@ public class OnlineGameSetup : MonoBehaviour
                 m_RpcHandler.OnGuessedWrong(index, newHearts);
             }
 
-            m_TurnHandler.EndTurn();
+            await m_TurnHandler.EndTurn();
         }
         else
         {

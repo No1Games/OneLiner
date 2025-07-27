@@ -10,6 +10,10 @@ public class LobbyManager : IDisposable
 
     #region State Fields
 
+    // Service to update the local lobby model
+    private LocalLobbyEditor _localLobbyEditor;
+    public LocalLobbyEditor LocalLobbyEditor => _localLobbyEditor;
+
     // Remote lobby model
     private Lobby _joinedLobby;
     public Lobby JoinedLobby => _joinedLobby;
@@ -22,15 +26,27 @@ public class LobbyManager : IDisposable
     private LobbiesCache _lobbies;
     public LobbiesCache Lobbies => _lobbies;
 
+    private LocalPlayerEditor _localPlayerEditor;
+    public LocalPlayerEditor LocalPlayerEditor => _localPlayerEditor;
+
+    private LocalPlayer _localPlayer;
+    public LocalPlayer LocalPlayer => _localPlayer;
+
     #endregion
 
     LobbyEventHandler _lobbiesBinder;
 
-    public event Func<LocalLobby, Task> OnLobbyCreated;
-    public event Func<LocalLobby, Task> OnLobbyJoined;
+    public event Action<LocalLobby> OnLobbyCreated;
+    public event Action<LocalLobby> OnLobbyJoined;
 
     public LobbyManager(ILobbyApiService lobbyApiService)
     {
+        _localLobby = new LocalLobby();
+        _localPlayer = new LocalPlayer();
+
+        _localLobbyEditor = new LocalLobbyEditor(this);
+        _localPlayerEditor = new LocalPlayerEditor(this);
+
         _lobbyApiService = lobbyApiService;
         _lobbies = new LobbiesCache();
         _lobbiesBinder = new LobbyEventHandler(this);
@@ -50,9 +66,9 @@ public class LobbyManager : IDisposable
         }
     }
 
-    public async Task CreateLobbyAsync(bool isPrivate, int maxPlayers, LocalPlayer host)
+    public async Task CreateLobbyAsync(bool isPrivate, int maxPlayers)
     {
-        Lobby lobby = await _lobbyApiService.CreateLobbyAsync(maxPlayers, isPrivate, host);
+        Lobby lobby = await _lobbyApiService.CreateLobbyAsync(maxPlayers, isPrivate, _localPlayer);
 
         if (lobby != null)
         {
@@ -70,9 +86,9 @@ public class LobbyManager : IDisposable
         }
     }
 
-    public async Task JoinLobbyByIdAsync(string lobbyId, LocalPlayer player)
+    public async Task JoinLobbyByIdAsync(string lobbyId)
     {
-        Lobby lobby = await _lobbyApiService.JoinLobbyByIdAsync(lobbyId, player);
+        Lobby lobby = await _lobbyApiService.JoinLobbyByIdAsync(lobbyId, _localPlayer);
 
         if (lobby != null)
         {
@@ -100,6 +116,7 @@ public class LobbyManager : IDisposable
         try
         {
             await _lobbyApiService.LeaveLobbyAsync(_joinedLobby.Id);
+            _localPlayer.ResetState();
         }
         catch (Exception e)
         {
@@ -109,7 +126,7 @@ public class LobbyManager : IDisposable
         Dispose();
     }
 
-    public async Task UpdateLobbyDataAsync(LocalLobby lobby)
+    public async Task UpdateLobbyDataAsync()
     {
         if (!IsInLobby())
         {
@@ -119,7 +136,7 @@ public class LobbyManager : IDisposable
 
         try
         {
-            await _lobbyApiService.UpdateLobbyDataAsync(lobby);
+            await _lobbyApiService.UpdateLobbyDataAsync(_localLobby);
         }
         catch (Exception ex)
         {
@@ -127,7 +144,7 @@ public class LobbyManager : IDisposable
         }
     }
 
-    public async Task UpdatePlayerDataAsync(LocalPlayer player)
+    public async Task UpdatePlayerDataAsync()
     {
         if (!IsInLobby())
         {
@@ -137,7 +154,7 @@ public class LobbyManager : IDisposable
 
         try
         {
-            await _lobbyApiService.UpdatePlayerDataAsync(player, _joinedLobby.Id);
+            await _lobbyApiService.UpdatePlayerDataAsync(_localPlayer, _joinedLobby.Id);
         }
         catch (Exception ex)
         {
@@ -172,6 +189,16 @@ public class LobbyManager : IDisposable
         }
 
         return true;
+    }
+
+    public bool IsHost()
+    {
+        if (_joinedLobby == null)
+        {
+            return false;
+        }
+
+        return _localLobby.HostID.Value == _localPlayer.ID.Value;
     }
 
     public void Dispose()

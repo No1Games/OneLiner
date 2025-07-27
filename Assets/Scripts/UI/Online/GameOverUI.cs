@@ -23,9 +23,9 @@ public class GameOverUI : MonoBehaviour
         m_ExitBtn.onClick.AddListener(OnClick_ExitButton);
     }
 
-    private void OnClick_RestartButton()
+    private async void OnClick_RestartButton()
     {
-        OnlineController.Instance.ReturnToLobby();
+        await OnlineController.Instance.ReturnToLobby();
     }
 
     private void OnClick_ExitButton()

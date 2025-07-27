@@ -24,8 +24,11 @@ public class AccountSettingsUI : MonoBehaviour
         _confirmNameBtn.interactable = !_playerName.IsEmpty();
     }
 
-    private void OnConfirmButtonClick()
+    private async void OnConfirmButtonClick()
     {
-        OnlineController.Instance.SetLocalPlayerName(_playerName);
+        // OnlineController.Instance.SetLocalPlayerName(_playerName);
+        await OnlineController.Instance.LobbyManager.LocalPlayerEditor
+            .SetDisplayName(_playerName)
+            .CommitChangesAsync();
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -100,7 +101,8 @@ public class WaitingRoomUI : MenuBase
 
     private void OnClick_BackButton()
     {
-        _gameManager.LeaveLobby();
+        //_gameManager.LeaveLobby();
+        Task leaveLobbyTask = _gameManager.LeaveLobbyAsync();
 
         _localLobby = null;
 
@@ -135,22 +137,28 @@ public class WaitingRoomUI : MenuBase
         _enableTimerButton.gameObject.SetActive(_isPrivate);
     }
 
-    private void OnClick_ReadyButton()
+    private async void OnClick_ReadyButton()
     {
         _status = PlayerStatus.Ready;
 
-        _gameManager.SetLocalPlayerStatus(_status);
+        await _gameManager.LobbyManager.LocalPlayerEditor
+            .SetStatus(_status)
+            .CommitChangesAsync();
+
+        //_gameManager.SetLocalPlayerStatus(_status);
 
         _unreadyButton.gameObject.SetActive(true);
 
         _readyButton.gameObject.SetActive(false);
     }
 
-    private void OnClick_UnreadyButton()
+    private async void OnClick_UnreadyButton()
     {
         _status = PlayerStatus.Lobby;
 
-        _gameManager.SetLocalPlayerStatus(_status);
+        await _gameManager.LobbyManager.LocalPlayerEditor
+            .SetStatus(_status)
+            .CommitChangesAsync();
 
         _readyButton.gameObject.SetActive(true);
 

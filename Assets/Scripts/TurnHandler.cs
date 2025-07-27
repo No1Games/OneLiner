@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,7 +50,8 @@ public class TurnHandler : MonoBehaviour
                 return;
             }
 
-            m_OnlineController.SetTurnID(m_Leader.ID.Value);
+            Task task = m_OnlineController.LobbyManager.LocalLobbyEditor.SetCurrentPlayerId(m_Leader.ID.Value).CommitChangesAsync();
+            //m_OnlineController.SetTurnID(m_Leader.ID.Value);
         }
     }
 
@@ -97,7 +99,10 @@ public class TurnHandler : MonoBehaviour
             return;
         }
 
-        m_OnlineController.SetTurnID(nextPlayer.ID.Value);
+        Task task = m_OnlineController.LobbyManager.LocalLobbyEditor
+            .SetCurrentPlayerId(nextPlayer.ID.Value)
+            .CommitChangesAsync();
+        //m_OnlineController.SetTurnID(nextPlayer.ID.Value);
     }
 
     private void OnTurnIDChanged(string newID)
@@ -114,9 +119,12 @@ public class TurnHandler : MonoBehaviour
         m_DrawButton.enabled = newID == m_OnlineController.LocalPlayer.ID.Value;
     }
 
-    public void EndTurn()
+    public async Task EndTurn()
     {
-        m_OnlineController.SetLocalPlayerTurn(false);
+        //m_OnlineController.SetLocalPlayerTurn(false);
+        await m_OnlineController.LobbyManager.LocalPlayerEditor
+            .SetIsTurn(false)
+            .CommitChangesAsync();
     }
 }
 
