@@ -21,11 +21,11 @@ public class LobbyApiService : ILobbyApiService
     ServiceRateLimiter _updatePlayerCooldown = new ServiceRateLimiter(5, 5f);
     ServiceRateLimiter _updateLobbyCooldown = new ServiceRateLimiter(5, 5f);
     ServiceRateLimiter _leaveLobbyOrRemovePlayer = new ServiceRateLimiter(5, 1);
+    ServiceRateLimiter _heartBeatCooldown = new ServiceRateLimiter(5, 30);
 
     /*
     ServiceRateLimiter m_GetLobbyCooldown = new ServiceRateLimiter(1, 1f);
     ServiceRateLimiter m_DeleteLobbyCooldown = new ServiceRateLimiter(2, 1f);
-    ServiceRateLimiter _heartBeatCooldown = new ServiceRateLimiter(5, 30);
     ServiceRateLimiter _quickJoinCooldown = new ServiceRateLimiter(1, 10f);
     */
 
@@ -83,7 +83,6 @@ public class LobbyApiService : ILobbyApiService
             return null;
         }
     }
-
 
     public async Task<Lobby> CreateLobbyAsync(int maxPlayers, bool isPrivate, LocalPlayer host)
     {
@@ -239,6 +238,22 @@ public class LobbyApiService : ILobbyApiService
         catch (Exception ex)
         {
             Debug.LogException(ex);
+        }
+    }
+
+    public async Task SendHeartbeatPingAsync(string lobbyId)
+    {
+        if (_heartBeatCooldown.IsCoolingDown)
+            return;
+
+        try
+        {
+            await _heartBeatCooldown.QueueUntilCooldown();
+            await LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
     }
 }

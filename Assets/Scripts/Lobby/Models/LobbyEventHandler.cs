@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Lobbies;
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
-public class LobbyCallbacksHandlersHelper
+public class LobbyEventHandler
 {
     private readonly LobbyManager _lobbyManager;
 
-    public LobbyCallbacksHandlersHelper(LobbyManager lobbyManager)
+    public LobbyEventHandler(LobbyManager lobbyManager)
     {
         _lobbyManager = lobbyManager;
     }
@@ -20,7 +18,7 @@ public class LobbyCallbacksHandlersHelper
 
         callbacks.LobbyChanged += OnLobbyChanged;
 
-        callbacks.LobbyEventConnectionStateChanged += OnLobbyEventConnactionStateChanged;
+        callbacks.LobbyEventConnectionStateChanged += OnLobbyEventConnectionStateChanged;
 
         return callbacks;
     }
@@ -31,7 +29,7 @@ public class LobbyCallbacksHandlersHelper
         {
             await _lobbyManager.LeaveLobbyAsync();
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             Debug.LogError($"Failed to leave lobby on deletion: {ex.Message}");
         }
@@ -39,7 +37,7 @@ public class LobbyCallbacksHandlersHelper
 
     private async void OnLobbyChanged(ILobbyChanges changes)
     {
-        if(changes.LobbyDeleted)
+        if (changes.LobbyDeleted)
         {
             Debug.Log("Lobby has been deleted.");
             await OnLobbyDeleted();
@@ -53,7 +51,7 @@ public class LobbyCallbacksHandlersHelper
         }
     }
 
-    private void OnLobbyEventConnactionStateChanged(LobbyEventConnectionState state)
+    private void OnLobbyEventConnectionStateChanged(LobbyEventConnectionState state)
     {
         Debug.Log($"Lobby ConnectionState Changed to {state}");
     }

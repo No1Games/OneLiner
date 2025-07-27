@@ -15,34 +15,38 @@ using UnityEngine.SceneManagement;
 
 public class OnlineController : MonoBehaviour
 {
-    static OnlineController m_Instance;
+    static OnlineController _instance;
     public static OnlineController Instance
     {
         get
         {
-            if (m_Instance == null)
+            if (_instance == null)
             {
-                m_Instance = FindAnyObjectByType<OnlineController>();
+                _instance = FindAnyObjectByType<OnlineController>();
 
-                if (m_Instance == null)
+                if (_instance == null)
                 {
                     GameObject singletonObj = new GameObject("OnlineGameManager");
-                    m_Instance = singletonObj.AddComponent<OnlineController>();
+                    _instance = singletonObj.AddComponent<OnlineController>();
                 }
 
-                DontDestroyOnLoad(m_Instance.gameObject);
+                DontDestroyOnLoad(_instance.gameObject);
             }
 
-            return m_Instance;
+            return _instance;
         }
     }
-
-    #region Lobby Fields and Props
 
     public LobbyManager _lobbyManager;
     public LobbyManager LobbyManager => _lobbyManager;
 
+    // Getter for lobbies list
     public LobbiesCache Lobbies => _lobbyManager.Lobbies;
+
+    // Getter for local lobby model
+    //public LocalLobby LocalLobby => _lobbyManager.LocalLobby;
+
+    #region Lobby Fields and Props
 
     // TODO: Two source of truth for LocalLobby, one in LobbyManager and one here. Remove this when LobbyManager is fully implemented.
     private LocalLobby _localLobby;
@@ -52,7 +56,7 @@ public class OnlineController : MonoBehaviour
     private LocalPlayer _localPlayer;
 
     public LocalPlayer LocalPlayer => _localPlayer;
-    public LocalLobbyList LobbyList { get; private set; } = new LocalLobbyList();
+    // public LocalLobbyList LobbyList { get; private set; } = new LocalLobbyList();
 
     #endregion
 
@@ -70,12 +74,12 @@ public class OnlineController : MonoBehaviour
 
     private void Awake()
     {
-        if (m_Instance == null)
+        if (_instance == null)
         {
-            m_Instance = this;
+            _instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else if (m_Instance != this)
+        else if (_instance != this)
         {
             Destroy(gameObject);
         }
@@ -564,7 +568,7 @@ public class OnlineController : MonoBehaviour
         _localPlayer.ResetState();
         _localLobby.ResetLobby();
 
-        LobbyList.Clear();
+        //LobbyList.Clear();
     }
 
     #endregion

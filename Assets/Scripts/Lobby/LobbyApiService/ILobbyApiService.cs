@@ -12,11 +12,11 @@ public interface ILobbyApiService
 
     Task<Lobby> CreateLobbyAsync(int maxPlayers, bool isPrivate, LocalPlayer host);
     Task<Lobby> JoinLobbyByIdAsync(string lobbyId, LocalPlayer localUser);
-
-    Task SubscibeOnLobbyEventsAsync(string lobbyId, LobbyEventCallbacks callbacks);
-
     Task UpdateLobbyDataAsync(LocalLobby lobby);
     Task LeaveLobbyAsync(string lobbyId);
+    Task SubscibeOnLobbyEventsAsync(string lobbyId, LobbyEventCallbacks callbacks);
 
     Task UpdatePlayerDataAsync(LocalPlayer player, string lobbyId);
+
+    Task SendHeartbeatPingAsync(string lobbyId);
 }
