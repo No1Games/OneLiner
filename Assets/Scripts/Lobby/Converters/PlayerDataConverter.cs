@@ -20,7 +20,7 @@ public class PlayerDataConverter
     public static LocalPlayer RemoteToLocal(Player remote)
     {
         var id = remote.Id;
-        var displayName = 
+        var displayName =
             remote.Data?.ContainsKey(PlayerDataKeys.DisplayName) == true
             ? remote.Data[PlayerDataKeys.DisplayName].Value
             : default;
@@ -38,6 +38,26 @@ public class PlayerDataConverter
         local.Role.Value = playerRole;
 
         return local;
+    }
+
+    public static void UpdateLocalFromRemote(Player remote, LocalPlayer local)
+    {
+        var id = remote.Id;
+        var displayName =
+            remote.Data?.ContainsKey(PlayerDataKeys.DisplayName) == true
+            ? remote.Data[PlayerDataKeys.DisplayName].Value
+            : default;
+        var userStatus = remote.Data?.ContainsKey(PlayerDataKeys.PlayerStatus) == true
+            ? (PlayerStatus)int.Parse(remote.Data[PlayerDataKeys.PlayerStatus].Value)
+            : PlayerStatus.Lobby;
+        var playerRole = remote.Data?.ContainsKey(PlayerDataKeys.Role) == true
+            ? (PlayerRole)int.Parse(remote.Data[PlayerDataKeys.Role].Value)
+            : PlayerRole.NotSetYet;
+
+        local.ID.Value = id;
+        local.DisplayName.Value = displayName;
+        local.PlayerStatus.Value = userStatus;
+        local.Role.Value = playerRole;
     }
 
     public static Dictionary<string, PlayerDataObject> LocalToRemotePlayerData(LocalPlayer local)

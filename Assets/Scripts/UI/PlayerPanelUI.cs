@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class PlayerPanelUI : MonoBehaviour
 {
     private LocalPlayer m_LocalPlayer;
+    public LocalPlayer LocalPlayer => m_LocalPlayer;
 
     private LocalLobby m_LocalLobby;
 

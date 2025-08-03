@@ -42,6 +42,25 @@ public class PlayersListUI : MonoBehaviour
         m_ActiveItems.Add(panel);
     }
 
+    public void RemovePlayer(LocalPlayer player)
+    {
+        if (player == null)
+        {
+            Debug.LogWarning("Cannot remove player from UI. Player is null");
+            return;
+        }
+
+        var item = m_ActiveItems.FirstOrDefault(i => i.LocalPlayer.Equals(player));
+
+        if (item == null)
+        {
+            Debug.LogWarning($"Cannot find specified player for remove. Player Id: {player.ID.Value}");
+            return;
+        }
+
+        m_ActiveItems.Remove(item);
+    }
+
     public void RemovePlayer(int index)
     {
         if (index < 0 || index >= m_ActiveItems.Count)

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -79,8 +78,9 @@ public class WaitingRoomUI : MenuBase
 
         _countdown.CountdownFinishedEvent -= OnCountdownFinished;
 
-        _localLobby.onUserJoined -= AddPlayer;
-        _localLobby.onUserLeft -= RemovePlayer;
+        _localLobby.PlayerJoined -= AddPlayer;
+        _localLobby.PlayerRemoved -= RemovePlayer;
+        // _localLobby.onUserLeft -= RemovePlayer;
     }
 
     #region UI Events Handlers
@@ -99,10 +99,9 @@ public class WaitingRoomUI : MenuBase
         LoadingPanel.Instance.Hide();
     }
 
-    private void OnClick_BackButton()
+    private async void OnClick_BackButton()
     {
-        //_gameManager.LeaveLobby();
-        Task leaveLobbyTask = _gameManager.LeaveLobbyAsync();
+        await _gameManager.LeaveLobbyAsync();
 
         _localLobby = null;
 
@@ -256,8 +255,9 @@ public class WaitingRoomUI : MenuBase
     {
         _localLobby = _gameManager.LocalLobby;
 
-        _localLobby.onUserJoined += AddPlayer;
-        _localLobby.onUserLeft += RemovePlayer;
+        _localLobby.PlayerJoined += AddPlayer;
+        _localLobby.PlayerRemoved += RemovePlayer;
+        // _localLobby.onUserLeft += RemovePlayer;
 
         _privateButton.interactable = false;
         _publicButton.interactable = false;
@@ -287,8 +287,9 @@ public class WaitingRoomUI : MenuBase
     {
         _localLobby = _gameManager.LocalLobby;
 
-        _localLobby.onUserJoined += AddPlayer;
-        _localLobby.onUserLeft += RemovePlayer;
+        _localLobby.PlayerJoined += AddPlayer;
+        _localLobby.PlayerRemoved += RemovePlayer;
+        // _localLobby.onUserLeft += RemovePlayer;
 
         _readyButton.gameObject.SetActive(true);
         _createButton.gameObject.SetActive(false);
@@ -323,6 +324,11 @@ public class WaitingRoomUI : MenuBase
     private void AddPlayer(LocalPlayer player)
     {
         _playersListUI.AddPlayer(player);
+    }
+
+    private void RemovePlayer(LocalPlayer player)
+    {
+        _playersListUI.RemovePlayer(player);
     }
 
     private void RemovePlayer(int index)

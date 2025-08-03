@@ -28,15 +28,15 @@ public class RoomItemUI : MonoBehaviour
     private void UpdateUI()
     {
         SetHostPanel(_localLobby.ApperanceData.Value);
-        SetModeTMP(_localLobby.Mode.Value);
+        //SetModeTMP(_localLobby.Mode.Value);
         SetPlayersCountTMP(_localLobby.PlayerCount);
     }
 
     private void Subscribe()
     {
         _localLobby.ApperanceData.onChanged += SetHostPanel;
-        _localLobby.Mode.onChanged += SetModeTMP;
-        _localLobby.PlayersCountChangedEvent += SetPlayersCountTMP;
+        //_localLobby.Mode.onChanged += SetModeTMP;
+        _localLobby.PlayersCountChanged += SetPlayersCountTMP;
     }
 
     private void Unsubscribe()
@@ -47,11 +47,11 @@ public class RoomItemUI : MonoBehaviour
         if (_localLobby.ApperanceData.onChanged != null)
             _localLobby.ApperanceData.onChanged -= SetHostPanel;
 
-        if (_localLobby.Mode.onChanged != null)
-            _localLobby.Mode.onChanged -= SetModeTMP;
+        //if (_localLobby.Mode.onChanged != null)
+        //    _localLobby.Mode.onChanged -= SetModeTMP;
 
-        if (_localLobby.PlayersCountChangedEvent != null)
-            _localLobby.PlayersCountChangedEvent -= SetPlayersCountTMP;
+        if (_localLobby.PlayersCountChanged != null)
+            _localLobby.PlayersCountChanged -= SetPlayersCountTMP;
 
         _localLobby = null;
     }

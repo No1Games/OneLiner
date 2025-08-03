@@ -142,19 +142,32 @@ public class OnlineController : MonoBehaviour
 
     private void SubscribeOnLobbyUpdates()
     {
-        _lobbyManager.LocalLobby.onUserReadyChange += OnPlayersReady;
+        _lobbyManager.LocalLobby.PlayerStatusChanged += OnPlayersReady;
         _lobbyManager.LocalLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
 
-        _lobbyManager.LocalLobby.PlayersCountChangedEvent += OnPlayersCountChanged;
+        _lobbyManager.LocalLobby.PlayersCountChanged += OnPlayersCountChanged;
 
         // TODO: Move turn sync to the RPC
         _lobbyManager.LocalLobby.LeaderID.onChanged += OnLeaderIDChanged;
         _lobbyManager.LocalLobby.CurrentPlayerID.onChanged += OnTurnIDChanged;
-        _lobbyManager.LocalLobby.onUserTurnChanged += OnPlayerPassedTurn;
+        _lobbyManager.LocalLobby.UserTurnChanged += OnPlayerPassedTurn;
+    }
+
+    private void UnsubscibeFromLobbyUpdates()
+    {
+        _lobbyManager.LocalLobby.PlayerStatusChanged -= OnPlayersReady;
+        _lobbyManager.LocalLobby.LocalLobbyState.onChanged -= OnLobbyStateChanged;
+
+        _lobbyManager.LocalLobby.PlayersCountChanged -= OnPlayersCountChanged;
+
+        // TODO: Move turn sync to the RPC
+        _lobbyManager.LocalLobby.LeaderID.onChanged -= OnLeaderIDChanged;
+        _lobbyManager.LocalLobby.CurrentPlayerID.onChanged -= OnTurnIDChanged;
+        _lobbyManager.LocalLobby.UserTurnChanged -= OnPlayerPassedTurn;
     }
 
     // This method sets LobbyState to Countdown if all players are ready
-    private async void OnPlayersReady(int readyCount)
+    private async void OnPlayersReady(bool isAllReady)
     {
         // Only host checks it and updates LobbyState
         if (!_lobbyManager.IsHost())
@@ -162,7 +175,7 @@ public class OnlineController : MonoBehaviour
             return;
         }
 
-        if (readyCount == _lobbyManager.LocalLobby.PlayerCount && _lobbyManager.LocalLobby.LocalLobbyState.Value != LobbyState.Countdown)
+        if (isAllReady && _lobbyManager.LocalLobby.LocalLobbyState.Value != LobbyState.Countdown)
         {
             await _lobbyManager.LocalLobbyEditor.SetState(LobbyState.Countdown).CommitChangesAsync();
         }
@@ -185,13 +198,7 @@ public class OnlineController : MonoBehaviour
 
         if (IsRandomLeader)
         {
-            int leaderIndex = UnityEngine.Random.Range(0, _lobbyManager.LocalLobby.PlayerCount);
-
-            string leaderID = _lobbyManager.LocalLobby.GetLocalPlayer(leaderIndex).ID.Value;
-
-            await _lobbyManager.LocalLobbyEditor
-                .SetLeaderId(leaderID)
-                .CommitChangesAsync();
+            await AssignRandomLeaderAsync();
         }
     }
 
@@ -210,11 +217,7 @@ public class OnlineController : MonoBehaviour
         // Remove when not needed
         if (string.IsNullOrEmpty(_lobbyManager.LocalLobby.LeaderID.Value))
         {
-            int leaderIndex = UnityEngine.Random.Range(0, _lobbyManager.LocalLobby.PlayerCount);
-
-            string leaderID = _lobbyManager.LocalLobby.GetLocalPlayer(leaderIndex).ID.Value;
-
-            _lobbyManager.LocalLobbyEditor.SetLeaderId(leaderID);
+            await AssignRandomLeaderAsync();
         }
 
         _lobbyManager.LocalLobbyEditor.SetState(LobbyState.InGame);
@@ -336,6 +339,17 @@ public class OnlineController : MonoBehaviour
         }
     }
 
+    private async Task AssignRandomLeaderAsync()
+    {
+        int leaderIndex = UnityEngine.Random.Range(0, _lobbyManager.LocalLobby.PlayerCount);
+
+        string leaderID = _lobbyManager.LocalLobby.GetLocalPlayerByIndex(leaderIndex).ID.Value;
+
+        await _lobbyManager.LocalLobbyEditor
+            .SetLeaderId(leaderID)
+            .CommitChangesAsync();
+    }
+
     #region Relay
 
     private async Task AwaitRelayCode(LocalLobby lobby)
@@ -447,6 +461,8 @@ public class OnlineController : MonoBehaviour
     {
         try
         {
+            UnsubscibeFromLobbyUpdates();
+
             await _lobbyManager.LeaveLobbyAsync();
         }
         catch (LobbyServiceException exception)
