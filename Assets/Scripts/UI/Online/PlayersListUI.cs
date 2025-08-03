@@ -58,6 +58,10 @@ public class PlayersListUI : MonoBehaviour
             return;
         }
 
+        item.Unsubscribe();
+
+        m_ItemPool.ReturnObject(item);
+
         m_ActiveItems.Remove(item);
     }
 

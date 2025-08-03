@@ -1,16 +1,16 @@
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
 using System;
 using System.Threading.Tasks;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using UnityEngine;
-using GooglePlayGames;
-using GooglePlayGames.BasicApi;
 
 public class Initializer : MonoBehaviour
 {
     private async void Awake()
     {
-        
+
         LoadingPanel.Instance.Show();
 
         await TryInitServices();
@@ -30,7 +30,7 @@ public class Initializer : MonoBehaviour
         {
             await UnityServices.InitializeAsync();
 
-            (LobbyService.Instance as ILobbyServiceSDKConfiguration).EnableLocalPlayerLobbyEvents(true);
+            (LobbyService.Instance as ILobbyServiceSDKConfiguration).EnableLocalPlayerLobbyEvents(false);
         }
     }
 

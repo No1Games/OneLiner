@@ -144,11 +144,11 @@ public class WaitingRoomUI : MenuBase
             .SetStatus(_status)
             .CommitChangesAsync();
 
-        //_gameManager.SetLocalPlayerStatus(_status);
-
         _unreadyButton.gameObject.SetActive(true);
 
         _readyButton.gameObject.SetActive(false);
+
+        Debug.Log("Click Ready Button enables unreadyButton");
     }
 
     private async void OnClick_UnreadyButton()
@@ -191,6 +191,8 @@ public class WaitingRoomUI : MenuBase
 
     private void OnPlayersReady()
     {
+        Debug.Log("On Players Ready");
+
         _unreadyButton.gameObject.SetActive(false);
 
         _countdown.gameObject.SetActive(true);
@@ -235,6 +237,7 @@ public class WaitingRoomUI : MenuBase
         _createButton.gameObject.SetActive(true);
 
         _readyButton.gameObject.SetActive(false);
+        _unreadyButton.gameObject.SetActive(false);
 
         _chooseLeaderButton.gameObject.SetActive(false);
         _chooseLeaderButton.interactable = false;
@@ -257,7 +260,6 @@ public class WaitingRoomUI : MenuBase
 
         _localLobby.PlayerJoined += AddPlayer;
         _localLobby.PlayerRemoved += RemovePlayer;
-        // _localLobby.onUserLeft += RemovePlayer;
 
         _privateButton.interactable = false;
         _publicButton.interactable = false;
@@ -265,6 +267,7 @@ public class WaitingRoomUI : MenuBase
         _createButton.gameObject.SetActive(false);
 
         _readyButton.gameObject.SetActive(true);
+        _unreadyButton.gameObject.SetActive(false);
 
         _chooseLeaderButton.gameObject.SetActive(_isPrivate);
         _chooseLeaderButton.interactable = true;
@@ -289,9 +292,9 @@ public class WaitingRoomUI : MenuBase
 
         _localLobby.PlayerJoined += AddPlayer;
         _localLobby.PlayerRemoved += RemovePlayer;
-        // _localLobby.onUserLeft += RemovePlayer;
 
         _readyButton.gameObject.SetActive(true);
+        _unreadyButton.gameObject.SetActive(false);
         _createButton.gameObject.SetActive(false);
 
         _privateButton.interactable = false;

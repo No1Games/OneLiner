@@ -187,7 +187,6 @@ public class OnlineController : MonoBehaviour
 
     // This method is sets leader to random when player count is changed (if IsRandomLeader is true)
     // It runs every time player is connected/left to ensure random leader
-    // TODO: Think about improvements
     private async void OnPlayersCountChanged(int playersCount)
     {
         // Only hosts changes leader
@@ -283,7 +282,7 @@ public class OnlineController : MonoBehaviour
         ChangeScene();
     }
 
-    // Subscribs on scene loading and start load game scene
+    // Subscribes on scene loading and start load game scene
     private void ChangeScene()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -364,10 +363,14 @@ public class OnlineController : MonoBehaviour
 
     private async Task SetRelayHostData()
     {
+        // Get transport reference
         UnityTransport transport = NetworkManager.Singleton.GetComponentInChildren<UnityTransport>();
-
+        // Allocate relay for players number
         var allocation = await Relay.Instance.CreateAllocationAsync(_lobbyManager.LocalLobby.MaxPlayerCount.Value);
+        // Get the join code for this lobby
         var joincode = await Relay.Instance.GetJoinCodeAsync(allocation.AllocationId);
+
+        // Save join code in lobby data
         await _lobbyManager.LocalLobbyEditor
             .SetRelayCode(joincode)
             .CommitChangesAsync();
