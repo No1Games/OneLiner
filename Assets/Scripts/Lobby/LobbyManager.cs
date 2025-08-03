@@ -198,7 +198,7 @@ public class LobbyManager : IDisposable
             return false;
         }
 
-        return _localLobby.HostID.Value == _localPlayer.ID.Value;
+        return _localLobby.HostID.Value == _localPlayer.PlayerId.Value;
     }
 
     public void Dispose()

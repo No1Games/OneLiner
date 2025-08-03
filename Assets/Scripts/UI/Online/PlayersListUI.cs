@@ -54,7 +54,7 @@ public class PlayersListUI : MonoBehaviour
 
         if (item == null)
         {
-            Debug.LogWarning($"Cannot find specified player for remove. Player Id: {player.ID.Value}");
+            Debug.LogWarning($"Cannot find specified player for remove. Player Id: {player.PlayerId.Value}");
             return;
         }
 
@@ -89,7 +89,7 @@ public class PlayersListUI : MonoBehaviour
             var temp = new List<PlayerPanelUI>();
             foreach (var player in localPlayers)
             {
-                temp.Add(m_ActiveItems.Find(p => p.PlayerID == player.ID.Value));
+                temp.Add(m_ActiveItems.Find(p => p.PlayerID == player.PlayerId.Value));
             }
             var disable = m_ActiveItems.Where(i => !temp.Contains(i)).ToList();
             foreach (var item in disable)

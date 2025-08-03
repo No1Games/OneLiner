@@ -124,7 +124,7 @@ public class OnlineController : MonoBehaviour
 
         await _lobbyManager.LocalPlayerEditor
             .SetIsHost(true)
-            .SetRole(_lobbyManager.LocalLobby.LeaderID.Value == _lobbyManager.LocalPlayer.ID.Value ? PlayerRole.Leader : PlayerRole.Player)
+            .SetRole(_lobbyManager.LocalLobby.LeaderID.Value == _lobbyManager.LocalPlayer.PlayerId.Value ? PlayerRole.Leader : PlayerRole.Player)
             .SetStatus(PlayerStatus.Lobby)
             .CommitChangesAsync();
     }
@@ -135,7 +135,7 @@ public class OnlineController : MonoBehaviour
 
         await _lobbyManager.LocalPlayerEditor
             .SetIsHost(false)
-            .SetRole(_lobbyManager.LocalLobby.LeaderID.Value == _lobbyManager.LocalPlayer.ID.Value ? PlayerRole.Leader : PlayerRole.Player)
+            .SetRole(_lobbyManager.LocalLobby.LeaderID.Value == _lobbyManager.LocalPlayer.PlayerId.Value ? PlayerRole.Leader : PlayerRole.Player)
             .SetStatus(PlayerStatus.Lobby)
             .CommitChangesAsync();
     }
@@ -244,7 +244,7 @@ public class OnlineController : MonoBehaviour
     {
         // If new leader id equals current player id - change role to Leader
         // Otherwise change to player (for example, if current player was previous leader)
-        if (id == _lobbyManager.LocalPlayer.ID.Value)
+        if (id == _lobbyManager.LocalPlayer.PlayerId.Value)
         {
             _lobbyManager.LocalPlayerEditor.SetRole(PlayerRole.Leader);
         }
@@ -343,7 +343,7 @@ public class OnlineController : MonoBehaviour
     {
         int leaderIndex = UnityEngine.Random.Range(0, _lobbyManager.LocalLobby.PlayerCount);
 
-        string leaderID = _lobbyManager.LocalLobby.GetLocalPlayerByIndex(leaderIndex).ID.Value;
+        string leaderID = _lobbyManager.LocalLobby.GetLocalPlayerByIndex(leaderIndex).PlayerId.Value;
 
         await _lobbyManager.LocalLobbyEditor
             .SetLeaderId(leaderID)
@@ -421,7 +421,7 @@ public class OnlineController : MonoBehaviour
 
     private async void OnTurnIDChanged(string id)
     {
-        if (_lobbyManager.LocalPlayer.ID.Value == id)
+        if (_lobbyManager.LocalPlayer.PlayerId.Value == id)
         {
             await _lobbyManager.LocalPlayerEditor
                 .SetIsTurn(true)

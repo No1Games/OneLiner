@@ -199,7 +199,7 @@ public class WaitingRoomUI : MenuBase
 
     private void OnPlayerUnready()
     {
-        if (_gameManager.LocalPlayer.PlayerStatus.Value != PlayerStatus.Ready) return;
+        if (_gameManager.LocalPlayer.Status.Value != PlayerStatus.Ready) return;
 
         _unreadyButton.gameObject.SetActive(true);
 
@@ -275,7 +275,7 @@ public class WaitingRoomUI : MenuBase
 
         _timerSlider.interactable = false;
 
-        _status = _gameManager.LocalPlayer.PlayerStatus.Value;
+        _status = _gameManager.LocalPlayer.Status.Value;
 
         _privateButtonAnimator.SetBool("Selected", _isPrivate);
         _publicButtonAnimator.SetBool("Selected", !_isPrivate);
@@ -312,7 +312,7 @@ public class WaitingRoomUI : MenuBase
         _timerSlider.interactable = false;
         _enableTimerButton.gameObject.SetActive(false);
 
-        _status = _gameManager.LocalPlayer.PlayerStatus.Value;
+        _status = _gameManager.LocalPlayer.Status.Value;
 
         UpdatePlayersList();
     }

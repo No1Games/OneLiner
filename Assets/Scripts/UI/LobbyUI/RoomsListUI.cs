@@ -119,7 +119,7 @@ public class RoomsListUI : MenuBase
     {
         LoadingPanel.Instance.Show();
 
-        await _gameManager.JoinLobbyByIdAsync(lobby.LobbyID.Value);
+        await _gameManager.JoinLobbyByIdAsync(lobby.LobbyId.Value);
         //await _gameManager.JoinLobby(lobby.LobbyID.Value, lobby.LobbyCode.Value);
 
         MainMenuManager.Instance.OpenRoomPanel(false);

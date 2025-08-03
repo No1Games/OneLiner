@@ -16,7 +16,7 @@ public class LocalLobby : IDisposable
 {
     #region Basic lobby data
 
-    public CallbackValue<string> LobbyID = new CallbackValue<string>();
+    public CallbackValue<string> LobbyId = new CallbackValue<string>();
     public CallbackValue<string> HostID = new CallbackValue<string>();
     public CallbackValue<string> RelayCode = new CallbackValue<string>();
     public CallbackValue<string> LobbyName = new CallbackValue<string>();   // Назва лобі = ім'я хоста
@@ -93,7 +93,7 @@ public class LocalLobby : IDisposable
     {
         foreach (var player in _localPlayers)
         {
-            player.IsHost.Value = player.ID.Value == newHostId;
+            player.IsHost.Value = player.PlayerId.Value == newHostId;
         }
     }
 
@@ -150,7 +150,7 @@ public class LocalLobby : IDisposable
 
     void OnPlayerChangedStatus(PlayerStatus status)
     {
-        int readyCount = _localPlayers.Count(p => p.PlayerStatus.Value == PlayerStatus.Ready);
+        int readyCount = _localPlayers.Count(p => p.Status.Value == PlayerStatus.Ready);
 
         PlayerStatusChanged?.Invoke(readyCount == _localPlayers.Count);
     }
@@ -165,13 +165,13 @@ public class LocalLobby : IDisposable
 
     private void SubscribeOnPlayerUpdates(LocalPlayer player)
     {
-        player.PlayerStatus.onChanged += OnPlayerChangedStatus;
+        player.Status.onChanged += OnPlayerChangedStatus;
         player.IsTurn.onChanged += OnUserChangedTurn;
     }
 
     private void UnsubscribeFromPlayerUpdates(LocalPlayer player)
     {
-        player.PlayerStatus.onChanged -= OnPlayerChangedStatus;
+        player.Status.onChanged -= OnPlayerChangedStatus;
         player.IsTurn.onChanged -= OnUserChangedTurn;
     }
 }

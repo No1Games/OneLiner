@@ -13,7 +13,7 @@ public class LocalPlayerEditor
 
     public LocalPlayerEditor SetId(string playerId)
     {
-        _lobbyManager.LocalPlayer.ID.Value = playerId;
+        _lobbyManager.LocalPlayer.PlayerId.Value = playerId;
         _pendingChanges = true;
         return this;
     }
@@ -41,7 +41,7 @@ public class LocalPlayerEditor
 
     public LocalPlayerEditor SetStatus(PlayerStatus status)
     {
-        _lobbyManager.LocalPlayer.PlayerStatus.Value = status;
+        _lobbyManager.LocalPlayer.Status.Value = status;
         _pendingChanges = true;
         return this;
     }

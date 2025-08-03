@@ -32,9 +32,9 @@ public class PlayerDataConverter
             : PlayerRole.NotSetYet;
 
         LocalPlayer local = new LocalPlayer();
-        local.ID.Value = id;
+        local.PlayerId.Value = id;
         local.DisplayName.Value = displayName;
-        local.PlayerStatus.Value = userStatus;
+        local.Status.Value = userStatus;
         local.Role.Value = playerRole;
 
         return local;
@@ -54,9 +54,9 @@ public class PlayerDataConverter
             ? (PlayerRole)int.Parse(remote.Data[PlayerDataKeys.Role].Value)
             : PlayerRole.NotSetYet;
 
-        local.ID.Value = id;
+        local.PlayerId.Value = id;
         local.DisplayName.Value = displayName;
-        local.PlayerStatus.Value = userStatus;
+        local.Status.Value = userStatus;
         local.Role.Value = playerRole;
     }
 
@@ -64,15 +64,15 @@ public class PlayerDataConverter
     {
         Dictionary<string, PlayerDataObject> data = new Dictionary<string, PlayerDataObject>();
 
-        if (local == null || string.IsNullOrEmpty(local.ID.Value))
+        if (local == null || string.IsNullOrEmpty(local.PlayerId.Value))
         {
             Debug.LogWarning("Error converting local player to remote data: missing local player object or local player id.");
             return data;
         }
 
         data.Add(PlayerDataKeys.DisplayName, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, local.DisplayName.Value));
-        data.Add(PlayerDataKeys.PlayerStatus, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ((int)local.PlayerStatus.Value).ToString()));
-        data.Add(PlayerDataKeys.Role, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ((int)local.PlayerStatus.Value).ToString()));
+        data.Add(PlayerDataKeys.PlayerStatus, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ((int)local.Status.Value).ToString()));
+        data.Add(PlayerDataKeys.Role, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ((int)local.Status.Value).ToString()));
         data.Add(PlayerDataKeys.IsTurn, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, local.IsTurn.Value.ToString()));
 
         return data;

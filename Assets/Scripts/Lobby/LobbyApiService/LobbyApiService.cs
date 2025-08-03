@@ -205,7 +205,7 @@ public class LobbyApiService : ILobbyApiService
         try
         {
             await _updateLobbyCooldown.QueueUntilCooldown();
-            await LobbyService.Instance.UpdateLobbyAsync(lobby.LobbyID.Value, updateOptions);
+            await LobbyService.Instance.UpdateLobbyAsync(lobby.LobbyId.Value, updateOptions);
         }
         catch (LobbyServiceException e)
         {

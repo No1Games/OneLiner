@@ -50,7 +50,7 @@ public class TurnHandler : MonoBehaviour
                 return;
             }
 
-            Task task = m_OnlineController.LobbyManager.LocalLobbyEditor.SetCurrentPlayerId(m_Leader.ID.Value).CommitChangesAsync();
+            Task task = m_OnlineController.LobbyManager.LocalLobbyEditor.SetCurrentPlayerId(m_Leader.PlayerId.Value).CommitChangesAsync();
             //m_OnlineController.SetTurnID(m_Leader.ID.Value);
         }
     }
@@ -100,7 +100,7 @@ public class TurnHandler : MonoBehaviour
         }
 
         Task task = m_OnlineController.LobbyManager.LocalLobbyEditor
-            .SetCurrentPlayerId(nextPlayer.ID.Value)
+            .SetCurrentPlayerId(nextPlayer.PlayerId.Value)
             .CommitChangesAsync();
         //m_OnlineController.SetTurnID(nextPlayer.ID.Value);
     }
@@ -116,7 +116,7 @@ public class TurnHandler : MonoBehaviour
         //    return;
         //}
 
-        m_DrawButton.enabled = newID == m_OnlineController.LocalPlayer.ID.Value;
+        m_DrawButton.enabled = newID == m_OnlineController.LocalPlayer.PlayerId.Value;
     }
 
     public async Task EndTurn()

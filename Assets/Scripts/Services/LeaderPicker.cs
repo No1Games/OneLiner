@@ -13,9 +13,9 @@ public class LeaderPicker
         do
         {
             index = Random.Range(0, localLobby.LocalPlayers.Count);
-        } while (localLobby.LocalPlayers[index].ID.Value == localLobby.LeaderID.Value);
+        } while (localLobby.LocalPlayers[index].PlayerId.Value == localLobby.LeaderID.Value);
 
-        id = localLobby.LocalPlayers[index].ID.Value;
+        id = localLobby.LocalPlayers[index].PlayerId.Value;
 
         return id;
     }

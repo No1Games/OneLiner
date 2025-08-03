@@ -1,10 +1,5 @@
 using System;
-using System.Text;
 
-/// <summary>
-/// Current state of the user in the lobby.
-/// This is a Flags enum to allow for the Inspector to select multiples for various UI features.
-/// </summary>
 [Flags]
 public enum PlayerStatus
 {
@@ -16,51 +11,63 @@ public enum PlayerStatus
     Menu = 16 // User is not in a lobby, in one of the main menus.
 }
 
-/// <summary>
-/// Data for a local player instance. This will update data and is observed to know when to push local player changes to the entire lobby.
-/// </summary>
 [Serializable]
 public class LocalPlayer
 {
+    #region Basic player data
+
     public CallbackValue<bool> IsHost = new CallbackValue<bool>(false);
     public CallbackValue<string> DisplayName = new CallbackValue<string>("");
-    public CallbackValue<PlayerStatus> PlayerStatus = new CallbackValue<PlayerStatus>((PlayerStatus)0);
-    public CallbackValue<string> ID = new CallbackValue<string>("");
+    public CallbackValue<string> PlayerId = new CallbackValue<string>("");
+    public CallbackValue<long> LastUpdated = new CallbackValue<long>();
+
+    #endregion
+
+    #region Custom player data
+
+    public CallbackValue<PlayerStatus> Status = new CallbackValue<PlayerStatus>(PlayerStatus.None);
     public CallbackValue<int> Index = new CallbackValue<int>(0);
 
     public CallbackValue<int> AvatarID = new CallbackValue<int>(1001);
     public CallbackValue<int> AvatarBackID = new CallbackValue<int>(2001);
     public CallbackValue<int> NameBackID = new CallbackValue<int>(3001);
 
-    public CallbackValue<PlayerRole> Role = new CallbackValue<PlayerRole>((PlayerRole)0);
+    public CallbackValue<PlayerRole> Role = new CallbackValue<PlayerRole>(PlayerRole.NotSetYet);
 
+    // TODO: Move to RPC
     public CallbackValue<bool> IsTurn = new CallbackValue<bool>(false);
 
-    public DateTime LastUpdated;
+    //public DateTime LastUpdated;
 
-    public LocalPlayer() { }
+    #endregion
 
-    public LocalPlayer(string id, int index, bool isHost = false, string displayName = default, PlayerStatus status = default, PlayerRole role = default)
+    public void ResetState()
     {
-        ID.Value = id;
+        IsHost.Value = false;
+        Status.Value = PlayerStatus.Menu;
+        Role.Value = PlayerRole.NotSetYet;
+    }
+
+    #region Legacy
+
+    /*
+     public LocalPlayer(string id, int index, bool isHost = false, string displayName = default, PlayerStatus status = default, PlayerRole role = default)
+    {
+        PlayerId.Value = id;
         IsHost.Value = isHost;
         Index.Value = index;
         DisplayName.Value = displayName;
         PlayerStatus.Value = status;
         Role.Value = role;
-    }
+    } 
+    */
 
-    public void ResetState()
-    {
-        IsHost.Value = false;
-        PlayerStatus.Value = global::PlayerStatus.Menu;
-    }
-
+    /*
     public override string ToString()
     {
         StringBuilder sb = new StringBuilder();
 
-        sb.Append($"ID: {ID.Value}\n");
+        sb.Append($"ID: {PlayerId.Value}\n");
         sb.Append($"Name: {DisplayName.Value}\n");
         sb.Append($"Role: {Role.Value}\n");
         sb.Append($"Is Turn: {IsTurn.Value}\n");
@@ -68,4 +75,7 @@ public class LocalPlayer
 
         return sb.ToString();
     }
+    */
+
+    #endregion
 }

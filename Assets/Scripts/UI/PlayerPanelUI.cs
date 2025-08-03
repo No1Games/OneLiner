@@ -26,7 +26,7 @@ public class PlayerPanelUI : MonoBehaviour
     [SerializeField] private GameObject _crownGO;
 
     public bool IsSet => m_LocalPlayer != null;
-    public string? PlayerID => m_LocalPlayer?.ID.Value;
+    public string? PlayerID => m_LocalPlayer?.PlayerId.Value;
 
     private void Awake()
     {
@@ -43,7 +43,7 @@ public class PlayerPanelUI : MonoBehaviour
         SetNameBack(localPlayer.NameBackID.Value);
         SetAvatarImage(localPlayer.AvatarID.Value);
         SetAvatarBackImage(localPlayer.AvatarBackID.Value);
-        SetStatus(localPlayer.PlayerStatus.Value);
+        SetStatus(localPlayer.Status.Value);
 
         SubscribeOnPlayerChanges();
     }
@@ -82,7 +82,7 @@ public class PlayerPanelUI : MonoBehaviour
         m_LocalPlayer.AvatarID.onChanged += SetAvatarImage;
         m_LocalPlayer.AvatarBackID.onChanged += SetAvatarBackImage;
         m_LocalPlayer.NameBackID.onChanged += SetNameBack;
-        m_LocalPlayer.PlayerStatus.onChanged += SetStatus;
+        m_LocalPlayer.Status.onChanged += SetStatus;
         m_LocalPlayer.IsTurn.onChanged += SetTurn;
     }
 
@@ -107,8 +107,8 @@ public class PlayerPanelUI : MonoBehaviour
             if (m_LocalPlayer.NameBackID.onChanged != null)
                 m_LocalPlayer.NameBackID.onChanged -= SetNameBack;
 
-            if (m_LocalPlayer.PlayerStatus.onChanged != null)
-                m_LocalPlayer.PlayerStatus.onChanged -= SetStatus;
+            if (m_LocalPlayer.Status.onChanged != null)
+                m_LocalPlayer.Status.onChanged -= SetStatus;
 
             if (m_LocalPlayer.IsTurn.onChanged != null)
                 m_LocalPlayer.IsTurn.onChanged -= SetTurn;
@@ -143,7 +143,7 @@ public class PlayerPanelUI : MonoBehaviour
 
     private void SetIsLeader(string leaderID)
     {
-        _crownGO.SetActive(leaderID == m_LocalPlayer.ID.Value);
+        _crownGO.SetActive(leaderID == m_LocalPlayer.PlayerId.Value);
     }
 
     private void SetStatus(PlayerStatus status)

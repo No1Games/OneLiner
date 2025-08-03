@@ -10,7 +10,7 @@ public class LobbyDataConverter
         LocalLobby local = new LocalLobby();
 
         // Basic lobby data
-        local.LobbyID.Value = remote.Id;
+        local.LobbyId.Value = remote.Id;
         local.HostID.Value = remote.HostId;
         local.LobbyName.Value = remote.Name;
         local.Private.Value = remote.IsPrivate;
@@ -66,7 +66,7 @@ public class LobbyDataConverter
     public static void UpdateLocalFromRemote(Lobby remote, LocalLobby local)
     {
         // Update basic data
-        local.LobbyID.Value = remote.Id;
+        local.LobbyId.Value = remote.Id;
         local.HostID.Value = remote.HostId;
         local.LobbyName.Value = remote.Name;
         local.Private.Value = remote.IsPrivate;
@@ -111,7 +111,7 @@ public class LobbyDataConverter
         var remoteIds = new HashSet<string>(remote.Players.Select(p => p.Id));
         foreach (var remotePlayer in remote.Players)
         {
-            var existingLocal = local.LocalPlayers.FirstOrDefault(lp => lp.ID.Value == remotePlayer.Id);
+            var existingLocal = local.LocalPlayers.FirstOrDefault(lp => lp.PlayerId.Value == remotePlayer.Id);
 
             if (existingLocal != null)
             {
@@ -127,7 +127,7 @@ public class LobbyDataConverter
             }
         }
 
-        var toRemove = local.LocalPlayers.Where(lp => !remoteIds.Contains(lp.ID.Value)).ToList();
+        var toRemove = local.LocalPlayers.Where(lp => !remoteIds.Contains(lp.PlayerId.Value)).ToList();
         foreach (var removed in toRemove)
         {
             local.RemovePlayer(removed);
