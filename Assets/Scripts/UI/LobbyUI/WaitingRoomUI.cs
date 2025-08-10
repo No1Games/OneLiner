@@ -138,17 +138,16 @@ public class WaitingRoomUI : MenuBase
 
     private async void OnClick_ReadyButton()
     {
-        _status = PlayerStatus.Ready;
+        // Update UI
+        _readyButton.gameObject.SetActive(false); // Off Ready
+        _unreadyButton.gameObject.SetActive(true); // On Unready
 
+        // Change player status locally and commit changes to Lobby Service
         await _gameManager.LobbyManager.LocalPlayerEditor
-            .SetStatus(_status)
+            .SetStatus(PlayerStatus.Ready)
             .CommitChangesAsync();
 
-        _unreadyButton.gameObject.SetActive(true);
-
-        _readyButton.gameObject.SetActive(false);
-
-        Debug.Log("Click Ready Button enables unreadyButton");
+        Debug.Log($"[{nameof(OnClick_ReadyButton)}] UI click ready -> status={PlayerStatus.Ready}");
     }
 
     private async void OnClick_UnreadyButton()

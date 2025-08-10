@@ -156,7 +156,7 @@ public class LocalLobby : IDisposable
     }
 
     // TODO: Move to RPC
-    private void OnUserChangedTurn(bool value)
+    private void OnPlayerChangedTurn(bool value)
     {
         UserTurnChanged?.Invoke(value);
     }
@@ -166,12 +166,12 @@ public class LocalLobby : IDisposable
     private void SubscribeOnPlayerUpdates(LocalPlayer player)
     {
         player.Status.onChanged += OnPlayerChangedStatus;
-        player.IsTurn.onChanged += OnUserChangedTurn;
+        player.IsTurn.onChanged += OnPlayerChangedTurn;
     }
 
     private void UnsubscribeFromPlayerUpdates(LocalPlayer player)
     {
         player.Status.onChanged -= OnPlayerChangedStatus;
-        player.IsTurn.onChanged -= OnUserChangedTurn;
+        player.IsTurn.onChanged -= OnPlayerChangedTurn;
     }
 }

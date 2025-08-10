@@ -30,7 +30,7 @@ public class Initializer : MonoBehaviour
         {
             await UnityServices.InitializeAsync();
 
-            (LobbyService.Instance as ILobbyServiceSDKConfiguration).EnableLocalPlayerLobbyEvents(false);
+            (LobbyService.Instance as ILobbyServiceSDKConfiguration).EnableLocalPlayerLobbyEvents(true);
         }
     }
 

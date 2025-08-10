@@ -177,6 +177,7 @@ public class OnlineController : MonoBehaviour
 
         if (isAllReady && _lobbyManager.LocalLobby.LocalLobbyState.Value != LobbyState.Countdown)
         {
+
             await _lobbyManager.LocalLobbyEditor.SetState(LobbyState.Countdown).CommitChangesAsync();
         }
         else
