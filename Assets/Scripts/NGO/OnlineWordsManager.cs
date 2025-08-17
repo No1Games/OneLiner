@@ -4,31 +4,43 @@ using UnityEngine;
 
 public class OnlineWordsManager : NetworkBehaviour
 {
+    // Reference to the UI
     [SerializeField]
     private WordsPanel _wordsPanel;
 
+    // Reference to word manager
     [SerializeField]
     private WordManager _wordManager;
 
+    // Network variables to sync words list and leader word between players
     public NetworkList<int> WordsIndexes = new NetworkList<int>();
+    public NetworkVariable<int> LeaderWordIndex = new NetworkVariable<int>();
+
+    private List<string> _words = new List<string>();
+    public string LeaderWord => _words[LeaderWordIndex.Value];
 
     public override void OnNetworkSpawn()
     {
         Debug.Log($"OnNetworkSpawn called on OnlineWordsManager. Is Host: {OnlineController.Instance.LocalPlayer.IsHost.Value}");
 
+        // If host spawn manager generate words list and leader word
         if (OnlineController.Instance.LocalPlayer.IsHost.Value)
         {
-            var wordsList = _wordManager.FormWordListForRound();
-            var indexes = _wordManager.GetWordsIndexes(wordsList);
+            _words = _wordManager.FormWordListForRound();
+            var indexes = _wordManager.GetWordsIndexes(_words);
 
             WordsIndexes.Clear();
             foreach (var index in indexes)
             {
                 WordsIndexes.Add(index);
             }
+
+            LeaderWordIndex.Value = _wordManager.GetLeaderWordIndex(_words);
         }
 
-        SetButtonsRpc();
+        // Call rpc events to both host and clients
+        SetButtonsRpc(); // Sets words to buttons
+        SetLeaderWordRpc(); // Sets leader word
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -44,5 +56,13 @@ public class OnlineWordsManager : NetworkBehaviour
         }
 
         _wordsPanel.SetButtons(_wordManager.GetWordsFromIndexes(indexes));
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SetLeaderWordRpc()
+    {
+        Debug.Log($"SetLeaderWord is called. Leader word index: {LeaderWordIndex.Value}");
+
+        _wordsPanel.SetLeaderWord(LeaderWordIndex.Value);
     }
 }

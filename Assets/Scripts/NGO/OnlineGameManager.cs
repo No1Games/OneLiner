@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,11 +32,7 @@ public class OnlineGameManager : MonoBehaviour
 
     [Header("Words Fields")]
     [SerializeField] private WordsPanel _wordsPanel;
-    [SerializeField] private WordManager _wordManager;
-    private List<string> _wordsList = new List<string>();
-    //private NetworkVariable<List<int>> _wordsIndexes = new NetworkVariable<List<int>>();
-    private string _leaderWord;
-    private int _leaderWordIndex;
+    private OnlineWordsManager _onlineWordsManager;
 
     #endregion
 
@@ -61,17 +55,9 @@ public class OnlineGameManager : MonoBehaviour
     [SerializeField]
     private RpcHandler _rpcHandler; // This object helds all rpc methods
 
-    // Fields for chaching controller and local models
-    private OnlineController _onlineController;
-    private LocalLobby _localLobby;
-    private LocalPlayer _localPlayer;
-
     private void Awake()
     {
-        // Chach controller and models
-        _onlineController = OnlineController.Instance;
-        _localLobby = _onlineController.LocalLobby;
-        _localPlayer = _onlineController.LocalPlayer;
+        _onlineWordsManager = FindFirstObjectByType<OnlineWordsManager>();
     }
 
     private void Start()
@@ -84,27 +70,6 @@ public class OnlineGameManager : MonoBehaviour
 
         SubscribeOnRpcEvents();
 
-        //_localLobby.WordsList.onChanged += OnWordsChanged;
-        //_localLobby.LeaderWord.onChanged += OnLeaderWordChanged;
-
-        // Host generates words
-        // TODO: Sync via RPC
-        if (_localPlayer.IsHost.Value)
-        {
-            //SetWords();
-            //_wordsList = _wordManager.FormWordListForRound();
-            //_wordsIndexes = _wordManager.GetWordsIndexes(_wordsList);
-
-            //// _rpcHandler.SetWordsIndexes();
-
-            //_leaderWordIndex = _wordManager.GetLeaderWordIndex(_wordsList);
-            //_leaderWord = _wordsList[_leaderWordIndex];
-            //_onlineController.LobbyManager.LocalLobbyEditor
-            //    .SetWordsIndexes(_wordsIndexes)
-            //    .SetLeaderWordIndex(_leaderWordIndex)
-            //    .CommitChangesAsync();
-        }
-
         _drawingManager.OnLineConfirmed += OnLineConfirmed;
         _drawingManager.OnLineSpawned += OnLineSpawned;
         _drawingManager.OnLineSpawned += UpdateLines;
@@ -112,21 +77,6 @@ public class OnlineGameManager : MonoBehaviour
 
         _wordsPanel.UserClickedWordEvent += OnUserMakeGuess;
     }
-
-    //public override void OnNetworkSpawn()
-    //{
-    //    _wordsIndexes.OnValueChanged += OnWordsChanged;
-
-    //    if (_localPlayer.IsHost.Value)
-    //    {
-    //        SetWordsRpc();
-    //    }
-    //}
-
-    //public override void OnNetworkDespawn()
-    //{
-    //    _wordsIndexes.OnValueChanged -= OnWordsChanged;
-    //}
 
     private void SubscribeOnRpcEvents()
     {
@@ -156,9 +106,6 @@ public class OnlineGameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        _localLobby.WordsList.onChanged -= OnWordsChanged;
-        _localLobby.LeaderWord.onChanged -= OnLeaderWordChanged;
-
         _drawingManager.OnLineConfirmed -= OnLineConfirmed;
         _drawingManager.OnLineSpawned -= OnLineSpawned;
         _drawingManager.OnLineSpawned -= UpdateLines;
@@ -168,51 +115,6 @@ public class OnlineGameManager : MonoBehaviour
     }
 
     #region Words Methods
-
-    //[Rpc(SendTo.NotServer)]
-    //private void SetWordsRpc()
-    //{
-    //    _wordsList = _wordManager.FormWordListForRound();
-    //    _wordsIndexes.Value = _wordManager.GetWordsIndexes(_wordsList);
-    //    _wordsIndexes.CheckDirtyState();
-    //}
-
-    private void OnWordsChanged(List<int> previous, List<int> current)
-    {
-        _wordsList = _wordManager.GetWordsFromIndexes(current);
-        _wordsPanel.SetButtons(_wordsList);
-    }
-
-    private void OnWordsChanged(List<int> indexes)
-    {
-        _wordsList = _wordManager.GetWordsFromIndexes(indexes);
-
-        _wordsPanel.SetButtons(_wordsList);
-    }
-
-    private void OnLeaderWordChanged(int index)
-    {
-        _leaderWordIndex = index;
-
-        if (_wordsList != null)
-        {
-            try
-            {
-                // m_LeaderWord = m_WordsList[m_LeaderWordIndex];
-                Debug.LogWarning(_localLobby.WordsList.Value.Count);
-                Debug.LogWarning(_wordManager.GetWordsFromIndexes(_localLobby.WordsList.Value).Count);
-                _wordsList = _wordManager.GetWordsFromIndexes(_localLobby.WordsList.Value);
-                _leaderWord = _wordsList[index];
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"{_wordsList.Count} {_leaderWordIndex}\n{e.Message}");
-                _leaderWord = null;
-            }
-        }
-
-        _wordsPanel.SetLeaderWord(index);
-    }
 
     public void DisableButtonByIndex(int index)
     {
@@ -266,7 +168,7 @@ public class OnlineGameManager : MonoBehaviour
 
     private async void OnUserMakeGuess(int index)
     {
-        if (_leaderWordIndex != index)
+        if (_onlineWordsManager.LeaderWordIndex.Value != index)
         {
             int newHearts = _currentHearts - 1;
 
@@ -296,19 +198,7 @@ public class OnlineGameManager : MonoBehaviour
 
     public void ShowGameOverScreen(bool isWin, float score = 0)
     {
-        if (_leaderWord == null)
-        {
-            if (_wordsList != null)
-            {
-                _leaderWord = _wordsList[_leaderWordIndex];
-            }
-            else
-            {
-                Debug.LogError($"Words list was not initialilzed!");
-            }
-        }
-
-        _gameOverUI.Show(_leaderWord, isWin, score);
+        _gameOverUI.Show(_onlineWordsManager.LeaderWord, isWin, score);
     }
 
 }
