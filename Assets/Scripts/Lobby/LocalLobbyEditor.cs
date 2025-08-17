@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public class LocalLobbyEditor
@@ -37,23 +36,6 @@ public class LocalLobbyEditor
     public LocalLobbyEditor SetRelayCode(string relayCode)
     {
         _lobbyManager.LocalLobby.RelayCode.Value = relayCode;
-        _pendingChanges = true;
-        return this;
-    }
-
-    // TODO: Move words sync to RPC
-    [Obsolete("Will be removed after gameplay RPC sync")]
-    public LocalLobbyEditor SetWordsIndexes(List<int> indexes)
-    {
-        _lobbyManager.LocalLobby.WordsList.Value = indexes;
-        _pendingChanges = true;
-        return this;
-    }
-
-    [Obsolete("Will be removed after gameplay RPC sync")]
-    public LocalLobbyEditor SetLeaderWordIndex(int wordIndex)
-    {
-        _lobbyManager.LocalLobby.LeaderWord.Value = wordIndex;
         _pendingChanges = true;
         return this;
     }
