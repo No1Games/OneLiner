@@ -5,9 +5,6 @@ using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
-using UnityEngine.SocialPlatforms.Impl;
-using UnityEngine.UI;
 
 public class LobbyApiService : ILobbyApiService
 {
@@ -43,8 +40,8 @@ public class LobbyApiService : ILobbyApiService
 
         QueryLobbiesOptions options = new QueryLobbiesOptions
         {
-            Count = 25, 
-            Filters = new List<QueryFilter> 
+            Count = 25,
+            Filters = new List<QueryFilter>
             {
                 // Only lobbies with available slots
                 new QueryFilter(

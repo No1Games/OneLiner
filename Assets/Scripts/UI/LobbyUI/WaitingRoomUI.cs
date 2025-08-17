@@ -91,23 +91,22 @@ public class WaitingRoomUI : MenuBase
 
         LoadingPanel.Instance.Show();
 
-        //await _gameManager.CreateLobby(_gameManager.LocalPlayer.DisplayName.Value, _isPrivate, _maxPlayers);
-        await _gameManager.CreateLobbyAsync(_isPrivate, _maxPlayers);
-
         HostSetUp();
+
+        await _gameManager.CreateLobbyAsync(_isPrivate, _maxPlayers);
 
         LoadingPanel.Instance.Hide();
     }
 
     private async void OnClick_BackButton()
     {
+        MainMenuManager.Instance.ChangeMenu(MenuName.RoomsList);
+
         await _gameManager.LeaveLobbyAsync();
 
         _localLobby = null;
 
         ClearPlayersList();
-
-        MainMenuManager.Instance.ChangeMenu(MenuName.RoomsList);
     }
 
     private void OnClick_PrivateButton()
@@ -146,21 +145,18 @@ public class WaitingRoomUI : MenuBase
         await _gameManager.LobbyManager.LocalPlayerEditor
             .SetStatus(PlayerStatus.Ready)
             .CommitChangesAsync();
-
-        Debug.Log($"[{nameof(OnClick_ReadyButton)}] UI click ready -> status={PlayerStatus.Ready}");
     }
 
     private async void OnClick_UnreadyButton()
     {
-        _status = PlayerStatus.Lobby;
+        // Update UI
+        _unreadyButton.gameObject.SetActive(false); // Off Unready
+        _readyButton.gameObject.SetActive(true); // On Ready
 
+        // Change player status locally and commit changes to Lobby Service
         await _gameManager.LobbyManager.LocalPlayerEditor
-            .SetStatus(_status)
+            .SetStatus(PlayerStatus.Lobby)
             .CommitChangesAsync();
-
-        _readyButton.gameObject.SetActive(true);
-
-        _unreadyButton.gameObject.SetActive(false);
     }
 
     private void OnClick_ChooseLeaderButton()
@@ -190,8 +186,6 @@ public class WaitingRoomUI : MenuBase
 
     private void OnPlayersReady()
     {
-        Debug.Log("On Players Ready");
-
         _unreadyButton.gameObject.SetActive(false);
 
         _countdown.gameObject.SetActive(true);
@@ -277,8 +271,6 @@ public class WaitingRoomUI : MenuBase
 
         _timerSlider.interactable = false;
 
-        _status = _gameManager.LocalPlayer.Status.Value;
-
         _privateButtonAnimator.SetBool("Selected", _isPrivate);
         _publicButtonAnimator.SetBool("Selected", !_isPrivate);
 
@@ -313,8 +305,6 @@ public class WaitingRoomUI : MenuBase
 
         _timerSlider.interactable = false;
         _enableTimerButton.gameObject.SetActive(false);
-
-        _status = _gameManager.LocalPlayer.Status.Value;
 
         UpdatePlayersList();
     }

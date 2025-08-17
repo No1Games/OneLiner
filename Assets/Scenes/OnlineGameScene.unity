@@ -1029,9 +1029,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 227335247}
+  - component: {fileID: 227335248}
   - component: {fileID: 227335246}
   m_Layer: 0
-  m_Name: OnlineSetUp
+  m_Name: OnlineGameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1049,18 +1050,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19bd4288ea7fead4cadcad10dba8ca8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HeartsUI: {fileID: 1753747412}
-  m_MaxHearts: 2
-  m_LinesUI: {fileID: 2009819091}
-  m_StartTurnPanel: {fileID: 368842264}
-  m_TurnHandler: {fileID: 1343160723}
-  m_WordsPanel: {fileID: 597228376}
-  m_WordManager: {fileID: 2078672916}
-  m_DrawingManager: {fileID: 149930183}
-  m_DrawingUpdate: {fileID: 94886926}
-  m_DrawnImage: {fileID: 1477893603}
-  m_MainCamera: {fileID: 720143048}
-  m_GameOverUI: {fileID: 995610651}
+  ShowTopMostFoldoutHeaderGroup: 1
+  _heartsUI: {fileID: 1753747412}
+  _maxHearts: 2
+  _linesUI: {fileID: 2009819091}
+  _startTurnPanel: {fileID: 368842264}
+  _turnHandler: {fileID: 1343160723}
+  _wordsPanel: {fileID: 597228376}
+  _wordManager: {fileID: 2078672916}
+  _drawingManager: {fileID: 149930183}
+  _drawingUpdate: {fileID: 94886926}
+  _drawnImage: {fileID: 1630396317}
+  _mainCamera: {fileID: 720143048}
+  _gameOverUI: {fileID: 995610651}
+  _rpcHandler: {fileID: 988495569}
 --- !u!4 &227335247
 Transform:
   m_ObjectHideFlags: 0
@@ -1076,6 +1079,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &227335248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227335245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1896722863
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &244875187
 GameObject:
   m_ObjectHideFlags: 0
@@ -2205,6 +2233,7 @@ MonoBehaviour:
   uIManager: {fileID: 969784015}
   drawingManager: {fileID: 0}
   drawingUpdate: {fileID: 0}
+  tutorialManager: {fileID: 0}
   timer: {fileID: 0}
 --- !u!1 &712695501
 GameObject:
@@ -3729,7 +3758,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -4085,6 +4114,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1002338467}
   m_CullTransparentMesh: 1
+--- !u!1 &1019732283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1019732285}
+  - component: {fileID: 1019732284}
+  - component: {fileID: 1019732286}
+  m_Layer: 0
+  m_Name: OnlineWordsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1019732284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019732283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 573048357
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!4 &1019732285
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019732283}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1019732286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019732283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fde750cf359e8f4e9d18f03a3f8ad6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  _wordsPanel: {fileID: 597228376}
+  _wordManager: {fileID: 2078672916}
+  WordsIndexes:
+    m_InternalValue: 
 --- !u!1 &1022881162
 GameObject:
   m_ObjectHideFlags: 0
@@ -9544,6 +9648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wordList: {fileID: 11400000, guid: cd945c340f3b19847b9e96492d8ebe24, type: 2}
+  tutorialWordList: {fileID: 0}
   wordAmount: 20
 --- !u!4 &2078672917
 Transform:
@@ -9751,5 +9856,6 @@ SceneRoots:
   - {fileID: 847130115}
   - {fileID: 1482894399}
   - {fileID: 227335247}
+  - {fileID: 1019732285}
   - {fileID: 1343160724}
   - {fileID: 94886927}

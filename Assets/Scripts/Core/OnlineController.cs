@@ -73,12 +73,6 @@ public class OnlineController : MonoBehaviour
 
         // Force leave lobby on closing the app
         Application.wantsToQuit += OnWantToQuit;
-
-        //_lobbyManager = new LobbyManager(new LobbyApiService());
-        //_lobbyManager.OnLobbyCreated += OnLobbyCreated;
-        //_lobbyManager.OnLobbyJoined += OnLobbyJoined;
-
-        //await AuthenticatePlayer();
     }
 
     private async void Start()
@@ -178,11 +172,11 @@ public class OnlineController : MonoBehaviour
         if (isAllReady && _lobbyManager.LocalLobby.LocalLobbyState.Value != LobbyState.Countdown)
         {
 
-            await _lobbyManager.LocalLobbyEditor.SetState(LobbyState.Countdown).CommitChangesAsync();
+            await _lobbyManager.LocalLobbyEditor.SetState(LobbyState.Countdown).SetLocked(true).CommitChangesAsync();
         }
         else
         {
-            await _lobbyManager.LocalLobbyEditor.SetState(LobbyState.Lobby).CommitChangesAsync();
+            await _lobbyManager.LocalLobbyEditor.SetState(LobbyState.Lobby).SetLocked(false).CommitChangesAsync();
         }
     }
 
@@ -273,13 +267,6 @@ public class OnlineController : MonoBehaviour
             .SetStatus(PlayerStatus.InGame)
             .CommitChangesAsync();
 
-        if (_lobbyManager.IsHost())
-        {
-            await _lobbyManager.LocalLobbyEditor
-                .SetLocked(true)
-                .CommitChangesAsync();
-        }
-
         ChangeScene();
     }
 
@@ -293,8 +280,13 @@ public class OnlineController : MonoBehaviour
     // Reacts on load of new scene
     private async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // If new scene is menu scene (left the game)
-        if (scene.name == _menuSceneName)
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        if (scene.name == _gameSceneName) // If start the game
+        {
+            await StartNetwork();
+        }
+        else if (scene.name == _menuSceneName) // If left the game
         {
             // New player status - lobby
             await _lobbyManager.LocalPlayerEditor
@@ -314,14 +306,8 @@ public class OnlineController : MonoBehaviour
             // Open room panel menu
             MainMenuManager.Instance.OpenRoomPanel(false);
         }
-        else if (scene.name == _gameSceneName)
-        {
-            await StartNetwork();
-        }
 
         LoadingPanel.Instance.Hide();
-
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private async Task StartNetwork()
@@ -329,13 +315,15 @@ public class OnlineController : MonoBehaviour
         if (_lobbyManager.IsHost())
         {
             await SetRelayHostData();
-            NetworkManager.Singleton.StartHost();
+            bool result = NetworkManager.Singleton.StartHost();
+            Debug.Log($"Start host result: {result}");
         }
         else
         {
             await AwaitRelayCode(_lobbyManager.LocalLobby);
             await SetRelayClientData();
-            NetworkManager.Singleton.StartClient();
+            bool result = NetworkManager.Singleton.StartClient();
+            Debug.Log($"Start client result: {result}");
         }
     }
 
@@ -365,7 +353,7 @@ public class OnlineController : MonoBehaviour
     private async Task SetRelayHostData()
     {
         // Get transport reference
-        UnityTransport transport = NetworkManager.Singleton.GetComponentInChildren<UnityTransport>();
+        UnityTransport transport = GetComponent<UnityTransport>();
         // Allocate relay for players number
         var allocation = await Relay.Instance.CreateAllocationAsync(_lobbyManager.LocalLobby.MaxPlayerCount.Value);
         // Get the join code for this lobby
@@ -386,7 +374,7 @@ public class OnlineController : MonoBehaviour
 
     private async Task SetRelayClientData()
     {
-        UnityTransport transport = NetworkManager.Singleton.GetComponentInChildren<UnityTransport>();
+        UnityTransport transport = GetComponent<UnityTransport>();
 
         var joinAllocation = await Relay.Instance.JoinAllocationAsync(_lobbyManager.LocalLobby.RelayCode.Value);
         bool isSecure = false;
@@ -427,9 +415,9 @@ public class OnlineController : MonoBehaviour
     {
         if (_lobbyManager.LocalPlayer.PlayerId.Value == id)
         {
-            await _lobbyManager.LocalPlayerEditor
-                .SetIsTurn(true)
-                .CommitChangesAsync();
+            //await _lobbyManager.LocalPlayerEditor
+            //    .SetIsTurn(true)
+            //    .CommitChangesAsync();
         }
     }
 

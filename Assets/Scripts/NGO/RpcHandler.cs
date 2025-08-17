@@ -7,11 +7,20 @@ public class RpcHandler : NetworkBehaviour
     [SerializeField] private Line _linePrefab;
     [SerializeField] private NGODrawManager _drawManager;
 
+    //NetworkVariable<List<int>> _wordsIndexes;
+
     //[SerializeField] private OnlineGameSetup _gameSetupManager;
 
     public event Action<int> DisableWordButtonEvent;
     public event Action<int> UpdateHeartsEvent;
     public event Action<bool, float> GameOverEvent;
+
+    //#region Words Syncronization
+    //private void SetWordsIndexes(List<int> wordsIndexes)
+    //{
+    //    _wordsIndexes.Value = wordsIndexes;
+    //}
+    //#endregion
 
     #region Line Syncronization
 
