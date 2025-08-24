@@ -23,15 +23,18 @@ public class OnlineGameManager : MonoBehaviour
     #region Turn Handle Fields
 
     [Header("Turn Handle Fields")]
-    [SerializeField] private StartTurnPanelUI _startTurnPanel;
-    [SerializeField] private TurnHandler _turnHandler;
+    [SerializeField]
+    private StartTurnPanelUI _startTurnPanel;
+    [SerializeField]
+    private TurnHandler _turnHandler;
 
     #endregion
 
     #region Words Fields
 
     [Header("Words Fields")]
-    [SerializeField] private WordsPanel _wordsPanel;
+    [SerializeField]
+    private WordsPanel _wordsPanel;
     private OnlineWordsManager _onlineWordsManager;
 
     #endregion
@@ -153,10 +156,10 @@ public class OnlineGameManager : MonoBehaviour
         ToggleScreen(false);
     }
 
-    private async void OnLineConfirmed(Line line)
+    private void OnLineConfirmed(Line line)
     {
         _rpcHandler.SpawnLine(line.Start, line.End);
-        await _turnHandler.EndTurn();
+        _turnHandler.EndTurnRpc();
     }
 
     #endregion
@@ -166,7 +169,7 @@ public class OnlineGameManager : MonoBehaviour
         _linesUI.SetLines(++_linesCount);
     }
 
-    private async void OnUserMakeGuess(int index)
+    private void OnUserMakeGuess(int index)
     {
         if (_onlineWordsManager.LeaderWordIndex.Value != index)
         {
@@ -181,7 +184,7 @@ public class OnlineGameManager : MonoBehaviour
                 _rpcHandler.OnGuessedWrong(index, newHearts);
             }
 
-            await _turnHandler.EndTurn();
+            _turnHandler.EndTurnRpc();
         }
         else
         {

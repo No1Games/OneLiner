@@ -21,8 +21,6 @@ public class OnlineWordsManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        Debug.Log($"OnNetworkSpawn called on OnlineWordsManager. Is Host: {OnlineController.Instance.LocalPlayer.IsHost.Value}");
-
         // If host spawn manager generate words list and leader word
         if (OnlineController.Instance.LocalPlayer.IsHost.Value)
         {
@@ -46,8 +44,6 @@ public class OnlineWordsManager : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     public void SetButtonsRpc()
     {
-        Debug.Log("SetButtonsRpc is called");
-
         List<int> indexes = new List<int>();
 
         foreach (var index in WordsIndexes)
@@ -61,8 +57,6 @@ public class OnlineWordsManager : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     public void SetLeaderWordRpc()
     {
-        Debug.Log($"SetLeaderWord is called. Leader word index: {LeaderWordIndex.Value}");
-
         _wordsPanel.SetLeaderWord(LeaderWordIndex.Value);
     }
 }

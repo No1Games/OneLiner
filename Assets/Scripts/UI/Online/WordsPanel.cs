@@ -6,18 +6,22 @@ using UnityEngine.UI;
 public class WordsPanel : MonoBehaviour
 {
     [Space]
-    [SerializeField] private Button m_CloseBtn;
+    [SerializeField] private Button _closeBtn;
 
     [Space]
-    [SerializeField] private WordButtonOnline m_WordButtonPrefab;
+    [SerializeField] private WordButtonOnline _wordButtonPrefab;
 
-    private List<WordButtonOnline> m_WordButtons;
+    [Space]
+    [SerializeField]
+    private TurnHandler _turnHandler;
+
+    private List<WordButtonOnline> _wordButtons;
 
     public event Action<int> UserClickedWordEvent;
 
     private void Awake()
     {
-        m_CloseBtn.onClick.AddListener(OnClick_CloseButton);
+        _closeBtn.onClick.AddListener(OnClick_CloseButton);
     }
 
     public void SetButtons(List<string> words)
@@ -28,23 +32,37 @@ public class WordsPanel : MonoBehaviour
             return;
         }
 
-        if (m_WordButtons == null || m_WordButtons.Count != words.Count)
+        if (_wordButtons == null || _wordButtons.Count != words.Count)
         {
-            m_WordButtons = new List<WordButtonOnline>();
+            _wordButtons = new List<WordButtonOnline>();
             InstantiateButtons(words.Count);
         }
 
         for (int i = 0; i < words.Count; i++)
         {
-            m_WordButtons[i].SetWord(words[i], i);
-            m_WordButtons[i].gameObject.SetActive(true);
-            m_WordButtons[i].WordButtonClick += OnUserClickedWord;
-            m_WordButtons[i].Interactable = true;
+            _wordButtons[i].SetWord(words[i], i);
+            _wordButtons[i].gameObject.SetActive(true);
+            _wordButtons[i].WordButtonClick += OnUserClickedWord;
+            _wordButtons[i].Interactable = true;
         }
     }
 
     private void OnUserClickedWord(int index)
     {
+        if (OnlineController.Instance.LocalLobby.LeaderID.Value == OnlineController.Instance.LocalPlayer.PlayerId.Value)
+        {
+            Debug.Log("You are a leader! You can't guess words!");
+            return;
+        }
+
+        if (!_turnHandler.CurrentPlayerId.Value.ToString().Equals(OnlineController.Instance.LocalPlayer.PlayerId.Value))
+        {
+            Debug.Log("You can't guess words for now! Wait for your move!");
+            return;
+        }
+
+        _wordButtons[index].DisableButton();
+
         UserClickedWordEvent?.Invoke(index);
 
         Hide();
@@ -54,9 +72,9 @@ public class WordsPanel : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            WordButtonOnline wordButton = Instantiate(m_WordButtonPrefab, transform);
+            WordButtonOnline wordButton = Instantiate(_wordButtonPrefab, transform);
             wordButton.gameObject.SetActive(false);
-            m_WordButtons.Add(wordButton);
+            _wordButtons.Add(wordButton);
         }
     }
 
@@ -64,13 +82,13 @@ public class WordsPanel : MonoBehaviour
     {
         if (OnlineController.Instance.LocalPlayer.Role.Value != PlayerRole.Leader) return;
 
-        if (leaderWordIndex > m_WordButtons.Count || leaderWordIndex < 0)
+        if (leaderWordIndex > _wordButtons.Count || leaderWordIndex < 0)
         {
             Debug.LogWarning("Invalid Leader Word Index!");
             return;
         }
 
-        m_WordButtons[leaderWordIndex].SetLeaderWord();
+        _wordButtons[leaderWordIndex].SetLeaderWord();
     }
 
     private void OnClick_CloseButton()
@@ -80,7 +98,7 @@ public class WordsPanel : MonoBehaviour
 
     public void DisableButton(int index)
     {
-        m_WordButtons[index].DisableButton();
+        _wordButtons[index].DisableButton();
     }
 
     private void Hide()

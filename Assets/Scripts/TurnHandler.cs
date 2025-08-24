@@ -1,130 +1,94 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Unity.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TurnHandler : MonoBehaviour
+public class TurnHandler : NetworkBehaviour
 {
-    private OnlineController m_OnlineController;
+    public NetworkVariable<FixedString64Bytes> CurrentPlayerId = new NetworkVariable<FixedString64Bytes>();
+    private FixedString64Bytes _leaderId;
+    private Queue<FixedString64Bytes> _idQueue;
 
-    [SerializeField] private Button m_DrawButton;
+    private OnlineController _onlineController;
 
-    private LocalLobby m_LocalLobby;
-
-    private Queue<LocalPlayer> m_PlayersQueue;
-    private LocalPlayer m_Leader;
-
-    private LocalPlayer m_CurrentPlayer;
-    public LocalPlayer CurrentPlayer => m_CurrentPlayer;
+    [SerializeField]
+    private Button _drawButton;
 
     private void Awake()
     {
         // Cache controller
-        m_OnlineController = OnlineController.Instance;
-
-        // Cache current lobby
-        m_LocalLobby = m_OnlineController.LocalLobby;
-
-        // Cache current player
-        m_CurrentPlayer = m_OnlineController.LocalPlayer;
-
+        _onlineController = OnlineController.Instance;
+        _drawButton.enabled = false;
     }
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        // Subscribe on turn changing
-        m_LocalLobby.CurrentPlayerID.onChanged += OnTurnIDChanged;
-        m_OnlineController.PassTurnEvent += PassTurn;
-
+        CurrentPlayerId.OnValueChanged += UpdateUI;
 
         // Following actions makes only host
-        if (m_OnlineController.LocalPlayer.IsHost.Value)
+        if (IsHost)
         {
-            // Form players queue and find leader
-            CreateQueue();
+            _leaderId = (FixedString64Bytes)_onlineController.LocalLobby.LeaderID.Value;
 
             // Leader first to take turn
-            if (m_Leader is null)
+            if (_leaderId.IsEmpty)
             {
                 Debug.LogWarning("Can't find leader player!");
                 return;
             }
 
-            Task task = m_OnlineController.LobbyManager.LocalLobbyEditor.SetCurrentPlayerId(m_Leader.PlayerId.Value).CommitChangesAsync();
-            //m_OnlineController.SetTurnID(m_Leader.ID.Value);
+            // Form players queue
+            CreateQueue();
+
+            SetTurnTo(_leaderId);
         }
     }
 
-    private void OnDestroy()
+    public override void OnNetworkDespawn()
     {
-        m_LocalLobby.CurrentPlayerID.onChanged -= OnTurnIDChanged;
-        m_OnlineController.PassTurnEvent -= PassTurn;
+        base.OnNetworkDespawn();
+        CurrentPlayerId.OnValueChanged -= UpdateUI;
+    }
+
+    private void UpdateUI(FixedString64Bytes prevId, FixedString64Bytes newId)
+    {
+        _drawButton.enabled = _onlineController.LocalPlayer.PlayerId.Value.Equals(newId.ToString());
     }
 
     private void CreateQueue()
     {
-        m_PlayersQueue = new Queue<LocalPlayer>();
+        _idQueue = new Queue<FixedString64Bytes>();
 
-        foreach (var p in m_LocalLobby.LocalPlayers)
+        foreach (var p in _onlineController.LocalLobby.LocalPlayers)
         {
-            if (p.Role.Value == PlayerRole.Leader)
-            {
-                m_Leader = p;
-                continue;
-            }
-            m_PlayersQueue.Enqueue(p);
+            if (p.PlayerId.Value == _leaderId.ToString()) continue;
+
+            _idQueue.Enqueue((FixedString64Bytes)p.PlayerId.Value);
         }
     }
 
-    private void PassTurn()
+    public void SetTurnTo(FixedString64Bytes value)
     {
-        // Only host decides who the next player
-        if (!m_OnlineController.LocalPlayer.IsHost.Value) return;
-
-        LocalPlayer nextPlayer = null;
-
-        if (m_CurrentPlayer.Role.Value == PlayerRole.Player)
-        {
-            m_PlayersQueue.Enqueue(m_CurrentPlayer);
-            nextPlayer = m_Leader;
-        }
-        else if (m_CurrentPlayer.Role.Value == PlayerRole.Leader)
-        {
-            nextPlayer = m_PlayersQueue.Dequeue();
-        }
-
-        if (nextPlayer == null)
-        {
-            Debug.LogWarning($"Failed to calculate next player");
-            return;
-        }
-
-        Task task = m_OnlineController.LobbyManager.LocalLobbyEditor
-            .SetCurrentPlayerId(nextPlayer.PlayerId.Value)
-            .CommitChangesAsync();
-        //m_OnlineController.SetTurnID(nextPlayer.ID.Value);
+        CurrentPlayerId.Value = value;
     }
 
-    private void OnTurnIDChanged(string newID)
+    [Rpc(SendTo.Server)]
+    public void EndTurnRpc()
     {
-        // Get current player from lobby
-        //m_CurrentPlayer = m_LocalLobby.GetLocalPlayer(newID);
+        FixedString64Bytes nextId;
 
-        //if (m_CurrentPlayer == null)
-        //{
-        //    Debug.Log($"Failed to find local player with id {newID}");
-        //    return;
-        //}
+        if (_leaderId == CurrentPlayerId.Value)
+        {
+            nextId = _idQueue.Dequeue();
+        }
+        else
+        {
+            _idQueue?.Enqueue(CurrentPlayerId.Value);
+            nextId = _leaderId;
+        }
 
-        m_DrawButton.enabled = newID == m_OnlineController.LocalPlayer.PlayerId.Value;
-    }
-
-    public async Task EndTurn()
-    {
-        //m_OnlineController.SetLocalPlayerTurn(false);
-        await m_OnlineController.LobbyManager.LocalPlayerEditor
-            .SetIsTurn(false)
-            .CommitChangesAsync();
+        SetTurnTo(nextId);
     }
 }
 

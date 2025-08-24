@@ -41,14 +41,7 @@ public class WordButtonOnline : MonoBehaviour
 
     private void OnClick()
     {
-        if (OnlineController.Instance.LocalPlayer.Role.Value == PlayerRole.Leader)
-            return;
-
-        if (!OnlineController.Instance.LocalPlayer.IsTurn.Value)
-            return;
-
-        DisableButton();
-
+        Debug.Log($"Word button cliked. Index {m_Index}");
         WordButtonClick?.Invoke(m_Index);
     }
 

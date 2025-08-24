@@ -42,8 +42,6 @@ public class WaitingRoomUI : MenuBase
     private bool _isPrivate = false;
     private int _maxPlayers = 4;
 
-    private PlayerStatus _status;
-
     private void Awake()
     {
         _gameManager = OnlineController.Instance;

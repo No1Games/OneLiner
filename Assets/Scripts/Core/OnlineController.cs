@@ -118,7 +118,6 @@ public class OnlineController : MonoBehaviour
 
         await _lobbyManager.LocalPlayerEditor
             .SetIsHost(true)
-            .SetRole(_lobbyManager.LocalLobby.LeaderID.Value == _lobbyManager.LocalPlayer.PlayerId.Value ? PlayerRole.Leader : PlayerRole.Player)
             .SetStatus(PlayerStatus.Lobby)
             .CommitChangesAsync();
     }
@@ -129,7 +128,6 @@ public class OnlineController : MonoBehaviour
 
         await _lobbyManager.LocalPlayerEditor
             .SetIsHost(false)
-            .SetRole(_lobbyManager.LocalLobby.LeaderID.Value == _lobbyManager.LocalPlayer.PlayerId.Value ? PlayerRole.Leader : PlayerRole.Player)
             .SetStatus(PlayerStatus.Lobby)
             .CommitChangesAsync();
     }
@@ -141,10 +139,7 @@ public class OnlineController : MonoBehaviour
 
         _lobbyManager.LocalLobby.PlayersCountChanged += OnPlayersCountChanged;
 
-        // TODO: Move turn sync to the RPC
         _lobbyManager.LocalLobby.LeaderID.onChanged += OnLeaderIDChanged;
-        _lobbyManager.LocalLobby.CurrentPlayerID.onChanged += OnTurnIDChanged;
-        _lobbyManager.LocalLobby.UserTurnChanged += OnPlayerPassedTurn;
     }
 
     private void UnsubscibeFromLobbyUpdates()
@@ -154,10 +149,7 @@ public class OnlineController : MonoBehaviour
 
         _lobbyManager.LocalLobby.PlayersCountChanged -= OnPlayersCountChanged;
 
-        // TODO: Move turn sync to the RPC
         _lobbyManager.LocalLobby.LeaderID.onChanged -= OnLeaderIDChanged;
-        _lobbyManager.LocalLobby.CurrentPlayerID.onChanged -= OnTurnIDChanged;
-        _lobbyManager.LocalLobby.UserTurnChanged -= OnPlayerPassedTurn;
     }
 
     // This method sets LobbyState to Countdown if all players are ready
@@ -180,19 +172,14 @@ public class OnlineController : MonoBehaviour
         }
     }
 
-    // This method is sets leader to random when player count is changed (if IsRandomLeader is true)
-    // It runs every time player is connected/left to ensure random leader
-    private async void OnPlayersCountChanged(int playersCount)
+    private void OnPlayersCountChanged(int playersCount)
     {
+        Debug.Log($"New player connected. New players count: {playersCount}");
+
         // Only hosts changes leader
         if (!_lobbyManager.IsHost())
         {
             return;
-        }
-
-        if (IsRandomLeader)
-        {
-            await AssignRandomLeaderAsync();
         }
     }
 
@@ -202,34 +189,33 @@ public class OnlineController : MonoBehaviour
         LoadingPanel.Instance.Show();
 
         // Only host makes changes to lobby
-        if (!_lobbyManager.IsHost())
+        if (_lobbyManager.IsHost())
         {
-            return;
+            // Ensure leader Id is set before game
+            string leaderId = GetRandomLeaderId();
+
+            await _lobbyManager.LocalLobbyEditor
+                .SetState(LobbyState.InGame)
+                .SetLeaderId(leaderId)
+                .CommitChangesAsync();
         }
 
-        // Ensure leader Id is set before game
-        // Remove when not needed
-        if (string.IsNullOrEmpty(_lobbyManager.LocalLobby.LeaderID.Value))
-        {
-            await AssignRandomLeaderAsync();
-        }
-
-        _lobbyManager.LocalLobbyEditor.SetState(LobbyState.InGame);
-
-        await _lobbyManager.LocalLobbyEditor.CommitChangesAsync();
+        await _lobbyManager.LocalPlayerEditor
+            .SetStatus(PlayerStatus.InGame)
+            .CommitChangesAsync();
     }
 
     // This method reacts to changes of lobby state
     // case Lobby - Players not ready (cancel countdown I guess)
     // case Countdown - Players ready, start countdown
     // case InGame - Countdown is finished, start the game
-    private async void OnLobbyStateChanged(LobbyState state)
+    private void OnLobbyStateChanged(LobbyState state)
     {
         switch (state)
         {
             case LobbyState.Lobby: PlayerNotReadyEvent?.Invoke(); break;
             case LobbyState.Countdown: AllPlayersReadyEvent?.Invoke(); break;
-            case LobbyState.InGame: await StartGame(); break;
+            case LobbyState.InGame: ChangeScene(); break;
         }
     }
 
@@ -237,37 +223,15 @@ public class OnlineController : MonoBehaviour
     private async void OnLeaderIDChanged(string id)
     {
         // If new leader id equals current player id - change role to Leader
-        // Otherwise change to player (for example, if current player was previous leader)
+        // Otherwise change to player(for example, if current player was previous leader)
         if (id == _lobbyManager.LocalPlayer.PlayerId.Value)
         {
-            _lobbyManager.LocalPlayerEditor.SetRole(PlayerRole.Leader);
+            await _lobbyManager.LocalPlayerEditor.SetRole(PlayerRole.Leader).CommitChangesAsync();
         }
-        else
+        else if (_lobbyManager.LocalPlayer.Role.Value != PlayerRole.Player)
         {
-            _lobbyManager.LocalPlayerEditor.SetRole(PlayerRole.Player);
+            await _lobbyManager.LocalPlayerEditor.SetRole(PlayerRole.Player).CommitChangesAsync();
         }
-
-        await _lobbyManager.LocalPlayerEditor.CommitChangesAsync();
-    }
-
-    // This method reacts to player passing the turn
-    // TODO: Move all turn related logic to RPC
-    private void OnPlayerPassedTurn(bool isTurn)
-    {
-        if (!isTurn && _lobbyManager.IsHost())
-        {
-            PassTurnEvent?.Invoke();
-        }
-    }
-
-    // Sets player status, locks lobby and triggers scene changing
-    private async Task StartGame()
-    {
-        await _lobbyManager.LocalPlayerEditor
-            .SetStatus(PlayerStatus.InGame)
-            .CommitChangesAsync();
-
-        ChangeScene();
     }
 
     // Subscribes on scene loading and start load game scene
@@ -285,6 +249,7 @@ public class OnlineController : MonoBehaviour
         if (scene.name == _gameSceneName) // If start the game
         {
             await StartNetwork();
+            Debug.Log("Game Scene Loaded");
         }
         else if (scene.name == _menuSceneName) // If left the game
         {
@@ -327,15 +292,13 @@ public class OnlineController : MonoBehaviour
         }
     }
 
-    private async Task AssignRandomLeaderAsync()
+    private string GetRandomLeaderId()
     {
         int leaderIndex = UnityEngine.Random.Range(0, _lobbyManager.LocalLobby.PlayerCount);
 
         string leaderID = _lobbyManager.LocalLobby.GetLocalPlayerByIndex(leaderIndex).PlayerId.Value;
 
-        await _lobbyManager.LocalLobbyEditor
-            .SetLeaderId(leaderID)
-            .CommitChangesAsync();
+        return leaderID;
     }
 
     #region Relay
@@ -405,20 +368,6 @@ public class OnlineController : MonoBehaviour
     string AddressFromEndpoint(NetworkEndpoint endpoint)
     {
         return endpoint.Address.Split(':')[0];
-    }
-
-    #endregion
-
-    #region Turn Sync - TODO: Move logic to RPC
-
-    private async void OnTurnIDChanged(string id)
-    {
-        if (_lobbyManager.LocalPlayer.PlayerId.Value == id)
-        {
-            //await _lobbyManager.LocalPlayerEditor
-            //    .SetIsTurn(true)
-            //    .CommitChangesAsync();
-        }
     }
 
     #endregion

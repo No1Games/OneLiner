@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 
 public class LocalLobbyEditor
@@ -36,15 +35,6 @@ public class LocalLobbyEditor
     public LocalLobbyEditor SetRelayCode(string relayCode)
     {
         _lobbyManager.LocalLobby.RelayCode.Value = relayCode;
-        _pendingChanges = true;
-        return this;
-    }
-
-    // TODO: Move turn sycn to RPC
-    [Obsolete("Will be removed after gameplay RPC sync")]
-    public LocalLobbyEditor SetCurrentPlayerId(string id)
-    {
-        _lobbyManager.LocalLobby.CurrentPlayerID.Value = id;
         _pendingChanges = true;
         return this;
     }
