@@ -21,11 +21,9 @@ public class RoomsListUI : MenuBase
     private float _updateTimer;
 
     private ObjectPool<RoomItemUI> _itemPool;
-    private List<RoomItemUI> _activeItems;
+    private Dictionary<string, RoomItemUI> _itemsById;
 
     private OnlineController _gameManager;
-
-    private LocalLobby _selectedLobby;
 
     private void Awake()
     {
@@ -34,8 +32,8 @@ public class RoomsListUI : MenuBase
 
     private void Start()
     {
+        // Subscribe on lobby list update
         _gameManager.LobbyManager.Lobbies.OnLobbiesUpdated += OnLobbiesUpdated;
-        //_gameManager.LobbyList.onLobbyListChanged += OnLobbyListChanged;
     }
 
     private void Update()
@@ -46,7 +44,6 @@ public class RoomsListUI : MenuBase
     private void OnDestroy()
     {
         _gameManager.LobbyManager.Lobbies.OnLobbiesUpdated -= OnLobbiesUpdated;
-        // _gameManager.LobbyList.onLobbyListChanged -= OnLobbiesUpdated;
     }
 
     #region List Update Methods
@@ -58,41 +55,59 @@ public class RoomsListUI : MenuBase
         if (_updateTimer <= 0)
         {
             _updateTimer = _updateEverySeconds;
-            _gameManager.QueryLobbiesAsync();
+            _gameManager.QueryLobbiesAsync(); // Send request and then recive an event of updated lobbies
         }
     }
 
     private void UpdateLobbyList(Dictionary<string, LocalLobby> lobbies)
     {
-        ClearLobbyList();
+        var seen = new HashSet<string>();
 
-        foreach (var lobby in lobbies)
+        int siblingIndex = 0;
+
+        foreach (var kvp in lobbies)
         {
-            AddLobbyItem(lobby.Value);
+            var lobby = kvp.Value;
+            RoomItemUI item;
+
+            if (_itemsById.TryGetValue(kvp.Key, out item))
+            {
+                // Item is already exists - update lobby
+                item.SetLocalLobby(lobby);
+            }
+            else
+            {
+                // New lobby - create new item
+                item = _itemPool.GetObject();
+                item.transform.SetParent(_container, false);
+                item.SetLocalLobby(lobby);
+                item.LobbySelectedEvent += OnLobbySelected;
+                item.JoinLobbyEvent += OnJoinLobbyClicked;
+                _itemsById.Add(lobby.LobbyId.Value, item);
+            }
+
+            // Set order
+            item.transform.SetSiblingIndex(siblingIndex++);
+            // Save seen lobby
+            seen.Add(kvp.Key);
         }
-    }
 
-    private void AddLobbyItem(LocalLobby lobby)
-    {
-        RoomItemUI item = _itemPool.GetObject();
-        item.gameObject.transform.SetParent(_container, false);
-        item.SetLocalLobby(lobby);
-        item.LobbySelectedEvent += OnLobbySelected;
-        item.JoinLobbyEvent += OnJoinLobbyClicked;
-
-        _activeItems.Add(item);
-    }
-
-    private void ClearLobbyList()
-    {
-        foreach (var item in _activeItems)
+        // Remove closed lobbies
+        var toRemove = new List<string>();
+        foreach (var kvp in _itemsById)
         {
-            item.LobbySelectedEvent -= OnLobbySelected;
-            item.JoinLobbyEvent -= OnJoinLobbyClicked;
-            _itemPool.ReturnObject(item);
+            if (!seen.Contains(kvp.Key))
+            {
+                var item = kvp.Value;
+                item.LobbySelectedEvent -= OnLobbySelected;
+                item.JoinLobbyEvent -= OnJoinLobbyClicked;
+                _itemPool.ReturnObject(item);
+                toRemove.Add(kvp.Key);
+            }
         }
 
-        _activeItems.Clear();
+        foreach (var key in toRemove)
+            _itemsById.Remove(key);
     }
 
     #endregion
@@ -106,7 +121,7 @@ public class RoomsListUI : MenuBase
 
     private void OnLobbySelected(LocalLobby lobby)
     {
-        foreach (var item in _activeItems)
+        foreach (var item in _itemsById.Values)
         {
             if (item.LocalLobby != lobby)
             {
@@ -120,7 +135,6 @@ public class RoomsListUI : MenuBase
         LoadingPanel.Instance.Show();
 
         await _gameManager.JoinLobbyByIdAsync(lobby.LobbyId.Value);
-        //await _gameManager.JoinLobby(lobby.LobbyID.Value, lobby.LobbyCode.Value);
 
         MainMenuManager.Instance.OpenRoomPanel(false);
 
@@ -138,12 +152,12 @@ public class RoomsListUI : MenuBase
 
     private void OnClick_QuickJoinButton()
     {
-
+        Debug.LogWarning("Quick join not implemented");
     }
 
     private void OnClick_JoinPrivateButton()
     {
-
+        Debug.LogWarning("Private join not implemented");
     }
 
     private void OnClick_CreateButton()
@@ -155,16 +169,11 @@ public class RoomsListUI : MenuBase
 
     private void DeselectAll()
     {
-        if (_activeItems == null)
-        {
-            Debug.LogWarning("RoomsList active items is null");
+        if (_itemsById == null || _itemsById.Count == 0)
             return;
-        }
 
-        foreach (var item in _activeItems)
-        {
+        foreach (var item in _itemsById.Values)
             item.Deselect();
-        }
     }
 
     #region Menu Methods
@@ -173,14 +182,17 @@ public class RoomsListUI : MenuBase
     {
         base.Init();
 
-        _itemPool = new ObjectPool<RoomItemUI>(_roomItemPrefab);
-        _activeItems = new List<RoomItemUI>();
+        // Init pool for items in list and list for active room items
+        _itemPool = new ObjectPool<RoomItemUI>(_roomItemPrefab, _container);
+        _itemsById = new Dictionary<string, RoomItemUI>();
 
+        // Set button click listeners
         _backButton.onClick.AddListener(OnClick_BackButton);
         _quickJoinButton.onClick.AddListener(OnClick_QuickJoinButton);
         _createButton.onClick.AddListener(OnClick_CreateButton);
         _joinPrivateButton.onClick.AddListener(OnClick_JoinPrivateButton);
 
+        // Cache online controller
         _gameManager = OnlineController.Instance;
     }
 

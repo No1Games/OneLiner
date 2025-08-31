@@ -40766,7 +40766,7 @@ MonoBehaviour:
   _createButton: {fileID: 165414273}
   _quickJoinButton: {fileID: 1200865287}
   _joinPrivateButton: {fileID: 867471313}
-  _updateEverySeconds: 6
+  _updateEverySeconds: 2
 --- !u!1 &1628886900
 GameObject:
   m_ObjectHideFlags: 0

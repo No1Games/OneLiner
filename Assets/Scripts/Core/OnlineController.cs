@@ -54,8 +54,6 @@ public class OnlineController : MonoBehaviour
     public event Action AllPlayersReadyEvent;
     public event Action PlayerNotReadyEvent;
 
-    public event Action PassTurnEvent;
-
     private const string _gameSceneName = "OnlineGameScene";
     private const string _menuSceneName = "MainMenu";
 
