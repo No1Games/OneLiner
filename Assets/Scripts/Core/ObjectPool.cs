@@ -13,9 +13,11 @@ public class ObjectPool<T> where T : MonoBehaviour
 
     public event Action<T> ObjectReturnedEvent;
 
-    public ObjectPool(T objPrefab, Transform parent = null)
+    public ObjectPool(T objPrefab, Transform parent = null, int initSize = 10)
     {
         _objPrefab = objPrefab;
+
+        _initSize = initSize;
 
         m_Parent = parent;
 

@@ -78,7 +78,6 @@ public class WaitingRoomUI : MenuBase
 
         _localLobby.PlayerJoined -= AddPlayer;
         _localLobby.PlayerRemoved -= RemovePlayer;
-        // _localLobby.onUserLeft -= RemovePlayer;
     }
 
     #region UI Events Handlers
@@ -89,9 +88,9 @@ public class WaitingRoomUI : MenuBase
 
         LoadingPanel.Instance.Show();
 
-        HostSetUp();
-
         await _gameManager.CreateLobbyAsync(_isPrivate, _maxPlayers);
+
+        HostSetUp();
 
         LoadingPanel.Instance.Hide();
     }
@@ -237,12 +236,12 @@ public class WaitingRoomUI : MenuBase
 
         _enableTimerButton.gameObject.SetActive(false);
 
-        _playersListUI.AddPlayer(_gameManager.LocalPlayer);
-
         _privateButtonAnimator.SetBool("Selected", false);
         _publicButtonAnimator.SetBool("Selected", true);
 
         _isPrivate = false;
+
+        _playersListUI.AddPlayer(_gameManager.LocalPlayer);
     }
 
     private void HostSetUp()
@@ -313,17 +312,13 @@ public class WaitingRoomUI : MenuBase
 
     private void AddPlayer(LocalPlayer player)
     {
+        Debug.Log("Adding player");
         _playersListUI.AddPlayer(player);
     }
 
     private void RemovePlayer(LocalPlayer player)
     {
         _playersListUI.RemovePlayer(player);
-    }
-
-    private void RemovePlayer(int index)
-    {
-        _playersListUI.RemovePlayer(index);
     }
 
     private void UpdatePlayersList()

@@ -1,45 +1,46 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PlayersListUI : MonoBehaviour
 {
-    [SerializeField] private PlayerPanelUI m_PlayerPrefab;
-    [SerializeField] private Transform m_Container;
+    [SerializeField] private PlayerPanelUI _playerPrefab;
+    [SerializeField] private Transform _container;
 
-    private ObjectPool<PlayerPanelUI> m_ItemPool;
-    private List<PlayerPanelUI> m_ActiveItems;
+    private ObjectPool<PlayerPanelUI> _itemPool;
+    private Dictionary<string, PlayerPanelUI> _itemsById;
 
-    private LocalLobby m_LocalLobby;
-    private OnlineController m_OnlineController;
+    private LocalLobby _localLobby;
+    private OnlineController _onlineController;
 
     private void Awake()
     {
-        m_ItemPool = new ObjectPool<PlayerPanelUI>(m_PlayerPrefab);
-        m_ActiveItems = new List<PlayerPanelUI>();
+        _itemPool = new ObjectPool<PlayerPanelUI>(_playerPrefab, _container, 6);
+        _itemsById = new Dictionary<string, PlayerPanelUI>();
 
-        m_OnlineController = OnlineController.Instance;
-        m_LocalLobby = m_OnlineController.LocalLobby;
+        _onlineController = OnlineController.Instance;
+        _localLobby = _onlineController.LocalLobby;
     }
 
     private void Start()
     {
-        UpdateList(m_LocalLobby.LocalPlayers);
+        UpdateList(_localLobby.LocalPlayers);
     }
 
     public void AddPlayer(LocalPlayer player)
     {
-        PlayerPanelUI panel = m_ItemPool.GetObject();
+        PlayerPanelUI panel = _itemPool.GetObject();
 
-        panel.transform.SetParent(m_Container, false);
+        panel.transform.SetParent(_container, false);
         panel.SetLocalPlayer(player);
 
-        if (m_LocalLobby != null)
+        if (_localLobby != null)
         {
             panel.SetLocalLobby();
         }
 
-        m_ActiveItems.Add(panel);
+        panel.gameObject.SetActive(true);
+
+        _itemsById.Add(player.PlayerId.Value, panel);
     }
 
     public void RemovePlayer(LocalPlayer player)
@@ -50,78 +51,78 @@ public class PlayersListUI : MonoBehaviour
             return;
         }
 
-        var item = m_ActiveItems.FirstOrDefault(i => i.LocalPlayer.Equals(player));
+        PlayerPanelUI panel;
 
-        if (item == null)
+        if (_itemsById.TryGetValue(player.PlayerId.Value, out panel))
+        {
+            panel.SetDefault();
+            _itemPool.ReturnObject(panel);
+            _itemsById.Remove(player.PlayerId.Value);
+        }
+        else
         {
             Debug.LogWarning($"Cannot find specified player for remove. Player Id: {player.PlayerId.Value}");
-            return;
         }
-
-        item.Unsubscribe();
-
-        m_ItemPool.ReturnObject(item);
-
-        m_ActiveItems.Remove(item);
-    }
-
-    public void RemovePlayer(int index)
-    {
-        if (index < 0 || index >= m_ActiveItems.Count)
-        {
-            Debug.Log("Index out of bounds.");
-        }
-
-        m_ActiveItems[index].Unsubscribe();
-
-        m_ItemPool.ReturnObject(m_ActiveItems[index]);
-
-        m_ActiveItems.RemoveAt(index);
     }
 
     public void UpdateList(List<LocalPlayer> localPlayers)
     {
-        if (m_ActiveItems.Count == 0)
+        var seen = new HashSet<string>();
+
+        foreach (var player in localPlayers)
         {
-            foreach (var player in localPlayers)
+            PlayerPanelUI item;
+
+            if (_itemsById.TryGetValue(player.PlayerId.Value, out item))
             {
-                AddPlayer(player);
+                // Item is already exists - update player
+                item.SetLocalPlayer(player);
+            }
+            else
+            {
+                item = _itemPool.GetObject();
+
+                item.transform.SetParent(_container, false);
+                item.SetLocalPlayer(player);
+
+                if (_localLobby != null)
+                {
+                    item.SetLocalLobby();
+                }
+
+                _itemsById.Add(player.PlayerId.Value, item);
+            }
+
+            item.gameObject.SetActive(true);
+
+            seen.Add(player.PlayerId.Value);
+        }
+
+        var toRemove = new List<string>();
+        foreach (var kvp in _itemsById)
+        {
+            if (!seen.Contains(kvp.Key))
+            {
+                kvp.Value.SetDefault();
+                _itemPool.ReturnObject(kvp.Value);
             }
         }
-        else
-        {
-            var temp = new List<PlayerPanelUI>();
-            foreach (var player in localPlayers)
-            {
-                temp.Add(m_ActiveItems.Find(p => p.PlayerID == player.PlayerId.Value));
-            }
-            var disable = m_ActiveItems.Where(i => !temp.Contains(i)).ToList();
-            foreach (var item in disable)
-            {
-                item.SetDefault();
-
-                m_ItemPool.ReturnObject(item);
-
-                m_ActiveItems.Remove(item);
-            }
-        }
-
-        //ClearList();
     }
 
     public void ClearList()
     {
-        if (m_ActiveItems == null || m_ActiveItems.Count == 0)
+        if (_itemsById.Count == 0)
         {
             Debug.LogWarning("Player List is empty.");
             return;
         }
 
-        foreach (var item in m_ActiveItems)
+        foreach (var item in _itemsById.Values)
         {
-            m_ItemPool.ReturnObject(item);
+            item.SetDefault();
+            _itemPool.ReturnObject(item);
         }
 
-        m_ActiveItems.Clear();
+        _itemsById.Clear();
     }
 }
