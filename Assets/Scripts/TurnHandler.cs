@@ -19,12 +19,14 @@ public class TurnHandler : NetworkBehaviour
     {
         // Cache controller
         _onlineController = OnlineController.Instance;
-        _drawButton.enabled = false;
+        _drawButton.interactable = false;
     }
 
     public override void OnNetworkSpawn()
     {
         CurrentPlayerId.OnValueChanged += UpdateUI;
+
+        UpdateUI(default, CurrentPlayerId.Value);
 
         // Following actions makes only host
         if (IsHost)
@@ -53,7 +55,8 @@ public class TurnHandler : NetworkBehaviour
 
     private void UpdateUI(FixedString64Bytes prevId, FixedString64Bytes newId)
     {
-        _drawButton.enabled = _onlineController.LocalPlayer.PlayerId.Value.Equals(newId.ToString());
+        Debug.Log($"Update Draw Button interactable. Player Id: {_onlineController.LocalPlayer.PlayerId.Value} -- Turn Player Id: {newId.ToString()}");
+        _drawButton.interactable = _onlineController.LocalPlayer.PlayerId.Value.Equals(newId.ToString());
     }
 
     private void CreateQueue()

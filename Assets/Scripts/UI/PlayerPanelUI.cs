@@ -37,6 +37,8 @@ public class PlayerPanelUI : MonoBehaviour
 
     public void SetLocalPlayer(LocalPlayer localPlayer)
     {
+        SetDefault();
+
         m_LocalPlayer = localPlayer;
 
         SetDisplayName(localPlayer.DisplayName.Value);
@@ -88,7 +90,7 @@ public class PlayerPanelUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        Unsubscribe();
+        SetDefault();
     }
 
     public void Unsubscribe()
@@ -148,6 +150,12 @@ public class PlayerPanelUI : MonoBehaviour
 
     private void SetStatus(PlayerStatus status)
     {
+        if (_panelAnimator == null)
+        {
+            SetDefault();
+            return;
+        }
+
         if (status == PlayerStatus.InGame)
         {
             _panelAnimator.SetBool(m_InGameHash, true);
@@ -156,11 +164,11 @@ public class PlayerPanelUI : MonoBehaviour
         }
         else
         {
-            _panelAnimator.SetBool(m_InGameHash, false);
+            _panelAnimator?.SetBool(m_InGameHash, false);
 
             _statusImage.gameObject.SetActive(true);
 
-            _panelAnimator.SetBool(m_IsReadyHash, status == PlayerStatus.Ready);
+            _panelAnimator?.SetBool(m_IsReadyHash, status == PlayerStatus.Ready);
         }
     }
 

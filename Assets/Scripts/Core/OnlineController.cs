@@ -235,6 +235,8 @@ public class OnlineController : MonoBehaviour
     // Subscribes on scene loading and start load game scene
     private void ChangeScene()
     {
+        Debug.Log("Change Scene called");
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.LoadScene(_gameSceneName);
     }

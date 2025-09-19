@@ -41,7 +41,6 @@ public class LobbyEventHandler
         {
             Debug.Log("Lobby has been deleted.");
             await OnLobbyDeleted();
-            // _localLobby.Reset();
             return;
         }
         else
