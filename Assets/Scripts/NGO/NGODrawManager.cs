@@ -32,9 +32,9 @@ public class NGODrawManager : MonoBehaviour
     public event Action<Line> OnLineConfirmed;
     public event Action OnLineSpawned;
 
-    private readonly string _lineMustStartMessage = "Лінія має починатись з іншої лінії";
-    private readonly string _lineTooShortMessage = "Лінія занадто коротка";
-    private readonly string _lineMustNotContinueAnotherLineMessage = "Лінія не має продовжувати напрямок іншої лінії";
+    private readonly string _lineMustStartMessage = "Line must start on another line";
+    private readonly string _lineTooShortMessage = "Line is too short";
+    private readonly string _lineMustNotContinueAnotherLineMessage = "Line can't continue another line";
 
     void Start()
     {

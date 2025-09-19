@@ -4,53 +4,52 @@ using UnityEngine;
 
 public class DrawingUpdate : MonoBehaviour
 {
-    [SerializeField] private Camera drawingCamera;
-    [SerializeField] List<GameObject> objectsToHide;
-    public event Action<Texture2D> OnScreenshotTaken;
+    [SerializeField] private Camera drawingCamera; // РљР°РјРµСЂР°, Р· СЏРєРѕС— СЂРѕР±РёРјРѕ СЃРєСЂС–РЅС€РѕС‚
+    [SerializeField] List<GameObject> objectsToHide; // РћР±'С”РєС‚Рё UI, СЏРєС– РїРѕС‚СЂС–Р±РЅРѕ РїСЂРёС…РѕРІР°С‚Рё РїС–Рґ С‡Р°СЃ СЃРєСЂС–РЅС€РѕС‚Сѓ
+    public event Action<Texture2D> OnScreenshotTaken; // РџРѕРґС–СЏ, С‰Рѕ РІРёРєР»РёРєР°С”С‚СЊСЃСЏ РїС–СЃР»СЏ СЃС‚РІРѕСЂРµРЅРЅСЏ СЃРєСЂС–РЅС€РѕС‚Сѓ
 
-    public int screenshotWidth = 1920;   // Ширина скріншота
-    public int screenshotHeight = 1080;  // Висота скріншота
+    public int screenshotWidth = 1920;   // РЁРёСЂРёРЅР° СЃРєСЂС–РЅС€РѕС‚Сѓ
+    public int screenshotHeight = 1080;  // Р’РёСЃРѕС‚Р° СЃРєСЂС–РЅС€РѕС‚Сѓ
 
     public void TakeScreenshot()
     {
-        // Сховати UI перед скріншотом
-        foreach(GameObject obj in objectsToHide)
+        // РџСЂРёС…РѕРІСѓС”РјРѕ UI РїРµСЂРµРґ СЃРєСЂС–РЅС€РѕС‚РѕРј
+        foreach (GameObject obj in objectsToHide)
         {
             obj.SetActive(false);
         }
-        
 
-        // Створюємо RenderTexture з потрібною роздільною здатністю
+        // РЎС‚РІРѕСЂСЋС”РјРѕ RenderTexture Р· РїРѕС‚СЂС–Р±РЅРѕСЋ СЂРѕР·РґС–Р»СЊРЅРѕСЋ Р·РґР°С‚РЅС–СЃС‚СЋ
         RenderTexture renderTexture = new RenderTexture(screenshotWidth, screenshotHeight, 24);
-        drawingCamera.targetTexture = renderTexture;  // Прив'язуємо RenderTexture до камери
+        drawingCamera.targetTexture = renderTexture;  // РџСЂРёР·РЅР°С‡Р°С”РјРѕ RenderTexture РєР°РјРµСЂС–
 
-        // Рендеримо сцену
+        // Р РµРЅРґРµСЂРёРјРѕ СЃС†РµРЅСѓ
         drawingCamera.Render();
 
-        // Встановлюємо RenderTexture як активний
+        // Р’СЃС‚Р°РЅРѕРІР»СЋС”РјРѕ RenderTexture СЏРє Р°РєС‚РёРІРЅРёР№ РґР»СЏ РєРѕРїС–СЋРІР°РЅРЅСЏ РїС–РєСЃРµР»С–РІ
         RenderTexture.active = renderTexture;
 
-        // Створюємо Texture2D для копіювання зображення
+        // РЎС‚РІРѕСЂСЋС”РјРѕ Texture2D РґР»СЏ Р·Р±РµСЂРµР¶РµРЅРЅСЏ СЃРєСЂС–РЅС€РѕС‚Сѓ
         Texture2D screenshot = new Texture2D(screenshotWidth, screenshotHeight, TextureFormat.RGB24, false);
 
-        // Копіюємо пікселі з RenderTexture в Texture2D
+        // РљРѕРїС–СЋС”РјРѕ РїС–РєСЃРµР»С– Р· RenderTexture РІ Texture2D
         screenshot.ReadPixels(new Rect(0, 0, screenshotWidth, screenshotHeight), 0, 0);
         screenshot.Apply();
 
-        // Відв'язуємо RenderTexture від камери і робимо його неактивним
+        // Р’С–РґРІ'СЏР·СѓС”РјРѕ RenderTexture РІС–Рґ РєР°РјРµСЂРё С– СЂРѕР±РёРјРѕ Р№РѕРіРѕ РЅРµР°РєС‚РёРІРЅРёРј
         drawingCamera.targetTexture = null;
         RenderTexture.active = null;
 
-        // Знищуємо тимчасовий RenderTexture
+        // Р—РЅРёС‰СѓС”РјРѕ С‚РёРјС‡Р°СЃРѕРІРёР№ RenderTexture
         Destroy(renderTexture);
 
-        // Вмикаємо UI назад
+        // РџРѕРєР°Р·СѓС”РјРѕ UI РЅР°Р·Р°Рґ
         foreach (GameObject obj in objectsToHide)
         {
             obj.SetActive(true);
         }
 
-        // Викликаємо подію, якщо скріншот зроблено
+        // Р’РёРєР»РёРєР°С”РјРѕ РїРѕРґС–СЋ, С‰РѕР± РїРѕРІС–РґРѕРјРёС‚Рё, С‰Рѕ СЃРєСЂС–РЅС€РѕС‚ РіРѕС‚РѕРІРёР№
         if (screenshot != null)
         {
             ProcessScreenshot(screenshot);
@@ -59,10 +58,7 @@ public class DrawingUpdate : MonoBehaviour
 
     private void ProcessScreenshot(Texture2D screenshot)
     {
-        // Викликаємо подію та передаємо знімок
+        // Р’РёРєР»РёРєР°С”РјРѕ РїРѕРґС–СЋ С‚Р° РїРµСЂРµРґР°С”РјРѕ СЃРєСЂС–РЅС€РѕС‚
         OnScreenshotTaken?.Invoke(screenshot);
     }
-    
-
-
 }

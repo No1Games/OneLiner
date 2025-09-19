@@ -19,6 +19,11 @@ public class ConfirmLineUI : MonoBehaviour
         m_ConfirmBtn.onClick.AddListener(OnClick_ConfirmButton);
     }
 
+    private void OnDestroy()
+    {
+        m_DrawingManager.OnLineDrawn -= ConfirmTurnActivate;
+    }
+
     private void ConfirmTurnActivate(Line line)
     {
         m_DrawingManager.IsDrawAllowed = false;
