@@ -150,7 +150,7 @@ public class PlayerPanelUI : MonoBehaviour
 
     private void SetStatus(PlayerStatus status)
     {
-        if (_panelAnimator == null)
+        if (gameObject == null)
         {
             SetDefault();
             return;
