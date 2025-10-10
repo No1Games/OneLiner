@@ -51,11 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d104150c12b7fa844864738593c91846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_WordTMP: {fileID: 3105596065665484136}
-  m_LocalizeStringEvent: {fileID: 7076463638711778373}
-  m_Button: {fileID: 8732977172827180230}
-  m_Leader: {fileID: 7984809324572896926}
-  m_Wrong: {fileID: 6774789740636614155}
+  _wordTMP: {fileID: 3105596065665484136}
+  _localize: {fileID: 7076463638711778373}
+  _button: {fileID: 8732977172827180230}
+  _leaderIcon: {fileID: 7984809324572896926}
+  _wrongIcon: {fileID: 6774789740636614155}
 --- !u!1 &5881881281725008368
 GameObject:
   m_ObjectHideFlags: 0
@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 8805880769200222742}
   - component: {fileID: 8732977172827180230}
   m_Layer: 5
-  m_Name: Button
+  m_Name: WordBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 2915447231278545186}
   - component: {fileID: 3869660398831153875}
   m_Layer: 5
-  m_Name: Wrong
+  m_Name: WrongIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 6379448476748394998}
   - component: {fileID: 6739043830699824809}
   m_Layer: 5
-  m_Name: Selected
+  m_Name: LeaderIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -386,7 +386,7 @@ GameObject:
   - component: {fileID: 3105596065665484136}
   - component: {fileID: 7076463638711778373}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: WordTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

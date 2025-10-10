@@ -78,7 +78,7 @@ public class OnlineGameManager : MonoBehaviour
         _drawingManager.OnLineSpawned += UpdateLines;
         _drawingUpdate.OnScreenshotTaken += OnScreenshotTaken;
 
-        _wordsPanel.UserClickedWordEvent += OnUserMakeGuess;
+        _wordsPanel.Init(OnUserMakeGuess);
     }
 
     private void SubscribeOnRpcEvents()
@@ -115,6 +115,48 @@ public class OnlineGameManager : MonoBehaviour
         _drawingUpdate.OnScreenshotTaken -= OnScreenshotTaken;
 
         UnsubscribeFromRpcEvents();
+    }
+
+    private void OnUserMakeGuess(int index)
+    {
+        var controller = OnlineController.Instance;
+        var player = controller.LocalPlayer;
+        var lobby = controller.LocalLobby;
+
+        if (lobby.LeaderID.Value == player.PlayerId.Value)
+        {
+            Debug.Log("Leader can't guess words!");
+            return;
+        }
+
+        if (_turnHandler.CurrentPlayerId.Value.ToString() != player.PlayerId.Value)
+        {
+            Debug.Log("It's not your turn!");
+            return;
+        }
+
+        _wordsPanel.DisableButton(index);
+        _wordsPanel.Hide();
+
+        if (_onlineWordsManager.LeaderWordIndex.Value != index)
+        {
+            int newHearts = _currentHearts - 1;
+
+            if (newHearts <= 0)
+            {
+                _rpcHandler.OnGameOver(false);
+            }
+            else
+            {
+                _rpcHandler.OnGuessedWrong(index, newHearts);
+            }
+
+            _turnHandler.EndTurnRpc();
+        }
+        else
+        {
+            _rpcHandler.OnGameOver(true, 100f);
+        }
     }
 
     #region Words Methods
@@ -171,29 +213,6 @@ public class OnlineGameManager : MonoBehaviour
         _linesUI.SetLines(++_linesCount);
     }
 
-    private void OnUserMakeGuess(int index)
-    {
-        if (_onlineWordsManager.LeaderWordIndex.Value != index)
-        {
-            int newHearts = _currentHearts - 1;
-
-            if (newHearts <= 0)
-            {
-                _rpcHandler.OnGameOver(false);
-            }
-            else
-            {
-                _rpcHandler.OnGuessedWrong(index, newHearts);
-            }
-
-            _turnHandler.EndTurnRpc();
-        }
-        else
-        {
-            _rpcHandler.OnGameOver(true, 100f);
-        }
-    }
-
     public void SetHearts(int count)
     {
         _currentHearts = count;
@@ -206,4 +225,7 @@ public class OnlineGameManager : MonoBehaviour
         _gameOverUI.Show(_onlineWordsManager.LeaderWord, isWin, score);
     }
 
+    #region Legacy
+
+    #endregion
 }

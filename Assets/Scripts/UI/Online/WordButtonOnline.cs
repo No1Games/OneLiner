@@ -6,49 +6,35 @@ using UnityEngine.UI;
 
 public class WordButtonOnline : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI m_WordTMP;
-    [SerializeField] private LocalizeStringEvent m_LocalizeStringEvent;
-    [SerializeField] private Button m_Button;
+    [SerializeField] private TextMeshProUGUI _wordTMP;
+    [SerializeField] private LocalizeStringEvent _localize;
+    [SerializeField] private Button _button;
+    [SerializeField] private GameObject _leaderIcon;
+    [SerializeField] private GameObject _wrongIcon;
 
-    [SerializeField] private GameObject m_Leader;
-    [SerializeField] private GameObject m_Wrong;
-
-    private int m_Index;
-
-    public event Action<int> WordButtonClick;
-
-    public bool Interactable
-    {
-        get { return m_Button.interactable; }
-        set { m_Button.interactable = value; }
-    }
+    private int _index;
+    private Action<int> _onClickCallback;
 
     private void Awake()
     {
-        m_Button.onClick.AddListener(OnClick);
+        _button.onClick.AddListener(() => _onClickCallback?.Invoke(_index));
     }
 
-    public void SetWord(string word, int index)
+    public void Init(string word, int index, Action<int> onClick)
     {
-        m_LocalizeStringEvent.StringReference.TableEntryReference = word;
-        m_Index = index;
+        _localize.StringReference.TableEntryReference = word;
+        _index = index;
+        _onClickCallback = onClick;
+        _leaderIcon.SetActive(false);
+        _wrongIcon.SetActive(false);
+        _button.interactable = true;
     }
 
-    public void SetLeaderWord()
-    {
-        m_Leader.gameObject.SetActive(true);
-    }
-
-    private void OnClick()
-    {
-        Debug.Log($"Word button cliked. Index {m_Index}");
-        WordButtonClick?.Invoke(m_Index);
-    }
+    public void SetLeaderWord() => _leaderIcon.SetActive(true);
 
     public void DisableButton()
     {
-        m_Wrong.SetActive(true);
-
-        m_Button.enabled = false;
+        _wrongIcon.SetActive(true);
+        _button.interactable = false;
     }
 }

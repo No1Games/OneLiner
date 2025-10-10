@@ -1966,8 +1966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _closeBtn: {fileID: 839574457}
-  _wordButtonPrefab: {fileID: 767010712857299668, guid: 5d88ac45d7be95744b3261cd5d83aff0, type: 3}
-  _turnHandler: {fileID: 1343160723}
+  _buttonPrefab: {fileID: 767010712857299668, guid: 5d88ac45d7be95744b3261cd5d83aff0, type: 3}
 --- !u!1 &628561858
 GameObject:
   m_ObjectHideFlags: 0

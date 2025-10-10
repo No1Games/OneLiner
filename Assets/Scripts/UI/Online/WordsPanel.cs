@@ -5,104 +5,64 @@ using UnityEngine.UI;
 
 public class WordsPanel : MonoBehaviour
 {
-    [Space]
     [SerializeField] private Button _closeBtn;
+    [SerializeField] private WordButtonOnline _buttonPrefab;
 
-    [Space]
-    [SerializeField] private WordButtonOnline _wordButtonPrefab;
+    private readonly List<WordButtonOnline> _buttons = new();
+    private Action<int> _onClickCallback;
 
-    [Space]
-    [SerializeField]
-    private TurnHandler _turnHandler;
+    private void Awake() => _closeBtn.onClick.AddListener(Hide);
 
-    private List<WordButtonOnline> _wordButtons;
-
-    public event Action<int> UserClickedWordEvent;
-
-    private void Awake()
+    private void EnsureButtonCount(int count)
     {
-        _closeBtn.onClick.AddListener(OnClick_CloseButton);
+        while (_buttons.Count < count)
+        {
+            var btn = Instantiate(_buttonPrefab, transform);
+            btn.gameObject.SetActive(false);
+            _buttons.Add(btn);
+        }
+    }
+
+    public void Init(Action<int> onWordClicked)
+    {
+        _onClickCallback = onWordClicked;
     }
 
     public void SetButtons(List<string> words)
     {
         if (words == null || words.Count == 0)
         {
-            Debug.LogWarning("Words list is null or empty!");
+            Debug.LogWarning("WORDS WARNING: Empty words list!");
             return;
         }
 
-        if (_wordButtons == null || _wordButtons.Count != words.Count)
-        {
-            _wordButtons = new List<WordButtonOnline>();
-            InstantiateButtons(words.Count);
-        }
+        EnsureButtonCount(words.Count);
 
         for (int i = 0; i < words.Count; i++)
         {
-            _wordButtons[i].SetWord(words[i], i);
-            _wordButtons[i].gameObject.SetActive(true);
-            _wordButtons[i].WordButtonClick += OnUserClickedWord;
-            _wordButtons[i].Interactable = true;
+            _buttons[i].gameObject.SetActive(true);
+            _buttons[i].Init(words[i], i, _onClickCallback);
         }
     }
 
-    private void OnUserClickedWord(int index)
+    public void SetLeaderWord(int index)
     {
-        if (OnlineController.Instance.LocalLobby.LeaderID.Value == OnlineController.Instance.LocalPlayer.PlayerId.Value)
+        if (index < 0 || index >= _buttons.Count)
         {
-            Debug.Log("You are a leader! You can't guess words!");
+            Debug.LogWarning("WORDS WARNING: Invalid leader word index!");
             return;
         }
 
-        if (!_turnHandler.CurrentPlayerId.Value.ToString().Equals(OnlineController.Instance.LocalPlayer.PlayerId.Value))
-        {
-            Debug.Log("You can't guess words for now! Wait for your move!");
-            return;
-        }
+        if (OnlineController.Instance.LocalPlayer.Role.Value == PlayerRole.Leader)
+            _buttons[index].SetLeaderWord();
 
-        _wordButtons[index].DisableButton();
-
-        UserClickedWordEvent?.Invoke(index);
-
-        Hide();
-    }
-
-    private void InstantiateButtons(int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            WordButtonOnline wordButton = Instantiate(_wordButtonPrefab, transform);
-            wordButton.gameObject.SetActive(false);
-            _wordButtons.Add(wordButton);
-        }
-    }
-
-    public void SetLeaderWord(int leaderWordIndex)
-    {
-        if (OnlineController.Instance.LocalPlayer.Role.Value != PlayerRole.Leader) return;
-
-        if (leaderWordIndex > _wordButtons.Count || leaderWordIndex < 0)
-        {
-            Debug.LogWarning("Invalid Leader Word Index!");
-            return;
-        }
-
-        _wordButtons[leaderWordIndex].SetLeaderWord();
-    }
-
-    private void OnClick_CloseButton()
-    {
-        Hide();
     }
 
     public void DisableButton(int index)
     {
-        _wordButtons[index].DisableButton();
+        if (index < 0 || index >= _buttons.Count) return;
+        _buttons[index].DisableButton();
     }
 
-    private void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+    public void Hide() => gameObject.SetActive(false);
 }
