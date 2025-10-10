@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -71,7 +72,7 @@ public class OnlineGameManager : MonoBehaviour
         _linesCount = 0;
         _linesUI.SetLines(_linesCount);
 
-        SubscribeOnRpcEvents();
+        SubscribeOnRpc();
 
         _drawingManager.OnLineConfirmed += OnLineConfirmed;
         _drawingManager.OnLineSpawned += OnLineSpawned;
@@ -81,7 +82,7 @@ public class OnlineGameManager : MonoBehaviour
         _wordsPanel.Init(OnUserMakeGuess);
     }
 
-    private void SubscribeOnRpcEvents()
+    private void SubscribeOnRpc()
     {
         if (_rpcHandler == null)
         {
@@ -89,12 +90,10 @@ public class OnlineGameManager : MonoBehaviour
             return;
         }
 
-        _rpcHandler.GameOverEvent += ShowGameOverScreen;
-        _rpcHandler.UpdateHeartsEvent += SetHearts;
-        _rpcHandler.DisableWordButtonEvent += DisableButtonByIndex;
+        _rpcHandler.OnRpcEvent += HandleRpcEvent;
     }
 
-    private void UnsubscribeFromRpcEvents()
+    private void UnsubscribeFromRpc()
     {
         if (_rpcHandler == null)
         {
@@ -102,9 +101,7 @@ public class OnlineGameManager : MonoBehaviour
             return;
         }
 
-        _rpcHandler.GameOverEvent -= ShowGameOverScreen;
-        _rpcHandler.UpdateHeartsEvent -= SetHearts;
-        _rpcHandler.DisableWordButtonEvent -= DisableButtonByIndex;
+        _rpcHandler.OnRpcEvent -= HandleRpcEvent;
     }
 
     private void OnDestroy()
@@ -114,7 +111,57 @@ public class OnlineGameManager : MonoBehaviour
         _drawingManager.OnLineSpawned -= UpdateLines;
         _drawingUpdate.OnScreenshotTaken -= OnScreenshotTaken;
 
-        UnsubscribeFromRpcEvents();
+        UnsubscribeFromRpc();
+    }
+
+    private void HandleRpcEvent(RpcEvent data)
+    {
+        switch (data.Type)
+        {
+            case RpcEventType.UserGuess: HandleUserGuess((int)data.Payload); break;
+            case RpcEventType.WordDisabled: HandleWordDisabled((int)data.Payload); break;
+            case RpcEventType.HeartsUpdated: HandleHeartsUpdated((int)data.Payload); break;
+            case RpcEventType.LineSpawned: HandleLineSpawned(((Vector3, Vector3))data.Payload); break;
+            case RpcEventType.GameOver: HandleGameOver(((bool, float))data.Payload); break;
+        }
+    }
+
+    // This method runs only on server
+    private void HandleUserGuess(int index)
+    {
+        if (_onlineWordsManager.LeaderWordIndex.Value != index)
+        {
+            int newHearts = _currentHearts - 1;
+
+            if (newHearts <= 0)
+                _rpcHandler.OnGameOver(false);
+            else
+                _rpcHandler.OnWrongGuess(index, newHearts);
+
+            _turnHandler.EndTurnRpc();
+        }
+        else
+            _rpcHandler.OnGameOver(true, 100f);
+    }
+
+    private void HandleWordDisabled(int index)
+    {
+        _wordsPanel.DisableButton(index);
+    }
+
+    private void HandleHeartsUpdated(int payload)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void HandleLineSpawned((Vector3, Vector3) payload)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void HandleGameOver((bool, float) payload)
+    {
+        throw new NotImplementedException();
     }
 
     private void OnUserMakeGuess(int index)
@@ -135,28 +182,9 @@ public class OnlineGameManager : MonoBehaviour
             return;
         }
 
-        _wordsPanel.DisableButton(index);
         _wordsPanel.Hide();
 
-        if (_onlineWordsManager.LeaderWordIndex.Value != index)
-        {
-            int newHearts = _currentHearts - 1;
-
-            if (newHearts <= 0)
-            {
-                _rpcHandler.OnGameOver(false);
-            }
-            else
-            {
-                _rpcHandler.OnGuessedWrong(index, newHearts);
-            }
-
-            _turnHandler.EndTurnRpc();
-        }
-        else
-        {
-            _rpcHandler.OnGameOver(true, 100f);
-        }
+        _rpcHandler.OnUserGuess(index); // Send index to server. Server decides what happens next
     }
 
     #region Words Methods
@@ -202,7 +230,7 @@ public class OnlineGameManager : MonoBehaviour
 
     private void OnLineConfirmed(Line line)
     {
-        _rpcHandler.SpawnLine(line.Start, line.End);
+        _rpcHandler.OnSpawnLine(line.Start, line.End);
         _turnHandler.EndTurnRpc();
     }
 
@@ -224,8 +252,4 @@ public class OnlineGameManager : MonoBehaviour
     {
         _gameOverUI.Show(_onlineWordsManager.LeaderWord, isWin, score);
     }
-
-    #region Legacy
-
-    #endregion
 }
