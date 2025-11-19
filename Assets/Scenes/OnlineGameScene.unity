@@ -719,9 +719,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf7b2a6e5e3360044a2229657145ff7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LinePrefab: {fileID: 6528342933294212655, guid: 138d1bea86fd86e46844b91b7af107be, type: 3}
+  _linePrefab: {fileID: 6528342933294212655, guid: 138d1bea86fd86e46844b91b7af107be, type: 3}
   _drawingCamera: {fileID: 1899021213}
-  m_DrawingScreen: {fileID: 94886925}
+  _drawingScreen: {fileID: 94886925}
   _minDistance: 0.5
   _minLength: 2
   _secondPointAngle: 10
@@ -3775,8 +3775,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _linePrefab: {fileID: 6528342933294212655, guid: 138d1bea86fd86e46844b91b7af107be, type: 3}
-  _drawManager: {fileID: 149930183}
 --- !u!1 &995610649
 GameObject:
   m_ObjectHideFlags: 0

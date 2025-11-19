@@ -6,16 +6,14 @@ using UnityEngine.UI;
 
 public class NGODrawManager : MonoBehaviour
 {
-    [SerializeField] private Line m_LinePrefab;
-
+    [SerializeField] private Line _linePrefab;
     [SerializeField] private Camera _drawingCamera;
+    [SerializeField] private GameObject _drawingScreen;
 
-    [SerializeField] private GameObject m_DrawingScreen;
-
-    private ObjectPool<Line> m_LinesPool;
+    private ObjectPool<Line> _linesPool;
 
     private List<Line> _lines;
-    private Line m_CurrentLine;
+    private Line _currentLine;
     private Line _startLine;
 
     [SerializeField] private float _minDistance = 0.5f;
@@ -29,7 +27,7 @@ public class NGODrawManager : MonoBehaviour
 
     public event Action<string> OnLineUnavailable;
     public event Action<Line> OnLineDrawn;
-    public event Action<Line> OnLineConfirmed;
+    public event Action<Vector3, Vector3> OnLineConfirmed;
     public event Action OnLineSpawned;
 
     private readonly string _lineMustStartMessage = "Line must start on another line";
@@ -40,7 +38,7 @@ public class NGODrawManager : MonoBehaviour
     {
         _lines = new List<Line>();
 
-        m_LinesPool = new ObjectPool<Line>(m_LinePrefab, m_DrawingScreen.transform);
+        _linesPool = new ObjectPool<Line>(_linePrefab, _drawingScreen.transform);
     }
 
     void Update()
@@ -61,38 +59,38 @@ public class NGODrawManager : MonoBehaviour
         {
             _isDrawing = false;
 
-            if (m_CurrentLine.GetLength() < _minLength)
+            if (_currentLine.GetLength() < _minLength)
             {
-                m_LinesPool.ReturnObject(m_CurrentLine);
+                _linesPool.ReturnObject(_currentLine);
 
-                m_CurrentLine = null;
+                _currentLine = null;
 
                 OnLineUnavailable?.Invoke(_lineTooShortMessage);
             }
             else if (!SecondPointAngleCheck())
             {
-                m_LinesPool.ReturnObject(m_CurrentLine);
+                _linesPool.ReturnObject(_currentLine);
 
-                m_CurrentLine = null;
+                _currentLine = null;
 
                 OnLineUnavailable?.Invoke(_lineMustNotContinueAnotherLineMessage);
             }
             else
             {
-                OnLineDrawn?.Invoke(m_CurrentLine);
+                OnLineDrawn?.Invoke(_currentLine);
             }
         }
         else
         {
-            m_CurrentLine.SetLineEnd(GetPointerPosition());
+            _currentLine.SetLineEnd(GetPointerPosition());
 
-            if (m_CurrentLine.GetLength() < _minLength || !SecondPointAngleCheck())
+            if (_currentLine.GetLength() < _minLength || !SecondPointAngleCheck())
             {
-                m_CurrentLine.SetLineColor(Color.red);
+                _currentLine.SetLineColor(Color.red);
             }
             else
             {
-                m_CurrentLine.SetLineColor(Color.black);
+                _currentLine.SetLineColor(Color.black);
             }
         }
     }
@@ -108,9 +106,9 @@ public class NGODrawManager : MonoBehaviour
                 {
                     _isDrawing = true;
 
-                    m_CurrentLine = m_LinesPool.GetObject();
+                    _currentLine = _linesPool.GetObject();
 
-                    m_CurrentLine.SetLinePositions(point, point);
+                    _currentLine.SetLinePositions(point, point);
                 }
                 else
                 {
@@ -223,7 +221,7 @@ public class NGODrawManager : MonoBehaviour
         else
         {
             Vector3[] startLinePoints = _startLine.GetPositions();
-            Vector3[] currentLinePoints = m_CurrentLine.GetPositions();
+            Vector3[] currentLinePoints = _currentLine.GetPositions();
 
             Vector3 vectorToStartOldLine = startLinePoints[0] - currentLinePoints[0];
             Vector3 vectorToEndOldLine = startLinePoints[1] - currentLinePoints[0];
@@ -255,19 +253,20 @@ public class NGODrawManager : MonoBehaviour
 
     public void RemoveLastLine()
     {
-        m_LinesPool.ReturnObject(m_CurrentLine);
+        _linesPool.ReturnObject(_currentLine);
     }
 
+    // Method to spawn line that was drawn by other players
     public Line SpawnLine(Vector3 start, Vector3 end)
     {
-        // Instantiate the line on the server and set positions
-        Line line = m_LinesPool.GetObject();
+        // Instantiate the line and set positions
+        Line line = _linesPool.GetObject();
 
         line.SetLinePositions(start, end);
 
         AddLine(line);
 
-        OnLineSpawned?.Invoke();
+        // OnLineSpawned?.Invoke();
 
         return line;
     }
@@ -279,6 +278,9 @@ public class NGODrawManager : MonoBehaviour
 
     public void LineConfirmed()
     {
-        OnLineConfirmed?.Invoke(m_CurrentLine);
+        Vector3 start = _currentLine.Start;
+        Vector3 end = _currentLine.End;
+        RemoveLastLine();
+        OnLineConfirmed?.Invoke(start, end);
     }
 }

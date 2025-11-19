@@ -154,9 +154,15 @@ public class OnlineGameManager : MonoBehaviour
         throw new NotImplementedException();
     }
 
+    // When event received
+    //  1) spawn line (if not spawned already)
+    //  2) take screenshot
+    //  3) change image
     private void HandleLineSpawned((Vector3, Vector3) payload)
     {
-        throw new NotImplementedException();
+        _drawingManager.SpawnLine(payload.Item1, payload.Item2); // spawn line, TODO: do not duplicate line
+        OnLineSpawned(); // Take screenshot
+        // Take Screenshot invokes the event and OnScreenshotTaken changes image
     }
 
     private void HandleGameOver((bool, float) payload)
@@ -228,10 +234,11 @@ public class OnlineGameManager : MonoBehaviour
         ToggleScreen(false);
     }
 
-    private void OnLineConfirmed(Line line)
+    // When user confirmed line - send event to all players and end turn
+    private void OnLineConfirmed(Vector3 start, Vector3 end)
     {
-        _rpcHandler.OnSpawnLine(line.Start, line.End);
-        _turnHandler.EndTurnRpc();
+        _rpcHandler.OnSpawnLine(start, end); // Send line to other players
+        _turnHandler.EndTurnRpc(); // End turn
     }
 
     #endregion
