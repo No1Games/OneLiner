@@ -40,25 +40,15 @@ public class RpcHandler : NetworkBehaviour
 
     private void WrongGuessOnServer(int index, int newHearts)
     {
-        RpcEvent wordDisableEvent = new RpcEvent(RpcEventType.WordDisabled, index);
-        RpcEvent heartUpdateEvent = new RpcEvent(RpcEventType.HeartsUpdated, newHearts);
-
-        OnRpcEvent?.Invoke(wordDisableEvent);
-        OnRpcEvent?.Invoke(heartUpdateEvent);
-
         WrongGuessClientRpc(index, newHearts);
     }
 
     [ClientRpc]
     private void WrongGuessClientRpc(int index, int newHearts)
     {
-        if (IsHost) return;
+        RpcEvent wrongGuessEvent = new RpcEvent(RpcEventType.WrongGuess, (index, newHearts));
 
-        RpcEvent wordDisableEvent = new RpcEvent(RpcEventType.WordDisabled, index);
-        RpcEvent heartUpdateEvent = new RpcEvent(RpcEventType.HeartsUpdated, newHearts);
-
-        OnRpcEvent?.Invoke(wordDisableEvent);
-        OnRpcEvent?.Invoke(heartUpdateEvent);
+        OnRpcEvent?.Invoke(wrongGuessEvent);
     }
 
     [Rpc(SendTo.Server)]

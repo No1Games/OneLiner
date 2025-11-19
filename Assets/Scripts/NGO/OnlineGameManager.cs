@@ -115,8 +115,7 @@ public class OnlineGameManager : MonoBehaviour
         switch (data.Type)
         {
             case RpcEventType.UserGuess: HandleUserGuess((int)data.Payload); break;
-            case RpcEventType.WordDisabled: HandleWordDisabled((int)data.Payload); break;
-            case RpcEventType.HeartsUpdated: HandleHeartsUpdated((int)data.Payload); break;
+            case RpcEventType.WrongGuess: HandleWrongGuess(((int, int))data.Payload); break;
             case RpcEventType.LineSpawned: HandleLineSpawned(((Vector3, Vector3))data.Payload); break;
             case RpcEventType.GameOver: HandleGameOver(((bool, float))data.Payload); break;
         }
@@ -125,29 +124,31 @@ public class OnlineGameManager : MonoBehaviour
     // This method runs only on server
     private void HandleUserGuess(int index)
     {
-        if (_onlineWordsManager.LeaderWordIndex.Value != index)
+        if (_onlineWordsManager.LeaderWordIndex.Value != index) // Wrong guess
         {
             int newHearts = _currentHearts - 1;
 
             if (newHearts <= 0)
+            {
                 _rpcHandler.OnGameOver(false);
+            }
             else
+            {
                 _rpcHandler.OnWrongGuess(index, newHearts);
+            }
 
             _turnHandler.EndTurnRpc();
         }
         else
+        {
             _rpcHandler.OnGameOver(true, 100f);
+        }
     }
 
-    private void HandleWordDisabled(int index)
+    private void HandleWrongGuess((int, int) payload)
     {
-        _wordsPanel.DisableButton(index);
-    }
-
-    private void HandleHeartsUpdated(int payload)
-    {
-        throw new NotImplementedException();
+        _wordsPanel.DisableButton(payload.Item1);
+        UpdateHearts(payload.Item2);
     }
 
     // When event received
@@ -240,11 +241,10 @@ public class OnlineGameManager : MonoBehaviour
 
     #endregion
 
-    public void SetHearts(int count)
+    private void UpdateHearts(int newHearts)
     {
-        _currentHearts = count;
-
-        _heartsUI.UpdateHearts(count);
+        _currentHearts = newHearts;
+        _heartsUI.UpdateHearts(_currentHearts);
     }
 
     public void ShowGameOverScreen(bool isWin, float score = 0)

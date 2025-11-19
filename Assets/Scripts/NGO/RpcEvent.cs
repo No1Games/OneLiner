@@ -13,8 +13,7 @@ public class RpcEvent
 public enum RpcEventType
 {
     UserGuess,      // payload: word index
-    WordDisabled,   // payload: word index to disable
-    HeartsUpdated,  // payload: new hearts count
+    WrongGuess,     // payload: button index to disable, new hearts count
     LineSpawned,    // payload: two vectors for start and end of the line
     GameOver        // payload: is win and score
 }
