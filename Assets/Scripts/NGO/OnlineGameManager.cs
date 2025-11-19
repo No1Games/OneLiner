@@ -75,8 +75,6 @@ public class OnlineGameManager : MonoBehaviour
         SubscribeOnRpc();
 
         _drawingManager.OnLineConfirmed += OnLineConfirmed;
-        _drawingManager.OnLineSpawned += OnLineSpawned;
-        _drawingManager.OnLineSpawned += UpdateLines;
         _drawingUpdate.OnScreenshotTaken += OnScreenshotTaken;
 
         _wordsPanel.Init(OnUserMakeGuess);
@@ -107,8 +105,6 @@ public class OnlineGameManager : MonoBehaviour
     private void OnDestroy()
     {
         _drawingManager.OnLineConfirmed -= OnLineConfirmed;
-        _drawingManager.OnLineSpawned -= OnLineSpawned;
-        _drawingManager.OnLineSpawned -= UpdateLines;
         _drawingUpdate.OnScreenshotTaken -= OnScreenshotTaken;
 
         UnsubscribeFromRpc();
@@ -161,8 +157,9 @@ public class OnlineGameManager : MonoBehaviour
     private void HandleLineSpawned((Vector3, Vector3) payload)
     {
         _drawingManager.SpawnLine(payload.Item1, payload.Item2); // spawn line, TODO: do not duplicate line
-        OnLineSpawned(); // Take screenshot
+        TakeScreenshot(); // Take screenshot
         // Take Screenshot invokes the event and OnScreenshotTaken changes image
+        _linesUI.SetLines(++_linesCount);
     }
 
     private void HandleGameOver((bool, float) payload)
@@ -202,7 +199,7 @@ public class OnlineGameManager : MonoBehaviour
 
     #endregion
 
-    #region Drawing Methods
+    #region Line Spawning
 
     public void ToggleScreen(bool isDrawing)
     {
@@ -227,7 +224,7 @@ public class OnlineGameManager : MonoBehaviour
         ToggleScreen(false);
     }
 
-    private void OnLineSpawned()
+    private void TakeScreenshot()
     {
         ToggleScreen(true);
         _drawingUpdate.TakeScreenshot();
@@ -242,11 +239,6 @@ public class OnlineGameManager : MonoBehaviour
     }
 
     #endregion
-
-    private void UpdateLines()
-    {
-        _linesUI.SetLines(++_linesCount);
-    }
 
     public void SetHearts(int count)
     {
