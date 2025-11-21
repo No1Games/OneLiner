@@ -267,7 +267,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 14187207239303168
-    m_Localized: he line must not continue the direction of another line
+    m_Localized: The line must not continue the direction of another line
     m_Metadata:
       m_Items: []
   - m_Id: 14187229972430848

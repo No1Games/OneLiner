@@ -141,8 +141,6 @@ public class OnlineGameManager : MonoBehaviour
         }
         else
         {
-
-
             _rpcHandler.OnGameOver(true, _scoreCalculator.CalculateStars(_linesCount));
         }
     }

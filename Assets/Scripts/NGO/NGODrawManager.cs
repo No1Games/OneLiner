@@ -9,6 +9,7 @@ public class NGODrawManager : MonoBehaviour
     [SerializeField] private Line _linePrefab;
     [SerializeField] private Camera _drawingCamera;
     [SerializeField] private GameObject _drawingScreen;
+    [SerializeField] private WarningPanelUI _warningPnl;
 
     private ObjectPool<Line> _linesPool;
 
@@ -25,17 +26,15 @@ public class NGODrawManager : MonoBehaviour
     private bool _isDrawAllowed = false;
     public bool IsDrawAllowed { set { _isDrawAllowed = value; } }
 
-    public event Action<string> OnLineUnavailable;
+    public event Action<WarningType> OnLineUnavailable;
     public event Action<Line> OnLineDrawn;
     public event Action<Vector3, Vector3> OnLineConfirmed;
     public event Action OnLineSpawned;
 
-    private readonly string _lineMustStartMessage = "Line must start on another line";
-    private readonly string _lineTooShortMessage = "Line is too short";
-    private readonly string _lineMustNotContinueAnotherLineMessage = "Line can't continue another line";
-
     void Start()
     {
+        //OnLineUnavailable += _warningPnl.WarningActivate;
+
         _lines = new List<Line>();
 
         _linesPool = new ObjectPool<Line>(_linePrefab, _drawingScreen.transform);
@@ -65,7 +64,8 @@ public class NGODrawManager : MonoBehaviour
 
                 _currentLine = null;
 
-                OnLineUnavailable?.Invoke(_lineTooShortMessage);
+                _warningPnl.WarningActivate(WarningType.TooShort);
+                //OnLineUnavailable?.Invoke(WarningType.TooShort);
             }
             else if (!SecondPointAngleCheck())
             {
@@ -73,7 +73,8 @@ public class NGODrawManager : MonoBehaviour
 
                 _currentLine = null;
 
-                OnLineUnavailable?.Invoke(_lineMustNotContinueAnotherLineMessage);
+                _warningPnl.WarningActivate(WarningType.WrongVector);
+                //OnLineUnavailable?.Invoke(WarningType.MustNotContinue);
             }
             else
             {
@@ -112,7 +113,8 @@ public class NGODrawManager : MonoBehaviour
                 }
                 else
                 {
-                    OnLineUnavailable?.Invoke(_lineMustStartMessage);
+                    _warningPnl.WarningActivate(WarningType.WrongStart);
+                    //OnLineUnavailable?.Invoke(WarningType.MustStart);
                 }
             }
         }
@@ -283,4 +285,11 @@ public class NGODrawManager : MonoBehaviour
         RemoveLastLine();
         OnLineConfirmed?.Invoke(start, end);
     }
+}
+
+public enum WarningType
+{
+    WrongStart,
+    TooShort,
+    WrongVector
 }

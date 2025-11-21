@@ -132,12 +132,12 @@ GameObject:
   - component: {fileID: 35399636}
   - component: {fileID: 35399635}
   m_Layer: 5
-  m_Name: WarningImage
+  m_Name: WarningIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &35399634
 RectTransform:
   m_ObjectHideFlags: 0
@@ -265,13 +265,14 @@ GameObject:
   - component: {fileID: 67338726}
   - component: {fileID: 67338728}
   - component: {fileID: 67338727}
+  - component: {fileID: 67338729}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: WarningTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &67338726
 RectTransform:
   m_ObjectHideFlags: 0
@@ -392,6 +393,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 67338725}
   m_CullTransparentMesh: 1
+--- !u!114 &67338729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67338725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:cc4036fb4339b03479ebb38b9e442be4
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 67338727}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &68821178
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,6 +763,7 @@ MonoBehaviour:
   _linePrefab: {fileID: 6528342933294212655, guid: 138d1bea86fd86e46844b91b7af107be, type: 3}
   _drawingCamera: {fileID: 1899021213}
   _drawingScreen: {fileID: 94886925}
+  _warningPnl: {fileID: 1486082984}
   _minDistance: 0.5
   _minLength: 2
   _secondPointAngle: 10
@@ -5822,13 +5864,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1486082982}
   - component: {fileID: 1486082983}
+  - component: {fileID: 1486082984}
   m_Layer: 5
   m_Name: WarningPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1486082982
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5858,6 +5901,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486082981}
   m_CullTransparentMesh: 1
+--- !u!114 &1486082984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486082981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b00acf65f09ea64392ff018b8d63375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WarningPanelUI
+  _warningLSE: {fileID: 67338729}
+  _warningIcon: {fileID: 35399636}
 --- !u!1 &1586412430
 GameObject:
   m_ObjectHideFlags: 0
