@@ -64,8 +64,8 @@ public class RpcHandler : NetworkBehaviour
     public void OnGameOver(bool isWin, float score = 0f)
     {
         ExecuteRpc(
-            () => GameOverServerRpc(isWin, score),
-            () => GameOverClientRpc(isWin, score)
+            () => GameOverOnServer(isWin, score),
+            () => GameOverServerRpc(isWin, score)
         );
     }
 
@@ -77,11 +77,9 @@ public class RpcHandler : NetworkBehaviour
         GameOverClientRpc(isWin, score);
     }
 
-    [ClientRpc]
+    [Rpc(SendTo.NotServer)]
     private void GameOverClientRpc(bool isWin, float score = 0f)
     {
-        if (IsHost) return;
-
         RpcEvent gameOverEvent = new RpcEvent(RpcEventType.GameOver, (isWin, score));
         OnRpcEvent?.Invoke(gameOverEvent);
     }

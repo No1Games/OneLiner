@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -165,7 +164,7 @@ public class OnlineGameManager : MonoBehaviour
 
     private void HandleGameOver((bool, float) payload)
     {
-        throw new NotImplementedException();
+        ShowGameOverScreen(payload.Item1, payload.Item2);
     }
 
     private void OnUserMakeGuess(int index)
