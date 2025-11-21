@@ -53,6 +53,7 @@ public class OnlineGameManager : MonoBehaviour
 
     [Space]
     [SerializeField] private GameOverUI _gameOverUI;
+    private ScoreCalculator _scoreCalculator = new ScoreCalculator();
 
     [Space]
     [SerializeField]
@@ -140,7 +141,9 @@ public class OnlineGameManager : MonoBehaviour
         }
         else
         {
-            _rpcHandler.OnGameOver(true, 100f);
+
+
+            _rpcHandler.OnGameOver(true, _scoreCalculator.CalculateStars(_linesCount));
         }
     }
 

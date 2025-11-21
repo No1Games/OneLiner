@@ -53,22 +53,24 @@ public class GameOverUI : MonoBehaviour
             m_WinContent.SetActive(true);
             m_LoseContent.SetActive(false);
 
-            if (score <= 600)
-            {
-                m_Stars[0].SetActive(true);
-            }
-            else if (score > 600 && score <= 800)
-            {
-                m_Stars[1].SetActive(true);
-            }
-            else if (score > 800 && score < 1000)
-            {
-                m_Stars[2].SetActive(true);
-            }
-            else if (score >= 1000)
-            {
-                m_Stars[3].SetActive(true);
-            }
+            m_Stars[(int)score].SetActive(true);
+
+            //if (score <= 600)
+            //{
+            //    m_Stars[0].SetActive(true);
+            //}
+            //else if (score > 600 && score <= 800)
+            //{
+            //    m_Stars[1].SetActive(true);
+            //}
+            //else if (score > 800 && score < 1000)
+            //{
+            //    m_Stars[2].SetActive(true);
+            //}
+            //else if (score >= 1000)
+            //{
+            //    m_Stars[3].SetActive(true);
+            //}
         }
     }
 }
