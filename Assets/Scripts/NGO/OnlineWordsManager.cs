@@ -51,7 +51,9 @@ public class OnlineWordsManager : NetworkBehaviour
             indexes.Add(index);
         }
 
-        _wordsPanel.SetButtons(_wordManager.GetWordsFromIndexes(indexes));
+        _words = _wordManager.GetWordsFromIndexes(indexes);
+
+        _wordsPanel.SetButtons(_words);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
