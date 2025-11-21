@@ -55,7 +55,6 @@ public class TurnHandler : NetworkBehaviour
 
     private void UpdateUI(FixedString64Bytes prevId, FixedString64Bytes newId)
     {
-        Debug.Log($"Update Draw Button interactable. Player Id: {_onlineController.LocalPlayer.PlayerId.Value} -- Turn Player Id: {newId.ToString()}");
         _drawButton.interactable = _onlineController.LocalPlayer.PlayerId.Value.Equals(newId.ToString());
     }
 
