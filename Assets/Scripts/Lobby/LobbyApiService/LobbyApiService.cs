@@ -98,9 +98,6 @@ public class LobbyApiService : ILobbyApiService
         var customData = new Dictionary<string, DataObject>()
         {
             { LobbyDataKeys.ApperanceData, new DataObject(DataObject.VisibilityOptions.Public, appearanceData.ToString()) }
-            // Commented because we don't have a leader when lobby is created, setting leader on game start
-            // But can be needed somewhere. Ensure that is not needed and remove then.
-            // { LobbyCustomDataKeys.LeaderID, new DataObject(DataObject.VisibilityOptions.Public, host.ID.Value) }
         };
 
         // Inirialize lobby options

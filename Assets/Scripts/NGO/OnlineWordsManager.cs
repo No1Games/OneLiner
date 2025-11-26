@@ -22,7 +22,7 @@ public class OnlineWordsManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         // If host spawn manager generate words list and leader word
-        if (OnlineController.Instance.LocalPlayer.IsHost.Value)
+        if (IsHost)
         {
             _words = _wordManager.FormWordListForRound();
             var indexes = _wordManager.GetWordsIndexes(_words);

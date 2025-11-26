@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MainMenuManager : MonoBehaviour
 {
-
     private static MainMenuManager _instance;
     public static MainMenuManager Instance => _instance;
 
@@ -33,10 +32,10 @@ public class MainMenuManager : MonoBehaviour
 
     private void CallSettingsInit()
     {
-        // Знаходимо об'єкт з MenuName.OptionScreen
+        // Find MenuName.OptionScreen
         var settingsMenu = _menus.Find(menu => menu.Menu == MenuName.OptionScreen);
 
-        // Перевіряємо, чи знайдено меню
+        // Check if menu is found
         if (settingsMenu != null)
         {
             settingsMenu.Init();
@@ -47,10 +46,12 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
+    // Hides all menus and show only current
     public void ChangeMenu(MenuName menu)
     {
         _stackMenus.Push(_currentMenu);
         _currentMenu = menu;
+
         foreach (var m in _menus)
         {
             if (m.Menu == menu)
@@ -85,6 +86,7 @@ public class MainMenuManager : MonoBehaviour
         ChangeMenu(_stackMenus.Peek());
     }
 
+    // Shows menu
     public void OpenMenu(MenuName menu)
     {
         _stackMenus.Push(_currentMenu);
@@ -98,31 +100,12 @@ public class MainMenuManager : MonoBehaviour
 
         _bgController.SetBackground(BGType.Blue);
 
-        //MenuBase roomListMenu = _menus.Find(m => m.Menu == MenuName.RoomsList);
-
-        //if (roomListMenu != null && roomListMenu.isActiveAndEnabled)
-        //{
-        //    if (roomListMenu.isActiveAndEnabled)
-        //    {
-        //        roomListMenu.Hide();
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("Room List Menu is already inactive");
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.LogWarning("Room List menu is null.");
-        //}
-
         WaitingRoomUI waitingRoomMenu = _menus.Find(m => m.Menu == MenuName.WaitingRoom) as WaitingRoomUI;
 
         if (waitingRoomMenu == null)
         {
             Debug.LogWarning("Waiting menu is null! Leaving lobby.");
             Task leaveLobbyTask = OnlineController.Instance.LeaveLobbyAsync();
-            //OnlineController.Instance.LeaveLobby();
             return;
         }
 

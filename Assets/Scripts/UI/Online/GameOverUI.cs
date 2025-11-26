@@ -28,9 +28,10 @@ public class GameOverUI : MonoBehaviour
         await OnlineController.Instance.ReturnToLobby();
     }
 
-    private void OnClick_ExitButton()
+    private async void OnClick_ExitButton()
     {
-        Debug.LogWarning("NOT IMPLEMENTED");
+        // Debug.LogWarning("NOT IMPLEMENTED");
+        await OnlineController.Instance.ReturnToLobbyList();
     }
 
     public void Show(string word, bool isWin, float score = 0)

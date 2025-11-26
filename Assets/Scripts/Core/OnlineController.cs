@@ -138,6 +138,18 @@ public class OnlineController : MonoBehaviour
         _lobbyManager.LocalLobby.PlayersCountChanged += OnPlayersCountChanged;
 
         _lobbyManager.LocalLobby.LeaderID.onChanged += OnLeaderIDChanged;
+
+        _lobbyManager.LocalLobby.HostID.onChanged += OnHostIDChanged;
+    }
+
+    private void OnHostIDChanged(string newId)
+    {
+        Debug.Log($"Host has changed. New host id: {newId}");
+        if (newId == _lobbyManager.LocalPlayer.PlayerId.Value)
+        {
+            Debug.Log($"I am a HOST");
+            _lobbyManager.LocalPlayerEditor.SetIsHost(true);
+        }
     }
 
     private void UnsubscibeFromLobbyUpdates()
@@ -148,6 +160,8 @@ public class OnlineController : MonoBehaviour
         _lobbyManager.LocalLobby.PlayersCountChanged -= OnPlayersCountChanged;
 
         _lobbyManager.LocalLobby.LeaderID.onChanged -= OnLeaderIDChanged;
+
+        _lobbyManager.LocalLobby.HostID.onChanged -= OnHostIDChanged;
     }
 
     // This method sets LobbyState to Countdown if all players are ready
@@ -253,23 +267,30 @@ public class OnlineController : MonoBehaviour
         }
         else if (scene.name == _menuSceneName) // If left the game
         {
-            // New player status - lobby
-            await _lobbyManager.LocalPlayerEditor
-                .SetStatus(PlayerStatus.Lobby)
-                .CommitChangesAsync();
-
-            // Change lobby status and unlock it for search
-            // Only host changes lobby data
-            if (_lobbyManager.IsHost())
+            if (_lobbyManager.IsInLobby()) // Restart
             {
-                await _lobbyManager.LocalLobbyEditor
-                    .SetState(LobbyState.Lobby)
-                    .SetLocked(false)
-                    .CommitChangesAsync();
-            }
+                // New player status - lobby
+                _lobbyManager.LocalPlayerEditor
+                    .SetStatus(PlayerStatus.Lobby);
 
-            // Open room panel menu
-            MainMenuManager.Instance.OpenRoomPanel(false);
+                // Change lobby status and unlock it for search
+                // Only host changes lobby data
+                if (_lobbyManager.IsHost())
+                {
+                    _lobbyManager.LocalLobbyEditor
+                        .SetState(LobbyState.Lobby)
+                        .SetLocked(false);
+                }
+
+                await _lobbyManager.LocalLobbyEditor.CommitChangesAsync();
+
+                // Open room panel menu
+                MainMenuManager.Instance.OpenRoomPanel(false);
+            }
+            else
+            {
+                MainMenuManager.Instance.ChangeMenu(MenuName.RoomsList);
+            }
         }
 
         LoadingPanel.Instance.Hide();
@@ -444,7 +465,17 @@ public class OnlineController : MonoBehaviour
         SceneManager.LoadScene(_menuSceneName);
     }
 
+    public async Task ReturnToLobbyList()
+    {
+        LoadingPanel.Instance.Show();
 
+        NetworkManager.Singleton.Shutdown();
+
+        await _lobbyManager.LeaveLobbyAsync();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.LoadScene(_menuSceneName);
+    }
 
     #endregion
 
@@ -458,18 +489,22 @@ public class OnlineController : MonoBehaviour
 
     private IEnumerator LeaveBeforeQuit()
     {
-        ForceLeaveAttempt();
-        yield return null;
+        if (_lobbyManager != null && _lobbyManager.IsInLobby())
+        {
+            ForceLeaveAttempt();
+            yield return null;
+        }
         Application.Quit();
     }
 
     private async void ForceLeaveAttempt()
     {
-        await _lobbyManager.LeaveLobbyAsync();
+        await LeaveLobbyAsync();
     }
 
     void OnDestroy()
     {
+        if (_lobbyManager is null) return;
         ForceLeaveAttempt();
         _lobbyManager.OnLobbyCreated -= OnLobbyCreated;
         _lobbyManager.OnLobbyJoined -= OnLobbyJoined;
