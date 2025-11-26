@@ -142,13 +142,12 @@ public class OnlineController : MonoBehaviour
         _lobbyManager.LocalLobby.HostID.onChanged += OnHostIDChanged;
     }
 
-    private void OnHostIDChanged(string newId)
+    private async void OnHostIDChanged(string newId)
     {
-        Debug.Log($"Host has changed. New host id: {newId}");
+        // TODO: Host migration in game
         if (newId == _lobbyManager.LocalPlayer.PlayerId.Value)
         {
-            Debug.Log($"I am a HOST");
-            _lobbyManager.LocalPlayerEditor.SetIsHost(true);
+            await _lobbyManager.LocalPlayerEditor.SetIsHost(true).CommitChangesAsync();
         }
     }
 
