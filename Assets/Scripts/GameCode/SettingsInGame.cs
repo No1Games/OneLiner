@@ -1,11 +1,12 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using System;
-using UnityEngine.SceneManagement;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class SettingsInGame : MonoBehaviour
 {
+    [SerializeField] private UnityEvent _exitCallback;
+
     [SerializeField] private Button musicVolumeChange;
     [SerializeField] private Button sfxVolumeChange;
     [SerializeField] private Button vibrationChange;
@@ -23,38 +24,34 @@ public class SettingsInGame : MonoBehaviour
     {
         Init();
     }
+
     private void Init()
     {
-        
+
         musicVolumeChange.onClick.AddListener(OnClick_musicVolumeChange);
         sfxVolumeChange.onClick.AddListener(OnClick_sfxVolumeChange);
         vibrationChange.onClick.AddListener(OnClick_vibrationChange);
         toMenu.onClick.AddListener(OnClick_ToMenu);
-        
+
         back.onClick.AddListener(OnClick_back);
         languageChange.onValueChanged.AddListener(OnLanguageChanged);
 
         CheckPlayerPrefs();
         ButtonAnimationUpdate();
-
     }
+
     private void CheckPlayerPrefs()
     {
         if (PlayerPrefs.HasKey(LocalSelector.LanguageKey))
         {
             int savedLanguageIndex = PlayerPrefs.GetInt(LocalSelector.LanguageKey);
 
-
             languageChange.value = savedLanguageIndex;
-
 
             languageChange.onValueChanged.Invoke(savedLanguageIndex);
         }
-
-
-
-
     }
+
     private void ButtonAnimationUpdate()
     {
         if (PlayerPrefs.HasKey(AudioManager.MusicKey))
@@ -71,8 +68,6 @@ public class SettingsInGame : MonoBehaviour
             }
         }
 
-
-
         if (PlayerPrefs.HasKey(AudioManager.SFXKey))
         {
             float sfxVolume = PlayerPrefs.GetFloat(AudioManager.SFXKey);
@@ -86,7 +81,6 @@ public class SettingsInGame : MonoBehaviour
                 sfxBtnAnimator.SetTrigger("ClickOn");
             }
         }
-
     }
 
     private void OnClick_musicVolumeChange()
@@ -102,7 +96,6 @@ public class SettingsInGame : MonoBehaviour
             AudioManager.Instance.TurnMusicOff();
             musicBtnAnimator.SetTrigger("ClickOff");
         }
-
     }
     private void OnClick_sfxVolumeChange()
     {
@@ -118,22 +111,27 @@ public class SettingsInGame : MonoBehaviour
             sfxBtnAnimator.SetTrigger("ClickOff");
         }
     }
+
     private void OnClick_vibrationChange()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
 
     }
+
     private void OnClick_back()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
         this.gameObject.SetActive(false);
     }
+
     private void OnClick_ToMenu()
     {
         AudioManager.Instance.PlaySoundInMain(GameSounds.Menu_Click);
-        IngameData.Instance.SetReturnedFromGame(true);
-        SceneManager.LoadScene(0);
 
+        _exitCallback.Invoke();
+
+        //IngameData.Instance.SetReturnedFromGame(true); - moved to InGameMenuActions
+        //SceneManager.LoadScene(0);
     }
 
     private void OnLanguageChanged(int index)

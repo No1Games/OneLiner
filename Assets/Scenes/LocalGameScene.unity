@@ -30092,6 +30092,7 @@ GameObject:
   - component: {fileID: 6856842078347290475}
   - component: {fileID: 6856842078347290477}
   - component: {fileID: 6856842078347290476}
+  - component: {fileID: 6856842078347290478}
   m_Layer: 5
   m_Name: SetingsMenu
   m_TagString: Untagged
@@ -30341,6 +30342,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e4fd9b986673a4aaa42fe269cdebd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _exitCallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6856842078347290478}
+        m_TargetAssemblyTypeName: InGameMenuActions, Assembly-CSharp
+        m_MethodName: BackToMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   musicVolumeChange: {fileID: 2724368337110503060}
   sfxVolumeChange: {fileID: 825882717631572073}
   vibrationChange: {fileID: 6723823949227708210}
@@ -30363,6 +30379,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0aadcbd6845b4041aa252a6c01738ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6856842078347290478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6223666463132624289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 067b2eeeb7decd5478fa8fa5c04174ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGameMenuActions
 --- !u!114 &6873570565741694132
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -251,4 +251,9 @@ public class OnlineGameManager : MonoBehaviour
     {
         _gameOverUI.Show(_onlineWordsManager.LeaderWord, isWin, score);
     }
+
+    public void BackToMenu()
+    {
+        Debug.LogWarning("Not implemented");
+    }
 }
