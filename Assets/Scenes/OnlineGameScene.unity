@@ -1683,8 +1683,7 @@ MonoBehaviour:
   _heartsUI: {fileID: 1753747412}
   _maxHearts: 2
   _linesUI: {fileID: 2009819091}
-  _startTurnPanel: {fileID: 368842264}
-  _turnHandler: {fileID: 1343160723}
+  _turnSystem: {fileID: 1225755348}
   _wordsPanel: {fileID: 597228376}
   _drawingManager: {fileID: 149930183}
   _drawingUpdate: {fileID: 94886926}
@@ -7454,6 +7453,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1193045370}
   m_CullTransparentMesh: 1
+--- !u!1 &1225755345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1225755346}
+  - component: {fileID: 1225755348}
+  - component: {fileID: 1225755347}
+  m_Layer: 0
+  m_Name: TurnSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1225755346
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225755345}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1482894399}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1225755347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225755345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c81ac8b9bcda38478192e899bdda8ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurnPasser
+  _view: {fileID: 1751774028}
+--- !u!114 &1225755348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225755345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 274041b2648b8dd4780e9f2372d9d2a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurnSystem
+  _passer: {fileID: 1225755347}
+  _manager: {fileID: 227335246}
 --- !u!1 &1230155462
 GameObject:
   m_ObjectHideFlags: 0
@@ -8088,7 +8147,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1343160723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8739,6 +8798,7 @@ Transform:
   - {fileID: 2078672917}
   - {fileID: 687146519}
   - {fileID: 988495567}
+  - {fileID: 1225755346}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1486082981
@@ -10454,6 +10514,7 @@ GameObject:
   - component: {fileID: 1751774025}
   - component: {fileID: 1751774027}
   - component: {fileID: 1751774026}
+  - component: {fileID: 1751774028}
   m_Layer: 2
   m_Name: Painting
   m_TagString: Untagged
@@ -10525,6 +10586,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1751774024}
   m_CullTransparentMesh: 1
+--- !u!114 &1751774028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751774024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e97ac8801652c7429c46883074f633a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurnUI
+  _drawButton: {fileID: 244875190}
 --- !u!1 &1753747410
 GameObject:
   m_ObjectHideFlags: 0

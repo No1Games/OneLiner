@@ -1,4 +1,5 @@
 using System;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,6 +12,21 @@ public class RpcHandler : NetworkBehaviour
         if (IsHost) serverAction?.Invoke();
         else clientAction?.Invoke();
     }
+
+    #region TurnPass
+    public void OnPassTurn(string id)
+    {
+        PassTurnServerRpc((FixedString64Bytes)id);
+    }
+
+    [Rpc(SendTo.Server)]
+    private void PassTurnServerRpc(FixedString64Bytes id)
+    {
+        RpcEvent passTurnEvent = new RpcEvent(RpcEventType.TurnPass, id);
+        OnRpcEvent?.Invoke(passTurnEvent);
+    }
+
+    #endregion
 
     #region User Guess
 

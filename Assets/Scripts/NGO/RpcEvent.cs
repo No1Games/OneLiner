@@ -12,6 +12,7 @@ public class RpcEvent
 
 public enum RpcEventType
 {
+    TurnPass,       // payload: next player
     UserGuess,      // payload: word index
     WrongGuess,     // payload: button index to disable, new hearts count
     LineSpawned,    // payload: two vectors for start and end of the line

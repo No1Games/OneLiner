@@ -23,10 +23,8 @@ public class OnlineGameManager : MonoBehaviour
     #region Turn Handle Fields
 
     [Header("Turn Handle Fields")]
-    [SerializeField]
-    private StartTurnPanelUI _startTurnPanel;
-    [SerializeField]
-    private TurnHandler _turnHandler;
+    [SerializeField] private TurnSystem _turnSystem;
+    // [SerializeField] private TurnHandler _turnHandler;
 
     #endregion
 
@@ -114,11 +112,17 @@ public class OnlineGameManager : MonoBehaviour
     {
         switch (data.Type)
         {
+            case RpcEventType.TurnPass: HandleTurnPass((string)data.Payload); break;
             case RpcEventType.UserGuess: HandleUserGuess((int)data.Payload); break;
             case RpcEventType.WrongGuess: HandleWrongGuess(((int, int))data.Payload); break;
             case RpcEventType.LineSpawned: HandleLineSpawned(((Vector3, Vector3))data.Payload); break;
             case RpcEventType.GameOver: HandleGameOver(((bool, float))data.Payload); break;
         }
+    }
+
+    private void HandleTurnPass(string newId)
+    {
+        _turnSystem.SetTurnTo(newId);
     }
 
     // This method runs only on server
@@ -137,7 +141,8 @@ public class OnlineGameManager : MonoBehaviour
                 _rpcHandler.OnWrongGuess(index, newHearts);
             }
 
-            _turnHandler.EndTurnRpc();
+            _turnSystem.EndTurn();
+            //_turnHandler.EndTurnRpc();
         }
         else
         {
@@ -155,12 +160,16 @@ public class OnlineGameManager : MonoBehaviour
     //  1) spawn line (if not spawned already)
     //  2) take screenshot
     //  3) change image
+    //  4) end turn
     private void HandleLineSpawned((Vector3, Vector3) payload)
     {
         _drawingManager.SpawnLine(payload.Item1, payload.Item2); // spawn line, TODO: do not duplicate line
         TakeScreenshot(); // Take screenshot
         // Take Screenshot invokes the event and OnScreenshotTaken changes image
         _linesUI.SetLines(++_linesCount);
+
+        _turnSystem.EndTurn();
+        //_turnHandler.EndTurnRpc();
     }
 
     private void HandleGameOver((bool, float) payload)
@@ -180,7 +189,8 @@ public class OnlineGameManager : MonoBehaviour
             return;
         }
 
-        if (_turnHandler.CurrentPlayerId.Value.ToString() != player.PlayerId.Value)
+        //if (_turnHandler.CurrentPlayerId.Value.ToString() != player.PlayerId.Value)
+        if (_turnSystem.CurrentPlayerId != player.PlayerId.Value)
         {
             Debug.Log("It's not your turn!");
             return;
@@ -236,7 +246,16 @@ public class OnlineGameManager : MonoBehaviour
     private void OnLineConfirmed(Vector3 start, Vector3 end)
     {
         _rpcHandler.OnSpawnLine(start, end); // Send line to other players
-        _turnHandler.EndTurnRpc(); // End turn
+        // _turnHandler.EndTurnRpc(); // End turn
+    }
+
+    #endregion
+
+    #region Turn Methods
+
+    public void SetTurnTo(string newId)
+    {
+        _rpcHandler.OnPassTurn(newId);
     }
 
     #endregion
@@ -252,8 +271,8 @@ public class OnlineGameManager : MonoBehaviour
         _gameOverUI.Show(_onlineWordsManager.LeaderWord, isWin, score);
     }
 
-    public void BackToMenu()
+    public async void BackToMenu()
     {
-        Debug.LogWarning("Not implemented");
+        await OnlineController.Instance.ReturnToLobbyList();
     }
 }

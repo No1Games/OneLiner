@@ -145,10 +145,31 @@ public class OnlineController : MonoBehaviour
     private async void OnHostIDChanged(string newId)
     {
         // TODO: Host migration in game
+        LoadingPanel.Instance.Show();
+
         if (newId == _lobbyManager.LocalPlayer.PlayerId.Value)
         {
             await _lobbyManager.LocalPlayerEditor.SetIsHost(true).CommitChangesAsync();
+
+
+
+            NetworkManager.Singleton.Shutdown();
+
+            await SetRelayHostData();
+            bool result = NetworkManager.Singleton.StartHost();
+            Debug.Log($"Start host result: {result}");
         }
+        else
+        {
+            NetworkManager.Singleton.Shutdown();
+
+            await AwaitRelayCode(_lobbyManager.LocalLobby);
+            await SetRelayClientData();
+            bool result = NetworkManager.Singleton.StartClient();
+            Debug.Log($"Start client result: {result}");
+        }
+
+        LoadingPanel.Instance.Hide();
     }
 
     private void UnsubscibeFromLobbyUpdates()
