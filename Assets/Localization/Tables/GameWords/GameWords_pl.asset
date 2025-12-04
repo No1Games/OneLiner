@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: GameWords_pl
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: pl
+  m_SharedData: {fileID: 11400000, guid: fdf2e71c993547a49bd25fc8af382254, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 9535389696
+    m_Localized: "Samoch\xF3d"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 467406585856
+    m_Localized: Rekin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 482581577728
+    m_Localized: Banan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 496661856256
+    m_Localized: "B\u0142yskawica"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 517285249024
+    m_Localized: "Ogie\u0144"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 540429418496
+    m_Localized: Zegar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 557470875648
+    m_Localized: Grzyb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 580006871040
+    m_Localized: Gitara
+    m_Metadata:
+      m_Items: []
+  - m_Id: 598629580800
+    m_Localized: Drzewo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 602576420864
+    m_Localized: Dom
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603318812672
+    m_Localized: "\u017Byrafa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603922792448
+    m_Localized: Zamek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 604690350080
+    m_Localized: Gwiazda
+    m_Metadata:
+      m_Items: []
+  - m_Id: 605327884288
+    m_Localized: Nietoperz
+    m_Metadata:
+      m_Items: []
+  - m_Id: 606099636224
+    m_Localized: Kwiat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 606967857152
+    m_Localized: Kieliszek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 608142262272
+    m_Localized: Klucz
+    m_Metadata:
+      m_Items: []
+  - m_Id: 610826616832
+    m_Localized: "Ksi\u0105\u017Cka"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4402536153088
+    m_Localized: Statek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4405254062080
+    m_Localized: Korona
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4406021619712
+    m_Localized: Krokodyl
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4406797565952
+    m_Localized: Kot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4407535763456
+    m_Localized: Lampa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4408269766656
+    m_Localized: Samolot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4409611943936
+    m_Localized: Latarka
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4410215923712
+    m_Localized: "Latarni\u0105 morsk\u0105"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4410891206656
+    m_Localized: "M\u0142otek"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4411558100992
+    m_Localized: "Ksi\u0119\u017Cyc"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4412191440896
+    m_Localized: "Paj\u0105k"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4412971581440
+    m_Localized: Prezent
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4413705584640
+    m_Localized: Ptak
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4414343118848
+    m_Localized: Rakieta
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4415119065088
+    m_Localized: Ryba
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4415785959424
+    m_Localized: Serce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4722305695744
+    m_Localized: "Ba\u0142wan"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4723341688832
+    m_Localized: Telewizor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4724243464192
+    m_Localized: Telefon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4725027799040
+    m_Localized: Tort
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4725761802240
+    m_Localized: Chmura
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4726567108608
+    m_Localized: Cukierek
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

@@ -1,0 +1,819 @@
+fileFormatVersion: 2
+guid: c96a6170554127b4aab06cd5a80a7b64
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7269032457094683029
+    second: loading_ring_00208_0
+  - first:
+      213: 3426913478923862486
+    second: loading_ring_00208_1
+  - first:
+      213: 4798361085650897742
+    second: loading_ring_00208_2
+  - first:
+      213: -504241333194051788
+    second: loading_ring_00208_3
+  - first:
+      213: -3555626693098940151
+    second: loading_ring_00208_4
+  - first:
+      213: 7493142723588798921
+    second: loading_ring_00208_5
+  - first:
+      213: 5910962867880481812
+    second: loading_ring_00208_6
+  - first:
+      213: 7321544431062031139
+    second: loading_ring_00208_7
+  - first:
+      213: -5143578075535178487
+    second: loading_ring_00208_8
+  - first:
+      213: -5240482726185465940
+    second: loading_ring_00208_9
+  - first:
+      213: 4259081039249830998
+    second: loading_ring_00208_10
+  - first:
+      213: 5136456379266901589
+    second: loading_ring_00208_11
+  - first:
+      213: 1388830500324950298
+    second: loading_ring_00208_12
+  - first:
+      213: -2395418034772377295
+    second: loading_ring_00208_13
+  - first:
+      213: -5319906141143393997
+    second: loading_ring_00208_14
+  - first:
+      213: 8575405595378715568
+    second: loading_ring_00208_15
+  - first:
+      213: 3562279619354135497
+    second: loading_ring_00208_16
+  - first:
+      213: -3449644870067490322
+    second: loading_ring_00208_17
+  - first:
+      213: 5317691656731932754
+    second: loading_ring_00208_18
+  - first:
+      213: 1490030108354021084
+    second: loading_ring_00208_19
+  - first:
+      213: 6807429405083385777
+    second: loading_ring_00208_20
+  - first:
+      213: -6767512754720339644
+    second: loading_ring_00208_21
+  - first:
+      213: 7717687145196702194
+    second: loading_ring_00208_22
+  - first:
+      213: -8669828031415284083
+    second: loading_ring_00208_23
+  - first:
+      213: 1441577116449490024
+    second: loading_ring_00208_24
+  - first:
+      213: -5403181066291480443
+    second: loading_ring_00208_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: loading_ring_00208_0
+      rect:
+        serializedVersion: 2
+        x: 1079
+        y: 675
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6626164e753f1b90800000000000000
+      internalID: -7269032457094683029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_1
+      rect:
+        serializedVersion: 2
+        x: 1099
+        y: 654
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d1414b07a7de8f20800000000000000
+      internalID: 3426913478923862486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_2
+      rect:
+        serializedVersion: 2
+        x: 1118
+        y: 631
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4b874e0cf3379240800000000000000
+      internalID: 4798361085650897742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_3
+      rect:
+        serializedVersion: 2
+        x: 1130
+        y: 607
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43f26e5dd239009f0800000000000000
+      internalID: -504241333194051788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_4
+      rect:
+        serializedVersion: 2
+        x: 1140
+        y: 580
+        width: 11
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 909d0f37c50e7aec0800000000000000
+      internalID: -3555626693098940151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_5
+      rect:
+        serializedVersion: 2
+        x: 1146
+        y: 553
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c930d25b9dfcf760800000000000000
+      internalID: 7493142723588798921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_6
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 464
+        width: 115
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4145a842965f70250800000000000000
+      internalID: 5910962867880481812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_7
+      rect:
+        serializedVersion: 2
+        x: 1147
+        y: 524
+        width: 9
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32b11bc6ed95b9560800000000000000
+      internalID: 7321544431062031139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_8
+      rect:
+        serializedVersion: 2
+        x: 1143
+        y: 496
+        width: 11
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9050d3dfdf65e98b0800000000000000
+      internalID: -5143578075535178487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_9
+      rect:
+        serializedVersion: 2
+        x: 1135
+        y: 469
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca7052ec9b01647b0800000000000000
+      internalID: -5240482726185465940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_10
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 443
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 654761eb3ab4b1b30800000000000000
+      internalID: 4259081039249830998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_11
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 443
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5562e72ecdb584740800000000000000
+      internalID: 5136456379266901589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_12
+      rect:
+        serializedVersion: 2
+        x: 797
+        y: 420
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a11c8115bfd164310800000000000000
+      internalID: 1388830500324950298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_13
+      rect:
+        serializedVersion: 2
+        x: 1108
+        y: 420
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13104d42df3c1ced0800000000000000
+      internalID: -2395418034772377295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_14
+      rect:
+        serializedVersion: 2
+        x: 814
+        y: 399
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3399abafc85eb26b0800000000000000
+      internalID: -5319906141143393997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_15
+      rect:
+        serializedVersion: 2
+        x: 1090
+        y: 399
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bb027d54f5f10770800000000000000
+      internalID: 8575405595378715568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_16
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 380
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9cb8736a072cf6130800000000000000
+      internalID: 3562279619354135497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_17
+      rect:
+        serializedVersion: 2
+        x: 1069
+        y: 381
+        width: 17
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee1f06684466020d0800000000000000
+      internalID: -3449644870067490322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_18
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 366
+        width: 18
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 258b090336c3cc940800000000000000
+      internalID: 5317691656731932754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_19
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 355
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd604113d76ada410800000000000000
+      internalID: 1490030108354021084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_20
+      rect:
+        serializedVersion: 2
+        x: 1020
+        y: 355
+        width: 17
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bf3b830af8d87e50800000000000000
+      internalID: 6807429405083385777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_21
+      rect:
+        serializedVersion: 2
+        x: 1045
+        y: 366
+        width: 18
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44908f16107f412a0800000000000000
+      internalID: -6767512754720339644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_22
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 348
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f94c09819bba1b60800000000000000
+      internalID: 7717687145196702194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_23
+      rect:
+        serializedVersion: 2
+        x: 937
+        y: 345
+        width: 18
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8e84c317559ea780800000000000000
+      internalID: -8669828031415284083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_24
+      rect:
+        serializedVersion: 2
+        x: 966
+        y: 345
+        width: 17
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 864cd46efb2810410800000000000000
+      internalID: 1441577116449490024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loading_ring_00208_25
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 348
+        width: 18
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 588749e827b0405b0800000000000000
+      internalID: -5403181066291480443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      loading_ring_00208_0: -7269032457094683029
+      loading_ring_00208_1: 3426913478923862486
+      loading_ring_00208_10: 4259081039249830998
+      loading_ring_00208_11: 5136456379266901589
+      loading_ring_00208_12: 1388830500324950298
+      loading_ring_00208_13: -2395418034772377295
+      loading_ring_00208_14: -5319906141143393997
+      loading_ring_00208_15: 8575405595378715568
+      loading_ring_00208_16: 3562279619354135497
+      loading_ring_00208_17: -3449644870067490322
+      loading_ring_00208_18: 5317691656731932754
+      loading_ring_00208_19: 1490030108354021084
+      loading_ring_00208_2: 4798361085650897742
+      loading_ring_00208_20: 6807429405083385777
+      loading_ring_00208_21: -6767512754720339644
+      loading_ring_00208_22: 7717687145196702194
+      loading_ring_00208_23: -8669828031415284083
+      loading_ring_00208_24: 1441577116449490024
+      loading_ring_00208_25: -5403181066291480443
+      loading_ring_00208_3: -504241333194051788
+      loading_ring_00208_4: -3555626693098940151
+      loading_ring_00208_5: 7493142723588798921
+      loading_ring_00208_6: 5910962867880481812
+      loading_ring_00208_7: 7321544431062031139
+      loading_ring_00208_8: -5143578075535178487
+      loading_ring_00208_9: -5240482726185465940
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

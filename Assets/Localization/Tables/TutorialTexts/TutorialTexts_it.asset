@@ -1,0 +1,162 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: TutorialTexts_it
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: it
+  m_SharedData: {fileID: 11400000, guid: 8d334058508b98f40bfcf5f7af095632, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 6165293072384
+    m_Localized: VUOI SALTARE IL TUTORIAL?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6171634860032
+    m_Localized: "Ciao! Mi chiamo Mister Krok!\nTi aiuter\xF2 a imparare a giocare!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6175996936192
+    m_Localized: Per iniziare, premi questo pulsante e scegli una partita locale.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6179616620544
+    m_Localized: Bravo! Ora ci troviamo nel menu delle impostazioni di gioco.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6459846459392
+    m_Localized: "Ora giocheremo in modalit\xE0 cooperativa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6473859629056
+    m_Localized: "Esatto! Hai capito bene! Giocheremo insieme! Io sar\xF2 il conduttore.
+      Vedi la mia corona?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6498815737856
+    m_Localized: Premi sulla croce per aggiungere un nuovo giocatore.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6534064668672
+    m_Localized: Bravo! Tocca l'avatar per cambiare il nome del giocatore o per eliminarlo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6551873683456
+    m_Localized: "Basta chiacchiere!\n\xC8 ora di iniziare la partita!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6657997963264
+    m_Localized: "Il conduttore inizia sempre per primo. Ora guarder\xF2 quale parola
+      dobbiamo disegnare."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6672820633600
+    m_Localized: "Ah, ah... Capito. So quale parola ci \xE8 stata assegnata, ma purtroppo
+      non posso dirtela."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6686804443136
+    m_Localized: "Non preoccuparti! Cercher\xF2 di aiutarti a indovinarla disegnando
+      delle linee. Anche se... non sono proprio un grande artista."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6704953196544
+    m_Localized: "Scusa, per ora \xE8 tutto da parte mia. Ora tocca a te! Premi qui
+      per vedere la lista delle parole."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6717565468672
+    m_Localized: "Una di queste parole \xE8 quella giusta, devi indovinarla grazie
+      al disegno. Solo il conduttore sa qual \xE8 la parola esatta."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6734430765056
+    m_Localized: "Se vuoi fare un tentativo \u2014 basta toccare la parola. Ma \xE8
+      ancora troppo presto. Passiamo al disegno!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6749895163904
+    m_Localized: "Tocca la matita per entrare in modalit\xE0 disegno."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6806975447040
+    m_Localized: Per disegnare una linea, tocca lo schermo e trascina il dito dove
+      vuoi.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6823480033280
+    m_Localized: 'Ricorda: la tua linea deve iniziare da un''altra linea, ma non
+      deve proseguirla! '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6851816751104
+    m_Localized: Prova a disegnare nel punto indicato dalla linea tratteggiata.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6865536319488
+    m_Localized: La migliore linea che abbia mai visto in vita mia! Ora conferma
+      la tua mossa e andiamo avanti.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6878249254912
+    m_Localized: "Ora tocca di nuovo a me. Ma immaginiamo di aver gi\xE0 giocato
+      un po\u2019 e che qualcosa sia gi\xE0 stato disegnato."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6896628695040
+    m_Localized: "Wow! Che cosa sar\xE0 mai venuto fuori? Vuoi provare a indovinare
+      la parola?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908133670912
+    m_Localized: "Ops, sembra che tu abbia sbagliato.  Ricorda che il numero di tentativi
+      \xE8 limitato dai cuori!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6920410398720
+    m_Localized: "Sono sicuro che questa \xE8 la parola giusta."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6932582268928
+    m_Localized: Abbiamo vinto!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6966191226880
+    m_Localized: "Ricorda che in base alla modalit\xE0 di gioco le regole possono
+      cambiare. "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6977494876160
+    m_Localized: 'Tutorial completato! Ora devi solo tornare al menu principale e
+      ritirare la tua ricompensa.
+
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1772182952378368
+    m_Localized: ' In futuro potrai cambiarla qui.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628579465461760
+    m_Localized: "Proviamo di nuovo! Stavolta ti aiuter\xF2."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4628583135477760
+    m_Localized: "Puoi scoprire di pi\xF9 sulle regole nella schermata delle impostazioni
+      o toccando il punto interrogativo all\u2019interno del gioco."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

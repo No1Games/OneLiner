@@ -1,0 +1,295 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: BasicLocalization_it
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: it
+  m_SharedData: {fileID: 11400000, guid: cc4036fb4339b03479ebb38b9e442be4, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 13461258240
+    m_Localized: LINGUA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357264162816
+    m_Localized: MUSICA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361349414912
+    m_Localized: EFFETTI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367695396864
+    m_Localized: VIBRAZIONE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 372757921792
+    m_Localized: SCRIVICI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466433507328
+    m_Localized: POLITICA DI RISERVATEZZA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79669011054592
+    m_Localized: "- Niente pubblicit\xE0!\n- Guadagno accelerato di punti esperienza\n-
+      Pi\xF9 modalit\xE0 di gioco\n- Possibilit\xE0 di creare stanze private\n- Distinguiti
+      dagli altri giocatori"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79680516030464
+    m_Localized: mese
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373101642285056
+    m_Localized: mesi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373104595075072
+    m_Localized: mesi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373150170382336
+    m_Localized: illimitato
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79678708285440
+    m_Localized: "Spendi diamanti e crea il profilo pi\xF9 bello di tutti i tempi!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 387147472994304
+    m_Localized: COMPRARE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811854747402240
+    m_Localized: "In questa modalit\xE0, tutti i giocatori sono uniti da un obiettivo
+      comune: indovinare la parola scelta dal conduttore. Gli altri giocatori non
+      sanno quale parola \xE8 stata scelta. Il conduttore inizia il gioco per primo
+      e disegna una linea. Dopo di lui, il turno passa al prossimo giocatore nella
+      lista, che disegna una linea collegata a quella esistente. Dopo ogni turno
+      del giocatore, il turno torna al conduttore. L'obiettivo \xE8 indovinare la
+      parola dal disegno. Meno turni ci sono, pi\xF9 punti guadagna la squadra. Il
+      numero di turni \xE8 illimitato. I cuori possono essere usati solo per indovinare
+      le parole."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811849206726656
+    m_Localized: CONDUTTORI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811847801634816
+    m_Localized: SQUADRE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811846224576512
+    m_Localized: GIOCATORI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811718302498816
+    m_Localized: CONDUTTORE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811721133654016
+    m_Localized: SCEGLIERE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811726384922624
+    m_Localized: CASUALE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811736052793344
+    m_Localized: TIMER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811850850893824
+    m_Localized: COOPERATIVO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223252384940032
+    m_Localized: "Sembra che tu abbia scelto una o pi\xF9 cose che al momento non
+      sono disponibili per te."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223255107043328
+    m_Localized: Ma ci sono buone notizie! Hai abbastanza pietre per sbloccarle!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223257585876992
+    m_Localized: Vuoi acquistare nuovi oggetti?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223259603337216
+    m_Localized: 'Totale:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223261851484160
+    m_Localized: Purtroppo non hai abbastanza gemme per sbloccarle!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223263323684864
+    m_Localized: Vuoi visitare il negozio per acquistare altre gemme?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223264196100096
+    m_Localized: 'Mancante:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265034960896
+    m_Localized: "Purtroppo, alcuni di essi richiedono un livello di profilo pi\xF9
+      alto per essere sbloccati."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265806712832
+    m_Localized: Continua a giocare e presto riuscirai a sbloccarli tutti!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223266586853376
+    m_Localized: "I giocatori Premium guadagnano tre volte pi\xF9 esperienza! Vuoi
+      acquistare Premium?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223267417325568
+    m_Localized: "Purtroppo, alcuni di essi richiedono un livello di profilo pi\xF9
+      alto e non sono ancora stati acquistati."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223268256186368
+    m_Localized: Prova a selezionare una combinazione diversa di decorazioni del
+      profilo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223269904547840
+    m_Localized: Stai per uscire dalla personalizzazione.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223270936346624
+    m_Localized: Ma hai delle modifiche non salvate.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223271875870720
+    m_Localized: Vuoi uscire comunque?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4354233650212864
+    m_Localized: CREA UNA STANZA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Localized: UNISCITI A PRIVATO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Localized: Avvio rapido
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Localized: STANZA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Localized: "MODALIT\xC0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155353477869568
+    m_Localized: PRIVATO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Localized: PUBBLICO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Localized: PRONTO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5165164743454720
+    m_Localized: CREARE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7581146829123584
+    m_Localized: NON PRONTO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: INVERSO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "In questa modalit\xE0, tutti i giocatori sono uniti da un unico
+      obiettivo: indovinare la parola scelta dal gioco. Tutti i giocatori, tranne
+      l'ospite, sanno quale parola \xE8 stata scelta. Il gioco inizia con il giocatore
+      successivo in linea dopo l'ospite, che traccia una linea. Successivamente,
+      il turno passa all'ospite, che disegna una linea collegata a quella esistente.
+      Dopo ogni turno dell'ospite, il giocatore successivo prende il suo turno. L'obiettivo
+      dell'ospite \xE8 indovinare la parola basandosi sul disegno. Meno mosse ci
+      sono, pi\xF9 punti guadagna la squadra. Non c'\xE8 limite al numero di mosse.
+      I cuori possono essere utilizzati solo per indovinare le parole e sono condivisi
+      tra tutti i giocatori."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171429907628032
+    m_Localized: 'LINEE:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171441379049472
+    m_Localized: CONFERMA MOSSA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Localized: ANNULLA MOSSA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Localized: VITTORIA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Localized: SCONFITTA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Localized: "La linea \xE8 troppo corta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Localized: La linea non deve proseguire nella direzione di un'altra linea
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Localized: La linea deve iniziare da un'altra linea
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709224371552256
+    m_Localized: OFFERTA PER PRINCIPIANTI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709182856331264
+    m_Localized: RICOMPENSA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709221351653376
+    m_Localized: 7 GIORNI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709226447732736
+    m_Localized: COMPRARE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709232617553920
+    m_Localized: DINOSAURO FORTE
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

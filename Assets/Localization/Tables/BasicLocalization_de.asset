@@ -1,0 +1,295 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: BasicLocalization_de
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: de
+  m_SharedData: {fileID: 11400000, guid: cc4036fb4339b03479ebb38b9e442be4, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 13461258240
+    m_Localized: SPRACHE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357264162816
+    m_Localized: MUSIK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361349414912
+    m_Localized: EFFEKTE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367695396864
+    m_Localized: VIBRATION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 372757921792
+    m_Localized: SCHREIBEN SIE UNS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466433507328
+    m_Localized: DATENSCHUTZRICHTLINIE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79669011054592
+    m_Localized: "- Keine Werbung!\n- Beschleunigter Erfahrungspunktegewinn\n- Mehr
+      Spielmodi\n- M\xF6glichkeit, private R\xE4ume zu erstellen\n- Hebe dich von
+      anderen Spielern ab"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79680516030464
+    m_Localized: monat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373101642285056
+    m_Localized: monate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373104595075072
+    m_Localized: monate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373150170382336
+    m_Localized: unbegrenzt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79678708285440
+    m_Localized: "Gib Diamanten aus und erstelle das sch\xF6nste Profil aller Zeiten!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 387147472994304
+    m_Localized: KAUFEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811854747402240
+    m_Localized: "In diesem Modus sind alle Spieler durch ein Ziel vereint \u2013
+      das vom Spielleiter gew\xE4hlte Wort zu erraten. Die anderen Spieler wissen
+      nicht, welches Wort gew\xE4hlt wurde. Der Spielleiter beginnt das Spiel und
+      zeichnet als Erster eine Linie. Danach geht der Zug an den n\xE4chsten Spieler
+      in der Liste, der eine Linie zeichnet, die mit der bestehenden verbunden ist.
+      Nach jedem Zug eines Spielers ist wieder der Spielleiter an der Reihe. Das
+      Ziel ist es, das Wort anhand der Zeichnung zu erraten. Je weniger Z\xFCge,
+      desto mehr Punkte erh\xE4lt das Team. Die Anzahl der Z\xFCge ist unbegrenzt.
+      Herzen k\xF6nnen nur verwendet werden, um W\xF6rter zu erraten."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811849206726656
+    m_Localized: SPIELLEITER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811847801634816
+    m_Localized: TEAMS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811846224576512
+    m_Localized: SPIELER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811718302498816
+    m_Localized: SPIELLEITER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811721133654016
+    m_Localized: "W\xC4HLEN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811726384922624
+    m_Localized: "ZUF\xC4LLIG"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811736052793344
+    m_Localized: TIMER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811850850893824
+    m_Localized: KOOPERATIV
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223252384940032
+    m_Localized: "Es scheint, dass Sie eine oder mehrere Dinge ausgew\xE4hlt haben,
+      die derzeit f\xFCr Sie gesperrt sind."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223255107043328
+    m_Localized: Aber es gibt gute Nachrichten! Sie haben genug Steine, um sie freizuschalten!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223257585876992
+    m_Localized: "M\xF6chten Sie neue Dinge kaufen?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223259603337216
+    m_Localized: 'Gesamtbetrag:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223261851484160
+    m_Localized: Leider haben Sie nicht genug Edelsteine, um sie freizuschalten!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223263323684864
+    m_Localized: "M\xF6chten Sie den Shop besuchen, um mehr Edelsteine zu kaufen?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223264196100096
+    m_Localized: 'Fehlend:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265034960896
+    m_Localized: "Leider erfordern einige von ihnen ein h\xF6heres Profilniveau,
+      um freigeschaltet zu werden."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265806712832
+    m_Localized: "Spiel weiter, und du wirst sie bald alle freischalten k\xF6nnen!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223266586853376
+    m_Localized: "Premium-Spieler verdienen dreimal mehr Erfahrung! M\xF6chten Sie
+      Premium kaufen?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223267417325568
+    m_Localized: "Leider erfordern einige von ihnen ein h\xF6heres Profilniveau und
+      wurden noch nicht gekauft."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223268256186368
+    m_Localized: "Versuchen Sie, eine andere Kombination von Profildekorationen auszuw\xE4hlen."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223269904547840
+    m_Localized: Sie sind dabei, die Anpassung zu verlassen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223270936346624
+    m_Localized: "Aber Sie haben ungespeicherte \xC4nderungen."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223271875870720
+    m_Localized: "M\xF6chten Sie trotzdem verlassen?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4354233650212864
+    m_Localized: RAUM ERSTELLEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Localized: PRIVAT BEITRETEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Localized: Schnellstart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Localized: RAUM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Localized: MODUS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155353477869568
+    m_Localized: PRIVAT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Localized: "\xD6FFENTLICH"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Localized: BEREIT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5165164743454720
+    m_Localized: ERSTELLEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7581146829123584
+    m_Localized: NICHT BEREIT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: UMKEHR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "In diesem Modus sind alle Spieler mit einem gemeinsamen Ziel vereint
+      \u2013 das vom Spiel ausgew\xE4hlte Wort zu erraten. Alle Spieler au\xDFer
+      dem Gastgeber wissen, welches Wort gew\xE4hlt wurde. Das Spiel beginnt mit
+      dem Spieler, der in der Reihenfolge nach dem Gastgeber an der Reihe ist und
+      eine Linie zeichnet. Danach ist der Gastgeber an der Reihe, der eine Linie
+      zieht, die mit der bestehenden verbunden ist. Nach jedem Zug des Gastgebers
+      ist der n\xE4chste Spieler an der Reihe. Das Ziel des Gastgebers ist es, das
+      Wort basierend auf der Zeichnung zu erraten. Je weniger Z\xFCge, desto mehr
+      Punkte erh\xE4lt das Team. Es gibt keine Begrenzung der Zuganzahl. Herzen k\xF6nnen
+      nur zum Erraten von W\xF6rtern verwendet werden und werden von allen Spielern
+      gemeinsam genutzt."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171429907628032
+    m_Localized: 'LINIEN:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171441379049472
+    m_Localized: "ZUG BEST\xC4TIGEN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Localized: ZUG STORNIEREN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Localized: SIEG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Localized: NIEDERLAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Localized: Die Linie ist zu kurz
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Localized: Die Linie darf die Richtung einer anderen Linie nicht fortsetzen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Localized: Die Linie muss von einer anderen Linie ausgehen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709224371552256
+    m_Localized: "ANGEBOT F\xDCR ANF\xC4NGER"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709182856331264
+    m_Localized: BELOHNUNG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709221351653376
+    m_Localized: 7 TAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709226447732736
+    m_Localized: KAUFEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709232617553920
+    m_Localized: COOLER DINOSAURIER
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

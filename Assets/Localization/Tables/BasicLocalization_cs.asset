@@ -1,0 +1,300 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: BasicLocalization_cs
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: cs
+  m_SharedData: {fileID: 11400000, guid: cc4036fb4339b03479ebb38b9e442be4, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 13461258240
+    m_Localized: JAZYK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357264162816
+    m_Localized: HUDBA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361349414912
+    m_Localized: EFEKTY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367695396864
+    m_Localized: VIBRACE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 372757921792
+    m_Localized: "NAPI\u0160TE N\xC1M"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466433507328
+    m_Localized: "Z\xC1SADY OCHRANY OSOBN\xCDCH \xDADAJ\u016E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79669011054592
+    m_Localized: "- \u017D\xE1dn\xE9 reklamy!\n- Zrychlen\xE9 z\xEDsk\xE1v\xE1n\xED
+      zku\u0161enostn\xEDch bod\u016F\n- V\xEDce hern\xEDch re\u017Eim\u016F\n- Mo\u017Enost
+      vytv\xE1\u0159et soukrom\xE9 m\xEDstnosti\n- Vynikn\u011Bte mezi ostatn\xEDmi
+      hr\xE1\u010Di"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79680516030464
+    m_Localized: "m\u011Bs\xEDc"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373101642285056
+    m_Localized: "m\u011Bs\xEDce"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373104595075072
+    m_Localized: "m\u011Bs\xEDc\u016F"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373150170382336
+    m_Localized: "neomezen\xFD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79678708285440
+    m_Localized: "Utra\u0165 diamanty a vytvo\u0159 nejkr\xE1sn\u011Bj\u0161\xED
+      profil v\u0161ech dob!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 387147472994304
+    m_Localized: KOUPIT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811854747402240
+    m_Localized: "V tomto re\u017Eimu jsou v\u0161ichni hr\xE1\u010Di spojeni jedn\xEDm
+      c\xEDlem \u2013 uhodnout slovo, kter\xE9 vybral vedouc\xED. Ostatn\xED hr\xE1\u010Di
+      nev\u011Bd\xED, jak\xE9 slovo bylo vybr\xE1no. Vedouc\xED zahajuje hru jako
+      prvn\xED a nakresl\xED \u010D\xE1ru. Pot\xE9 tah p\u0159ech\xE1z\xED na dal\u0161\xEDho
+      hr\xE1\u010De v seznamu, kter\xFD nakresl\xED \u010D\xE1ru navazuj\xEDc\xED
+      na ji\u017E existuj\xEDc\xED. Po ka\u017Ed\xE9m tahu hr\xE1\u010De p\u0159ech\xE1z\xED
+      tah zp\u011Bt na vedouc\xEDho. C\xEDlem je uhodnout slovo podle kresby. \u010C\xEDm
+      m\xE9n\u011B tah\u016F, t\xEDm v\xEDce bod\u016F t\xFDm z\xEDsk\xE1. Po\u010Det
+      tah\u016F je neomezen\xFD. Srdce lze pou\u017E\xEDt pouze k h\xE1d\xE1n\xED
+      slov."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811849206726656
+    m_Localized: "VEDOUC\xCD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811847801634816
+    m_Localized: "T\xDDM\u016E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811846224576512
+    m_Localized: "HR\xC1\u010C\u016E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811718302498816
+    m_Localized: "VEDOUC\xCD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811721133654016
+    m_Localized: VYBRAT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811726384922624
+    m_Localized: "N\xC1HODN\xDD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811850850893824
+    m_Localized: "KOOPERATIVN\xCD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811736052793344
+    m_Localized: "\u010CASOVA\u010C"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223252384940032
+    m_Localized: "Zd\xE1 se, \u017Ee jste vybrali jednu nebo v\xEDce v\u011Bc\xED,
+      kter\xE9 pro v\xE1s zat\xEDm nejsou dostupn\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223255107043328
+    m_Localized: "Ale m\xE1me dobr\xE9 zpr\xE1vy! M\xE1te dost kamen\u016F, abyste
+      je odemkli!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223257585876992
+    m_Localized: "Chcete si koupit nov\xE9 v\u011Bci?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223259603337216
+    m_Localized: "Celkov\xE1 \u010D\xE1stka:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223261851484160
+    m_Localized: "Bohu\u017Eel nem\xE1te dostatek drahokam\u016F, abyste je odemkli!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223263323684864
+    m_Localized: "Chcete nav\u0161t\xEDvit obchod a koupit v\xEDce drahokam\u016F?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223264196100096
+    m_Localized: "Chyb\xED:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265034960896
+    m_Localized: "Bohu\u017Eel n\u011Bkter\xE9 z nich vy\u017Eaduj\xED vy\u0161\u0161\xED
+      \xFArove\u0148 profilu k odem\u010Den\xED."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265806712832
+    m_Localized: "Pokra\u010Dujte ve h\u0159e a brzy je v\u0161echny budete moci
+      odemknout!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223266586853376
+    m_Localized: "Premium hr\xE1\u010Di z\xEDsk\xE1vaj\xED t\u0159ikr\xE1t v\xEDce
+      zku\u0161enost\xED! Chcete si zakoupit Premium?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223267417325568
+    m_Localized: "Bohu\u017Eel n\u011Bkter\xE9 z nich vy\u017Eaduj\xED vy\u0161\u0161\xED
+      \xFArove\u0148 profilu a dosud nebyly zakoupeny."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223268256186368
+    m_Localized: "Zkuste vybrat jinou kombinaci dekorac\xED profilu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223269904547840
+    m_Localized: "Chyst\xE1te se opustit p\u0159izp\u016Fsoben\xED."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223270936346624
+    m_Localized: "Ale m\xE1te neulo\u017Een\xE9 zm\u011Bny."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223271875870720
+    m_Localized: "Chcete p\u0159esto odej\xEDt?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4354233650212864
+    m_Localized: "VYTVO\u0158IT M\xCDSTNOST"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Localized: "P\u0158IPOJIT SE K SOUKROM\xC9MU"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Localized: "Rychl\xFD start"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Localized: "M\xCDSTNOST"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Localized: "M\xD3D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155353477869568
+    m_Localized: "SOUKROM\xDD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Localized: "VE\u0158EJN\xDD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Localized: "P\u0158IPRAVEN\xDD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5165164743454720
+    m_Localized: "VYTVO\u0158IT"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7581146829123584
+    m_Localized: "NEP\u0158IPRAVEN\xDD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: "OBR\xC1CEN\xDD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "V tomto re\u017Eimu jsou v\u0161ichni hr\xE1\u010Di spojeni jedin\xFDm
+      c\xEDlem \u2013 uhodnout slovo vybran\xE9 hrou. V\u0161ichni hr\xE1\u010Di
+      krom\u011B hostitele v\u011Bd\xED, kter\xE9 slovo bylo vybr\xE1no. Hra za\u010D\xEDn\xE1
+      hr\xE1\u010Dem, kter\xFD je na \u0159ad\u011B po hostiteli, a nakresl\xED \u010D\xE1ru.
+      Pot\xE9 p\u0159ech\xE1z\xED tah na hostitele, kter\xFD nakresl\xED \u010D\xE1ru
+      spojenou s tou st\xE1vaj\xEDc\xED. Po ka\u017Ed\xE9m tahu hostitele si sv\u016Fj
+      tah vezme dal\u0161\xED hr\xE1\u010D. C\xEDlem hostitele je uhodnout slovo
+      na z\xE1klad\u011B kresby. \u010C\xEDm m\xE9n\u011B tah\u016F, t\xEDm v\xEDce
+      bod\u016F t\xFDm z\xEDsk\xE1. Po\u010Det tah\u016F nen\xED omezen. Srd\xED\u010Dka
+      lze pou\u017E\xEDt pouze k h\xE1d\xE1n\xED slov a sd\xEDlej\xED je v\u0161ichni
+      hr\xE1\u010Di."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171429907628032
+    m_Localized: 'LINIE:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171441379049472
+    m_Localized: "POTVRDIT P\u0158ESUN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Localized: "ZRU\u0160IT P\u0158ESUN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Localized: "V\xCDT\u011AZSTV\xCD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Localized: "POR\xC1\u017DKA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Localized: "\u010C\xE1ra je p\u0159\xEDli\u0161 kr\xE1tk\xE1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Localized: "\u010C\xE1ra nesm\xED pokra\u010Dovat ve sm\u011Bru jin\xE9 \u010D\xE1ry"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Localized: "\u010C\xE1ra mus\xED za\u010D\xEDnat z jin\xE9 \u010D\xE1ry"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709182856331264
+    m_Localized: "ODM\u011ANA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709221351653376
+    m_Localized: "7 DN\xCD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709224371552256
+    m_Localized: "NAB\xCDDKA PRO ZA\u010C\xC1TE\u010CN\xCDKY"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709226447732736
+    m_Localized: KOUPIT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709232617553920
+    m_Localized: SUPER DINOSAURUS
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

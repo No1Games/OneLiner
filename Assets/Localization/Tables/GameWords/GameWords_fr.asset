@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: GameWords_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: fdf2e71c993547a49bd25fc8af382254, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 9535389696
+    m_Localized: Voiture
+    m_Metadata:
+      m_Items: []
+  - m_Id: 467406585856
+    m_Localized: Requin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 482581577728
+    m_Localized: Banane
+    m_Metadata:
+      m_Items: []
+  - m_Id: 496661856256
+    m_Localized: "\xC9clair"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 517285249024
+    m_Localized: Feu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 540429418496
+    m_Localized: Horloge
+    m_Metadata:
+      m_Items: []
+  - m_Id: 557470875648
+    m_Localized: Champignon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 580006871040
+    m_Localized: Guitare
+    m_Metadata:
+      m_Items: []
+  - m_Id: 598629580800
+    m_Localized: Arbre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 602576420864
+    m_Localized: Maison
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603318812672
+    m_Localized: Girafe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603922792448
+    m_Localized: Cadenas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 604690350080
+    m_Localized: "\xC9toile"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 605327884288
+    m_Localized: Chauve-souris
+    m_Metadata:
+      m_Items: []
+  - m_Id: 606099636224
+    m_Localized: Fleur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 606967857152
+    m_Localized: Gobelet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 608142262272
+    m_Localized: "Cl\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 610826616832
+    m_Localized: Livre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4402536153088
+    m_Localized: Bateau
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4405254062080
+    m_Localized: Couronne
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4406021619712
+    m_Localized: Crocodile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4406797565952
+    m_Localized: Chat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4407535763456
+    m_Localized: Lampe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4408269766656
+    m_Localized: Avion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4409611943936
+    m_Localized: Lampe de poche
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4410215923712
+    m_Localized: Phare
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4410891206656
+    m_Localized: Marteau
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4411558100992
+    m_Localized: Lune
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4412191440896
+    m_Localized: "Araign\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4412971581440
+    m_Localized: Cadeau
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4413705584640
+    m_Localized: Oiseau
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4414343118848
+    m_Localized: "Fus\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4415119065088
+    m_Localized: Poisson
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4415785959424
+    m_Localized: "C\u0153ur"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4722305695744
+    m_Localized: Bonhomme de neige
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4723341688832
+    m_Localized: "T\xE9l\xE9vision"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4724243464192
+    m_Localized: "T\xE9l\xE9phone"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4725027799040
+    m_Localized: "G\xE2teau"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4725761802240
+    m_Localized: Nuage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4726567108608
+    m_Localized: Bonbon
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

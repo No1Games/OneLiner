@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: GameWords_de
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: de
+  m_SharedData: {fileID: 11400000, guid: fdf2e71c993547a49bd25fc8af382254, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 9535389696
+    m_Localized: Auto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 467406585856
+    m_Localized: Hai
+    m_Metadata:
+      m_Items: []
+  - m_Id: 482581577728
+    m_Localized: Banane
+    m_Metadata:
+      m_Items: []
+  - m_Id: 496661856256
+    m_Localized: Blitz
+    m_Metadata:
+      m_Items: []
+  - m_Id: 517285249024
+    m_Localized: Feuer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 540429418496
+    m_Localized: Uhr
+    m_Metadata:
+      m_Items: []
+  - m_Id: 557470875648
+    m_Localized: Pilz
+    m_Metadata:
+      m_Items: []
+  - m_Id: 580006871040
+    m_Localized: Gitarre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 598629580800
+    m_Localized: Baum
+    m_Metadata:
+      m_Items: []
+  - m_Id: 602576420864
+    m_Localized: Haus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603318812672
+    m_Localized: Giraffe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603922792448
+    m_Localized: Schloss
+    m_Metadata:
+      m_Items: []
+  - m_Id: 604690350080
+    m_Localized: Stern
+    m_Metadata:
+      m_Items: []
+  - m_Id: 605327884288
+    m_Localized: Fledermaus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 606099636224
+    m_Localized: Blume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 606967857152
+    m_Localized: Becher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 608142262272
+    m_Localized: "Schl\xFCssel"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 610826616832
+    m_Localized: Buch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4402536153088
+    m_Localized: Schiff
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4405254062080
+    m_Localized: Krone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4406021619712
+    m_Localized: Krokodil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4406797565952
+    m_Localized: Katze
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4407535763456
+    m_Localized: Lampe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4408269766656
+    m_Localized: Flugzeug
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4409611943936
+    m_Localized: Taschenlampe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4410215923712
+    m_Localized: Leuchtturm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4410891206656
+    m_Localized: Hammer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4411558100992
+    m_Localized: Mond
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4412191440896
+    m_Localized: Spinne
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4412971581440
+    m_Localized: Geschenk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4413705584640
+    m_Localized: Vogel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4414343118848
+    m_Localized: Rakete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4415119065088
+    m_Localized: Fisch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4415785959424
+    m_Localized: Herz
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4722305695744
+    m_Localized: Schneemann
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4723341688832
+    m_Localized: Fernseher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4724243464192
+    m_Localized: Telefon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4725027799040
+    m_Localized: Kuchen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4725761802240
+    m_Localized: Wolke
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4726567108608
+    m_Localized: Bonbon
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

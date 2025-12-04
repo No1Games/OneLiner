@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: BasicLocalization_crh
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: crh
+  m_SharedData: {fileID: 11400000, guid: cc4036fb4339b03479ebb38b9e442be4, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 14171441379049472
+    m_Localized: ADIMNI TASDIQLA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Localized: "ADIMNI \u0130PTAL ET"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Localized: "QAZAN\xC7"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Localized: "YE\xD1\u0130L\u0130\u015E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Localized: "\xC7izgi pek qisqa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Localized: "\xC7izgi ba\u015Fqa bir \xE7izgini\xF1 istiqametini devam ettirmemeli"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Localized: "\xC7izgi ba\u015Fka bir \xE7izgiden ba\u015Flanmal\u0131"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79680516030464
+    m_Localized: ay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373101642285056
+    m_Localized: aylar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373104595075072
+    m_Localized: "ayn\u0131\xF1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373150170382336
+    m_Localized: "\xE7eksiz"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811721133654016
+    m_Localized: "SE\xC7MEK"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811718302498816
+    m_Localized: "VEZ\u0130R"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811849206726656
+    m_Localized: "VEZ\u0130RLER"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811854747402240
+    m_Localized: "Bu rejimde b\xFCt\xFCn oyunc\u0131lar bir maqsatnen birle\u015Fken
+      \u2014 Vezir taraf\u0131ndan fikir etilgen s\xF6zni tapmaq. Qalan oyunc\u0131lar
+      bu s\xF6zni bilmeyler. Vezir oyunn\u0131 birinci ba\u015Flap, bir \xE7izgi
+      \xE7izer. Ondan so\xF1 s\u0131ral\u0131qnen eki\xF1ci oyunc\u0131 ge\xE7er
+      ve mevc\xFCt \xE7izgige birle\u015Fik bir \xE7izgi \xE7izer. Her oyunc\u0131n\u0131\xF1
+      ad\u0131m\u0131ndan so\xF1 s\u0131ra yeniden Vezirge ge\xE7er. Maqsat \u2014
+      \u015Fekilden s\xF6zni tapmaq. Ne qadar az ad\u0131m olursa, komanda \u015Funca
+      ziyade puan al\u0131r. Ad\u0131m san\u0131 \xE7eksizdir. Y\xFCrekler sadece
+      s\xF6zni tapmaq i\xE7\xFCn qullan\u0131labilir."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811850850893824
+    m_Localized: "KOOPERAT\u0130V"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811846224576512
+    m_Localized: OYUNCILAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811726384922624
+    m_Localized: "TESAD\xDCF\u0130"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811847801634816
+    m_Localized: KOMANDALAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811736052793344
+    m_Localized: TAYMER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466433507328
+    m_Localized: "MAHF\u0130YET S\u0130YASET\u0130"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361349414912
+    m_Localized: EFEKTLER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13461258240
+    m_Localized: "T\u0130L"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 372757921792
+    m_Localized: "B\u0130ZE YAZI\xD1IZ"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357264162816
+    m_Localized: "MUS\u0130KA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367695396864
+    m_Localized: "T\u0130TRE\u015E\u0130M"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 387147472994304
+    m_Localized: SATIN ALMAQ
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79678708285440
+    m_Localized: "Almazlarn\u0131 sarf et ve en g\xFCzeli profilni yarat!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79669011054592
+    m_Localized: "- Reklama yoq!\n\n- Tezle\u015Fken tecr\xFCbe puanlar\u0131n\u0131
+      qazanmaq\n\n- Daha \xE7oq oyun rejimleri\n\n- Hususiy odalar yaratmaq imkaniyeti\n\n-
+      Qalan oyunc\u0131lardan ay\u0131r\u0131l!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4354233650212864
+    m_Localized: ODA YARATMAQ
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Localized: "HUSUS\u0130 BA\u011ELANMAQ"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Localized: Tez Oyun
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Localized: ODA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Localized: "REJ\u0130M"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155353477869568
+    m_Localized: "HUSUS\u0130"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Localized: "A\xC7IQ"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Localized: HAZIR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223252384940032
+    m_Localized: "Sanki, siz bir ya bir qa\xE7 \u015Feyni se\xE7ti\xF1iz, lekin bunlar
+      siz i\xE7\xFCn hen\xFCz a\xE7\u0131lma\u011Fan."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223255107043328
+    m_Localized: "L\xE2kin yah\u015F\u0131 haber bar! Sizde bunlarn\u0131 a\xE7maq
+      i\xE7\xFCn yeterli ta\u015Flar bar!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223257585876992
+    m_Localized: "Ya\xF1\u0131 \u015Feylerni sat\u0131p almaq isteysi\xF1izmi?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223259603337216
+    m_Localized: "Cemi mebla\u011F:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223261851484160
+    m_Localized: "Q\u0131z\u011Fan\u0131\xE7, sizde bunlarn\u0131 a\xE7maq i\xE7\xFCn
+      ta\u015F yetmez!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223263323684864
+    m_Localized: "Magazaga ke\xE7ip daa ziyade ta\u015F sat\u0131p almaq isteysi\xF1izmi?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223264196100096
+    m_Localized: 'Yetmez:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265034960896
+    m_Localized: "Q\u0131z\u011Fan\u0131\xE7, baz\u0131lar\u0131 a\xE7\u0131lmaq
+      i\xE7\xFCn daha y\xFCksek profil seviyesini istey."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265806712832
+    m_Localized: "Daa \xE7oq oyna\xF1\u0131z, yaq\u0131nda bunlarn\u0131\xF1 episini
+      a\xE7acaqsi\xF1\u0131z!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223266586853376
+    m_Localized: "Premiuml\u0131 oyunc\u0131lar 3 sefer art\u0131q tecr\xFCbe al\u0131r!
+      Premium sat\u0131p almaq isteysi\xF1izmi?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223267417325568
+    m_Localized: "Q\u0131z\u011Fan\u0131\xE7, baz\u0131lar\u0131 daha y\xFCksek profil
+      seviyesini istey, ve baz\u0131lar\u0131 henuz sat\u0131p al\u0131lma\u011Fan."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223268256186368
+    m_Localized: "Profil i\xE7\xFCn ba\u015Fka bir bezek kombinatsiyas\u0131n\u0131
+      se\xE7ip baq\u0131\xF1\u0131z."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223269904547840
+    m_Localized: "Siz kastomizatsiyeden \xE7\u0131qma\u011Fa az\u0131rs\u0131\xF1\u0131z."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223270936346624
+    m_Localized: "L\xE2kin sizde saqlan\u0131lma\u011Fan de\u011Fi\u015Fiklikler
+      bar."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223271875870720
+    m_Localized: "Gene de \xE7\u0131qmaq isteysi\xF1izmi?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: "TERS\u0130NE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "Bu rejimde b\xFCt\xFCn oyunc\u0131lar bir maqsatnen birle\u015Fken
+      \u2014 Oyun taraf\u0131ndan fikir etilgen s\xF6zni tapmaq. Vezirden ba\u015Fqa
+      oyunc\u0131larn\u0131\xF1 epis\u0131 bu s\xF6zni bilip tur\u0131p, Vezir tapmay.
+      Oyunn\u0131 Vezirden so\xF1 ki oyunc\u0131 ba\u015Flap, bir \xE7izgi \xE7izer.
+      Ondan so\xF1 s\u0131ra Vezirge ge\xE7ip, o da birle\u015Ftirip \xE7izgi \xE7izer.
+      Her Vezirni\xF1 ad\u0131m\u0131ndan so\xF1 s\u0131ra eki\xF1ci oyunc\u0131\u011Fa
+      ke\xE7er. Vezirni\xF1 maqsat\u0131 \u2014 \u015Fekilden s\xF6zni tapmaq. Ne
+      qadar az ad\u0131m olursa, komanda \u015Funca ziyade puan al\u0131r. Ad\u0131m
+      san\u0131 \xE7eksizdir. Y\xFCrekler yaln\u0131z s\xF6z tapmaq i\xE7\xFCn qullan\u0131labilir.
+      Onlar b\xFCt\xFCn oyunc\u0131lar i\xE7\xFCn ortaqt\u0131r."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171429907628032
+    m_Localized: "\xC7\u0130ZG\u0130LER:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709182856331264
+    m_Localized: "M\xDCKAFAT"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709221351653376
+    m_Localized: "7 K\xDCN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709224371552256
+    m_Localized: "YEN\u0130 BA\u015ELAYANLAR \u0130\xC7\xDCN AKS\u0130YA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709226447732736
+    m_Localized: SATIP AL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709232617553920
+    m_Localized: "QIZIQ D\u0130NOZAVR"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

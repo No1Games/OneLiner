@@ -1,0 +1,276 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: BasicLocalization Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: BasicLocalization
+  m_TableCollectionNameGuidString: cc4036fb4339b03479ebb38b9e442be4
+  m_Entries:
+  - m_Id: 79680516030464
+    m_Key: GemShop_M1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373101642285056
+    m_Key: GemShop_M3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373104595075072
+    m_Key: GemShop_M6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373150170382336
+    m_Key: GemShop_Unlim
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811721133654016
+    m_Key: LGS_Choose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811718302498816
+    m_Key: LGS_Leader
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811849206726656
+    m_Key: LGS_LeadersCount
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811854747402240
+    m_Key: LGS_MainModeInfo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811850850893824
+    m_Key: LGS_MainModeName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811846224576512
+    m_Key: LGS_Players
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811726384922624
+    m_Key: LGS_Random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811847801634816
+    m_Key: LGS_Teams
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811736052793344
+    m_Key: LGS_Timer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466433507328
+    m_Key: MM_Set_ConfPol
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361349414912
+    m_Key: MM_Set_Effects
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13461258240
+    m_Key: MM_Set_Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 372757921792
+    m_Key: MM_Set_MSGus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357264162816
+    m_Key: MM_Set_Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367695396864
+    m_Key: MM_Set_Vibration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 387147472994304
+    m_Key: MShop_Bue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79678708285440
+    m_Key: MShop_GemDiscription
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79669011054592
+    m_Key: MShop_PremDiscription
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4354233650212864
+    m_Key: ORL_CreateRoomButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Key: ORL_JoinPrivateButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Key: ORL_QuickStartButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Key: ORL_RoomNameHeader
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Key: ORL_RoomModeHeader
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155353477869568
+    m_Key: OWR_PrivateRoomButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Key: OWR_PublicRoomButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Key: OWR_ReadyButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5165164743454720
+    m_Key: OWR_CreateButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7581146829123584
+    m_Key: OWR_UnredyButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223252384940032
+    m_Key: Cas_Unavailable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223255107043328
+    m_Key: Cas_GoodNews
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223257585876992
+    m_Key: Cas_BuyItems
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223259603337216
+    m_Key: Cas_TotalCoast
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223261851484160
+    m_Key: Cas_BadNews
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223263323684864
+    m_Key: Cas_ToGemStore
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223264196100096
+    m_Key: Cas_Missing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265034960896
+    m_Key: Cas_NoLvl
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265806712832
+    m_Key: Cas_CeepPlaying
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223266586853376
+    m_Key: Cas_ToPremShop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223267417325568
+    m_Key: Cas_Combo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223268256186368
+    m_Key: Cas_SellectOther
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223269904547840
+    m_Key: Cas_Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223270936346624
+    m_Key: Cas_Unsaved
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223271875870720
+    m_Key: Cas_StillWant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693945726959616
+    m_Key: LGS_ReverseModeName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Key: LGS_ReverseModeInfo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171429907628032
+    m_Key: InGame_Lines
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171441379049472
+    m_Key: InGame_Aprove
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Key: InGame_Decline
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Key: InGame_Win
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Key: InGame_Lose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Key: InGame_Warning_TooShort
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Key: InGame_Warning_WrongVector
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Key: InGame_Warning_WrongStart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709182856331264
+    m_Key: Tutorial_Reaward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709221351653376
+    m_Key: SO_days
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709224371552256
+    m_Key: SO_mainText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709226447732736
+    m_Key: SO_buy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709232617553920
+    m_Key: SO_dino
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 8473266633065889794
+  references:
+    version: 2
+    RefIds:
+    - rid: 8473266633065889794
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1733392531215

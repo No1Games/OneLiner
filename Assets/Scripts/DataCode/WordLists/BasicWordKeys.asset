@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f67311351eac9314982b41b043299461, type: 3}
+  m_Name: BasicWordKeys
+  m_EditorClassIdentifier: 
+  words:
+  - word_01
+  - word_02
+  - word_03
+  - word_04
+  - word_05
+  - word_06
+  - word_07
+  - word_08
+  - word_09
+  - word_10
+  - word_11
+  - word_12
+  - word_13
+  - word_14
+  - word_15
+  - word_16
+  - word_17
+  - word_18
+  - word_19
+  - word_20
+  - word_21
+  - word_22
+  - word_23
+  - word_24
+  - word_25
+  - word_26
+  - word_27
+  - word_28
+  - word_29
+  - word_30
+  - word_31
+  - word_32
+  - word_33
+  - word_34
+  - word_35
+  - word_36
+  - word_37
+  - word_38
+  - word_39
+  - word_40

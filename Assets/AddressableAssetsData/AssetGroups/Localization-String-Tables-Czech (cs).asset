@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-String-Tables-Czech (cs)
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-String-Tables-Czech (cs)
+  m_GUID: 91d032177e33e5247b6533e9245e224b
+  m_SerializeEntries:
+  - m_GUID: 069e25dbd18809f409bc69a3fa8aa43c
+    m_Address: BasicLocalization_cs
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-cs
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b14e2199de58fe42a60e2e430352d04
+    m_Address: GameWords_cs
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-cs
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9346103fd9246b64494993c6750ffa3b
+    m_Address: TutorialTexts_cs
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-cs
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: ed5b7c5c3be292c44a84f8f59aa72efd, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 43c9ec0fdc2b83c46913f14bf41f85bf, type: 2}
+    - {fileID: 11400000, guid: f4cc8399d26c7534d9e9dce846c047d1, type: 2}

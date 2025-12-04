@@ -1,0 +1,298 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: BasicLocalization_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: cc4036fb4339b03479ebb38b9e442be4, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 13461258240
+    m_Localized: LANGUE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357264162816
+    m_Localized: MUSIQUE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361349414912
+    m_Localized: EFFETS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367695396864
+    m_Localized: VIBRATION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 372757921792
+    m_Localized: CONTACTEZ-NOUS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466433507328
+    m_Localized: "POLITIQUE DE CONFIDENTIALIT\xC9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79669011054592
+    m_Localized: "- Pas de publicit\xE9s !\n- Gain acc\xE9l\xE9r\xE9 de points d'exp\xE9rience\n-
+      Plus de modes de jeu\n- Possibilit\xE9 de cr\xE9er des salles priv\xE9es\n-
+      D\xE9marquez-vous parmi les autres joueurs"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79680516030464
+    m_Localized: mois
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373101642285056
+    m_Localized: mois
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373104595075072
+    m_Localized: mois
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373150170382336
+    m_Localized: "illimit\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79678708285440
+    m_Localized: "D\xE9pense des diamants et cr\xE9e le profil le plus beau de tous
+      les temps !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 387147472994304
+    m_Localized: ACHETER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811854747402240
+    m_Localized: "Dans ce mode, tous les joueurs sont unis par un objectif : deviner
+      le mot choisi par le meneur. Les autres joueurs ne savent pas quel mot a \xE9t\xE9
+      choisi. Le meneur commence le jeu en premier et dessine une ligne. Ensuite,
+      le tour passe au joueur suivant dans la liste, qui dessine une ligne reli\xE9e
+      \xE0 celle existante. Apr\xE8s chaque tour d'un joueur, le tour revient au
+      meneur. L'objectif est de deviner le mot \xE0 partir du dessin. Moins il y
+      a de tours, plus l'\xE9quipe gagne de points. Le nombre de tours est illimit\xE9.
+      Les c\u0153urs peuvent \xEAtre utilis\xE9s uniquement pour deviner des mots."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811849206726656
+    m_Localized: ANIMATEURS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811847801634816
+    m_Localized: "\xC9QUIPES"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811846224576512
+    m_Localized: JOUEURS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811718302498816
+    m_Localized: ANIMATEUR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811721133654016
+    m_Localized: CHOISIR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811726384922624
+    m_Localized: "AL\xC9ATOIRE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811850850893824
+    m_Localized: "COOP\xC9RATIF"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811736052793344
+    m_Localized: MINUTEUR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223252384940032
+    m_Localized: Il semble que vous ayez choisi une ou plusieurs choses qui ne sont
+      pas encore disponibles pour vous.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223255107043328
+    m_Localized: "Mais il y a une bonne nouvelle ! Vous avez suffisamment de pierres
+      pour les d\xE9bloquer !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223257585876992
+    m_Localized: Voulez-vous acheter de nouveaux objets ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223259603337216
+    m_Localized: 'Montant total :'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223261851484160
+    m_Localized: "Malheureusement, vous n'avez pas assez de gemmes pour les d\xE9bloquer
+      !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223263323684864
+    m_Localized: Voulez-vous visiter la boutique pour acheter plus de gemmes ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223264196100096
+    m_Localized: 'Manquant :'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265034960896
+    m_Localized: "Malheureusement, certains d'entre eux n\xE9cessitent un niveau
+      de profil plus \xE9lev\xE9 pour \xEAtre d\xE9bloqu\xE9s."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265806712832
+    m_Localized: "Continuez \xE0 jouer et vous pourrez bient\xF4t tous les d\xE9bloquer
+      !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223266586853376
+    m_Localized: "Les joueurs Premium gagnent trois fois plus d'exp\xE9rience ! Souhaitez-vous
+      acheter Premium ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223267417325568
+    m_Localized: "Malheureusement, certains d'entre eux n\xE9cessitent un niveau
+      de profil plus \xE9lev\xE9 et n'ont pas encore \xE9t\xE9 achet\xE9s."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223268256186368
+    m_Localized: "Essayez de s\xE9lectionner une combinaison diff\xE9rente de d\xE9corations
+      de profil."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223269904547840
+    m_Localized: "Vous \xEAtes sur le point de quitter la personnalisation."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223270936346624
+    m_Localized: "Mais vous avez des modifications non enregistr\xE9es."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223271875870720
+    m_Localized: "Voulez-vous quand m\xEAme quitter ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4354233650212864
+    m_Localized: "CR\xC9ER UNE PI\xC8CE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Localized: "REJOINDRE PRIV\xC9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Localized: "D\xE9marrage rapide"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Localized: "PI\xC8CE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Localized: MODE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155353477869568
+    m_Localized: "PRIV\xC9E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Localized: PUBLIC
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Localized: "PR\xCAT"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5165164743454720
+    m_Localized: "CR\xC9ER"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7581146829123584
+    m_Localized: "PAS PR\xCAT"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: INVERSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "Dans ce mode, tous les joueurs sont unis par un objectif commun
+      : deviner le mot choisi par le jeu. Tous les joueurs, sauf l'h\xF4te, savent
+      quel mot a \xE9t\xE9 choisi. Le jeu commence avec le joueur suivant dans l'ordre
+      apr\xE8s l'h\xF4te, qui trace une ligne. Ensuite, c'est au tour de l'h\xF4te,
+      qui dessine une ligne connect\xE9e \xE0 l'existante. Apr\xE8s chaque tour de
+      l'h\xF4te, le joueur suivant prend son tour. L'objectif de l'h\xF4te est de
+      deviner le mot en fonction du dessin. Moins il y a de mouvements, plus l'\xE9quipe
+      gagne de points. Il n'y a pas de limite au nombre de mouvements. Les c\u0153urs
+      ne peuvent \xEAtre utilis\xE9s que pour deviner des mots et sont partag\xE9s
+      entre tous les joueurs."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171429907628032
+    m_Localized: 'LIGNES:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171441379049472
+    m_Localized: CONFIRMER LE MOUVEMENT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Localized: ANNULER LE MOUVEMENT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Localized: VICTOIRE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Localized: "D\xC9FAITE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Localized: La ligne est trop courte
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Localized: La ligne ne doit pas continuer la direction d'une autre ligne
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Localized: "La ligne doit commencer \xE0 partir d'une autre ligne"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709224371552256
+    m_Localized: "OFFRE POUR D\xC9BUTANT"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709182856331264
+    m_Localized: "R\xC9COMPENSE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709221351653376
+    m_Localized: 7 JOURS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709226447732736
+    m_Localized: ACHETER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709232617553920
+    m_Localized: DINOSAURE COOL
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

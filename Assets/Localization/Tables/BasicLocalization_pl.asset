@@ -1,0 +1,301 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: BasicLocalization_pl
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: pl
+  m_SharedData: {fileID: 11400000, guid: cc4036fb4339b03479ebb38b9e442be4, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 13461258240
+    m_Localized: "J\u0118ZYK"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357264162816
+    m_Localized: MUZYKA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361349414912
+    m_Localized: EFEKTY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367695396864
+    m_Localized: WIBRACJA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 372757921792
+    m_Localized: NAPISZ DO NAS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466433507328
+    m_Localized: "POLITYKA POUFNO\u015ACI"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79669011054592
+    m_Localized: "- Brak reklam!\n- Przyspieszone zdobywanie punkt\xF3w do\u015Bwiadczenia\n-
+      Wi\u0119cej tryb\xF3w gry\n- Mo\u017Cliwo\u015B\u0107 tworzenia prywatnych
+      pokoi\n- Wyr\xF3\u017Cnij si\u0119 w\u015Br\xF3d innych graczy"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79680516030464
+    m_Localized: "miesi\u0105c"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373101642285056
+    m_Localized: "miesi\u0105ce"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373104595075072
+    m_Localized: "miesi\u0119cy"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373150170382336
+    m_Localized: nielimitowany
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79678708285440
+    m_Localized: "Wydawaj diamenty i stw\xF3rz najpi\u0119kniejszy profil wszech
+      czas\xF3w!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 387147472994304
+    m_Localized: "KUPI\u0106"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811854747402240
+    m_Localized: "W tym trybie wszyscy gracze s\u0105 zjednoczeni jednym celem \u2013
+      odgadni\u0119ciem s\u0142owa wybranego przez prowadz\u0105cego. Inni gracze
+      nie wiedz\u0105, jakie s\u0142owo zosta\u0142o wybrane. Prowadz\u0105cy rozpoczyna
+      gr\u0119 jako pierwszy i rysuje lini\u0119. Po nim tura przechodzi do nast\u0119pnego
+      gracza na li\u015Bcie, kt\xF3ry rysuje lini\u0119 po\u0142\u0105czon\u0105
+      z ju\u017C istniej\u0105c\u0105. Po ka\u017Cdej turze gracza tura wraca do
+      prowadz\u0105cego. Celem jest odgadni\u0119cie s\u0142owa na podstawie rysunku.
+      Im mniej tur, tym wi\u0119cej punkt\xF3w zdobywa dru\u017Cyna. Liczba tur jest
+      nieograniczona. Serduszka mo\u017Cna u\u017Cywa\u0107 tylko do odgadywania
+      s\u0142\xF3w."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811849206726656
+    m_Localized: "PROWADZ\u0104CY"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811847801634816
+    m_Localized: "DRU\u017BYN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811846224576512
+    m_Localized: GRACZY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811718302498816
+    m_Localized: "PROWADZ\u0104CY"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811721133654016
+    m_Localized: "WYBRA\u0106"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811726384922624
+    m_Localized: LOSOWY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811850850893824
+    m_Localized: KOOPERACYJNY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811736052793344
+    m_Localized: TIMER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223252384940032
+    m_Localized: "Wygl\u0105da na to, \u017Ce wybra\u0142e\u015B jedn\u0105 lub kilka
+      rzeczy, kt\xF3re s\u0105 obecnie dla ciebie niedost\u0119pne."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223255107043328
+    m_Localized: "Ale s\u0105 dobre wie\u015Bci! Masz wystarczaj\u0105co du\u017Co
+      kamieni, aby je odblokowa\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223257585876992
+    m_Localized: "Chcesz kupi\u0107 nowe rzeczy?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223259603337216
+    m_Localized: "Kwota ca\u0142kowita:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223261851484160
+    m_Localized: "Niestety, nie masz wystarczaj\u0105co du\u017Co kamieni szlachetnych,
+      aby je odblokowa\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223263323684864
+    m_Localized: "Chcesz odwiedzi\u0107 sklep, aby kupi\u0107 wi\u0119cej kamieni
+      szlachetnych?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223264196100096
+    m_Localized: 'Brakuje:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265034960896
+    m_Localized: "Niestety, niekt\xF3re z nich wymagaj\u0105 wy\u017Cszego poziomu
+      profilu, aby je odblokowa\u0107."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223265806712832
+    m_Localized: "Graj dalej, a wkr\xF3tce b\u0119dziesz m\xF3g\u0142 je wszystkie
+      odblokowa\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223266586853376
+    m_Localized: "Gracze Premium zdobywaj\u0105 trzy razy wi\u0119cej do\u015Bwiadczenia!
+      Chcesz kupi\u0107 Premium?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223267417325568
+    m_Localized: "Niestety, niekt\xF3re z nich wymagaj\u0105 wy\u017Cszego poziomu
+      profilu i nie zosta\u0142y jeszcze zakupione."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223268256186368
+    m_Localized: "Spr\xF3buj wybra\u0107 inn\u0105 kombinacj\u0119 dekoracji profilu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223269904547840
+    m_Localized: Zaraz wyjdziesz z personalizacji.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223270936346624
+    m_Localized: Ale masz niezapisane zmiany.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10223271875870720
+    m_Localized: "Chcesz mimo to wyj\u015B\u0107?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4354233650212864
+    m_Localized: "STW\xD3RZ POK\xD3J"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4359510902534144
+    m_Localized: "DO\u0141\u0104CZ DO PRYWATNEGO"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4360925582553088
+    m_Localized: Szybki start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362643288453120
+    m_Localized: "POK\xD3J"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362742039146496
+    m_Localized: TRYB
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155353477869568
+    m_Localized: PRYWATNY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155471329423360
+    m_Localized: PUBLICZNY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5155565827092480
+    m_Localized: GOTOWY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5165164743454720
+    m_Localized: "STWORZY\u0106"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7581146829123584
+    m_Localized: NIE GOTOWY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693945726959616
+    m_Localized: ODWROTNY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12693948574892032
+    m_Localized: "W tym trybie wszyscy gracze maj\u0105 jeden wsp\xF3lny cel \u2013
+      odgadni\u0119cie s\u0142owa wybranego przez gr\u0119. Wszyscy gracze opr\xF3cz
+      gospodarza wiedz\u0105, jakie s\u0142owo zosta\u0142o wybrane. Gra rozpoczyna
+      si\u0119 od gracza, kt\xF3ry jest nast\u0119pny w kolejce po gospodarzu i rysuje
+      lini\u0119. Nast\u0119pnie kolej przechodzi na gospodarza, kt\xF3ry rysuje
+      lini\u0119 po\u0142\u0105czon\u0105 z istniej\u0105c\u0105. Po ka\u017Cdej
+      turze gospodarza kolej przypada na nast\u0119pnego gracza. Celem gospodarza
+      jest odgadni\u0119cie s\u0142owa na podstawie rysunku. Im mniej ruch\xF3w,
+      tym wi\u0119cej punkt\xF3w zdobywa dru\u017Cyna. Nie ma ogranicze\u0144 co
+      do liczby ruch\xF3w. Serduszka mo\u017Cna u\u017Cywa\u0107 tylko do odgadywania
+      s\u0142\xF3w i s\u0105 wsp\xF3lne dla wszystkich graczy."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171429907628032
+    m_Localized: 'LINIE:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171441379049472
+    m_Localized: "POTWIERD\u0179 RUCH"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171445434941440
+    m_Localized: ANULUJ RUCH
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171449830572032
+    m_Localized: "ZWYCI\u0118STWO"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171453316038656
+    m_Localized: "PORA\u017BKA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187202810118144
+    m_Localized: "Linia jest zbyt kr\xF3tka"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187207239303168
+    m_Localized: "Linia nie mo\u017Ce kontynuowa\u0107 kierunku innej linii"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14187229972430848
+    m_Localized: "Linia musi zaczyna\u0107 si\u0119 od innej linii"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709182856331264
+    m_Localized: NAGRODA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709221351653376
+    m_Localized: 7 DNI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709224371552256
+    m_Localized: "OFERTA DLA POCZ\u0104TKUJ\u0104CYCH"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709226447732736
+    m_Localized: KUP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54709232617553920
+    m_Localized: FAJNY DINOZAUR
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
