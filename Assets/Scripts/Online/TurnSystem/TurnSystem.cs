@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TurnSystem : MonoBehaviour
@@ -11,8 +12,11 @@ public class TurnSystem : MonoBehaviour
     private void Start()
     {
         _passer.TurnIdSet += OnTurnIdSet;
+    }
 
-        _passer.Initialize();
+    private void OnDestroy()
+    {
+        _passer.TurnIdSet -= OnTurnIdSet;
     }
 
     private void OnTurnIdSet(string playerId)
@@ -28,5 +32,10 @@ public class TurnSystem : MonoBehaviour
     public void EndTurn()
     {
         _passer.PassTurn();
+    }
+
+    internal void InitializeSystem()
+    {
+        _passer.Initialize();
     }
 }

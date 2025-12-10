@@ -54,6 +54,8 @@ public class OnlineController : MonoBehaviour
     public event Action AllPlayersReadyEvent;
     public event Action PlayerNotReadyEvent;
 
+    public event Action HostReadyEvent;
+
     private const string _gameSceneName = "OnlineGameScene";
     private const string _menuSceneName = "MainMenu";
 
@@ -150,8 +152,6 @@ public class OnlineController : MonoBehaviour
         if (newId == _lobbyManager.LocalPlayer.PlayerId.Value)
         {
             await _lobbyManager.LocalPlayerEditor.SetIsHost(true).CommitChangesAsync();
-
-
 
             NetworkManager.Singleton.Shutdown();
 
@@ -323,6 +323,10 @@ public class OnlineController : MonoBehaviour
             await SetRelayHostData();
             bool result = NetworkManager.Singleton.StartHost();
             Debug.Log($"Start host result: {result}");
+            if(result)
+            {
+                HostReadyEvent?.Invoke();
+            }
         }
         else
         {

@@ -12,6 +12,7 @@ public class RpcEvent
 
 public enum RpcEventType
 {
+    ClientReady,    // payload: client id
     TurnPass,       // payload: next player
     UserGuess,      // payload: word index
     WrongGuess,     // payload: button index to disable, new hearts count

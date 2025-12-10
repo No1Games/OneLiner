@@ -1,8 +1,13 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class OnlineGameManager : MonoBehaviour
 {
+    private int _readyClientsCount = 0;
+    //private List<string> _readyClients = new List<string>();
+
     #region Hearts Fields
 
     [Header("Hearts Fields")]
@@ -24,7 +29,6 @@ public class OnlineGameManager : MonoBehaviour
 
     [Header("Turn Handle Fields")]
     [SerializeField] private TurnSystem _turnSystem;
-    // [SerializeField] private TurnHandler _turnHandler;
 
     #endregion
 
@@ -60,6 +64,7 @@ public class OnlineGameManager : MonoBehaviour
     private void Awake()
     {
         _onlineWordsManager = FindFirstObjectByType<OnlineWordsManager>();
+        OnlineController.Instance.HostReadyEvent += OnHostReady;
     }
 
     private void Start()
@@ -76,6 +81,11 @@ public class OnlineGameManager : MonoBehaviour
         _drawingUpdate.OnScreenshotTaken += OnScreenshotTaken;
 
         _wordsPanel.Init(OnUserMakeGuess);
+    }
+
+    private void OnHostReady() 
+    {
+        _readyClientsCount++;
     }
 
     private void SubscribeOnRpc()
@@ -112,12 +122,27 @@ public class OnlineGameManager : MonoBehaviour
     {
         switch (data.Type)
         {
+            case RpcEventType.ClientReady: HandleClientReady(data.Payload); break;
             case RpcEventType.TurnPass: HandleTurnPass((string)data.Payload); break;
             case RpcEventType.UserGuess: HandleUserGuess((int)data.Payload); break;
             case RpcEventType.WrongGuess: HandleWrongGuess(((int, int))data.Payload); break;
             case RpcEventType.LineSpawned: HandleLineSpawned(((Vector3, Vector3))data.Payload); break;
             case RpcEventType.GameOver: HandleGameOver(((bool, float))data.Payload); break;
         }
+    }
+
+    private void HandleClientReady(object payload)
+    {
+        _readyClientsCount++;
+        if(_readyClientsCount == OnlineController.Instance.LocalLobby.PlayerCount)
+        {
+            InitializeOnHost();
+        }
+    }
+
+    private void InitializeOnHost()
+    {
+        _turnSystem.InitializeSystem();
     }
 
     private void HandleTurnPass(string newId)

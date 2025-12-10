@@ -13,16 +13,39 @@ public class RpcHandler : NetworkBehaviour
         else clientAction?.Invoke();
     }
 
-    #region TurnPass
-    public void OnPassTurn(string id)
+    public override void OnNetworkSpawn()
     {
-        PassTurnServerRpc((FixedString64Bytes)id);
+        ClientReadyServerRpc();
+    }
+
+    #region Client Ready
+    public void OnClientReady()
+    {
+        if (IsSpawned)
+        {
+            ClientReadyServerRpc();
+        }
     }
 
     [Rpc(SendTo.Server)]
-    private void PassTurnServerRpc(FixedString64Bytes id)
+    private void ClientReadyServerRpc()
     {
-        RpcEvent passTurnEvent = new RpcEvent(RpcEventType.TurnPass, id);
+        RpcEvent clientReadyEvent = new RpcEvent(RpcEventType.ClientReady, null);
+        OnRpcEvent?.Invoke(clientReadyEvent);
+    }
+    #endregion
+
+    #region TurnPass
+    public void OnPassTurn(string id)
+    {
+        PassTurnHostRpc((FixedString64Bytes)id);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void PassTurnHostRpc(FixedString64Bytes id)
+    {
+        Debug.Log($"Pass Turn RPC {id}");
+        RpcEvent passTurnEvent = new RpcEvent(RpcEventType.TurnPass, id.ToString());
         OnRpcEvent?.Invoke(passTurnEvent);
     }
 

@@ -45,6 +45,8 @@ public class TurnPasser : MonoBehaviour
     {
         _currentPlayerId = id;
         _view.UpdateUI(_controller.LocalPlayer.PlayerId.Value.Equals(id));
+
+        Debug.Log($"Turn has been set to {id}.\nThis player id is {_controller.LocalPlayer.PlayerId.Value}");
     }
 
     public void PassTurn()
