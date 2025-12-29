@@ -1,16 +1,28 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WordsInitializer : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // Reference to word manager
+    [SerializeField] private WordManager _wordManager;
+
+    public List<string> GetWordsForRound()
     {
-        
+        return _wordManager.FormWordListForRound();
     }
 
-    // Update is called once per frame
-    void Update()
+    public List<int> GetWordsIndexes(List<string> words)
     {
-        
+        return _wordManager.GetWordsIndexes(words);
+    }
+
+    public int GetLeaderWordIndex(List<string> words)
+    {
+        return Random.Range(0, words.Count);
+    }
+
+    public List<string> GetWordsFromIndexes(List<int> indexes)
+    {
+        return _wordManager.GetWordsFromIndexes(indexes);
     }
 }

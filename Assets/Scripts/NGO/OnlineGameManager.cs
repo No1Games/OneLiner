@@ -32,12 +32,13 @@ public class OnlineGameManager : MonoBehaviour
 
     #endregion
 
-    #region Words Fields
+    #region Words System
 
-    [Header("Words Fields")]
-    [SerializeField]
-    private WordsPanel _wordsPanel;
-    private OnlineWordsManager _onlineWordsManager;
+    [Header("Words System")]
+    [SerializeField] WordsSystem _wordsSystem;
+    //[SerializeField]
+    //private WordsPanel _wordsPanel;
+    //private OnlineWordsManager _onlineWordsManager;
 
     #endregion
 
@@ -63,7 +64,7 @@ public class OnlineGameManager : MonoBehaviour
 
     private void Awake()
     {
-        _onlineWordsManager = FindFirstObjectByType<OnlineWordsManager>();
+        //_onlineWordsManager = FindFirstObjectByType<OnlineWordsManager>();
         OnlineController.Instance.HostReadyEvent += OnHostReady;
     }
 
@@ -80,7 +81,7 @@ public class OnlineGameManager : MonoBehaviour
         _drawingManager.OnLineConfirmed += OnLineConfirmed;
         _drawingUpdate.OnScreenshotTaken += OnScreenshotTaken;
 
-        _wordsPanel.Init(OnUserMakeGuess);
+        //_wordsPanel.Init(OnUserMakeGuess);
     }
 
     private void OnHostReady() 
@@ -123,12 +124,18 @@ public class OnlineGameManager : MonoBehaviour
         switch (data.Type)
         {
             case RpcEventType.ClientReady: HandleClientReady(data.Payload); break;
+            case RpcEventType.WordsReady: HandleWordsReady(data.Payload); break;
             case RpcEventType.TurnPass: HandleTurnPass((string)data.Payload); break;
             case RpcEventType.UserGuess: HandleUserGuess((int)data.Payload); break;
             case RpcEventType.WrongGuess: HandleWrongGuess(((int, int))data.Payload); break;
             case RpcEventType.LineSpawned: HandleLineSpawned(((Vector3, Vector3))data.Payload); break;
             case RpcEventType.GameOver: HandleGameOver(((bool, float))data.Payload); break;
         }
+    }
+
+    private void HandleWordsReady(object payload)
+    {
+        _wordsSystem.OnWordsReady();
     }
 
     private void HandleClientReady(object payload)
@@ -143,6 +150,7 @@ public class OnlineGameManager : MonoBehaviour
     private void InitializeOnHost()
     {
         _turnSystem.InitializeSystem();
+        _wordsSystem.InitilizeSystem(OnUserMakeGuess);
     }
 
     private void HandleTurnPass(string newId)
@@ -153,7 +161,7 @@ public class OnlineGameManager : MonoBehaviour
     // This method runs only on server
     private void HandleUserGuess(int index)
     {
-        if (_onlineWordsManager.LeaderWordIndex.Value != index) // Wrong guess
+        if (_wordsSystem.LeaderWordIndex != index) // Wrong guess
         {
             int newHearts = _currentHearts - 1;
 
@@ -177,7 +185,8 @@ public class OnlineGameManager : MonoBehaviour
 
     private void HandleWrongGuess((int, int) payload)
     {
-        _wordsPanel.DisableButton(payload.Item1);
+        _wordsSystem.DisableButton(payload.Item1);
+        // _wordsPanel.DisableButton(payload.Item1);
         UpdateHearts(payload.Item2);
     }
 
@@ -221,19 +230,21 @@ public class OnlineGameManager : MonoBehaviour
             return;
         }
 
-        _wordsPanel.Hide();
+
+        // TODO: Think how to pass this method and call it!
+        //_wordsPanel.Hide();
 
         _rpcHandler.OnUserGuess(index); // Send index to server. Server decides what happens next
     }
 
-    #region Words Methods
+    //#region Words Methods
 
-    public void DisableButtonByIndex(int index)
-    {
-        _wordsPanel.DisableButton(index);
-    }
+    //public void DisableButtonByIndex(int index)
+    //{
+    //    _wordsPanel.DisableButton(index);
+    //}
 
-    #endregion
+    //#endregion
 
     #region Line Spawning
 
@@ -293,7 +304,7 @@ public class OnlineGameManager : MonoBehaviour
 
     public void ShowGameOverScreen(bool isWin, float score = 0)
     {
-        _gameOverUI.Show(_onlineWordsManager.LeaderWord, isWin, score);
+        _gameOverUI.Show(_wordsSystem.LeaderWord, isWin, score);
     }
 
     public async void BackToMenu()

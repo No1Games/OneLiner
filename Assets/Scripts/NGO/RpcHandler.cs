@@ -51,6 +51,22 @@ public class RpcHandler : NetworkBehaviour
 
     #endregion
 
+    #region Words Ready
+
+    public void OnWordsReady()
+    {
+
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void WordsReadyClientRpc()
+    {
+        RpcEvent wordsReadyEvent = new RpcEvent(RpcEventType.WordsReady, null);
+        OnRpcEvent?.Invoke(wordsReadyEvent);
+    }
+
+    #endregion
+
     #region User Guess
 
     public void OnUserGuess(int index)
