@@ -1685,7 +1685,6 @@ MonoBehaviour:
   _linesUI: {fileID: 2009819091}
   _turnSystem: {fileID: 1225755348}
   _wordsSystem: {fileID: 0}
-  _wordsPanel: {fileID: 597228376}
   _drawingManager: {fileID: 149930183}
   _drawingUpdate: {fileID: 94886926}
   _drawnImage: {fileID: 1630396317}
@@ -3953,8 +3952,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 744324134}
-  - component: {fileID: 744324133}
   - component: {fileID: 744324132}
+  - component: {fileID: 744324133}
   m_Layer: 0
   m_Name: WordsNetworkStorage
   m_TagString: Untagged
@@ -3979,7 +3978,7 @@ MonoBehaviour:
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
+  SynchronizeTransform: 0
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
@@ -6021,7 +6020,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1019732284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10771,6 +10770,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1763048021}
   - component: {fileID: 1763048022}
+  - component: {fileID: 1763048023}
   m_Layer: 0
   m_Name: WordsSystem
   m_TagString: Untagged
@@ -10806,8 +10806,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WordsSystem
   _wordsUI: {fileID: 597228377}
-  _networkStorage: {fileID: 0}
-  _wordsInitializer: {fileID: 0}
+  _networkStorage: {fileID: 744324133}
+  _wordsInitializer: {fileID: 1763048023}
+--- !u!114 &1763048023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763048020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e9a441247ee72d459b3b5f73f21b8ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WordsInitializer
+  _wordManager: {fileID: 2078672916}
 --- !u!1 &1766652844
 GameObject:
   m_ObjectHideFlags: 0
@@ -13097,7 +13110,7 @@ SceneRoots:
   - {fileID: 847130115}
   - {fileID: 1482894399}
   - {fileID: 227335247}
+  - {fileID: 744324134}
   - {fileID: 1019732285}
   - {fileID: 1343160724}
   - {fileID: 94886927}
-  - {fileID: 744324134}
