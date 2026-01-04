@@ -3,33 +3,32 @@ using UnityEngine;
 
 public class WordManager : MonoBehaviour
 {
-    //Додати тут дікшенарі Вордлістов чи просто тримати тут перелік цих вордлістов в залежності від скланості чи теми.
     [SerializeField] private WordList wordList;
     [SerializeField] private WordList tutorialWordList;
 
     [SerializeField] private int wordAmount;
+    public int WordsAmount => wordAmount;
 
     System.Random rand = new System.Random();
-
-    
-    
 
     public List<string> GetTutorialWords() 
     {
        
         return new List<string>(tutorialWordList.words);
     }
+
     public string GetTutorialLeaderWord()
     {
         return tutorialWordList.words[9];
     }
+
     string GetRandomWord(List<string> wordsToChoose)
     {
         int wordIndex = rand.Next(0, wordsToChoose.Count);
         return wordsToChoose[wordIndex];
     }
 
-    public List<string> FormWordListForRound() //Переробити так щоб він приймав WordList і обирав там потрібний список в залежності від  умов
+    public List<string> FormWordListForRound()
     {
         List<string> words = new List<string>();
         for (int i = 0; i < wordAmount; i++)
@@ -53,6 +52,7 @@ public class WordManager : MonoBehaviour
 
 
     #region OnlineCode
+
     public int GetLeaderWordIndex(List<string> words)
     {
         return Random.Range(0, words.Count);

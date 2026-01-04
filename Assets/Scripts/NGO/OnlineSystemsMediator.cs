@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OnlineGameManager : MonoBehaviour
+public class OnlineSystemsMediator : MonoBehaviour
 {
     private int _readyClientsCount = 0;
-    //private List<string> _readyClients = new List<string>();
 
     #region Hearts Fields
 
@@ -34,11 +31,8 @@ public class OnlineGameManager : MonoBehaviour
 
     #region Words System
 
-    [Header("Words System")]
+    [Space]
     [SerializeField] WordsSystem _wordsSystem;
-    //[SerializeField]
-    //private WordsPanel _wordsPanel;
-    //private OnlineWordsManager _onlineWordsManager;
 
     #endregion
 
@@ -64,7 +58,6 @@ public class OnlineGameManager : MonoBehaviour
 
     private void Awake()
     {
-        //_onlineWordsManager = FindFirstObjectByType<OnlineWordsManager>();
         OnlineController.Instance.HostReadyEvent += OnHostReady;
     }
 
@@ -81,10 +74,10 @@ public class OnlineGameManager : MonoBehaviour
         _drawingManager.OnLineConfirmed += OnLineConfirmed;
         _drawingUpdate.OnScreenshotTaken += OnScreenshotTaken;
 
-        //_wordsPanel.Init(OnUserMakeGuess);
+        _wordsSystem.InitSystem(OnUserMakeGuess);
     }
 
-    private void OnHostReady() 
+    private void OnHostReady()
     {
         _readyClientsCount++;
     }
@@ -124,7 +117,6 @@ public class OnlineGameManager : MonoBehaviour
         switch (data.Type)
         {
             case RpcEventType.ClientReady: HandleClientReady(data.Payload); break;
-            case RpcEventType.WordsReady: HandleWordsReady(data.Payload); break;
             case RpcEventType.TurnPass: HandleTurnPass((string)data.Payload); break;
             case RpcEventType.UserGuess: HandleUserGuess((int)data.Payload); break;
             case RpcEventType.WrongGuess: HandleWrongGuess(((int, int))data.Payload); break;
@@ -133,15 +125,10 @@ public class OnlineGameManager : MonoBehaviour
         }
     }
 
-    private void HandleWordsReady(object payload)
-    {
-        _wordsSystem.OnWordsReady();
-    }
-
     private void HandleClientReady(object payload)
     {
         _readyClientsCount++;
-        if(_readyClientsCount == OnlineController.Instance.LocalLobby.PlayerCount)
+        if (_readyClientsCount == OnlineController.Instance.LocalLobby.PlayerCount)
         {
             InitializeOnHost();
         }
@@ -150,7 +137,7 @@ public class OnlineGameManager : MonoBehaviour
     private void InitializeOnHost()
     {
         _turnSystem.InitializeSystem();
-        _wordsSystem.InitilizeSystem(OnUserMakeGuess);
+        _wordsSystem.InitilizeNetwork();
     }
 
     private void HandleTurnPass(string newId)
@@ -175,7 +162,6 @@ public class OnlineGameManager : MonoBehaviour
             }
 
             _turnSystem.EndTurn();
-            //_turnHandler.EndTurnRpc();
         }
         else
         {
@@ -186,7 +172,6 @@ public class OnlineGameManager : MonoBehaviour
     private void HandleWrongGuess((int, int) payload)
     {
         _wordsSystem.DisableButton(payload.Item1);
-        // _wordsPanel.DisableButton(payload.Item1);
         UpdateHearts(payload.Item2);
     }
 
@@ -211,7 +196,7 @@ public class OnlineGameManager : MonoBehaviour
         ShowGameOverScreen(payload.Item1, payload.Item2);
     }
 
-    private void OnUserMakeGuess(int index)
+    private bool OnUserMakeGuess(int index)
     {
         var controller = OnlineController.Instance;
         var player = controller.LocalPlayer;
@@ -220,14 +205,13 @@ public class OnlineGameManager : MonoBehaviour
         if (lobby.LeaderID.Value == player.PlayerId.Value)
         {
             Debug.Log("Leader can't guess words!");
-            return;
+            return false;
         }
 
-        //if (_turnHandler.CurrentPlayerId.Value.ToString() != player.PlayerId.Value)
         if (_turnSystem.CurrentPlayerId != player.PlayerId.Value)
         {
             Debug.Log("It's not your turn!");
-            return;
+            return false;
         }
 
 
@@ -235,16 +219,9 @@ public class OnlineGameManager : MonoBehaviour
         //_wordsPanel.Hide();
 
         _rpcHandler.OnUserGuess(index); // Send index to server. Server decides what happens next
+
+        return true;
     }
-
-    //#region Words Methods
-
-    //public void DisableButtonByIndex(int index)
-    //{
-    //    _wordsPanel.DisableButton(index);
-    //}
-
-    //#endregion
 
     #region Line Spawning
 

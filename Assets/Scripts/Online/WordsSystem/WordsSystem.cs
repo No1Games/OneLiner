@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,20 +13,22 @@ public class WordsSystem : MonoBehaviour
     public int LeaderWordIndex => _networkStorage.LeaderWordIndex;
     public string LeaderWord => _localStorage.LeaderWord;
 
-    private void Awake()
+    public void InitSystem(Func<int, bool> onWordClicked)
     {
         _localStorage = new WordsLocalStorage();
+
+        _wordsUI.Init(onWordClicked);
+
+        _networkStorage.WordsArrived += OnWordsReady;
     }
 
-    public void InitilizeSystem(Action<int> onWordClicked)
+    public void InitilizeNetwork()
     {
         List<string> words = _wordsInitializer.GetWordsForRound();
         List<int> indexes = _wordsInitializer.GetWordsIndexes(words);
         int leaderWordIndex = _wordsInitializer.GetLeaderWordIndex(words);
-        
-        _networkStorage.UpdateStorage(indexes, leaderWordIndex);
 
-        _wordsUI.Init(onWordClicked);
+        _networkStorage.UpdateStorage(indexes, leaderWordIndex);
     }
 
     public void OnWordsReady()

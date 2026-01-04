@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.HID;
 using UnityEngine.UI;
 
 public class WordsUI : MonoBehaviour
@@ -10,7 +9,7 @@ public class WordsUI : MonoBehaviour
     [SerializeField] private WordButtonOnline _buttonPrefab;
 
     private readonly List<WordButtonOnline> _buttons = new();
-    private Action<int> _onClickCallback;
+    private Func<int, bool> _onClickCallback;
 
     private void Awake() => _closeBtn.onClick.AddListener(Hide);
 
@@ -24,7 +23,7 @@ public class WordsUI : MonoBehaviour
         }
     }
 
-    public void Init(Action<int> onWordClicked)
+    public void Init(Func<int, bool> onWordClicked)
     {
         _onClickCallback = onWordClicked;
     }
@@ -42,7 +41,7 @@ public class WordsUI : MonoBehaviour
         for (int i = 0; i < words.Count; i++)
         {
             _buttons[i].gameObject.SetActive(true);
-            _buttons[i].Init(words[i], i, _onClickCallback);
+            _buttons[i].Init(words[i], i, _onClickCallback, Hide);
         }
     }
 

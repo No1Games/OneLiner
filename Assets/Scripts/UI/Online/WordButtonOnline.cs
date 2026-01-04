@@ -13,18 +13,26 @@ public class WordButtonOnline : MonoBehaviour
     [SerializeField] private GameObject _wrongIcon;
 
     private int _index;
-    private Action<int> _onClickCallback;
+    private Func<int, bool> _onClickCallback;
+    private Action _hideCallback;
 
     private void Awake()
     {
-        _button.onClick.AddListener(() => _onClickCallback?.Invoke(_index));
+        _button.onClick.AddListener(() =>
+        {
+            if (_onClickCallback.Invoke(_index))
+            {
+                _hideCallback.Invoke();
+            }
+        });
     }
 
-    public void Init(string word, int index, Action<int> onClick)
+    public void Init(string word, int index, Func<int, bool> onClick, Action hideCallback)
     {
         _localize.StringReference.TableEntryReference = word;
         _index = index;
         _onClickCallback = onClick;
+        _hideCallback = hideCallback;
         _leaderIcon.SetActive(false);
         _wrongIcon.SetActive(false);
         _button.interactable = true;

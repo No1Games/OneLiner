@@ -23,6 +23,25 @@ public class WordsNetworkStorage : NetworkBehaviour
     }
     public int LeaderWordIndex => _leaderWordIndex.Value;
 
+    private int _wordsAmount;
+    public int WordsAmount { set { _wordsAmount = value; } }
+
+    private bool _wordsReady = false;
+    private bool _leaderWordReady = false;
+    public event Action WordsArrived;
+
+    public override void OnNetworkSpawn()
+    {
+        _wordsIndexes.OnListChanged += OnWordsChanged;
+        _leaderWordIndex.OnValueChanged += OnLeaderWordChanged;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        _wordsIndexes.OnListChanged -= OnWordsChanged;
+        _leaderWordIndex.OnValueChanged -= OnLeaderWordChanged;
+    }
+
     public void UpdateStorage(List<int> wordsIndexes, int leaderWordIndex)
     {
         _wordsIndexes.Clear();
@@ -31,5 +50,29 @@ public class WordsNetworkStorage : NetworkBehaviour
             _wordsIndexes.Add(index);
         }
         _leaderWordIndex.Value = leaderWordIndex;
+    }
+
+    private void OnLeaderWordChanged(int previousValue, int newValue)
+    {
+        _leaderWordReady = true;
+
+        OnNetworkUpdate();
+    }
+
+    private void OnWordsChanged(NetworkListEvent<int> changeEvent)
+    {
+        if (_wordsIndexes.Count == _wordsAmount)
+        {
+            _wordsReady = true;
+        }
+        OnNetworkUpdate();
+    }
+
+    private void OnNetworkUpdate()
+    {
+        if (_wordsReady && _leaderWordReady)
+        {
+            WordsArrived.Invoke();
+        }
     }
 }

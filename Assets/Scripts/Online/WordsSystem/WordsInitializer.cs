@@ -6,6 +6,8 @@ public class WordsInitializer : MonoBehaviour
     // Reference to word manager
     [SerializeField] private WordManager _wordManager;
 
+    public int WordsAmount => _wordManager.WordsAmount;
+
     public List<string> GetWordsForRound()
     {
         return _wordManager.FormWordListForRound();

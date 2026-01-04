@@ -5,7 +5,7 @@ public class TurnSystem : MonoBehaviour
 {
     [SerializeField] private TurnPasser _passer;
 
-    [SerializeField] private OnlineGameManager _manager;
+    [SerializeField] private OnlineSystemsMediator _manager;
 
     public string CurrentPlayerId => _passer.CurrentPlayerId;
 
