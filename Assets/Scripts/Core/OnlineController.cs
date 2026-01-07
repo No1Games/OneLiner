@@ -40,13 +40,8 @@ public class OnlineController : MonoBehaviour
     public LobbyManager _lobbyManager;
     public LobbyManager LobbyManager => _lobbyManager;
 
-    // Getter for lobbies list
     public LobbiesCache Lobbies => _lobbyManager.Lobbies;
-
-    // Getter for local lobby model
     public LocalLobby LocalLobby => _lobbyManager.LocalLobby;
-
-    // Getter for local player model
     public LocalPlayer LocalPlayer => _lobbyManager.LocalPlayer;
 
     public bool IsRandomLeader { get; set; } = true;
@@ -55,6 +50,8 @@ public class OnlineController : MonoBehaviour
     public event Action PlayerNotReadyEvent;
 
     public event Action HostReadyEvent;
+
+    public event Action HostMigrationEvent;
 
     private const string _gameSceneName = "OnlineGameScene";
     private const string _menuSceneName = "MainMenu";
@@ -323,7 +320,7 @@ public class OnlineController : MonoBehaviour
             await SetRelayHostData();
             bool result = NetworkManager.Singleton.StartHost();
             Debug.Log($"Start host result: {result}");
-            if(result)
+            if (result)
             {
                 HostReadyEvent?.Invoke();
             }

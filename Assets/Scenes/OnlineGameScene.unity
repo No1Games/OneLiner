@@ -3279,7 +3279,6 @@ GameObject:
   - component: {fileID: 597228375}
   - component: {fileID: 597228374}
   - component: {fileID: 597228373}
-  - component: {fileID: 597228376}
   - component: {fileID: 597228377}
   m_Layer: 5
   m_Name: WordsPanel
@@ -3370,20 +3369,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 597228371}
   m_CullTransparentMesh: 1
---- !u!114 &597228376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 597228371}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f87ddba9f4c1ef34fbbbc645858a40ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _closeBtn: {fileID: 839574457}
-  _buttonPrefab: {fileID: 767010712857299668, guid: 5d88ac45d7be95744b3261cd5d83aff0, type: 3}
 --- !u!114 &597228377
 MonoBehaviour:
   m_ObjectHideFlags: 0
